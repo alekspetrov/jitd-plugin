@@ -1,0 +1,49 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Testing
+coverage/
+.nyc_output/
+
+# Build outputs
+dist/
+build/
+*.log
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Local configuration (don't commit personal settings)
+.agent/.jitd-config.local.json
+
+# Context markers (local session state)
+.agent/.context-markers/
+
+# Keep these in git (share with team)
+# .agent/.jitd-config.json
+# .agent/DEVELOPMENT-README.md
+# .agent/tasks/
+# .agent/system/
+# .agent/sops/

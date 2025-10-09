@@ -1,0 +1,121 @@
+{
+  "name": "jitd",
+  "displayName": "JITD - Just-In-Time Documentation",
+  "version": "1.0.0",
+  "description": "Context-efficient documentation system that loads what you need, when you need it. 92% reduction in documentation loading overhead.",
+  "author": {
+    "name": "Aleks Petrov",
+    "url": "https://github.com/alekspetrov"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jitd/plugin"
+  },
+  "license": "MIT",
+  "keywords": [
+    "documentation",
+    "context-management",
+    "token-optimization",
+    "knowledge-management",
+    "productivity"
+  ],
+  "categories": [
+    "documentation",
+    "workflow",
+    "productivity"
+  ],
+  "capabilities": {
+    "slash_commands": [
+      {
+        "name": "jitd-init",
+        "file": ".claude/commands/jitd-init.md",
+        "description": "Initialize JITD documentation structure in your project"
+      },
+      {
+        "name": "update-doc",
+        "file": ".claude/commands/update-doc.md",
+        "description": "Update documentation (feature|sop|system|sprint-complete)"
+      },
+      {
+        "name": "jitd-compact",
+        "file": ".claude/commands/jitd-compact.md",
+        "description": "Smart context compact - preserve essential markers"
+      }
+    ],
+    "hooks": {
+      "on_session_start": {
+        "description": "Load DEVELOPMENT-README.md navigator",
+        "enabled": true
+      },
+      "on_compact": {
+        "description": "Preserve JITD context markers",
+        "enabled": true
+      }
+    }
+  },
+  "configuration": {
+    "project_management": {
+      "type": "string",
+      "enum": ["linear", "jira", "github", "gitlab", "custom", "none"],
+      "default": "none",
+      "description": "Your project management tool (optional)"
+    },
+    "team_chat": {
+      "type": "string",
+      "enum": ["slack", "discord", "teams", "none"],
+      "default": "none",
+      "description": "Your team chat tool (optional)"
+    },
+    "task_prefix": {
+      "type": "string",
+      "default": "TASK",
+      "description": "Prefix for task IDs (e.g., 'TASK', 'JIRA', 'GH')"
+    },
+    "auto_load_navigator": {
+      "type": "boolean",
+      "default": true,
+      "description": "Auto-load DEVELOPMENT-README.md on session start"
+    },
+    "compact_strategy": {
+      "type": "string",
+      "enum": ["aggressive", "conservative", "manual"],
+      "default": "conservative",
+      "description": "When to suggest /compact"
+    }
+  },
+  "requirements": {
+    "claude_code": ">=1.0.0"
+  },
+  "installation": {
+    "steps": [
+      "Plugin adds .agent/ folder structure to your project",
+      "Run /jitd-init to set up templates",
+      "Customize DEVELOPMENT-README.md for your project",
+      "Start using /update-doc to maintain docs"
+    ]
+  },
+  "examples": [
+    {
+      "name": "Next.js Project",
+      "path": "examples/nextjs-project"
+    },
+    {
+      "name": "Python/Django Project",
+      "path": "examples/python-project"
+    },
+    {
+      "name": "Go Backend",
+      "path": "examples/go-project"
+    }
+  ],
+  "metrics": {
+    "token_savings": "92% reduction in doc loading (12k vs 150k tokens)",
+    "productivity": "10x more commits per token spent",
+    "context_retention": "Zero session restarts in production testing"
+  },
+  "support": {
+    "docs": "https://github.com/jitd/plugin/blob/main/docs/README.md",
+    "issues": "https://github.com/jitd/plugin/issues",
+    "discussions": "https://github.com/jitd/plugin/discussions"
+  }
+}
