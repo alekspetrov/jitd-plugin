@@ -24,34 +24,12 @@
     "workflow",
     "productivity"
   ],
-  "capabilities": {
-    "slash_commands": [
-      {
-        "name": "jitd-init",
-        "file": ".claude/commands/jitd-init.md",
-        "description": "Initialize JITD documentation structure in your project"
-      },
-      {
-        "name": "update-doc",
-        "file": ".claude/commands/update-doc.md",
-        "description": "Update documentation (feature|sop|system|sprint-complete)"
-      },
-      {
-        "name": "jitd-compact",
-        "file": ".claude/commands/jitd-compact.md",
-        "description": "Smart context compact - preserve essential markers"
-      }
-    ],
-    "hooks": {
-      "on_session_start": {
-        "description": "Load DEVELOPMENT-README.md navigator",
-        "enabled": true
-      },
-      "on_compact": {
-        "description": "Preserve JITD context markers",
-        "enabled": true
-      }
-    }
+  "slash_commands": {
+    "commands": [
+      "./commands/jitd-init.md",
+      "./commands/update-doc.md",
+      "./commands/jitd-compact.md"
+    ]
   },
   "configuration": {
     "project_management": {
