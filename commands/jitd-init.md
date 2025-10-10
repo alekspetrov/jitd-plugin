@@ -4,112 +4,250 @@ description: Initialize JITD documentation structure in your project
 
 # Initialize JITD - Just-In-Time Documentation
 
-You are setting up the JITD (Just-In-Time Documentation) system for the first time in this project.
+You are setting up the JITD (Just-In-Time Documentation) system in this project.
 
-## What JITD Does
+**What JITD Does**:
+- Problem: AI loads 150k+ tokens of docs upfront
+- Solution: Load on-demand (92% reduction to ~12k tokens)
+- Result: 86%+ context free for work, zero session restarts
 
-**Problem**: AI coding assistants load entire codebase documentation upfront, wasting 150k+ tokens
+---
 
-**Solution**: JITD loads documentation on-demand (92% reduction to ~12k tokens)
+## EXECUTION PLAN
 
-**Result**: 86%+ context remaining for actual work, zero session restarts
+You will execute these steps in order. Each step has explicit tool calls.
 
-## Initialization Steps
+---
 
-### Step 1: Create .agent/ Structure
+## Step 1: Pre-Flight Checks
 
-Create the following folder structure:
+### Check for existing CLAUDE.md
 
-```
-.agent/
-├── DEVELOPMENT-README.md      # Navigator (always load first)
-├── tasks/                     # Implementation plans from tickets
-│   └── .gitkeep
-├── system/                    # Living architecture documentation
-│   ├── project-architecture.md
-│   └── tech-stack-patterns.md
-└── sops/                      # Standard Operating Procedures
-    ├── integrations/          # Third-party service guides
-    │   └── .gitkeep
-    ├── debugging/             # Common issues and solutions
-    │   └── .gitkeep
-    ├── development/           # Development workflows
-    │   └── .gitkeep
-    └── deployment/            # Deployment procedures
-        └── .gitkeep
+```bash
+ls CLAUDE.md 2>/dev/null && echo "EXISTS" || echo "NOT_FOUND"
 ```
 
-### Step 2: Copy Navigator Template
+**If EXISTS**:
+- Ask user:
+  1. Backup and create new (recommended)
+  2. Skip CLAUDE.md creation
+  3. Cancel
+- If choice 1: Run `mv CLAUDE.md CLAUDE.md.backup.$(date +%Y%m%d-%H%M%S)`
+- If choice 2: Set flag `SKIP_CLAUDE_MD=true`
+- If choice 3: Exit now
 
-Copy `DEVELOPMENT-README.md` template and customize:
+### Check for existing .agent/
 
-**Replace placeholders**:
-- `[Project Name]` → Actual project name
-- `[Brief project description]` → 1-2 sentence description
-- `[Your tech stack]` → e.g., "Next.js 15 + React 19 + TypeScript"
+```bash
+ls -la .agent/ 2>/dev/null && echo "EXISTS" || echo "NOT_FOUND"
+```
+
+**If EXISTS**:
+- Ask user:
+  1. Merge (keep existing, add missing)
+  2. Backup and recreate
+  3. Cancel
+- If choice 1: Set flag `MERGE_MODE=true`
+- If choice 2: Run `mv .agent .agent.backup.$(date +%Y%m%d-%H%M%S)`
+- If choice 3: Exit now
+
+---
+
+## Step 2: Create Folder Structure
+
+**Execute these Bash commands**:
+
+```bash
+# Create directory structure
+mkdir -p .agent/tasks
+mkdir -p .agent/system
+mkdir -p .agent/sops/integrations
+mkdir -p .agent/sops/debugging
+mkdir -p .agent/sops/development
+mkdir -p .agent/sops/deployment
+
+# Create .gitkeep files
+touch .agent/tasks/.gitkeep
+touch .agent/sops/integrations/.gitkeep
+touch .agent/sops/debugging/.gitkeep
+touch .agent/sops/development/.gitkeep
+touch .agent/sops/deployment/.gitkeep
+```
+
+**Verify**: Run `tree .agent/ -L 2` to confirm structure created
+
+---
+
+## Step 3: Create CLAUDE.md
+
+**Skip if**: `SKIP_CLAUDE_MD=true` from pre-flight checks
+
+### 3A: Fetch Template
+
+Use the `WebFetch` tool:
+
+```
+WebFetch(
+  url: "https://raw.githubusercontent.com/alekspetrov/jitd-plugin/main/templates/CLAUDE.md"
+  prompt: "Return the complete file content exactly as-is"
+)
+```
+
+### 3B: Detect Project Info
+
+**Auto-detect** (don't ask user):
+- Project name: Extract from `package.json` name field, or use current directory name
+- Tech stack: Extract from `package.json` dependencies, or scan for `.py`, `.go`, `Cargo.toml`
+- Date: Use today's date from system
+
+### 3C: Customize Template
+
+Replace placeholders in fetched content:
+- `[Project Name]` → Detected project name
+- `[Brief project description]` → "Project description" (user can customize later)
+- `[Your tech stack]` → Detected stack
+- `[Key architectural principle]` → "To be defined" (user customizes)
+- `[Date]` → Today's date (YYYY-MM-DD format)
+
+### 3D: Write File
+
+Use the `Write` tool:
+
+```
+Write(
+  file_path: "CLAUDE.md"
+  content: [customized template content]
+)
+```
+
+**Verify**: Run `ls -lh CLAUDE.md` to confirm file exists and size > 8KB
+
+---
+
+## Step 4: Create DEVELOPMENT-README.md
+
+**Skip if**: `MERGE_MODE=true` AND file exists
+
+### 4A: Fetch Template
+
+Use the `WebFetch` tool:
+
+```
+WebFetch(
+  url: "https://raw.githubusercontent.com/alekspetrov/jitd-plugin/main/templates/DEVELOPMENT-README.md"
+  prompt: "Return the complete file content exactly as-is"
+)
+```
+
+### 4B: Customize Template
+
+Replace placeholders:
+- `[Project Name]` → Same as detected earlier
+- `[Brief project description]` → Same
+- `[Your tech stack]` → Same
 - `[Date]` → Today's date
 
-**Customize sections**:
-- Quick Start → Add project-specific setup steps
-- Documentation Structure → Keep standard or adapt
-- Integration Reference → Add if using Linear/Jira/etc
+### 4C: Write File
 
-### Step 3: Generate Initial System Docs
+Use the `Write` tool:
 
-#### project-architecture.md
+```
+Write(
+  file_path: ".agent/DEVELOPMENT-README.md"
+  content: [customized template content]
+)
+```
 
-**Scan for**:
-- `package.json` → Tech stack, dependencies
-- Project folder structure → Organization
-- Config files → Build setup, linting, testing
+**Verify**: Run `ls -lh .agent/DEVELOPMENT-README.md` to confirm file exists
 
-**Generate**:
+---
+
+## Step 5: Generate System Documentation
+
+### 5A: project-architecture.md
+
+**Scan the project**:
+- Look for `package.json`, `requirements.txt`, `go.mod`, `Cargo.toml`
+- Scan top-level folder structure
+
+**Generate content**:
+
 ```markdown
 # Project Architecture
 
-**Tech Stack**: [Detected stack]
+**Tech Stack**: [Detected from package.json or file types]
 **Updated**: [Today's date]
 
 ## Technology Stack
-[List from package.json]
+
+[List dependencies from package.json or detected files]
 
 ## Project Structure
-[Folder tree from codebase]
+
+[Output of: ls -la at project root, excluding node_modules, .git]
 
 ## Key Components
-[Main directories/modules]
+
+[List main directories: src/, app/, lib/, etc.]
 
 ## Development Workflow
-[Build, test, deploy commands]
+
+[Extract from package.json scripts if available]
 ```
 
-#### tech-stack-patterns.md
+**Write**:
 
-**Scan for**:
-- Framework-specific patterns (React hooks, Django views, etc.)
-- Common code patterns in src/
-- Testing patterns in tests/
+```
+Write(
+  file_path: ".agent/system/project-architecture.md"
+  content: [generated content]
+)
+```
 
-**Generate**:
+### 5B: tech-stack-patterns.md
+
+**Detect framework**:
+- React/Next.js: Check for `react` in dependencies
+- Django/Flask: Check for `.py` files + `requirements.txt`
+- Go: Check for `go.mod`
+
+**Generate content**:
+
 ```markdown
 # Tech Stack Patterns
 
-**Framework**: [Primary framework]
+**Framework**: [Detected framework]
 **Updated**: [Today's date]
 
 ## [Framework] Best Practices
-[Detected patterns from codebase]
+
+[Framework-specific patterns - use generic template initially]
 
 ## Common Patterns
-[Recurring code structures]
+
+[To be documented as code is written]
 
 ## Testing Strategy
-[Test setup from codebase]
+
+[Extract from package.json test scripts or detected test framework]
 ```
 
-### Step 4: Configure JITD Settings
+**Write**:
 
-Prompt user for optional configuration:
+```
+Write(
+  file_path: ".agent/system/tech-stack-patterns.md"
+  content: [generated content]
+)
+```
+
+---
+
+## Step 6: Create Configuration
+
+### Prompt User for Settings
+
+Ask these questions (don't assume):
 
 ```
 JITD Configuration
@@ -122,9 +260,9 @@ Project Management Tool:
   4. GitLab
   5. None (manual docs)
 
-Choice [1-5]:
+Choice [1-5]: [wait for input]
 
-Task Prefix (e.g., TASK, GH, JIRA): [input]
+Task Prefix (e.g., TASK, GH, JIRA): [wait for input or default to "TASK"]
 
 Team Chat (optional):
   1. Slack
@@ -132,112 +270,263 @@ Team Chat (optional):
   3. Teams
   4. None
 
-Choice [1-4]:
+Choice [1-4]: [wait for input or default to 4]
 ```
 
-Save configuration to `.agent/.jitd-config.json`:
+### Write Config File
+
+Use the `Write` tool:
 
 ```json
 {
   "version": "1.0.0",
-  "project_management": "linear",
-  "task_prefix": "TASK",
-  "team_chat": "none",
+  "project_management": "[user choice: linear|github|jira|gitlab|none]",
+  "task_prefix": "[user input or 'TASK']",
+  "team_chat": "[user choice: slack|discord|teams|none]",
   "auto_load_navigator": true,
   "compact_strategy": "conservative"
 }
 ```
 
-### Step 5: Create .gitignore (if not exists)
+**Write**:
 
-Add JITD-specific ignores:
-
-```gitignore
-# JITD local config (optional - commit if sharing with team)
-# .agent/.jitd-config.json
-
-# Keep documentation in git
-# .agent/ is for the team
+```
+Write(
+  file_path: ".agent/.jitd-config.json"
+  content: [config JSON]
+)
 ```
 
-Recommend **committing** `.agent/` to git so team shares knowledge.
+---
 
-### Step 6: Verify Setup
+## Step 7: VERIFICATION (CRITICAL)
 
-Run verification checks:
+**Run these checks and SHOW results to user**:
+
+### File Existence Checks
 
 ```bash
-✓ Created .agent/ folder structure
-✓ Copied DEVELOPMENT-README.md template
-✓ Generated project-architecture.md
-✓ Generated tech-stack-patterns.md
-✓ Created .jitd-config.json
-✓ Updated .gitignore
+echo "=== JITD Installation Verification ==="
+echo ""
+echo "1. CLAUDE.md (project root):"
+ls -lh CLAUDE.md 2>/dev/null && echo "✓ EXISTS" || echo "✗ MISSING"
 
-JITD initialized successfully! 🎉
+echo ""
+echo "2. .agent/DEVELOPMENT-README.md:"
+ls -lh .agent/DEVELOPMENT-README.md 2>/dev/null && echo "✓ EXISTS" || echo "✗ MISSING"
+
+echo ""
+echo "3. .agent/system/project-architecture.md:"
+ls -lh .agent/system/project-architecture.md 2>/dev/null && echo "✓ EXISTS" || echo "✗ MISSING"
+
+echo ""
+echo "4. .agent/system/tech-stack-patterns.md:"
+ls -lh .agent/system/tech-stack-patterns.md 2>/dev/null && echo "✓ EXISTS" || echo "✗ MISSING"
+
+echo ""
+echo "5. .agent/.jitd-config.json:"
+ls -lh .agent/.jitd-config.json 2>/dev/null && echo "✓ EXISTS" || echo "✗ MISSING"
+
+echo ""
+echo "6. Directory structure:"
+tree .agent/ -L 2 2>/dev/null || ls -R .agent/
 ```
 
-### Step 7: Usage Instructions
+### Content Verification
 
-Show user how to start:
+```bash
+echo ""
+echo "=== Content Verification ==="
+echo ""
+echo "CLAUDE.md has placeholders replaced?"
+grep -q "\[Project Name\]" CLAUDE.md && echo "✗ FAIL: Placeholders still present" || echo "✓ PASS: Customized"
 
-```
-Next Steps
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-1. Customize your navigator:
-   Edit .agent/DEVELOPMENT-README.md
-
-2. Start documentation workflow:
-   - Complete a feature → /update-doc feature TASK-XX
-   - Solve an issue → /update-doc sop debugging [issue-name]
-   - Change architecture → /update-doc system architecture
-
-3. Always load navigator first:
-   Every session: Read .agent/DEVELOPMENT-README.md
-
-Token Savings
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Before JITD: 150k+ tokens (all docs upfront)
-With JITD:   12k tokens (on-demand loading)
-Reduction:   92%
-
-Context available for work: 86%+
+echo ""
+echo "DEVELOPMENT-README.md has placeholders replaced?"
+grep -q "\[Project Name\]" .agent/DEVELOPMENT-README.md && echo "✗ FAIL: Placeholders still present" || echo "✓ PASS: Customized"
 ```
 
-## Integration Setup (Optional)
+### Success Criteria
 
-### If Linear Selected
+**ALL of these must be TRUE**:
+- [ ] CLAUDE.md exists and > 8KB
+- [ ] .agent/DEVELOPMENT-README.md exists
+- [ ] .agent/system/project-architecture.md exists
+- [ ] .agent/system/tech-stack-patterns.md exists
+- [ ] .agent/.jitd-config.json exists and is valid JSON
+- [ ] No `[Project Name]` placeholders remain in CLAUDE.md
+- [ ] No `[Project Name]` placeholders remain in DEVELOPMENT-README.md
+- [ ] Directory structure complete (tasks/, system/, sops/)
 
-**Guide user**:
+**If ANY check fails**:
+- Stop and report error
+- Do NOT show success message
+- Tell user what's missing
+
+**If ALL checks pass**:
+- Proceed to Step 8 (Success Message)
+
+---
+
+## Step 8: Success Message
+
+**Only show this if Step 7 verification passed**:
+
+```
+╔══════════════════════════════════════════════════════╗
+║                                                      ║
+║  ✅ JITD Initialized Successfully!                   ║
+║                                                      ║
+║  Your project now has:                               ║
+║  ✓ CLAUDE.md - Project configuration (~15k tokens)  ║
+║  ✓ .agent/DEVELOPMENT-README.md - Navigator (~2k)   ║
+║  ✓ .agent/system/ - Architecture docs               ║
+║  ✓ .agent/.jitd-config.json - Settings              ║
+║  ✓ Complete documentation structure                 ║
+║                                                      ║
+╚══════════════════════════════════════════════════════╝
+```
+
+**If backups were created**:
+
+```
+📦 Backups:
+- [list any backup files created with timestamps]
+
+Restore with: mv backup-file original-name
+Delete after verifying: rm backup-file
+```
+
+---
+
+## Step 9: How to Use JITD
+
+**Show this guide**:
+
+```
+╔══════════════════════════════════════════════════════╗
+║                                                      ║
+║  📖 HOW TO USE JITD                                  ║
+║                                                      ║
+╚══════════════════════════════════════════════════════╝
+
+🔹 EVERY SESSION STARTS WITH:
+
+   Read .agent/DEVELOPMENT-README.md
+
+   This loads your documentation navigator (~2k tokens)
+   instead of all docs (~150k tokens).
+
+
+🔹 WORKING ON A FEATURE:
+
+   1. Read navigator first (see above)
+   2. Load ONLY relevant task doc:
+      Read .agent/tasks/TASK-XX-feature.md
+   3. Load ONLY needed system doc:
+      Read .agent/system/project-architecture.md
+
+   Total: ~10k tokens vs 150k (93% savings)
+
+
+🔹 AFTER COMPLETING FEATURE:
+
+   /update-doc feature TASK-XX
+
+   This creates documentation from your work so:
+   - You never solve same problem twice
+   - Team knows what you built
+   - Future you remembers why
+
+
+🔹 AFTER SOLVING A BUG:
+
+   /update-doc sop debugging issue-name
+
+   Creates a Standard Operating Procedure so you
+   never waste time on this issue again.
+
+
+🔹 WHEN CONTEXT GETS FULL:
+
+   /jitd-compact
+
+   Clears conversation while preserving JITD markers.
+   Run after completing isolated sub-tasks.
+
+
+🔹 CUSTOMIZING YOUR SETUP:
+
+   1. Edit CLAUDE.md:
+      - Add framework-specific rules
+      - Set coding standards
+      - Configure integrations
+
+   2. Edit .agent/DEVELOPMENT-README.md:
+      - Add project-specific setup steps
+      - Customize documentation structure
+
+
+🔹 TOKEN OPTIMIZATION:
+
+   Before JITD: 150k+ tokens loaded upfront
+   With JITD:   12k tokens (on-demand loading)
+   Reduction:   92%
+
+   Context available for work: 86%+
+   Session restarts: Zero
+
+
+🔹 NEXT ACTIONS:
+
+   [ ] Customize CLAUDE.md with your code standards
+   [ ] Customize .agent/DEVELOPMENT-README.md
+   [ ] Commit .agent/ to git (share with team)
+   [ ] Start using /update-doc after features
+   [ ] Read navigator at start of every session
+
+
+Need help? Check .agent/DEVELOPMENT-README.md for:
+- Documentation index
+- "When to read what" guide
+- Token optimization strategy
+```
+
+---
+
+## Post-Installation Integration Setup
+
+**If user selected Linear (Step 6)**:
+
+Show Linear MCP setup:
+
 ```
 Linear MCP Setup
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-1. Install Linear MCP (if not already):
+1. Install Linear MCP:
    claude mcp add linear-server
 
 2. Configure API key:
-   Follow prompts to add Linear API token
+   [Follow prompts]
 
-3. Test connection:
+3. Test:
    /linear list-issues
 
-Now you can use:
-- /update-doc feature <linear-id>
-- Auto-link docs to Linear tickets
+4. Use with JITD:
+   /update-doc feature LIN-123
 ```
 
-### If GitHub Selected
+**If user selected GitHub Issues (Step 6)**:
 
-**Guide user**:
+Show GitHub CLI setup:
+
 ```
 GitHub CLI Setup
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-1. Install GitHub CLI:
-   brew install gh (or https://cli.github.com)
+1. Install gh:
+   brew install gh
 
 2. Authenticate:
    gh auth login
@@ -245,68 +534,50 @@ GitHub CLI Setup
 3. Test:
    gh issue list
 
-Now you can use:
-- /update-doc feature GH-123
-- Link docs to GitHub issues
-```
-
-## Customization Prompts
-
-After basic setup, ask user:
-
-```
-Would you like to:
-1. Add custom system docs? (e.g., database-schema.md, api-endpoints.md)
-2. Create example task doc? (see how it works)
-3. Create example SOP? (see how it works)
-4. Configure advanced options? (compact strategy, etc.)
-
-[1-4, or Enter to skip]
-```
-
-## Common Issues
-
-### Issue: Folder already exists
-**Solution**: Ask if user wants to:
-1. Merge (keep existing + add missing)
-2. Overwrite (replace with fresh templates)
-3. Cancel
-
-### Issue: No package.json found
-**Solution**:
-- Detect project type from files (.py, .go, etc.)
-- Use generic templates
-- Prompt user for tech stack manually
-
-### Issue: Git not initialized
-**Solution**:
-- Initialize git: `git init`
-- Or continue without git (docs won't be versioned)
-
-## Success Message
-
-```
-╔══════════════════════════════════════════════════════╗
-║                                                      ║
-║  JITD Initialized Successfully! 🎉                   ║
-║                                                      ║
-║  Your project now has:                               ║
-║  ✓ Context-efficient documentation                   ║
-║  ✓ Navigator-first loading (2k tokens vs 150k)       ║
-║  ✓ Living docs that update as code evolves           ║
-║  ✓ 86%+ context available for actual work            ║
-║                                                      ║
-║  Start every session with:                           ║
-║  → Read .agent/DEVELOPMENT-README.md                 ║
-║                                                      ║
-║  Document features with:                             ║
-║  → /update-doc feature TASK-XX                       ║
-║                                                      ║
-║  Build your knowledge base! 📚                       ║
-║                                                      ║
-╚══════════════════════════════════════════════════════╝
+4. Use with JITD:
+   /update-doc feature GH-123
 ```
 
 ---
 
-**Remember**: JITD saves 92% of documentation loading overhead by loading on-demand, not upfront. Your context is now optimized for productivity.
+## Troubleshooting
+
+### WebFetch fails
+
+**Error**: "Cannot fetch template"
+
+**Solution**:
+- Check internet connection
+- Try again (GitHub may be temporarily down)
+- Fallback: Manually create CLAUDE.md from https://github.com/alekspetrov/jitd-plugin/blob/main/templates/CLAUDE.md
+
+### Verification fails
+
+**Error**: File exists but placeholders remain
+
+**Fix**:
+- Manually edit the file
+- Replace `[Project Name]` with your project name
+- Replace `[Your tech stack]` with your stack
+- Replace `[Date]` with today's date
+
+### Permission denied
+
+**Error**: Cannot create .agent/
+
+**Fix**:
+```bash
+# Check current directory
+pwd
+
+# Ensure you're in project root
+cd /path/to/your/project
+
+# Run /jitd-init again
+```
+
+---
+
+**Remember**: JITD saves 92% documentation loading overhead through on-demand loading, not upfront loading.
+
+**Your context is now optimized for productivity** 🚀
