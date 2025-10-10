@@ -124,18 +124,20 @@ Specific SOP (if needed) ~2,000 tokens
 ### Core JITD (Universal - No Dependencies)
 
 ```
-.agent/
-├── DEVELOPMENT-README.md      # Navigator (always load first)
-├── tasks/                     # Implementation plans from tickets
-│   └── TASK-XX-feature.md
-├── system/                    # Living architecture docs
-│   ├── project-architecture.md
-│   └── tech-stack-patterns.md
-└── sops/                      # Standard Operating Procedures
-    ├── integrations/
-    ├── debugging/
-    ├── development/
-    └── deployment/
+your-project/
+├── CLAUDE.md                  # Project configuration & workflow
+└── .agent/
+    ├── DEVELOPMENT-README.md  # Navigator (always load first)
+    ├── tasks/                 # Implementation plans from tickets
+    │   └── TASK-XX-feature.md
+    ├── system/                # Living architecture docs
+    │   ├── project-architecture.md
+    │   └── tech-stack-patterns.md
+    └── sops/                  # Standard Operating Procedures
+        ├── integrations/
+        ├── debugging/
+        ├── development/
+        └── deployment/
 ```
 
 ### Plugin Structure

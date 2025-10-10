@@ -39,9 +39,37 @@ Create the following folder structure:
         └── .gitkeep
 ```
 
-### Step 2: Copy Navigator Template
+### Step 2: Copy Templates and Customize
 
-Copy `DEVELOPMENT-README.md` template and customize:
+#### A. CLAUDE.md (Project-Level Configuration)
+
+Copy `CLAUDE.md` template to project root and customize:
+
+**Location**: `CLAUDE.md` (project root, not in `.agent/`)
+
+**Replace placeholders**:
+- `[Project Name]` → Actual project name
+- `[Brief project description]` → 1-2 sentence description
+- `[Your tech stack]` → e.g., "Next.js 15 + React 19 + TypeScript"
+- `[Key architectural principle]` → e.g., "SSR-first", "Microservices", "Event-driven"
+- `[Date]` → Today's date
+
+**Customize sections**:
+- Code Standards → Add framework-specific rules
+- Forbidden Actions → Add project-specific violations
+- Project-Specific Guidelines → Add framework patterns (Next.js, Django, Go, etc.)
+
+**Purpose**:
+- Defines JITD workflow for Claude Code
+- Sets project-wide coding standards
+- Configures integrations and tools
+- ~15k tokens (optimized size)
+
+#### B. DEVELOPMENT-README.md (Documentation Navigator)
+
+Copy `DEVELOPMENT-README.md` template to `.agent/` and customize:
+
+**Location**: `.agent/DEVELOPMENT-README.md`
 
 **Replace placeholders**:
 - `[Project Name]` → Actual project name
@@ -53,6 +81,12 @@ Copy `DEVELOPMENT-README.md` template and customize:
 - Quick Start → Add project-specific setup steps
 - Documentation Structure → Keep standard or adapt
 - Integration Reference → Add if using Linear/Jira/etc
+
+**Purpose**:
+- Navigator for `.agent/` documentation system
+- Always loaded first (~2k tokens)
+- "When to read what" decision tree
+- Documentation index
 
 ### Step 3: Generate Initial System Docs
 
@@ -168,7 +202,8 @@ Run verification checks:
 
 ```bash
 ✓ Created .agent/ folder structure
-✓ Copied DEVELOPMENT-README.md template
+✓ Copied CLAUDE.md template to project root
+✓ Copied DEVELOPMENT-README.md template to .agent/
 ✓ Generated project-architecture.md
 ✓ Generated tech-stack-patterns.md
 ✓ Created .jitd-config.json
@@ -185,16 +220,24 @@ Show user how to start:
 Next Steps
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-1. Customize your navigator:
-   Edit .agent/DEVELOPMENT-README.md
+1. Customize your configuration:
+   Edit CLAUDE.md (project root)
+   - Add framework-specific rules
+   - Configure integrations
+   - Set coding standards
 
-2. Start documentation workflow:
+2. Customize your navigator:
+   Edit .agent/DEVELOPMENT-README.md
+   - Add project-specific setup
+   - Customize documentation structure
+
+3. Start documentation workflow:
    - Complete a feature → /update-doc feature TASK-XX
    - Solve an issue → /update-doc sop debugging [issue-name]
    - Change architecture → /update-doc system architecture
 
-3. Always load navigator first:
-   Every session: Read .agent/DEVELOPMENT-README.md
+4. Every session starts with:
+   Read .agent/DEVELOPMENT-README.md (~2k tokens)
 
 Token Savings
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -291,8 +334,9 @@ Would you like to:
 ║  JITD Initialized Successfully! 🎉                   ║
 ║                                                      ║
 ║  Your project now has:                               ║
-║  ✓ Context-efficient documentation                   ║
-║  ✓ Navigator-first loading (2k tokens vs 150k)       ║
+║  ✓ CLAUDE.md - Project configuration & workflow      ║
+║  ✓ .agent/DEVELOPMENT-README.md - Navigator (~2k)    ║
+║  ✓ Context-efficient documentation system            ║
 ║  ✓ Living docs that update as code evolves           ║
 ║  ✓ 86%+ context available for actual work            ║
 ║                                                      ║

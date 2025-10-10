@@ -36,6 +36,7 @@ cd /path/to/your/project
 This creates:
 ```
 your-project/
+├── CLAUDE.md                  # Project configuration & workflow
 └── .agent/
     ├── DEVELOPMENT-README.md  # Navigator (start here)
     ├── tasks/                 # Feature plans
@@ -49,9 +50,24 @@ your-project/
         └── deployment/
 ```
 
-### Step 3: Customize Navigator
+### Step 3: Customize Configuration
 
-Edit `.agent/DEVELOPMENT-README.md`:
+Edit `CLAUDE.md` (project root):
+
+```markdown
+# [Your Project Name] - Claude Code Configuration
+
+## Context
+[Your project description]
+
+**Tech Stack**: [Your stack]
+**Core Principle**: [Key architectural principle]
+
+## JITD Workflow (CRITICAL)
+...
+```
+
+Edit `.agent/DEVELOPMENT-README.md` (navigator):
 
 ```markdown
 # [Your Project Name] - Development Documentation Navigator
