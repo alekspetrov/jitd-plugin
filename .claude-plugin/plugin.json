@@ -1,6 +1,6 @@
 {
   "name": "jitd",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Context-efficient documentation system that loads what you need, when you need it. 92% reduction in documentation loading overhead.",
   "author": {
     "name": "Aleks Petrov",

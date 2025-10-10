@@ -111,7 +111,13 @@ Create the following folder structure:
 
 **Skip if**: User chose to keep existing CLAUDE.md in pre-flight checks
 
-Copy `CLAUDE.md` template to project root and customize:
+**Action**: Read the CLAUDE.md template from the JITD plugin installation and create it in the project root.
+
+**Steps**:
+1. Locate JITD plugin templates directory (usually in plugin installation directory)
+2. Read `templates/CLAUDE.md` from the plugin
+3. Write to `CLAUDE.md` in current project root (not in `.agent/`)
+4. Customize placeholders
 
 **Location**: `CLAUDE.md` (project root, not in `.agent/`)
 
@@ -137,7 +143,13 @@ Copy `CLAUDE.md` template to project root and customize:
 
 **Skip if**: File already exists and user chose merge mode
 
-Copy `DEVELOPMENT-README.md` template to `.agent/` and customize:
+**Action**: Read the DEVELOPMENT-README.md template from the JITD plugin and create it in `.agent/`.
+
+**Steps**:
+1. Locate JITD plugin templates directory
+2. Read `templates/DEVELOPMENT-README.md` from the plugin
+3. Write to `.agent/DEVELOPMENT-README.md`
+4. Customize placeholders
 
 **Location**: `.agent/DEVELOPMENT-README.md`
 
