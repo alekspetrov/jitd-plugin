@@ -2,7 +2,46 @@
 
 > Context-efficient documentation system that loads what you need, when you need it.
 
-**Status**: ✅ Published v1.0.0
+**Status**: ✅ Published v1.0.1
+
+---
+
+## 🚀 Quick Start
+
+### Installation
+
+```bash
+# 1. Ensure Claude Code is initialized in your project
+#    (If you see "Unknown slash command" errors, run this first)
+/init
+
+# 2. Add the JITD plugin marketplace
+/plugin marketplace add alekspetrov/jitd-plugin
+
+# 3. Install the plugin
+/plugin install jitd
+
+# 4. Restart Claude Code to load the plugin
+
+# 5. Initialize JITD in your project
+/jitd-init
+```
+
+**Important Notes**:
+- **Claude Code Plugins** launched October 9, 2025 - this is a brand new feature!
+- If `/plugin` doesn't work, update Claude Code: `pnpm upgrade -g @anthropic-ai/claude-code@latest`
+- The plugin must be installed in a project with `.claude/` directory (run `/init` first)
+- After installing, **restart Claude Code** for slash commands to become available
+
+### Available Commands
+
+Once installed, you'll have access to:
+
+- `/jitd-init` - Set up JITD documentation structure in your project
+- `/update-doc` - Update documentation (feature|sop|system)
+- `/jitd-compact` - Smart context compact preserving JITD markers
+
+For detailed usage, see [docs/QUICK-START.md](./docs/QUICK-START.md)
 
 ---
 
@@ -43,19 +82,6 @@ Specific SOP (if needed) ~2,000 tokens
 - **92% token reduction** (12k vs 150k documentation loading)
 - **10x productivity improvement** per token spent
 - **Zero session restarts** over 2-week period
-
----
-
-## Installation
-
-```bash
-# Via Claude Code marketplace
-/plugin marketplace add alekspetrov/jitd-plugin
-/plugin install jitd
-
-# Initialize in your project
-/jitd-init
-```
 
 ---
 

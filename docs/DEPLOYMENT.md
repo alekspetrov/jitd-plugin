@@ -4,6 +4,74 @@ How to deploy JITD to Claude Code marketplace and make it available to users.
 
 ---
 
+## ⚠️ Important: Claude Code Plugins are Brand New!
+
+**Launch Date**: October 9, 2025
+
+The Claude Code plugin system was released just **1 day ago**. This guide documents lessons learned from creating one of the first working plugins.
+
+### Key Discoveries
+
+1. **Official Documentation is Minimal** - The plugin system is so new that even official docs are sparse
+2. **Schema is Strict** - Small mistakes in `plugin.json` prevent commands from loading
+3. **Requires `/init`** - Projects must have `.claude/` directory before plugin installation works
+4. **Restart Required** - After installing plugins, you MUST restart Claude Code for commands to appear
+5. **GitHub is the Marketplace** - No special hosting needed, just a GitHub repo with correct structure
+
+### Common Pitfalls We Found
+
+❌ **Wrong**: Using `slash_commands.commands` in plugin.json
+✅ **Correct**: Using `commands` array at root level
+
+❌ **Wrong**: Repository as object `{"type": "git", "url": "..."}`
+✅ **Correct**: Repository as string `"https://..."`
+
+❌ **Wrong**: Installing before running `/init`
+✅ **Correct**: Run `/init` first, then install plugin
+
+❌ **Wrong**: Expecting commands immediately after install
+✅ **Correct**: Restart Claude Code after installation
+
+### Verified Working Schema
+
+This is the **actual working schema** (as of v1.0.1):
+
+```json
+{
+  "name": "jitd",
+  "version": "1.0.1",
+  "description": "Context-efficient documentation system...",
+  "author": {
+    "name": "Aleks Petrov",
+    "email": "aleks@example.com",
+    "url": "https://github.com/alekspetrov"
+  },
+  "homepage": "https://github.com/alekspetrov/jitd-plugin",
+  "repository": "https://github.com/alekspetrov/jitd-plugin",
+  "license": "MIT",
+  "keywords": ["documentation", "context-management", "token-optimization"],
+  "commands": [
+    "./commands/jitd-init.md",
+    "./commands/update-doc.md",
+    "./commands/jitd-compact.md"
+  ]
+}
+```
+
+**What we removed** (not in official schema):
+- `displayName` field
+- `categories` array
+- `capabilities` object
+- `configuration` object
+- `installation` object
+- `examples` array
+- `metrics` object
+- `support` object
+
+These belong in marketplace.json or documentation, not plugin.json.
+
+---
+
 ## Understanding Claude Code Marketplaces
 
 ### What is a Marketplace?
