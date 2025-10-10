@@ -111,13 +111,13 @@ Create the following folder structure:
 
 **Skip if**: User chose to keep existing CLAUDE.md in pre-flight checks
 
-**Action**: Read the CLAUDE.md template from the JITD plugin installation and create it in the project root.
+**Action**: Fetch the CLAUDE.md template from the JITD plugin repository and create it in the project root.
 
 **Steps**:
-1. Locate JITD plugin templates directory (usually in plugin installation directory)
-2. Read `templates/CLAUDE.md` from the plugin
-3. Write to `CLAUDE.md` in current project root (not in `.agent/`)
-4. Customize placeholders
+1. Use WebFetch to get the template from:
+   `https://raw.githubusercontent.com/alekspetrov/jitd-plugin/main/templates/CLAUDE.md`
+2. Write the content to `CLAUDE.md` in current project root (not in `.agent/`)
+3. Customize placeholders (replace [Project Name], [Tech Stack], [Date], etc.)
 
 **Location**: `CLAUDE.md` (project root, not in `.agent/`)
 
@@ -143,13 +143,13 @@ Create the following folder structure:
 
 **Skip if**: File already exists and user chose merge mode
 
-**Action**: Read the DEVELOPMENT-README.md template from the JITD plugin and create it in `.agent/`.
+**Action**: Fetch the DEVELOPMENT-README.md template from the JITD plugin repository and create it in `.agent/`.
 
 **Steps**:
-1. Locate JITD plugin templates directory
-2. Read `templates/DEVELOPMENT-README.md` from the plugin
-3. Write to `.agent/DEVELOPMENT-README.md`
-4. Customize placeholders
+1. Use WebFetch to get the template from:
+   `https://raw.githubusercontent.com/alekspetrov/jitd-plugin/main/templates/DEVELOPMENT-README.md`
+2. Write the content to `.agent/DEVELOPMENT-README.md`
+3. Customize placeholders (replace [Project Name], [Tech Stack], [Date], etc.)
 
 **Location**: `.agent/DEVELOPMENT-README.md`
 
