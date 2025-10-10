@@ -2,7 +2,7 @@
 
 > Context-efficient documentation system that loads what you need, when you need it.
 
-**Status**: ✅ Published v1.0.1
+**Status**: ✅ Published v1.1.0
 
 ---
 
