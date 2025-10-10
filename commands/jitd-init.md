@@ -84,14 +84,13 @@ touch .agent/sops/deployment/.gitkeep
 
 ### 3A: Fetch Template
 
-Use the `WebFetch` tool:
+Use the `Bash` tool with curl:
 
+```bash
+curl -fsSL https://raw.githubusercontent.com/alekspetrov/jitd-plugin/main/templates/CLAUDE.md -o /tmp/jitd-template-CLAUDE.md
 ```
-WebFetch(
-  url: "https://raw.githubusercontent.com/alekspetrov/jitd-plugin/main/templates/CLAUDE.md"
-  prompt: "Return the complete file content exactly as-is"
-)
-```
+
+**Verify**: Run `ls -lh /tmp/jitd-template-CLAUDE.md` to confirm download
 
 ### 3B: Detect Project Info
 
@@ -100,23 +99,33 @@ WebFetch(
 - Tech stack: Extract from `package.json` dependencies, or scan for `.py`, `.go`, `Cargo.toml`
 - Date: Use today's date from system
 
-### 3C: Customize Template
+### 3C: Read Template
 
-Replace placeholders in fetched content:
+Use the `Read` tool to read the downloaded template:
+
+```
+Read(
+  file_path: "/tmp/jitd-template-CLAUDE.md"
+)
+```
+
+### 3D: Customize Template
+
+Replace placeholders in the template content you just read:
 - `[Project Name]` → Detected project name
 - `[Brief project description]` → "Project description" (user can customize later)
 - `[Your tech stack]` → Detected stack
 - `[Key architectural principle]` → "To be defined" (user customizes)
 - `[Date]` → Today's date (YYYY-MM-DD format)
 
-### 3D: Write File
+### 3E: Write File
 
-Use the `Write` tool:
+Use the `Write` tool with the customized content:
 
 ```
 Write(
   file_path: "CLAUDE.md"
-  content: [customized template content]
+  content: [customized template content from previous step]
 )
 ```
 
@@ -130,31 +139,40 @@ Write(
 
 ### 4A: Fetch Template
 
-Use the `WebFetch` tool:
+Use the `Bash` tool with curl:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/alekspetrov/jitd-plugin/main/templates/DEVELOPMENT-README.md -o /tmp/jitd-template-DEV-README.md
+```
+
+**Verify**: Run `ls -lh /tmp/jitd-template-DEV-README.md` to confirm download
+
+### 4B: Read Template
+
+Use the `Read` tool:
 
 ```
-WebFetch(
-  url: "https://raw.githubusercontent.com/alekspetrov/jitd-plugin/main/templates/DEVELOPMENT-README.md"
-  prompt: "Return the complete file content exactly as-is"
+Read(
+  file_path: "/tmp/jitd-template-DEV-README.md"
 )
 ```
 
-### 4B: Customize Template
+### 4C: Customize Template
 
-Replace placeholders:
+Replace placeholders in the template content:
 - `[Project Name]` → Same as detected earlier
 - `[Brief project description]` → Same
 - `[Your tech stack]` → Same
 - `[Date]` → Today's date
 
-### 4C: Write File
+### 4D: Write File
 
-Use the `Write` tool:
+Use the `Write` tool with customized content:
 
 ```
 Write(
   file_path: ".agent/DEVELOPMENT-README.md"
-  content: [customized template content]
+  content: [customized template content from previous step]
 )
 ```
 
