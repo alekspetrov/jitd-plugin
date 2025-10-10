@@ -14,6 +14,72 @@ You are setting up the JITD (Just-In-Time Documentation) system for the first ti
 
 **Result**: 86%+ context remaining for actual work, zero session restarts
 
+## Pre-Flight Checks
+
+Before proceeding, check for existing JITD installation:
+
+### Check 1: Existing CLAUDE.md
+
+```bash
+# Check if CLAUDE.md exists in project root
+ls CLAUDE.md
+```
+
+**If exists**:
+```
+⚠️  CLAUDE.md already exists
+
+Options:
+1. Backup and create new (recommended)
+   → Rename to CLAUDE.md.backup.[timestamp]
+   → Create fresh CLAUDE.md from template
+
+2. Skip CLAUDE.md creation
+   → Keep existing file
+   → Only create .agent/ structure
+
+3. Cancel initialization
+
+Choice [1-3]:
+```
+
+**Action based on choice**:
+- Choice 1: `mv CLAUDE.md CLAUDE.md.backup.$(date +%Y%m%d-%H%M%S)`
+- Choice 2: Skip CLAUDE.md creation, continue with .agent/
+- Choice 3: Exit
+
+### Check 2: Existing .agent/ Folder
+
+```bash
+# Check if .agent/ exists
+ls -la .agent/
+```
+
+**If exists**:
+```
+⚠️  .agent/ folder already exists
+
+Options:
+1. Merge (keep existing + add missing files)
+   → Preserve existing docs
+   → Only create missing structure
+
+2. Backup and recreate (fresh start)
+   → Rename to .agent.backup.[timestamp]
+   → Create complete new structure
+
+3. Cancel initialization
+
+Choice [1-3]:
+```
+
+**Action based on choice**:
+- Choice 1: Merge mode (only create missing files)
+- Choice 2: `mv .agent .agent.backup.$(date +%Y%m%d-%H%M%S)`
+- Choice 3: Exit
+
+---
+
 ## Initialization Steps
 
 ### Step 1: Create .agent/ Structure
@@ -43,6 +109,8 @@ Create the following folder structure:
 
 #### A. CLAUDE.md (Project-Level Configuration)
 
+**Skip if**: User chose to keep existing CLAUDE.md in pre-flight checks
+
 Copy `CLAUDE.md` template to project root and customize:
 
 **Location**: `CLAUDE.md` (project root, not in `.agent/`)
@@ -66,6 +134,8 @@ Copy `CLAUDE.md` template to project root and customize:
 - ~15k tokens (optimized size)
 
 #### B. DEVELOPMENT-README.md (Documentation Navigator)
+
+**Skip if**: File already exists and user chose merge mode
 
 Copy `DEVELOPMENT-README.md` template to `.agent/` and customize:
 
@@ -202,14 +272,23 @@ Run verification checks:
 
 ```bash
 ✓ Created .agent/ folder structure
-✓ Copied CLAUDE.md template to project root
-✓ Copied DEVELOPMENT-README.md template to .agent/
+✓ CLAUDE.md: [Created new | Backed up existing | Kept existing]
+✓ DEVELOPMENT-README.md: [Created new | Kept existing]
 ✓ Generated project-architecture.md
 ✓ Generated tech-stack-patterns.md
 ✓ Created .jitd-config.json
 ✓ Updated .gitignore
 
 JITD initialized successfully! 🎉
+```
+
+**If backups were created**:
+```
+📦 Backups created:
+- CLAUDE.md.backup.20251010-1730
+- .agent.backup.20251010-1730
+
+You can restore these if needed or delete them once satisfied.
 ```
 
 ### Step 7: Usage Instructions
