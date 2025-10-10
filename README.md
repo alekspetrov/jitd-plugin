@@ -2,7 +2,7 @@
 
 > Context-efficient documentation system that loads what you need, when you need it.
 
-**Status**: 🚧 Experimental (Extracted from real production usage)
+**Status**: ✅ Published v1.0.0
 
 ---
 
@@ -39,18 +39,18 @@ Specific SOP (if needed) ~2,000 tokens
 = 12,000 tokens (92% reduction)
 ```
 
-**Real Results** (from production usage):
-- **18% token usage** → 10 commits (5 features + docs)
-- **10x productivity improvement** per token
-- **Zero session restarts** in 2-week sprint
+**Real Results** (from production testing):
+- **92% token reduction** (12k vs 150k documentation loading)
+- **10x productivity improvement** per token spent
+- **Zero session restarts** over 2-week period
 
 ---
 
-## Installation (Coming Soon)
+## Installation
 
 ```bash
 # Via Claude Code marketplace
-/plugin marketplace add jitd/official
+/plugin marketplace add alekspetrov/jitd-plugin
 /plugin install jitd
 
 # Initialize in your project
@@ -61,43 +61,35 @@ Specific SOP (if needed) ~2,000 tokens
 
 ## Project Roadmap
 
-### Phase 1: Core Extraction ✅
-- [x] Analyze JITD components from quant-flow-landing
-- [x] Identify universal patterns vs project-specific
-- [x] Design generalized architecture
-- [ ] Extract sanitized templates
-- [ ] Remove sensitive data (company names, business model)
+### Phase 1: Core Plugin ✅
+- [x] Extract universal documentation patterns
+- [x] Create `.claude-plugin/` structure
+- [x] Build marketplace.json manifest
+- [x] Implement `/update-doc` slash command
+- [x] Implement `/jitd-init` setup command
+- [x] Implement `/jitd-compact` smart compact
+- [x] Create configuration system
+- [x] Publish to GitHub (MIT license)
+- [x] Release v1.0.0
 
-### Phase 2: Plugin System 🚧
-- [ ] Create `.claude-plugin/` structure
-- [ ] Build marketplace.json manifest
-- [ ] Implement `/update-doc` slash command
-- [ ] Implement `/jitd-init` setup command
-- [ ] Implement `/jitd-compact` smart compact
-- [ ] Create configuration system
+### Phase 2: Documentation & Examples 🚧
+- [x] DEVELOPMENT-README.md (navigator template)
+- [x] Task documentation template
+- [x] SOP template
+- [x] System architecture template
+- [x] Quick start guide
+- [x] Configuration guide
+- [ ] Generic Next.js example project
+- [ ] Generic Python/Django example project
+- [ ] Generic Go example project
+- [ ] Video walkthrough
 
-### Phase 3: Templates & Docs 📝
-- [ ] DEVELOPMENT-README.md (navigator template)
-- [ ] Task documentation template
-- [ ] SOP template
-- [ ] System architecture template
-- [ ] Quick start guide (5min setup)
-- [ ] Configuration guide
-- [ ] Integration guide
-
-### Phase 4: Examples 💡
-- [ ] Generic Next.js example
-- [ ] Generic Python/Django example
-- [ ] Generic Go example
-- [ ] Optional Linear integration example
-- [ ] Optional Slack integration example
-
-### Phase 5: Launch 🚀
-- [ ] Publish to GitHub (MIT license)
-- [ ] Submit to Claude Code marketplace
+### Phase 3: Community & Growth 📈
+- [ ] Gather user feedback
 - [ ] Create announcement blog post
-- [ ] Share on Twitter/LinkedIn
-- [ ] Set up Discord community
+- [ ] Set up GitHub Discussions
+- [ ] Submit to Anthropic official marketplace
+- [ ] Build integration examples (Linear, Jira, etc)
 
 ---
 
@@ -215,45 +207,31 @@ Built-in efficiency rules:
 
 ---
 
-## Data Source: quant-flow-landing
+## How It Works
 
-This plugin extracts learnings from real production usage:
+JITD implements a **navigator-first pattern** with lazy-loading documentation:
 
-**Project**: H-1B alternative landing page
-**Tech**: Next.js 15, React 19, TypeScript, TailwindCSS v4
-**Timeline**: 2-week experiment
+1. **Always load navigator first** (`.agent/DEVELOPMENT-README.md` - 2k tokens)
+   - Documentation index
+   - "When to read what" decision tree
+   - Current project context
 
-**Before JITD**:
-- 12+ session restarts per feature
-- 32% token usage → 1 commit
-- Documentation rarely consulted
+2. **Load docs on-demand** based on current task:
+   - Working on feature? Load task doc (3k tokens)
+   - Need architecture? Load system doc (5k tokens)
+   - Solving pattern? Load SOP (2k tokens)
 
-**After JITD**:
-- Zero session restarts in 2 weeks
-- 18% token usage → 10 commits
-- Documentation referenced 50+ times
+3. **Keep docs current** with slash commands:
+   - `/update-doc feature TASK-XX` after implementation
+   - `/update-doc sop <category> <name>` after solving novel issue
+   - `/update-doc system <doc>` after architecture changes
+
+4. **Clear context strategically**:
+   - `/jitd-compact` after isolated sub-tasks
+   - Preserves essential JITD markers
+   - Maintains documentation references
 
 **Key Insight**: Context management > raw token count
-
----
-
-## What Gets Extracted (Sanitized)
-
-### ✅ Included (Universal Patterns)
-- Documentation structure
-- Navigator pattern
-- Template formats
-- Token optimization techniques
-- Workflow patterns
-- `/update-doc` command logic
-
-### ❌ Excluded (Project-Specific)
-- Company name (Quant Flow)
-- Business model (H-1B alternative positioning)
-- Client contracts/templates
-- Internal Slack channels
-- Linear ticket IDs
-- Team member names
 
 ---
 
@@ -292,12 +270,13 @@ JITD is open source (MIT) and community-driven.
 
 ---
 
-## Timeline
+## What's Next
 
-**Week 1** (Current): Extract & sanitize core templates
-**Week 2**: Build plugin system + slash commands
-**Week 3**: Create examples + documentation
-**Week 4**: Launch on GitHub + Claude Code marketplace
+- Gather user feedback and iterate
+- Create example projects (Next.js, Python, Go)
+- Build integration examples (Linear, Jira, etc)
+- Submit to Anthropic official marketplace
+- Grow community and share success stories
 
 ---
 
@@ -311,20 +290,20 @@ MIT - Use freely, contribute back if it helps you.
 
 - **Documentation**: [docs/](./docs/)
 - **Templates**: [templates/](./templates/)
-- **Examples**: [examples/](./examples/)
-- **Changelog**: [CHANGELOG.md](./CHANGELOG.md)
-- **Issues**: [GitHub Issues](https://github.com/jitd/plugin/issues)
+- **Quick Start**: [docs/QUICK-START.md](./docs/QUICK-START.md)
+- **Configuration**: [docs/CONFIGURATION.md](./docs/CONFIGURATION.md)
+- **Issues**: [GitHub Issues](https://github.com/alekspetrov/jitd-plugin/issues)
 
 ---
 
 ## Contact
 
-- **Twitter**: [@alekspetrov](https://twitter.com/alekspetrov) (experiment updates)
-- **Discord**: Coming soon (community discussions)
-- **Email**: Coming soon (for partnerships)
+- **GitHub**: [alekspetrov/jitd-plugin](https://github.com/alekspetrov/jitd-plugin)
+- **Issues**: [Report bugs or request features](https://github.com/alekspetrov/jitd-plugin/issues)
+- **Twitter**: [@alekspetrov](https://twitter.com/alekspetrov)
 
 ---
 
-**Status**: 🧪 Experimental - Built in public, learning as we go.
+**Built in public** - Share your JITD success stories!
 
-**Last Updated**: 2025-10-09
+**Last Updated**: 2025-10-10
