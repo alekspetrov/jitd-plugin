@@ -79,6 +79,19 @@
 
 **Impact**: Crystal-clear plugin value proposition, users understand JITD in 30 seconds
 
+#### [TASK-03: Interactive Marker Management + Auto-Resume](./tasks/TASK-03-markers-management-auto-resume.md)
+**Status**: ✅ Completed (v1.5.0)
+**Completed**: 2025-10-12
+
+**What was built**:
+- New `/jitd:markers` command for interactive marker management (list, load, clean)
+- Active marker auto-resume system (.active file + /jitd:start detection)
+- Performance optimizations (<1s for 50+ markers)
+- Updated `/jitd:compact` to create active markers
+- Updated `/jitd:start` to auto-detect and load active markers
+
+**Impact**: One-command resume after compact (vs 3 manual steps), visual marker selection
+
 ---
 
 ### System Architecture (`system/`)
@@ -296,5 +309,5 @@ gh release create v1.1.0 --title "JITD v1.1.0" --notes "..."
 
 **This documentation system keeps plugin development context-efficient while maintaining comprehensive knowledge.**
 
-**Last Updated**: 2025-10-12 (v1.4.0)
+**Last Updated**: 2025-10-12 (v1.5.0)
 **Powered By**: JITD (Just-In-Time Documentation)
