@@ -66,6 +66,19 @@
 
 **Impact**: Dramatically improved onboarding UX and consistent JITD adoption
 
+#### [TASK-02: README Overhaul & Context Markers](./tasks/TASK-02-readme-markers-v1.4.0.md)
+**Status**: ✅ Completed (v1.4.0)
+**Completed**: 2025-10-12
+
+**What was built**:
+- New `/jitd:marker` command for on-demand conversation save points
+- Updated `/jitd:init` with `.context-markers/` setup and .gitignore
+- Comprehensive README.md rewrite with clear feature explanations
+- Token optimization strategy documented step-by-step
+- Context markers explained with examples (97.7% compression)
+
+**Impact**: Crystal-clear plugin value proposition, users understand JITD in 30 seconds
+
 ---
 
 ### System Architecture (`system/`)
@@ -283,5 +296,5 @@ gh release create v1.1.0 --title "JITD v1.1.0" --notes "..."
 
 **This documentation system keeps plugin development context-efficient while maintaining comprehensive knowledge.**
 
-**Last Updated**: 2025-10-12
+**Last Updated**: 2025-10-12 (v1.4.0)
 **Powered By**: JITD (Just-In-Time Documentation)
