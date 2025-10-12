@@ -197,6 +197,7 @@ Total: 9k tokens vs 150k
 /jitd:update-doc sop <category> <name>  # Create SOP
 /jitd:update-doc system <doc-name>  # Update architecture doc
 /jitd:marker [name]            # Create context save point (anytime)
+/jitd:markers                  # Manage markers: list, load, clean
 /jitd:compact                  # Smart context compact
 ```
 

@@ -126,11 +126,14 @@ Specific SOP (optional)  ~2,000 tokens
 # End of day
 /jitd:marker eod-2025-10-12 "Finished OAuth, need tests tomorrow"
 
-# List all markers
-/jitd:marker list
+# Manage markers (interactive)
+/jitd:markers
 
-# Restore from marker
-Read @.agent/.context-markers/lunch-break-2025-10-12.md
+# Or list all markers
+/jitd:markers list
+
+# Clean old markers
+/jitd:markers clean
 ```
 
 **Benefits**:
@@ -185,6 +188,7 @@ Read @.agent/.context-markers/lunch-break-2025-10-12.md
 | `/jitd:update-doc sop <category> <name>` | Create Standard Operating Procedure |
 | `/jitd:update-doc system <doc>` | Update architecture documentation |
 | `/jitd:marker [name]` | Create context save point anytime |
+| `/jitd:markers` | Manage markers: list, load, clean |
 | `/jitd:compact` | Smart compact: preserves markers, clears history |
 
 ---
@@ -383,7 +387,9 @@ Read .agent/system/project-architecture.md
 /jitd:marker lunch-break "Stripe integration 70% complete, need to add webhooks"
 
 # Resume after lunch
-Read @.agent/.context-markers/lunch-break-2025-10-12.md
+/jitd:markers
+# [Interactive list appears]
+# [Select "lunch-break" from list]
 # Context restored in 30 seconds!
 ```
 
