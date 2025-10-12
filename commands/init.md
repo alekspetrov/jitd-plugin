@@ -65,6 +65,7 @@ mkdir -p .agent/sops/integrations
 mkdir -p .agent/sops/debugging
 mkdir -p .agent/sops/development
 mkdir -p .agent/sops/deployment
+mkdir -p .agent/.context-markers
 
 # Create .gitkeep files
 touch .agent/tasks/.gitkeep
@@ -72,6 +73,7 @@ touch .agent/sops/integrations/.gitkeep
 touch .agent/sops/debugging/.gitkeep
 touch .agent/sops/development/.gitkeep
 touch .agent/sops/deployment/.gitkeep
+touch .agent/.context-markers/.gitkeep
 ```
 
 **Verify**: Run `tree .agent/ -L 2` to confirm structure created
@@ -314,6 +316,36 @@ Write(
   content: [config JSON]
 )
 ```
+
+---
+
+## Step 6.3: Setup .gitignore for JITD
+
+**Create .gitignore entry for context markers**:
+
+Context markers are session-specific and shouldn't be committed to git.
+
+### 6.3A: Fetch .gitignore template
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/alekspetrov/jitd-plugin/main/templates/.gitignore -o /tmp/jitd-template-gitignore
+```
+
+### 6.3B: Append to existing .gitignore or create new
+
+**If .gitignore exists**:
+```bash
+# Append JITD entries
+cat /tmp/jitd-template-gitignore >> .gitignore
+```
+
+**If .gitignore doesn't exist**:
+```bash
+# Create new .gitignore
+cp /tmp/jitd-template-gitignore .gitignore
+```
+
+**Result**: Context markers are git-ignored but directory structure is preserved
 
 ---
 
@@ -839,6 +871,20 @@ Delete after verifying: rm backup-file
 
    Creates a Standard Operating Procedure so you
    never waste time on this issue again.
+
+
+🔹 SAVE YOUR PROGRESS ANYTIME:
+
+   /jitd:marker lunch-break
+
+   Creates a save point you can restore later.
+   Perfect for:
+   - Before taking breaks
+   - Before risky changes
+   - End of day
+   - After important decisions
+
+   Resume: Read @.agent/.context-markers/[marker-name].md
 
 
 🔹 WHEN CONTEXT GETS FULL:

@@ -175,6 +175,7 @@ Total: 9k tokens vs 150k
 /jitd:update-doc feature TASK-XX    # Archive implementation plan
 /jitd:update-doc sop <category> <name>  # Create SOP
 /jitd:update-doc system <doc-name>  # Update architecture doc
+/jitd:marker [name]            # Create context save point (anytime)
 /jitd:compact                  # Smart context compact
 ```
 

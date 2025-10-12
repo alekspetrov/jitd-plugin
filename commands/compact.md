@@ -11,11 +11,47 @@ You are performing a context-optimized compact operation that preserves essentia
 **Regular `/compact`**: Clears all conversation history, loses context
 
 **JITD `/jitd:compact`**:
+- Generates a **context marker** (snapshot of where you are)
+- Saves marker to `.agent/.context-markers/`
+- Shows you exactly how to resume
 - Clears conversation history
-- Preserves essential documentation markers
-- Maintains navigator reference
-- Keeps current task context
-- Ready for next task immediately
+- You restore context in your next session by reading the marker
+
+**The Magic**: Context markers compress your entire session (50+ messages, 130k tokens) into a focused summary (3k tokens) that captures only what matters: current task, decisions made, next steps.
+
+## How Context Markers Work
+
+Think of it like save points in a video game:
+
+```
+Before Compact:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+You: "Help me implement auth"
+Claude: [50 messages of implementation]
+You: "Now add OAuth"
+Claude: [20 messages of OAuth work]
+Total: 130k tokens, approaching limit
+
+After /jitd:compact:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ Marker saved: .agent/.context-markers/2025-10-12.md
+
+Contains:
+- Task: TASK-45 (auth + OAuth)
+- Status: OAuth integrated, needs testing
+- Decisions: Using passport.js, JWT tokens
+- Next: Write tests for OAuth flow
+- 3k tokens
+
+Next session:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+You: Read @.agent/.context-markers/2025-10-12.md
+Claude: *knows exactly where you left off*
+You: "Write the OAuth tests"
+Claude: *continues seamlessly*
+```
+
+**You never lose progress. The knowledge is preserved, just compressed.**
 
 ## When to Use
 
@@ -110,26 +146,91 @@ Load this context marker after compacting to resume efficiently.
 
 ### Step 3: Save Context Marker
 
-**Option 1**: Save to `.agent/.context-markers/`
-```
-.agent/.context-markers/
-└── YYYY-MM-DD-HHMMSS-compact.md
+**IMPORTANT**: You MUST save the marker where the user can access it after compact.
+
+**Recommended**: Save to `.agent/.context-markers/` directory
+
+```bash
+# Create directory if doesn't exist
+mkdir -p .agent/.context-markers
+
+# Save with timestamp
+Write(
+  file_path: ".agent/.context-markers/2025-10-12-143022-compact.md"
+  content: [context marker from Step 2]
+)
 ```
 
-**Option 2**: Append to current task doc
+**Show user the saved location**:
 ```
+✅ Context marker saved to:
+   .agent/.context-markers/2025-10-12-143022-compact.md
+
+After compact, start your new session with:
+   Read @.agent/.context-markers/2025-10-12-143022-compact.md
+
+This will restore your context in ~3k tokens.
+```
+
+**Alternative locations**:
+
+**Option 2**: Append to current task doc (if task exists)
+```
+Append to: .agent/tasks/TASK-XX-feature.md
+
 ## Session Notes
 ### Compact Point - [Date]
 [Context marker content]
+
+After compact: Read @.agent/tasks/TASK-XX-feature.md
 ```
 
-**Option 3**: User keeps in separate notes
+**Option 3**: User clipboard (if no task doc yet)
+```
+⚠️  No task doc exists yet.
 
-### Step 4: Perform Compact
+Copy this marker and paste it in your next session:
 
-Execute Claude Code's `/compact` command with preserved context.
+[Show marker content]
 
-### Step 5: Post-Compact Resume
+Or save it manually before compacting.
+```
+
+### Step 4: Show Resume Instructions
+
+**CRITICAL**: Tell the user exactly how to resume.
+
+```
+╔══════════════════════════════════════════════════════╗
+║                                                      ║
+║  🔄 Ready to Compact                                 ║
+║                                                      ║
+╚══════════════════════════════════════════════════════╝
+
+Context marker saved to:
+→ .agent/.context-markers/2025-10-12-143022-compact.md
+
+TO RESUME AFTER COMPACT:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+In your next conversation, start with:
+
+1. Read @.agent/.context-markers/2025-10-12-143022-compact.md
+
+That's it! Your context will be restored.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Proceed with compact? Type 'yes' to continue.
+```
+
+**Wait for confirmation before compacting**.
+
+### Step 5: Perform Compact
+
+**Only after user confirms**, execute Claude Code's `/compact` command.
+
+### Step 6: Post-Compact Resume (For User's Next Session)
 
 **Immediately after compact**:
 

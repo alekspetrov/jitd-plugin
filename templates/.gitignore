@@ -1,0 +1,5 @@
+# JITD Context Markers (session-specific, don't commit)
+.agent/.context-markers/
+
+# Keep the directory structure
+!.agent/.context-markers/.gitkeep
