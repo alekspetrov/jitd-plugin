@@ -24,7 +24,7 @@
 # 4. Restart Claude Code to load the plugin
 
 # 5. Initialize JITD in your project
-/jitd-init
+/jitd:init
 ```
 
 **Important Notes**:
@@ -37,9 +37,9 @@
 
 Once installed, you'll have access to:
 
-- `/jitd-init` - Set up JITD documentation structure in your project
-- `/update-doc` - Update documentation (feature|sop|system)
-- `/jitd-compact` - Smart context compact preserving JITD markers
+- `/jitd:init` - Set up JITD documentation structure in your project
+- `/jitd:update-doc` - Update documentation (feature|sop|system)
+- `/jitd:compact` - Smart context compact preserving JITD markers
 
 For detailed usage, see [docs/QUICK-START.md](./docs/QUICK-START.md)
 
@@ -91,9 +91,9 @@ Specific SOP (if needed) ~2,000 tokens
 - [x] Extract universal documentation patterns
 - [x] Create `.claude-plugin/` structure
 - [x] Build marketplace.json manifest
-- [x] Implement `/update-doc` slash command
-- [x] Implement `/jitd-init` setup command
-- [x] Implement `/jitd-compact` smart compact
+- [x] Implement `/jitd:update-doc` slash command
+- [x] Implement `/jitd:init` setup command
+- [x] Implement `/jitd:compact` smart compact
 - [x] Create configuration system
 - [x] Publish to GitHub (MIT license)
 - [x] Release v1.0.0
@@ -196,9 +196,9 @@ Load docs on-demand based on current task:
 
 ### 3. Living Documentation
 Docs update as code evolves:
-- `/update-doc feature TASK-XX` after completion
-- `/update-doc sop <category> <name>` after solving novel issue
-- `/update-doc system <doc>` after architecture change
+- `/jitd:update-doc feature TASK-XX` after completion
+- `/jitd:update-doc sop <category> <name>` after solving novel issue
+- `/jitd:update-doc system <doc>` after architecture change
 
 ### 4. Smart Compact Strategy
 Clear context strategically:
@@ -250,12 +250,12 @@ JITD implements a **navigator-first pattern** with lazy-loading documentation:
    - Solving pattern? Load SOP (2k tokens)
 
 3. **Keep docs current** with slash commands:
-   - `/update-doc feature TASK-XX` after implementation
-   - `/update-doc sop <category> <name>` after solving novel issue
-   - `/update-doc system <doc>` after architecture changes
+   - `/jitd:update-doc feature TASK-XX` after implementation
+   - `/jitd:update-doc sop <category> <name>` after solving novel issue
+   - `/jitd:update-doc system <doc>` after architecture changes
 
 4. **Clear context strategically**:
-   - `/jitd-compact` after isolated sub-tasks
+   - `/jitd:compact` after isolated sub-tasks
    - Preserves essential JITD markers
    - Maintains documentation references
 

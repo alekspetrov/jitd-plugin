@@ -37,10 +37,10 @@ This created friction and inconsistent adoption of JITD workflow.
 
 ### Phase 1: Session Start Command ✅
 
-**Goal**: Create `/jitd-start` command for consistent session initialization
+**Goal**: Create `/jitd:start` command for consistent session initialization
 
 **Implementation**:
-- Created `commands/jitd-start.md`
+- Created `commands/jitd:start.md`
 - Command loads navigator automatically
 - Checks PM tool for assigned tasks
 - Displays token optimization status
@@ -48,14 +48,14 @@ This created friction and inconsistent adoption of JITD workflow.
 - Shows what to do next
 
 **Files Modified**:
-- `commands/jitd-start.md` (NEW)
+- `commands/jitd:start.md` (NEW)
 
 ### Phase 2: PM Tool Auto-Configuration ✅
 
-**Goal**: Guide users through PM tool setup during `/jitd-init`
+**Goal**: Guide users through PM tool setup during `/jitd:init`
 
 **Implementation**:
-- Added Step 6.5 to `/jitd-init` workflow
+- Added Step 6.5 to `/jitd:init` workflow
 - Detects Linear MCP installation status
 - Provides setup instructions with API key URL
 - Auto-generates integration SOPs when configured
@@ -80,7 +80,7 @@ This created friction and inconsistent adoption of JITD workflow.
 - Offers to switch to Linear/GitHub or use "none"
 
 **Files Modified**:
-- `commands/jitd-init.md` (added Step 6.5)
+- `commands/jitd:init.md` (added Step 6.5)
 
 ### Phase 3: Stronger CLAUDE.md Enforcement ✅
 
@@ -89,15 +89,15 @@ This created friction and inconsistent adoption of JITD workflow.
 **Implementation**:
 - Added "SESSION START PROTOCOL (MANDATORY)" section
 - Used strong enforcement language ("MUST", "NOT optional", "🚨")
-- Required `/jitd-start` at every session start
-- Updated slash commands reference to include `/jitd-start`
+- Required `/jitd:start` at every session start
+- Updated slash commands reference to include `/jitd:start`
 - Updated Quick Reference to emphasize session start
 
 **Language Changes**:
 - "CRITICAL" → "CRITICAL - ENFORCE STRICTLY"
 - Added mandatory protocol section
 - Made navigator loading non-optional
-- Clarified `/jitd-start` is for EVERY conversation
+- Clarified `/jitd:start` is for EVERY conversation
 
 **Files Modified**:
 - `templates/CLAUDE.md` (template for user projects)
@@ -120,7 +120,7 @@ This created friction and inconsistent adoption of JITD workflow.
 
 ## Technical Decisions
 
-### Why `/jitd-start` Instead of Auto-Loading?
+### Why `/jitd:start` Instead of Auto-Loading?
 
 **Decision**: Create explicit command rather than auto-load navigator
 
@@ -134,7 +134,7 @@ This created friction and inconsistent adoption of JITD workflow.
 **Alternative Considered**: Auto-load navigator at session start
 - Rejected: No PM tool check, no task display, less user control
 
-### Why Step 6.5 in `/jitd-init`?
+### Why Step 6.5 in `/jitd:init`?
 
 **Decision**: Add PM tool setup between config creation and verification
 
@@ -198,8 +198,8 @@ This created friction and inconsistent adoption of JITD workflow.
 
 ### Integration Testing (Pending User Validation)
 - ⏳ Install updated plugin in user project
-- ⏳ Run `/jitd-start` in fresh session
-- ⏳ Run `/jitd-init` in new project with Linear selected
+- ⏳ Run `/jitd:start` in fresh session
+- ⏳ Run `/jitd:init` in new project with Linear selected
 - ⏳ Verify Linear MCP detection works
 - ⏳ Verify SOP generation
 
@@ -207,8 +207,8 @@ This created friction and inconsistent adoption of JITD workflow.
 
 ## Completion Checklist
 
-- [x] `/jitd-start` command created with full functionality
-- [x] `/jitd-init` enhanced with Step 6.5 PM tool setup
+- [x] `/jitd:start` command created with full functionality
+- [x] `/jitd:init` enhanced with Step 6.5 PM tool setup
 - [x] Linear MCP detection and guidance implemented
 - [x] GitHub CLI detection and guidance implemented
 - [x] Auto-generation of integration SOPs
@@ -241,7 +241,7 @@ Claude: *may or may not load navigator first* ⚠️
 ### After This Change
 ```
 User: *starts new session*
-User: /jitd-start
+User: /jitd:start
 Claude: *loads navigator, checks Linear, shows tasks*
 Claude: "You have 3 assigned tasks: LIN-45, LIN-47, LIN-50"
 
@@ -256,8 +256,8 @@ Claude: *loads task details, creates plan, follows JITD workflow*
 ## Files Changed
 
 ```
-commands/jitd-start.md                   | NEW    | 200+ lines
-commands/jitd-init.md                    | EDIT   | +400 lines
+commands/jitd:start.md                   | NEW    | 200+ lines
+commands/jitd:init.md                    | EDIT   | +400 lines
 templates/CLAUDE.md                      | EDIT   | +40 lines
 CLAUDE.md                                | EDIT   | +40 lines
 .claude-plugin/marketplace.json          | EDIT   | version bump
@@ -276,14 +276,14 @@ CLAUDE.md                                | EDIT   | +40 lines
 
 ### Phase 2: User Validation (Current)
 - Install in user's project
-- Test `/jitd-start` command
-- Test `/jitd-init` with Linear selection
+- Test `/jitd:start` command
+- Test `/jitd:init` with Linear selection
 - Verify PM tool detection works
 - Validate UX improvements
 
 ### Phase 3: Documentation Update (Next)
 - Update plugin README.md
-- Add `/jitd-start` to quick start guide
+- Add `/jitd:start` to quick start guide
 - Document PM tool setup flow
 - Create video walkthrough (optional)
 
@@ -298,7 +298,7 @@ CLAUDE.md                                | EDIT   | +40 lines
 ## Lessons Learned
 
 ### What Worked Well
-1. **Explicit session command**: `/jitd-start` makes workflow clear and actionable
+1. **Explicit session command**: `/jitd:start` makes workflow clear and actionable
 2. **Auto-detection approach**: Checking for MCP/CLI before guidance is user-friendly
 3. **SOP auto-generation**: Immediate value, reduces setup friction
 4. **Strong enforcement language**: "MUST" and "MANDATORY" get attention
@@ -310,7 +310,7 @@ CLAUDE.md                                | EDIT   | +40 lines
 4. **Documentation**: Need to update plugin README with new workflow
 
 ### Future Enhancements
-1. **Proactive ticket loading**: `/jitd-start` could auto-create task docs for assigned issues
+1. **Proactive ticket loading**: `/jitd:start` could auto-create task docs for assigned issues
 2. **Session state**: Track which tasks were worked on across sessions
 3. **PM tool templates**: Provide project-specific Linear/GitHub workflows
 4. **Health check**: `/jitd-status` command to verify setup is correct

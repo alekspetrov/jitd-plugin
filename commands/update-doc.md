@@ -8,7 +8,7 @@ You are maintaining the Just-In-Time Documentation (JITD) system that transforms
 
 ## Command Modes
 
-### Mode 1: Initialize (`/update-doc init`)
+### Mode 1: Initialize (`/jitd:update-doc init`)
 
 **Purpose**: Set up .agent/ documentation structure for first time
 
@@ -42,7 +42,7 @@ You are maintaining the Just-In-Time Documentation (JITD) system that transforms
    - Show created structure
    - Prompt user to customize DEVELOPMENT-README.md
 
-### Mode 2: Feature Complete (`/update-doc feature TASK-XX`)
+### Mode 2: Feature Complete (`/jitd:update-doc feature TASK-XX`)
 
 **Purpose**: Archive implementation plan and update system docs after completing feature
 
@@ -77,7 +77,7 @@ You are maintaining the Just-In-Time Documentation (JITD) system that transforms
    - Teams: Post to project channel
    - None: Skip notification
 
-### Mode 3: Create SOP (`/update-doc sop <category> <name>`)
+### Mode 3: Create SOP (`/jitd:update-doc sop <category> <name>`)
 
 **Purpose**: Document processes, integrations, or debugging solutions
 
@@ -108,7 +108,7 @@ You are maintaining the Just-In-Time Documentation (JITD) system that transforms
 5. **Share with team** (if configured):
    - Post announcement with SOP summary
 
-### Mode 4: Update System Doc (`/update-doc system <doc-name>`)
+### Mode 4: Update System Doc (`/jitd:update-doc system <doc-name>`)
 
 **Purpose**: Refresh specific system documentation from current codebase state
 
@@ -253,7 +253,7 @@ team_chat: slack | discord | teams | none
 
 **Benefit**: 92% reduction in documentation loading overhead
 
-### When to Run /jitd-compact
+### When to Run /jitd:compact
 After completing these isolated tasks:
 - Finishing documentation update
 - Creating SOP
@@ -301,16 +301,16 @@ Track these in DEVELOPMENT-README.md:
 
 ```bash
 # First time setup
-/update-doc init
+/jitd:update-doc init
 
 # After completing task
-/update-doc feature TASK-123
+/jitd:update-doc feature TASK-123
 
 # After integrating new service
-/update-doc sop integrations stripe-payment
+/jitd:update-doc sop integrations stripe-payment
 
 # After major code changes
-/update-doc system architecture
+/jitd:update-doc system architecture
 ```
 
 ---

@@ -22,7 +22,7 @@
 ### Fixing a Bug?
 1. Check [`sops/debugging/`](#debugging) for known issues
 2. Review relevant system docs for context
-3. After fixing, create SOP: `/update-doc sop debugging [issue-name]`
+3. After fixing, create SOP: `/jitd:update-doc sop debugging [issue-name]`
 
 ---
 
@@ -58,8 +58,8 @@
 **Completed**: 2025-10-12
 
 **What was built**:
-- New `/jitd-start` command for session initialization
-- Enhanced `/jitd-init` with PM tool auto-configuration (Step 6.5)
+- New `/jitd:start` command for session initialization
+- Enhanced `/jitd:init` with PM tool auto-configuration (Step 6.5)
 - Linear MCP and GitHub CLI detection with setup guidance
 - Auto-generated integration SOPs
 - Stronger CLAUDE.md enforcement of JITD workflow
@@ -132,7 +132,7 @@
 3. Check existing commands in `.claude/commands/`
 4. Implement new command
 5. Test in jitd-test project
-6. Document: `/update-doc feature TASK-XX`
+6. Document: `/jitd:update-doc feature TASK-XX`
 
 ### Scenario: Adding New Template
 
@@ -141,9 +141,9 @@
 2. `system/project-architecture.md` → Template location
 3. Check existing templates in `templates/`
 4. Create new template
-5. Update `/jitd-init` command to copy it
+5. Update `/jitd:init` command to copy it
 6. Test in jitd-test project
-7. Document: `/update-doc feature TASK-XX`
+7. Document: `/jitd:update-doc feature TASK-XX`
 
 ### Scenario: Fixing Plugin Installation Issues
 
@@ -151,7 +151,7 @@
 1. Check `sops/debugging/` → Known installation issues?
 2. `system/project-architecture.md` → Plugin manifest
 3. Debug issue
-4. Create SOP: `/update-doc sop debugging [issue-name]`
+4. Create SOP: `/jitd:update-doc sop debugging [issue-name]`
 
 ### Scenario: Releasing New Plugin Version
 
@@ -159,7 +159,7 @@
 1. This navigator (DEVELOPMENT-README.md)
 2. `sops/development/plugin-release-workflow.md` → Complete process
 3. Follow checklist step-by-step
-4. Document: `/update-doc feature TASK-XX`
+4. Document: `/jitd:update-doc feature TASK-XX`
 5. Update SOP with lessons learned
 
 ---
@@ -196,14 +196,14 @@ Read .agent/DEVELOPMENT-README.md
 
 # 3. Test in jitd-test project
 cd ~/Projects/tmp/jitd-test
-/jitd-init  # or other command you're testing
+/jitd:init  # or other command you're testing
 
 # 4. Verify changes work
 ls .agent/  # Check structure created
 cat CLAUDE.md  # Check file generated
 
 # 5. Document changes
-/update-doc feature TASK-XX
+/jitd:update-doc feature TASK-XX
 ```
 
 ### Release Process
@@ -255,10 +255,10 @@ gh release create v1.1.0 --title "JITD v1.1.0" --notes "..."
 ### Token Efficiency
 - [ ] <30k tokens per development session
 - [ ] Navigator-first loading practiced
-- [ ] `/jitd-compact` used between tasks
+- [ ] `/jitd:compact` used between tasks
 
 ### User Experience
-- [ ] `/jitd-init` creates complete structure
+- [ ] `/jitd:init` creates complete structure
 - [ ] Templates easy to customize
 - [ ] Documentation clear and helpful
 
@@ -268,15 +268,15 @@ gh release create v1.1.0 --title "JITD v1.1.0" --notes "..."
 
 ```bash
 # Initialize JITD in project
-/jitd-init
+/jitd:init
 
 # Update documentation
-/update-doc feature TASK-XX
-/update-doc sop debugging [issue]
-/update-doc system [doc-name]
+/jitd:update-doc feature TASK-XX
+/jitd:update-doc sop debugging [issue]
+/jitd:update-doc system [doc-name]
 
 # Smart compact
-/jitd-compact
+/jitd:compact
 ```
 
 ---

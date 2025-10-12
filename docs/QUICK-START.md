@@ -30,7 +30,7 @@ Get JITD running in your project in 5 minutes.
 cd /path/to/your/project
 
 # Initialize JITD
-/jitd-init
+/jitd:init
 ```
 
 This creates:
@@ -97,7 +97,7 @@ This loads your documentation navigator (~2k tokens) instead of all docs (~150k 
 
 ```bash
 # After completing feature
-/update-doc feature TASK-123
+/jitd:update-doc feature TASK-123
 ```
 
 This:
@@ -109,7 +109,7 @@ This:
 
 ```bash
 # After solving novel issue
-/update-doc sop debugging auth-errors
+/jitd:update-doc sop debugging auth-errors
 ```
 
 This creates a Standard Operating Procedure so you never solve the same issue twice.
@@ -118,7 +118,7 @@ This creates a Standard Operating Procedure so you never solve the same issue tw
 
 ```bash
 # After major code changes
-/update-doc system architecture
+/jitd:update-doc system architecture
 ```
 
 This updates system docs to reflect current codebase state.
@@ -127,7 +127,7 @@ This updates system docs to reflect current codebase state.
 
 ```bash
 # When switching tasks or running low on tokens
-/jitd-compact
+/jitd:compact
 ```
 
 This clears conversation history while preserving essential context.
@@ -191,7 +191,7 @@ Read .agent/system/project-architecture.md  # If needed
 # Feature implemented, tests passing, ready to document
 
 # 1. Archive implementation
-/update-doc feature TASK-123
+/jitd:update-doc feature TASK-123
 
 # This creates:
 # - .agent/tasks/TASK-123-feature.md (implementation plan)
@@ -199,7 +199,7 @@ Read .agent/system/project-architecture.md  # If needed
 # - Prompts for SOP if new pattern emerged
 
 # 2. Clear context for next task
-/jitd-compact
+/jitd:compact
 
 # Token usage back to: ~5k (2.5%)
 # Ready for next feature
@@ -217,14 +217,14 @@ Check .agent/sops/debugging/
 # 3. Fix bug
 
 # 4. Document solution
-/update-doc sop debugging cache-invalidation
+/jitd:update-doc sop debugging cache-invalidation
 
 # This creates:
 # - .agent/sops/debugging/cache-invalidation.md
 # - Prevents repeat issue
 
 # 5. Compact
-/jitd-compact
+/jitd:compact
 ```
 
 **Total work**: 3 separate tasks
@@ -238,7 +238,7 @@ Check .agent/sops/debugging/
 ### Project Management Integration
 
 ```bash
-# During /jitd-init, configure:
+# During /jitd:init, configure:
 
 Project Management Tool:
   1. Linear (MCP integration)
@@ -284,8 +284,8 @@ Benefits:
 **Workflow**:
 1. Start session → Load navigator
 2. Work on feature → Load task doc + system docs
-3. Complete → `/update-doc feature TASK-XX`
-4. Compact → `/jitd-compact`
+3. Complete → `/jitd:update-doc feature TASK-XX`
+4. Compact → `/jitd:compact`
 
 **Benefit**: Personal knowledge base grows, zero session restarts
 
@@ -297,9 +297,9 @@ Benefits:
 1. Check GitHub Issues for assignment
 2. Load navigator + relevant docs (10k tokens)
 3. Implement feature
-4. Document → `/update-doc feature GH-123`
+4. Document → `/jitd:update-doc feature GH-123`
 5. Notify team → Discord post (if configured)
-6. Compact → `/jitd-compact`
+6. Compact → `/jitd:compact`
 
 **Benefit**: Shared team knowledge, consistent patterns
 
@@ -311,10 +311,10 @@ Benefits:
 1. Linear MCP → `list_issues({ assignee: "me" })`
 2. Load navigator + task doc (12k tokens)
 3. Implement feature
-4. Document → `/update-doc feature LIN-456`
+4. Document → `/jitd:update-doc feature LIN-456`
 5. Linear MCP → Update ticket status
 6. Slack notification → Team knows it's done
-7. Compact → `/jitd-compact`
+7. Compact → `/jitd:compact`
 
 **Benefit**: Full integration, team stays synced, docs always current
 
@@ -324,7 +324,7 @@ Benefits:
 
 ### Issue: "Can't find .agent/ folder"
 
-**Solution**: Run `/jitd-init` first to set up structure
+**Solution**: Run `/jitd:init` first to set up structure
 
 ### Issue: "Loading too many tokens"
 
@@ -334,7 +334,7 @@ Benefits:
 
 ### Issue: "Documentation out of date"
 
-**Solution**: Run `/update-doc system architecture` to refresh from codebase
+**Solution**: Run `/jitd:update-doc system architecture` to refresh from codebase
 
 ### Issue: "Don't know what to document"
 
@@ -350,9 +350,9 @@ Benefits:
 ### Week 1: Build the Habit
 
 - [ ] Start every session with navigator
-- [ ] Complete 1 feature → `/update-doc feature`
-- [ ] Solve 1 issue → `/update-doc sop`
-- [ ] Run `/jitd-compact` after each task
+- [ ] Complete 1 feature → `/jitd:update-doc feature`
+- [ ] Solve 1 issue → `/jitd:update-doc sop`
+- [ ] Run `/jitd:compact` after each task
 
 ### Week 2: See the Benefits
 
@@ -391,15 +391,15 @@ Metrics to track:
 
 **5-Minute Setup**:
 1. `/plugin install jitd`
-2. `/jitd-init`
+2. `/jitd:init`
 3. Customize navigator
 
 **Daily Usage**:
 1. Load navigator first (2k tokens)
 2. Load only what's needed (10k total)
-3. Document as you go (`/update-doc`)
-4. Compact between tasks (`/jitd-compact`)
+3. Document as you go (`/jitd:update-doc`)
+4. Compact between tasks (`/jitd:compact`)
 
 **Result**: 92% token reduction, zero session restarts, 10x productivity
 
-**Start now**: `/jitd-init` 🚀
+**Start now**: `/jitd:init` 🚀

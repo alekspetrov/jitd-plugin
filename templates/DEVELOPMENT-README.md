@@ -19,12 +19,12 @@
 2. Read relevant system docs from [`system/`](#system-architecture-system)
 3. Check for integration SOPs in [`sops/`](#standard-operating-procedures-sops)
 4. Create ticket in your project management tool
-5. Generate implementation plan with `/update-doc feature TASK-XX`
+5. Generate implementation plan with `/jitd:update-doc feature TASK-XX`
 
 ### Fixing a Bug?
 1. Check [`sops/debugging/`](#debugging) for known issues
 2. Review relevant system docs for context
-3. After fixing, create SOP: `/update-doc sop debugging [issue-name]`
+3. After fixing, create SOP: `/jitd:update-doc sop debugging [issue-name]`
 
 ---
 
@@ -86,7 +86,7 @@
 **Format**: `TASK-XX-feature-slug.md`
 
 **When created**:
-- Via `/update-doc feature TASK-XX` after completing feature
+- Via `/jitd:update-doc feature TASK-XX` after completing feature
 - OR manually when starting major feature (planning phase)
 
 **Template structure**:
@@ -200,7 +200,7 @@
 3. Review `system/project-architecture.md` → Understand where this fits
 4. Review `system/tech-stack-patterns.md` → Patterns needed
 5. Check `sops/integrations/` → Any relevant integration guides
-6. Generate implementation plan → `/update-doc feature TASK-XX`
+6. Generate implementation plan → `/jitd:update-doc feature TASK-XX`
 
 **Load into context**: Only relevant docs, not entire .agent/
 
@@ -210,7 +210,7 @@
 1. Check `sops/integrations/` → Similar integration exists?
 2. `system/project-architecture.md` → Where integration fits
 3. Implement integration
-4. Create new SOP → `/update-doc sop integrations [service-name]`
+4. Create new SOP → `/jitd:update-doc sop integrations [service-name]`
 5. Update `system/project-architecture.md` if architecture changed
 
 ### Scenario: Debugging Issue
@@ -220,7 +220,7 @@
 2. Review relevant system doc for context
 3. Check project management for related tickets
 4. Solve issue
-5. If novel pattern → Create SOP: `/update-doc sop debugging [issue-name]`
+5. If novel pattern → Create SOP: `/jitd:update-doc sop debugging [issue-name]`
 
 ### Scenario: Context Optimization (Running Low on Tokens)
 
@@ -238,7 +238,7 @@
 
 ## 🛠️ Slash Commands Reference
 
-### `/update-doc` Command
+### `/jitd:update-doc` Command
 
 **Purpose**: Maintain documentation system
 
@@ -246,33 +246,33 @@
 
 #### 1. Initialize Structure
 ```bash
-/update-doc init
+/jitd:update-doc init
 ```
 Creates folders, generates initial system docs, sets up README
 
 #### 2. Archive Feature Implementation
 ```bash
-/update-doc feature TASK-XX
+/jitd:update-doc feature TASK-XX
 ```
 After completing feature, archives implementation plan and updates system docs
 
 #### 3. Create SOP
 ```bash
-/update-doc sop <category> <name>
+/jitd:update-doc sop <category> <name>
 
 # Examples:
-/update-doc sop integrations stripe
-/update-doc sop debugging build-errors
-/update-doc sop development local-setup
+/jitd:update-doc sop integrations stripe
+/jitd:update-doc sop debugging build-errors
+/jitd:update-doc sop development local-setup
 ```
 
 #### 4. Update System Doc
 ```bash
-/update-doc system <doc-name>
+/jitd:update-doc system <doc-name>
 
 # Examples:
-/update-doc system architecture
-/update-doc system patterns
+/jitd:update-doc system architecture
+/jitd:update-doc system patterns
 ```
 
 ---

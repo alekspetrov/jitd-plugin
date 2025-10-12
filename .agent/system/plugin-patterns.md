@@ -30,7 +30,7 @@ example command
 \`\`\`
 ```
 
-**Good Example** (`/jitd-init`):
+**Good Example** (`/jitd:init`):
 - Clear steps (Create X, Copy Y, Generate Z)
 - Examples of expected output
 - Error handling instructions
@@ -106,7 +106,7 @@ example command
 
 ### Pattern: Multi-File Creation Command
 
-**Use Case**: `/jitd-init` creates entire structure
+**Use Case**: `/jitd:init` creates entire structure
 
 **Implementation**:
 1. Create folder structure (mkdir -p)
@@ -116,7 +116,7 @@ example command
 5. Verify setup
 6. Show usage instructions
 
-**Template** (from `/jitd-init`):
+**Template** (from `/jitd:init`):
 ```markdown
 ### Step 1: Create Structure
 Create folders...
@@ -346,7 +346,7 @@ cat generated-file.md
 
 ### Pattern: Compact Strategy
 
-**Run `/jitd-compact` after**:
+**Run `/jitd:compact` after**:
 - Isolated sub-task completed
 - Documentation updated
 - SOP created
@@ -432,7 +432,7 @@ Detect project root via .git/ or package.json
 
 ### Command Execution Speed
 
-- **Goal**: <5 seconds for `/jitd-init`
+- **Goal**: <5 seconds for `/jitd:init`
 - **Technique**: Minimize file operations
 - **User experience**: Show progress messages
 

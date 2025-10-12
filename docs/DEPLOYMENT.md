@@ -51,9 +51,9 @@ This is the **actual working schema** (as of v1.0.1):
   "license": "MIT",
   "keywords": ["documentation", "context-management", "token-optimization"],
   "commands": [
-    "./commands/jitd-init.md",
+    "./commands/jitd:init.md",
     "./commands/update-doc.md",
-    "./commands/jitd-compact.md"
+    "./commands/jitd:compact.md"
   ]
 }
 ```
@@ -126,7 +126,7 @@ github.com/alekspetrov/jitd-plugin
 /plugin install jitd
 
 # Use plugin
-/jitd-init
+/jitd:init
 ```
 
 **Benefits**:
@@ -257,7 +257,7 @@ First public release of JITD plugin for Claude Code.
 ## Features
 - 92% reduction in documentation loading overhead
 - Navigator-first pattern for context efficiency
-- Slash commands: /jitd-init, /update-doc, /jitd-compact
+- Slash commands: /jitd:init, /jitd:update-doc, /jitd:compact
 - Universal templates for any tech stack
 - Optional integrations: Linear, Jira, GitHub, Slack, Discord
 
@@ -265,7 +265,7 @@ First public release of JITD plugin for Claude Code.
 \`\`\`bash
 /plugin marketplace add alekspetrov/jitd-plugin
 /plugin install jitd
-/jitd-init
+/jitd:init
 \`\`\`
 
 ## Metrics from Production Testing
@@ -294,7 +294,7 @@ ls .claude/commands/
 # Should show: jitd-init.md, update-doc.md, jitd-compact.md
 
 # Test initialization
-/jitd-init
+/jitd:init
 ```
 
 ### Step 6: Update Main README
@@ -312,7 +312,7 @@ Ensure main README has installation instructions:
 /plugin install jitd
 
 # Initialize in your project
-/jitd-init
+/jitd:init
 \`\`\`
 ```
 
@@ -414,11 +414,11 @@ Claude Code:
 
 ```bash
 # User runs:
-/jitd-init
+/jitd:init
 ```
 
 Plugin:
-1. Runs `.claude/commands/jitd-init.md`
+1. Runs `.claude/commands/jitd:init.md`
 2. Creates `.agent/` structure
 3. Copies templates from plugin
 4. User's project now has JITD
@@ -637,7 +637,7 @@ A clear description of what the bug is.
 **To Reproduce**
 Steps to reproduce:
 1. Run `/plugin install jitd`
-2. Run `/jitd-init`
+2. Run `/jitd:init`
 3. See error...
 
 **Expected behavior**
@@ -672,7 +672,7 @@ Create `CONTRIBUTING.md`:
 
 - Installations
 - Active users
-- Command usage (/jitd-init, /update-doc, etc.)
+- Command usage (/jitd:init, /jitd:update-doc, etc.)
 
 ### Community Feedback
 
@@ -725,7 +725,7 @@ gh release create v1.0.0 --title "JITD v1.0.0" --notes "..."
 # Test installation
 /plugin marketplace add alekspetrov/jitd-plugin
 /plugin install jitd
-/jitd-init
+/jitd:init
 
 # Update plugin
 git commit -m "feat: new feature (v1.1.0)"

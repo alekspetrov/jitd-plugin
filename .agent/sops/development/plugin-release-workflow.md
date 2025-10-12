@@ -43,7 +43,7 @@ Use this SOP when:
 **Example**:
 ```
 Current: 1.2.3
-Adding /jitd-start command → 1.3.0 (minor - new feature)
+Adding /jitd:start command → 1.3.0 (minor - new feature)
 Fixing typo in template → 1.2.4 (patch - bug fix)
 Changing command structure → 2.0.0 (major - breaking change)
 ```
@@ -88,10 +88,10 @@ grep -r "1.2.0" .agent/
 **Use conventional commit format**:
 ```bash
 git add -A
-git commit -m "feat: add /jitd-start command and PM tool auto-configuration
+git commit -m "feat: add /jitd:start command and PM tool auto-configuration
 
-- New /jitd-start command for session initialization
-- Enhanced /jitd-init with PM tool integration guidance
+- New /jitd:start command for session initialization
+- Enhanced /jitd:init with PM tool integration guidance
 - Auto-generates Linear and GitHub integration SOPs
 - Stronger CLAUDE.md enforcement of JITD workflow
 - Version bump to 1.3.0
@@ -121,7 +121,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 git tag -a v1.3.0 -m "Version 1.3.0: Session start command and PM integration
 
 Features:
-- /jitd-start command for consistent session initialization
+- /jitd:start command for consistent session initialization
 - Automated PM tool integration setup (Linear, GitHub)
 - Auto-generated integration SOPs
 - Stronger JITD workflow enforcement in CLAUDE.md
@@ -195,7 +195,7 @@ EOF
 
 **Create task documentation**:
 ```bash
-/update-doc feature TASK-XX
+/jitd:update-doc feature TASK-XX
 ```
 
 **This creates**:
@@ -215,13 +215,13 @@ EOF
 cd /path/to/test/project
 /plugin marketplace add alekspetrov/jitd-plugin
 /plugin install jitd
-/jitd-init
-/jitd-start
+/jitd:init
+/jitd:start
 ```
 
 **Verify**:
 - [ ] Plugin installs without errors
-- [ ] Commands available (/jitd-init, /jitd-start, etc.)
+- [ ] Commands available (/jitd:init, /jitd:start, etc.)
 - [ ] Templates copy correctly
 - [ ] Version shows correctly in marketplace
 
@@ -322,7 +322,7 @@ Complete release checklist:
 - [ ] Create annotated git tag
 - [ ] Push commit and tag to GitHub
 - [ ] Create GitHub release with detailed notes
-- [ ] Document with `/update-doc feature TASK-XX`
+- [ ] Document with `/jitd:update-doc feature TASK-XX`
 - [ ] Test installation in fresh project
 - [ ] Verify commands work
 - [ ] Update this SOP with lessons learned
@@ -346,7 +346,7 @@ Complete release checklist:
 
 **Lessons Learned**:
 - Using `gh release create` with heredoc for notes is much cleaner than web UI
-- Documenting with `/update-doc` immediately after saves time
+- Documenting with `/jitd:update-doc` immediately after saves time
 - Testing in jitd-test project catches issues early
 
 ---

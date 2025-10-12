@@ -83,7 +83,7 @@ jitd-plugin/
 **templates/** - Core plugin templates
 - Universal (no project-specific content)
 - Customizable for any stack
-- Used by `/jitd-init` command
+- Used by `/jitd:init` command
 
 **.claude/commands/** - Slash command implementations
 - `jitd-init.md` - Sets up `.agent/` structure in user projects
@@ -113,10 +113,10 @@ jitd-plugin/
 /plugin install jitd
 
 # Use in their project
-/jitd-init
+/jitd:init
 ```
 
-When they run `/jitd-init`:
+When they run `/jitd:init`:
 1. Creates `.agent/` folder structure
 2. Copies templates from `templates/`
 3. Generates initial system docs from their codebase
@@ -161,7 +161,7 @@ This contains JITD-optimized workflow for this repo.
 cd ~/test-project
 /plugin marketplace add alekspetrov/jitd-plugin
 /plugin install jitd
-/jitd-init
+/jitd:init
 
 # Verify it works
 ls .agent/
@@ -199,7 +199,7 @@ gh release create v1.1.0 --title "JITD v1.1.0" --notes "..."
 ❌ **Don't** load all files at once
 ✅ **Do** read CLAUDE.md first (navigator for this repo)
 ✅ **Do** load only files you're working on
-✅ **Do** use `/jitd-compact` after isolated tasks
+✅ **Do** use `/jitd:compact` after isolated tasks
 
 **Token budget**:
 - CLAUDE.md: ~15k tokens
@@ -275,7 +275,7 @@ gh release create v1.1.0 --title "JITD v1.1.0" --notes "..."
 - Token optimization patterns
 - Navigator-first loading strategy
 - Slash command implementations
-- `/update-doc` system
+- `/jitd:update-doc` system
 
 **What we left behind** (project-specific):
 - H-1B alternative business model
@@ -323,7 +323,7 @@ gh release create v1.1.0 --title "JITD v1.1.0" --notes "..."
 
 1. Edit template in `templates/`
 2. Keep universal (no project-specific content)
-3. Test with `/jitd-init` in clean project
+3. Test with `/jitd:init` in clean project
 4. Update docs if template changed significantly
 
 ### Fix Bug

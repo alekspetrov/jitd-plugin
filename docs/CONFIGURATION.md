@@ -19,7 +19,7 @@ JITD settings stored in `.agent/.jitd-config.json`:
 }
 ```
 
-Created automatically by `/jitd-init`, customizable anytime.
+Created automatically by `/jitd:init`, customizable anytime.
 
 ---
 
@@ -54,7 +54,7 @@ Created automatically by `/jitd-init`, customizable anytime.
 
 **Usage**:
 ```bash
-/update-doc feature QF-123
+/jitd:update-doc feature QF-123
 ```
 
 Automatically:
@@ -97,7 +97,7 @@ Automatically:
 
 **Usage**:
 ```bash
-/update-doc feature GH-456
+/jitd:update-doc feature GH-456
 ```
 
 Uses `gh issue view 456` to get details.
@@ -130,7 +130,7 @@ Uses `gh issue view 456` to get details.
 
 **Usage**:
 ```bash
-/update-doc feature PROJ-789
+/jitd:update-doc feature PROJ-789
 ```
 
 ### Option 4: None (Manual)
@@ -150,7 +150,7 @@ Uses `gh issue view 456` to get details.
 
 **Usage**:
 ```bash
-/update-doc feature TASK-123
+/jitd:update-doc feature TASK-123
 ```
 
 You provide context manually, JITD creates docs.
@@ -299,7 +299,7 @@ You manually load navigator when needed. Saves 2k tokens if working on isolated 
 
 **Behavior**:
 - Never auto-suggest compact
-- User runs `/jitd-compact` explicitly
+- User runs `/jitd:compact` explicitly
 
 **Best for**: Experienced users who know when to compact
 
@@ -364,7 +364,7 @@ Edit `.agent/DEVELOPMENT-README.md` to add custom docs:
 
 Then create:
 ```bash
-/update-doc system database
+/jitd:update-doc system database
 ```
 
 ### Add Custom SOP Categories
@@ -429,7 +429,7 @@ JITD warns if system docs haven't been updated in 7 days.
 }
 ```
 
-Automatically saves context markers when running `/jitd-compact`.
+Automatically saves context markers when running `/jitd:compact`.
 
 ---
 
@@ -509,10 +509,10 @@ Add to .gitignore:
 **After**: Centralized in `.agent/`
 
 **Steps**:
-1. Run `/jitd-init`
+1. Run `/jitd:init`
 2. Copy existing docs to `.agent/system/`
 3. Update navigator to index them
-4. Use `/update-doc` going forward
+4. Use `/jitd:update-doc` going forward
 
 ### From Other Documentation System
 
@@ -539,7 +539,7 @@ Add to .gitignore:
 2. Valid JSON (no syntax errors)
 3. Required fields present
 
-**Fix**: Run `/jitd-init` to regenerate
+**Fix**: Run `/jitd:init` to regenerate
 
 ### Integration Not Working
 
@@ -625,4 +625,4 @@ Full PM/chat integration, documentation freshness checks.
 
 ---
 
-**Start configuring**: Edit `.agent/.jitd-config.json` after `/jitd-init` 🚀
+**Start configuring**: Edit `.agent/.jitd-config.json` after `/jitd:init` 🚀

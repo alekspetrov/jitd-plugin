@@ -101,14 +101,14 @@ Instructions for Claude to execute...
 **Invocation**: `/command-name` in Claude Code
 
 **Current Commands**:
-- `/jitd-init` → Initialize JITD structure in user project (one-time setup)
-- `/jitd-start` → Start JITD session (EVERY new conversation) **NEW in v1.3.0**
-- `/update-doc` → Maintain documentation (feature|sop|system)
-- `/jitd-compact` → Smart context compact
+- `/jitd:init` → Initialize JITD structure in user project (one-time setup)
+- `/jitd:start` → Start JITD session (EVERY new conversation) **NEW in v1.3.0**
+- `/jitd:update-doc` → Maintain documentation (feature|sop|system)
+- `/jitd:compact` → Smart context compact
 
 ### 3. Templates (`templates/*.md`)
 
-**Purpose**: Copied to user projects during `/jitd-init`
+**Purpose**: Copied to user projects during `/jitd:init`
 
 **Design Principles**:
 - Universal (no project-specific content)
@@ -153,7 +153,7 @@ cd ~/Projects/tmp/jitd-test
 
 # 4. Reinstall and test
 /plugin install jitd
-/jitd-init  # or other command
+/jitd:init  # or other command
 
 # 5. Verify results
 ls -la .agent/
@@ -194,7 +194,7 @@ cat CLAUDE.md
 /plugin install jitd
 
 # Use commands
-/jitd-init
+/jitd:init
 ```
 
 ### Caching Issues
@@ -212,7 +212,7 @@ cat CLAUDE.md
 
 ### Plugin Config (`.agent/.jitd-config.json`)
 
-Created during `/jitd-init` in user projects:
+Created during `/jitd:init` in user projects:
 
 ```json
 {
@@ -244,7 +244,7 @@ Created during `/jitd-init` in user projects:
 
 ### Manual Testing Checklist
 
-- [ ] `/jitd-init` creates complete structure
+- [ ] `/jitd:init` creates complete structure
 - [ ] CLAUDE.md generated in project root
 - [ ] DEVELOPMENT-README.md in .agent/
 - [ ] System docs generated
@@ -266,7 +266,7 @@ Created during `/jitd-init` in user projects:
 - System docs: ~3k tokens each
 - **Total**: ~23k tokens (on-demand loading)
 
-### User Projects (After `/jitd-init`)
+### User Projects (After `/jitd:init`)
 - CLAUDE.md: ~15k tokens (auto-loaded by Claude Code)
 - .agent/DEVELOPMENT-README.md: ~2k tokens (read first)
 - System docs: ~5k tokens each (lazy-loaded)
@@ -278,12 +278,12 @@ Created during `/jitd-init` in user projects:
 
 ### Plugin Efficiency
 - Template count: 5
-- Slash commands: 4 (added /jitd-start in v1.3.0)
+- Slash commands: 4 (added /jitd:start in v1.3.0)
 - Plugin size: <60KB
 - Install time: <5 seconds
 
 ### User Impact
-- Setup time: 2 minutes (`/jitd-init`)
+- Setup time: 2 minutes (`/jitd:init`)
 - Token reduction: 92% (12k vs 150k)
 - Context available: 86%+
 - Session restarts: 0

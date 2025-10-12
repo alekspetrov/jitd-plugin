@@ -31,7 +31,7 @@ Read(
 
 **If file not found**:
 - Ask user if JITD is initialized
-- Suggest running `/jitd-init` first
+- Suggest running `/jitd:init` first
 - Exit command
 
 ---
@@ -108,12 +108,12 @@ gh issue list --assignee @me --limit 10
    - Next: Load ONLY relevant task/system docs
 
 2. Task documentation
-   - After features: /update-doc feature [TASK-XX]
-   - After bugs: /update-doc sop debugging [issue]
+   - After features: /jitd:update-doc feature [TASK-XX]
+   - After bugs: /jitd:update-doc sop debugging [issue]
 
 3. Context management
    - Current: [X]k tokens used
-   - Run /jitd-compact after isolated sub-tasks
+   - Run /jitd:compact after isolated sub-tasks
 
 4. Agent usage for complex tasks
    - Use agents for multi-step research
@@ -142,7 +142,7 @@ For **Linear**:
 Setup Linear MCP:
 1. Install: claude mcp add linear-server
 2. Configure API key when prompted
-3. Test: /jitd-start (run this command again)
+3. Test: /jitd:start (run this command again)
 
 Need help? Check .agent/sops/integrations/linear-mcp.md
 ```
@@ -195,7 +195,7 @@ Read .agent/tasks/[TASK-XX]-feature.md
 1. Create task doc: .agent/tasks/TASK-XX-feature.md
 2. Plan implementation
 3. Execute with TodoWrite tracking
-4. Document: /update-doc feature TASK-XX
+4. Document: /jitd:update-doc feature TASK-XX
 ```
 
 **If debugging issue**:
@@ -203,7 +203,7 @@ Read .agent/tasks/[TASK-XX]-feature.md
 1. Check .agent/sops/debugging/ for similar issues
 2. Load relevant system doc for context
 3. Fix issue
-4. Document: /update-doc sop debugging [issue-name]
+4. Document: /jitd:update-doc sop debugging [issue-name]
 ```
 
 ---
@@ -216,7 +216,7 @@ Read .agent/tasks/[TASK-XX]-feature.md
 
 **Solution**:
 ```
-Run /jitd-init to initialize JITD structure
+Run /jitd:init to initialize JITD structure
 ```
 
 ### PM tool not responding
@@ -239,7 +239,7 @@ Run /jitd-init to initialize JITD structure
 cat .agent/.jitd-config.json | jq .
 
 # Fix any syntax errors
-# Re-run /jitd-init if corrupted
+# Re-run /jitd:init if corrupted
 ```
 
 ---

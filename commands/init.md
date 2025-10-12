@@ -364,7 +364,7 @@ SETUP STEPS:
 3. Restart Claude Code after installation
 
 4. Test Linear integration:
-   /jitd-start
+   /jitd:start
 
    This will verify Linear is working and show your tasks.
 
@@ -427,7 +427,7 @@ Mention issue ID and provide comment text.
 ### Starting Work on Issue
 
 ```
-1. /jitd-start
+1. /jitd:start
    - Lists your assigned issues
 2. Select issue to work on
 3. Claude loads issue details from Linear
@@ -439,7 +439,7 @@ Mention issue ID and provide comment text.
 
 ```
 1. Finish implementation
-2. /update-doc feature LIN-XXX
+2. /jitd:update-doc feature LIN-XXX
    - Archives task doc
    - Updates system docs if needed
 3. Update Linear issue status (done/completed)
@@ -525,7 +525,7 @@ SETUP STEPS:
 
 4. Use with JITD:
 
-   /jitd-start will now show your GitHub issues
+   /jitd:start will now show your GitHub issues
 
 ALTERNATIVE: Manual Workflow
 
@@ -593,7 +593,7 @@ gh issue close [issue-number]
 ### Starting Work on Issue
 
 ```
-1. /jitd-start
+1. /jitd:start
    - Lists your assigned GitHub issues via gh CLI
 2. Select issue to work on
 3. Claude loads issue details
@@ -605,7 +605,7 @@ gh issue close [issue-number]
 
 ```
 1. Finish implementation
-2. /update-doc feature GH-XXX
+2. /jitd:update-doc feature GH-XXX
    - Archives task doc
    - Updates system docs if needed
 3. Close issue: gh issue close XXX
@@ -674,7 +674,7 @@ MANUAL WORKFLOW:
    )
 
 3. Work on implementation with JITD workflow
-4. When complete: /update-doc feature [PREFIX]-XXX
+4. When complete: /jitd:update-doc feature [PREFIX]-XXX
 5. Update [Jira/GitLab] status manually
 
 FUTURE: API integration may be added in future versions
@@ -825,7 +825,7 @@ Delete after verifying: rm backup-file
 
 🔹 AFTER COMPLETING FEATURE:
 
-   /update-doc feature TASK-XX
+   /jitd:update-doc feature TASK-XX
 
    This creates documentation from your work so:
    - You never solve same problem twice
@@ -835,7 +835,7 @@ Delete after verifying: rm backup-file
 
 🔹 AFTER SOLVING A BUG:
 
-   /update-doc sop debugging issue-name
+   /jitd:update-doc sop debugging issue-name
 
    Creates a Standard Operating Procedure so you
    never waste time on this issue again.
@@ -843,7 +843,7 @@ Delete after verifying: rm backup-file
 
 🔹 WHEN CONTEXT GETS FULL:
 
-   /jitd-compact
+   /jitd:compact
 
    Clears conversation while preserving JITD markers.
    Run after completing isolated sub-tasks.
@@ -876,7 +876,7 @@ Delete after verifying: rm backup-file
    [ ] Customize CLAUDE.md with your code standards
    [ ] Customize .agent/DEVELOPMENT-README.md
    [ ] Commit .agent/ to git (share with team)
-   [ ] Start using /update-doc after features
+   [ ] Start using /jitd:update-doc after features
    [ ] Read navigator at start of every session
 
 
@@ -908,7 +908,7 @@ Linear MCP Setup
    /linear list-issues
 
 4. Use with JITD:
-   /update-doc feature LIN-123
+   /jitd:update-doc feature LIN-123
 ```
 
 **If user selected GitHub Issues (Step 6)**:
@@ -929,7 +929,7 @@ GitHub CLI Setup
    gh issue list
 
 4. Use with JITD:
-   /update-doc feature GH-123
+   /jitd:update-doc feature GH-123
 ```
 
 ---
@@ -967,7 +967,7 @@ pwd
 # Ensure you're in project root
 cd /path/to/your/project
 
-# Run /jitd-init again
+# Run /jitd:init again
 ```
 
 ---

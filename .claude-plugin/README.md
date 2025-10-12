@@ -60,7 +60,7 @@ From production usage (2-week experiment):
 - Context budget tracking
 
 ### 🔄 Workflow Integration
-- `/update-doc` command for maintenance
+- `/jitd:update-doc` command for maintenance
 - Optional Linear/Jira integration
 - Optional Slack/Discord notifications
 
@@ -85,7 +85,7 @@ From production usage (2-week experiment):
 ### Initialize in Your Project
 
 ```bash
-/jitd-init
+/jitd:init
 ```
 
 This creates:
@@ -107,17 +107,17 @@ your-project/
 
 2. **Create task docs** (after features):
    ```
-   /update-doc feature TASK-123
+   /jitd:update-doc feature TASK-123
    ```
 
 3. **Create SOPs** (after solving issues):
    ```
-   /update-doc sop debugging auth-errors
+   /jitd:update-doc sop debugging auth-errors
    ```
 
 4. **Update system docs** (after arch changes):
    ```
-   /update-doc system architecture
+   /jitd:update-doc system architecture
    ```
 
 ---
@@ -218,9 +218,9 @@ Load docs based on current task:
 
 ### 3. Living Documentation
 Docs update as code evolves:
-- Complete feature → `/update-doc feature TASK-XX`
-- Solve novel issue → `/update-doc sop debugging issue-x`
-- Refactor architecture → `/update-doc system architecture`
+- Complete feature → `/jitd:update-doc feature TASK-XX`
+- Solve novel issue → `/jitd:update-doc sop debugging issue-x`
+- Refactor architecture → `/jitd:update-doc system architecture`
 
 **Benefit**: Always current, never outdated
 
@@ -243,7 +243,7 @@ Yes. JITD works standalone or integrates with Linear, Jira, GitHub Issues, etc. 
 Yes. JITD is framework-agnostic. We provide examples for Next.js, Python, and Go, but it works with any stack.
 
 ### How much setup time required?
-5 minutes. Run `/jitd-init`, customize navigator template, start documenting.
+5 minutes. Run `/jitd:init`, customize navigator template, start documenting.
 
 ### Will my team adopt this?
 JITD shows immediate benefits (zero restarts, faster sessions). Teams naturally adopt tools that save time.

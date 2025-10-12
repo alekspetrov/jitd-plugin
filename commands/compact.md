@@ -10,7 +10,7 @@ You are performing a context-optimized compact operation that preserves essentia
 
 **Regular `/compact`**: Clears all conversation history, loses context
 
-**JITD `/jitd-compact`**:
+**JITD `/jitd:compact`**:
 - Clears conversation history
 - Preserves essential documentation markers
 - Maintains navigator reference
@@ -36,7 +36,7 @@ You are performing a context-optimized compact operation that preserves essentia
 **Token optimization**:
 - Approaching 70% token usage
 - Long conversation with repeated info
-- After multiple /update-doc operations
+- After multiple /jitd:update-doc operations
 
 ### ❌ Bad Times to Compact
 
@@ -184,7 +184,7 @@ Execute Claude Code's `/compact` command with preserved context.
 
 **When**: User knows when to compact
 
-**Trigger**: User runs `/jitd-compact` explicitly
+**Trigger**: User runs `/jitd:compact` explicitly
 
 **Trade-off**: Full control, requires judgment
 
@@ -216,7 +216,7 @@ Feature TASK-123 complete
 Docs updated
 Tests passing
 
-Action: /jitd-compact
+Action: /jitd:compact
 Reason: Feature done, docs archived, ready for next task
 
 After Compact:
@@ -239,7 +239,7 @@ Research: Explored 5 different approaches
 Decision: Chose approach #3
 Key findings: Documented in SOP
 
-Action: /jitd-compact
+Action: /jitd:compact
 Reason: Research done, documented, time to implement
 
 After Compact:
@@ -258,13 +258,13 @@ Savings: 76k tokens freed
 ```
 Morning:
 - TASK-101: Bug fix (15k tokens)
-- /jitd-compact
+- /jitd:compact
 - TASK-102: New feature (25k tokens)
-- /jitd-compact
+- /jitd:compact
 
 Afternoon:
 - TASK-103: Integration (20k tokens)
-- /jitd-compact
+- /jitd:compact
 - TASK-104: Documentation (10k tokens)
 
 Total work: 4 tasks
@@ -276,7 +276,7 @@ Benefit: Maintained fast responses all day
 
 ## Compact Checklist
 
-Before running `/jitd-compact`:
+Before running `/jitd:compact`:
 
 - [ ] Current task completed or at good stopping point
 - [ ] Important decisions documented (task doc or SOP)
@@ -284,7 +284,7 @@ Before running `/jitd-compact`:
 - [ ] Ready to switch tasks or take break
 - [ ] Context marker generated (if needed)
 
-After running `/jitd-compact`:
+After running `/jitd:compact`:
 
 - [ ] Load navigator (.agent/DEVELOPMENT-README.md)
 - [ ] Load context marker (if saved)
@@ -314,7 +314,7 @@ When trigger hit:
 ⚠️  JITD Auto-Compact Suggested
 
 Reason: Token usage at 71%
-Action: Run /jitd-compact to free 60k+ tokens
+Action: Run /jitd:compact to free 60k+ tokens
 
 Compact now? [Y/n]:
 ```

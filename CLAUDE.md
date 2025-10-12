@@ -14,22 +14,22 @@ JITD (Just-In-Time Documentation) plugin for context-efficient AI development. L
 **🚨 EVERY new conversation/session MUST begin with**:
 
 ```bash
-/jitd-start
+/jitd:start
 ```
 
-**What `/jitd-start` does**:
+**What `/jitd:start` does**:
 1. Loads `.agent/DEVELOPMENT-README.md` (navigator)
 2. Checks for assigned tasks from PM tool (if configured)
 3. Sets JITD workflow context
 4. Activates token optimization strategy
 5. Reminds about agent usage for complex tasks
 
-**If user doesn't explicitly run `/jitd-start`**:
+**If user doesn't explicitly run `/jitd:start`**:
 - You MUST proactively run it or ask to run it
 - Never proceed with work without loading navigator
 - This is NOT optional - it's the foundation of JITD
 
-**Alternative (if `/jitd-start` unavailable)**:
+**Alternative (if `/jitd:start` unavailable)**:
 ```
 Read .agent/DEVELOPMENT-README.md
 ```
@@ -38,7 +38,7 @@ Read .agent/DEVELOPMENT-README.md
 
 ### 1. Read Documentation Navigator First (Always)
 
-**AFTER running `/jitd-start`, the navigator is loaded**:
+**AFTER running `/jitd:start`, the navigator is loaded**:
 
 This navigator provides:
 - Documentation index
@@ -79,22 +79,22 @@ Total: 9k tokens vs 150k
 
 **After completing feature**:
 ```bash
-/update-doc feature TASK-XX
+/jitd:update-doc feature TASK-XX
 ```
 
 **After solving novel issue**:
 ```bash
-/update-doc sop debugging issue-name
+/jitd:update-doc sop debugging issue-name
 ```
 
 **After architecture change**:
 ```bash
-/update-doc system architecture
+/jitd:update-doc system architecture
 ```
 
 ### 4. Smart Compact Strategy
 
-**Run `/jitd-compact` after**:
+**Run `/jitd:compact` after**:
 - Completing isolated sub-task
 - Finishing documentation update
 - Creating SOP
@@ -141,8 +141,8 @@ Total: 9k tokens vs 150k
 4. **Plan** → Use TodoWrite for complex tasks
 5. **Implement** → Follow project patterns
 6. **Test** → Run tests, verify functionality
-7. **Document** → `/update-doc feature TASK-XX` when complete
-8. **Compact** → Run `/jitd-compact` after isolated tasks
+7. **Document** → `/jitd:update-doc feature TASK-XX` when complete
+8. **Compact** → Run `/jitd:compact` after isolated tasks
 
 ---
 
@@ -170,12 +170,12 @@ Total: 9k tokens vs 150k
 
 ### Slash Commands
 ```bash
-/jitd-init                     # Initialize JITD in project (one-time setup)
-/jitd-start                    # Start JITD session (EVERY new conversation)
-/update-doc feature TASK-XX    # Archive implementation plan
-/update-doc sop <category> <name>  # Create SOP
-/update-doc system <doc-name>  # Update architecture doc
-/jitd-compact                  # Smart context compact
+/jitd:init                     # Initialize JITD in project (one-time setup)
+/jitd:start                    # Start JITD session (EVERY new conversation)
+/jitd:update-doc feature TASK-XX    # Archive implementation plan
+/jitd:update-doc sop <category> <name>  # Create SOP
+/jitd:update-doc system <doc-name>  # Update architecture doc
+/jitd:compact                  # Smart context compact
 ```
 
 ---
@@ -195,7 +195,7 @@ Total: 9k tokens vs 150k
 2. Generate implementation plan → .agent/tasks/
 3. Implement features
 4. Update system docs as architecture evolves
-5. Complete → /update-doc feature TASK-XX
+5. Complete → /jitd:update-doc feature TASK-XX
 6. Notify team (if chat configured)
 ```
 
@@ -215,10 +215,10 @@ create_comment({ issueId, body })    // Share updates
 ### Token Budget Strategy
 - System + tools: ~50k (fixed)
 - CLAUDE.md: ~15k (this file, optimized)
-- Message history: ~60k (managed via /jitd-compact)
+- Message history: ~60k (managed via /jitd:compact)
 - **Documentation**: ~66k (on-demand loading)
 
-### /jitd-compact Strategy
+### /jitd:compact Strategy
 **Run after**:
 - Completing isolated sub-task
 - Finishing documentation update
@@ -246,7 +246,7 @@ create_comment({ issueId, body })    // Share updates
 
 ### Start Session
 ```
-1. Run /jitd-start (loads navigator, checks PM tool, sets context)
+1. Run /jitd:start (loads navigator, checks PM tool, sets context)
 2. Select task to work on
 3. Load only that task's docs
 ```
@@ -261,9 +261,9 @@ create_comment({ issueId, body })    // Share updates
 
 ### After Completion
 ```
-1. /update-doc feature TASK-XX
+1. /jitd:update-doc feature TASK-XX
 2. Update ticket status (if PM configured)
-3. /jitd-compact to clear context
+3. /jitd:compact to clear context
 ```
 
 ---
@@ -283,7 +283,7 @@ JITD configuration stored in `.agent/.jitd-config.json`:
 }
 ```
 
-**Customize after `/jitd-init`**
+**Customize after `/jitd:init`**
 
 ---
 
