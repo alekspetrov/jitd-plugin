@@ -41,9 +41,10 @@
 │
 └── sops/                     ← Standard Operating Procedures
     ├── integrations/         # (Not applicable for this project)
-    ├── debugging/            # Plugin issues and solutions
+    ├── debugging/            # Plugin issues and solutions (none yet)
     ├── development/          # Development workflows
-    └── deployment/           # Publishing to GitHub
+    │   └── plugin-release-workflow.md
+    └── deployment/           # Publishing to GitHub (none yet)
 ```
 
 ---
@@ -94,6 +95,33 @@
 
 ---
 
+### Standard Operating Procedures (`sops/`)
+
+#### Development
+
+##### [Plugin Release Workflow](./sops/development/plugin-release-workflow.md)
+**When to use**: Releasing new plugin version
+
+**Contains**:
+- Semantic versioning guide
+- Step-by-step release process
+- Git tag and GitHub release creation
+- Troubleshooting common issues
+- Complete release checklist
+
+**Last Used**: v1.3.0 (2025-10-12)
+
+#### Integrations
+*No SOPs yet - this project doesn't integrate with external services*
+
+#### Debugging
+*No SOPs yet - document issues as they're discovered*
+
+#### Deployment
+*No SOPs yet - currently using manual GitHub releases*
+
+---
+
 ## 🔄 When to Read What
 
 ### Scenario: Adding New Slash Command
@@ -124,6 +152,15 @@
 2. `system/project-architecture.md` → Plugin manifest
 3. Debug issue
 4. Create SOP: `/update-doc sop debugging [issue-name]`
+
+### Scenario: Releasing New Plugin Version
+
+**Read order**:
+1. This navigator (DEVELOPMENT-README.md)
+2. `sops/development/plugin-release-workflow.md` → Complete process
+3. Follow checklist step-by-step
+4. Document: `/update-doc feature TASK-XX`
+5. Update SOP with lessons learned
 
 ---
 
