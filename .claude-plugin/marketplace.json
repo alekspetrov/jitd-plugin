@@ -14,7 +14,7 @@
       "source": "./",
       "displayName": "JITD - Just-In-Time Documentation",
       "version": "1.4.0",
-      "description": "Context-efficient documentation system that loads what you need, when you need it. 92% reduction in documentation loading overhead.",
+      "description": "Context-efficient documentation system with on-demand loading and context markers. Save conversation checkpoints anytime. 92% reduction in documentation overhead.",
       "author": {
         "name": "Aleks Petrov",
         "url": "https://github.com/alekspetrov"
