@@ -33,7 +33,7 @@
 ├── DEVELOPMENT-README.md     ← You are here (navigator)
 │
 ├── tasks/                    ← Implementation plans
-│   └── TASK-XX-feature.md
+│   └── TASK-01-session-start-pm-integration.md
 │
 ├── system/                   ← Living architecture documentation
 │   ├── project-architecture.md
@@ -49,6 +49,23 @@
 ---
 
 ## 📖 Documentation Index
+
+### Implementation Plans (`tasks/`)
+
+#### [TASK-01: Session Start Command and PM Integration](./tasks/TASK-01-session-start-pm-integration.md)
+**Status**: ✅ Completed (v1.3.0)
+**Completed**: 2025-10-12
+
+**What was built**:
+- New `/jitd-start` command for session initialization
+- Enhanced `/jitd-init` with PM tool auto-configuration (Step 6.5)
+- Linear MCP and GitHub CLI detection with setup guidance
+- Auto-generated integration SOPs
+- Stronger CLAUDE.md enforcement of JITD workflow
+
+**Impact**: Dramatically improved onboarding UX and consistent JITD adoption
+
+---
 
 ### System Architecture (`system/`)
 
@@ -229,5 +246,5 @@ gh release create v1.1.0 --title "JITD v1.1.0" --notes "..."
 
 **This documentation system keeps plugin development context-efficient while maintaining comprehensive knowledge.**
 
-**Last Updated**: 2025-10-10
+**Last Updated**: 2025-10-12
 **Powered By**: JITD (Just-In-Time Documentation)

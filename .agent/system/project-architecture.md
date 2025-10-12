@@ -28,8 +28,9 @@ jitd-plugin/
 │   ├── marketplace.json         # Plugin config (version, metadata)
 │   └── README.md                # Marketplace description
 │
-├── .claude/commands/            # Slash commands
-│   ├── jitd-init.md            # Initialize JITD in project
+├── commands/                    # Slash commands (note: commands/ not .claude/commands/)
+│   ├── jitd-init.md            # Initialize JITD in project (one-time)
+│   ├── jitd-start.md           # Start JITD session (every conversation)
 │   ├── update-doc.md           # Maintain documentation
 │   └── jitd-compact.md         # Smart context compact
 │
@@ -66,12 +67,12 @@ jitd-plugin/
 {
   "name": "jitd-marketplace",
   "metadata": {
-    "version": "1.1.0"  // Update on release
+    "version": "1.3.0"  // Update on release
   },
   "plugins": [
     {
       "name": "jitd",
-      "version": "1.1.0",  // Keep in sync with metadata.version
+      "version": "1.3.0",  // Keep in sync with metadata.version
       "repository": "https://github.com/alekspetrov/jitd-plugin"
     }
   ]
@@ -100,7 +101,8 @@ Instructions for Claude to execute...
 **Invocation**: `/command-name` in Claude Code
 
 **Current Commands**:
-- `/jitd-init` → Initialize JITD structure in user project
+- `/jitd-init` → Initialize JITD structure in user project (one-time setup)
+- `/jitd-start` → Start JITD session (EVERY new conversation) **NEW in v1.3.0**
 - `/update-doc` → Maintain documentation (feature|sop|system)
 - `/jitd-compact` → Smart context compact
 
@@ -276,8 +278,8 @@ Created during `/jitd-init` in user projects:
 
 ### Plugin Efficiency
 - Template count: 5
-- Slash commands: 3
-- Plugin size: <50KB
+- Slash commands: 4 (added /jitd-start in v1.3.0)
+- Plugin size: <60KB
 - Install time: <5 seconds
 
 ### User Impact
@@ -304,5 +306,5 @@ Created during `/jitd-init` in user projects:
 
 ---
 
-**Last Updated**: 2025-10-10
-**Version**: 1.1.0
+**Last Updated**: 2025-10-12
+**Version**: 1.3.0
