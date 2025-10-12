@@ -7,20 +7,45 @@ JITD (Just-In-Time Documentation) plugin for context-efficient AI development. L
 
 ---
 
-## JITD Workflow (CRITICAL)
+## JITD Workflow (CRITICAL - ENFORCE STRICTLY)
+
+### SESSION START PROTOCOL (MANDATORY)
+
+**🚨 EVERY new conversation/session MUST begin with**:
+
+```bash
+/jitd-start
+```
+
+**What `/jitd-start` does**:
+1. Loads `.agent/DEVELOPMENT-README.md` (navigator)
+2. Checks for assigned tasks from PM tool (if configured)
+3. Sets JITD workflow context
+4. Activates token optimization strategy
+5. Reminds about agent usage for complex tasks
+
+**If user doesn't explicitly run `/jitd-start`**:
+- You MUST proactively run it or ask to run it
+- Never proceed with work without loading navigator
+- This is NOT optional - it's the foundation of JITD
+
+**Alternative (if `/jitd-start` unavailable)**:
+```
+Read .agent/DEVELOPMENT-README.md
+```
+
+---
 
 ### 1. Read Documentation Navigator First (Always)
 
-**Every session starts with**:
-```
-Read .agent/DEVELOPMENT-README.md (~2k tokens)
-```
+**AFTER running `/jitd-start`, the navigator is loaded**:
 
 This navigator provides:
 - Documentation index
 - "When to read what" decision tree
 - Current task context
 - Quick start guides
+- Integration setup status
 
 **Never load all docs at once** - This defeats JITD's purpose
 
@@ -145,7 +170,8 @@ Total: 9k tokens vs 150k
 
 ### Slash Commands
 ```bash
-/jitd-init                     # Initialize JITD in project
+/jitd-init                     # Initialize JITD in project (one-time setup)
+/jitd-start                    # Start JITD session (EVERY new conversation)
 /update-doc feature TASK-XX    # Archive implementation plan
 /update-doc sop <category> <name>  # Create SOP
 /update-doc system <doc-name>  # Update architecture doc
@@ -220,9 +246,9 @@ create_comment({ issueId, body })    // Share updates
 
 ### Start Session
 ```
-1. Read .agent/DEVELOPMENT-README.md
-2. Check PM tool for assigned tasks (if configured)
-3. Load only current task's docs
+1. Run /jitd-start (loads navigator, checks PM tool, sets context)
+2. Select task to work on
+3. Load only that task's docs
 ```
 
 ### During Work

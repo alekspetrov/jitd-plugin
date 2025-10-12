@@ -317,6 +317,382 @@ Write(
 
 ---
 
+## Step 6.5: PM Tool Integration Setup
+
+**Run this step AFTER config file is created**
+
+### Check PM Tool Selection
+
+Read `.agent/.jitd-config.json` to get `project_management` value.
+
+### If Linear Selected
+
+**Check if Linear MCP is available**:
+
+```bash
+# Check if MCP tools starting with mcp__linear are available
+# This will be visible if Linear MCP is installed and configured
+echo "Checking for Linear MCP..."
+```
+
+**If Linear MCP is NOT detected**:
+
+Show setup instructions:
+
+```
+╔══════════════════════════════════════════════════════╗
+║                                                      ║
+║  🔧 Linear MCP Setup Required                        ║
+║                                                      ║
+╚══════════════════════════════════════════════════════╝
+
+You selected Linear for project management, but Linear MCP
+is not configured yet.
+
+SETUP STEPS:
+
+1. Install Linear MCP server:
+
+   In your terminal (not here), run:
+   $ claude mcp add linear-server
+
+2. When prompted, provide your Linear API key:
+   - Get it from: https://linear.app/settings/api
+   - Create Personal API Key
+   - Copy and paste when prompted
+
+3. Restart Claude Code after installation
+
+4. Test Linear integration:
+   /jitd-start
+
+   This will verify Linear is working and show your tasks.
+
+ALTERNATIVE: Manual Workflow
+
+If you prefer not to use Linear MCP:
+- Update .agent/.jitd-config.json
+- Change "project_management": "none"
+- Track tasks manually
+
+Would you like me to:
+1. Continue setup (you'll configure Linear manually later)
+2. Change config to "none" now
+3. Wait while you set up Linear MCP
+
+[Wait for user choice]
+```
+
+**If choice is 1 or 3**: Continue to next step
+
+**If choice is 2**: Update `.agent/.jitd-config.json` to set `"project_management": "none"`
+
+**If Linear MCP IS detected**:
+
+Create Linear integration SOP:
+
+```markdown
+# Linear MCP Integration
+
+**Status**: ✅ Configured
+**Updated**: [Today's date]
+
+## Setup
+
+Linear MCP is installed and ready to use.
+
+## Common Commands
+
+### List Your Assigned Issues
+
+Use Claude Code's Linear MCP tools:
+- List issues assigned to you
+- Filter by status (backlog, todo, in progress, done)
+- Search by team or project
+
+### Create Issue from Chat
+
+Describe the issue and ask to create it in Linear.
+
+### Update Issue Status
+
+Reference issue ID (e.g., "LIN-123") and request status update.
+
+### Add Comments
+
+Mention issue ID and provide comment text.
+
+## JITD Workflow Integration
+
+### Starting Work on Issue
+
+```
+1. /jitd-start
+   - Lists your assigned issues
+2. Select issue to work on
+3. Claude loads issue details from Linear
+4. Creates .agent/tasks/LIN-XXX-feature.md
+5. Begin implementation
+```
+
+### Completing Issue
+
+```
+1. Finish implementation
+2. /update-doc feature LIN-XXX
+   - Archives task doc
+   - Updates system docs if needed
+3. Update Linear issue status (done/completed)
+4. Add completion comment to Linear
+```
+
+### Best Practices
+
+- Use Linear issue ID in commit messages
+- Reference LIN-XXX in task documentation
+- Update Linear status as you progress
+- Add technical notes as Linear comments
+
+## Troubleshooting
+
+### MCP Not Responding
+
+**Symptoms**: Linear commands fail or timeout
+
+**Solutions**:
+1. Check API key is valid
+2. Restart Claude Code
+3. Verify Linear workspace access
+4. Check internet connection
+
+### Rate Limiting
+
+**Symptoms**: "Too many requests" errors
+
+**Solution**:
+- Wait a few minutes
+- Linear API has rate limits
+- Batch operations when possible
+
+---
+
+**Linear MCP makes JITD even more powerful by connecting docs to real tasks** 🚀
+```
+
+Write this to: `.agent/sops/integrations/linear-mcp.md`
+
+### If GitHub Selected
+
+**Check if gh CLI is available**:
+
+```bash
+which gh && gh --version || echo "GH_NOT_FOUND"
+```
+
+**If gh CLI is NOT installed**:
+
+Show setup instructions:
+
+```
+╔══════════════════════════════════════════════════════╗
+║                                                      ║
+║  🔧 GitHub CLI Setup Required                        ║
+║                                                      ║
+╚══════════════════════════════════════════════════════╝
+
+You selected GitHub Issues for project management.
+This requires GitHub CLI (gh).
+
+SETUP STEPS:
+
+1. Install GitHub CLI:
+
+   macOS:    $ brew install gh
+   Linux:    $ sudo apt install gh
+   Windows:  Download from https://cli.github.com
+
+2. Authenticate:
+
+   $ gh auth login
+
+   Follow prompts to authenticate with your GitHub account.
+
+3. Test:
+
+   $ gh issue list
+
+   Should show issues from current repository.
+
+4. Use with JITD:
+
+   /jitd-start will now show your GitHub issues
+
+ALTERNATIVE: Manual Workflow
+
+If you prefer not to use GitHub CLI:
+- Update .agent/.jitd-config.json
+- Change "project_management": "none"
+- Track tasks manually
+
+Would you like me to:
+1. Continue setup (you'll configure gh CLI later)
+2. Change config to "none" now
+
+[Wait for user choice]
+```
+
+**If gh CLI IS installed**:
+
+Check authentication:
+
+```bash
+gh auth status
+```
+
+If authenticated, create GitHub integration SOP:
+
+```markdown
+# GitHub CLI Integration
+
+**Status**: ✅ Configured
+**Updated**: [Today's date]
+
+## Setup
+
+GitHub CLI is installed and authenticated.
+
+## Common Commands
+
+### List Your Issues
+
+```bash
+gh issue list --assignee @me
+```
+
+### View Issue Details
+
+```bash
+gh issue view [issue-number]
+```
+
+### Create Issue
+
+```bash
+gh issue create --title "Title" --body "Description"
+```
+
+### Update Issue
+
+```bash
+gh issue edit [issue-number] --add-label "in-progress"
+gh issue close [issue-number]
+```
+
+## JITD Workflow Integration
+
+### Starting Work on Issue
+
+```
+1. /jitd-start
+   - Lists your assigned GitHub issues via gh CLI
+2. Select issue to work on
+3. Claude loads issue details
+4. Creates .agent/tasks/GH-XXX-feature.md
+5. Begin implementation
+```
+
+### Completing Issue
+
+```
+1. Finish implementation
+2. /update-doc feature GH-XXX
+   - Archives task doc
+   - Updates system docs if needed
+3. Close issue: gh issue close XXX
+4. Add completion comment if needed
+```
+
+### Best Practices
+
+- Use "Fixes #XXX" in commit messages
+- Reference GH-XXX in task documentation
+- Add labels as status changes
+- Keep issue updated with progress
+
+## Troubleshooting
+
+### Auth Expired
+
+**Symptoms**: gh commands fail with auth error
+
+**Solution**:
+```bash
+gh auth refresh
+# or
+gh auth login
+```
+
+### Wrong Repository
+
+**Symptoms**: Issues from wrong project
+
+**Solution**:
+- Ensure you're in correct directory
+- Check remote: git remote -v
+- Use -R flag: gh issue list -R owner/repo
+
+---
+
+**GitHub CLI + JITD = Seamless issue tracking** 🚀
+```
+
+Write this to: `.agent/sops/integrations/github-cli.md`
+
+### If Jira or GitLab Selected
+
+Show manual setup instructions:
+
+```
+╔══════════════════════════════════════════════════════╗
+║                                                      ║
+║  📋 Manual Integration Setup                         ║
+║                                                      ║
+╚══════════════════════════════════════════════════════╝
+
+You selected [Jira/GitLab] for project management.
+
+Currently, JITD doesn't have automated integration for this tool.
+
+MANUAL WORKFLOW:
+
+1. Check your [Jira/GitLab] dashboard for assigned tasks
+2. When starting work, create task doc manually:
+
+   Write(
+     file_path: ".agent/tasks/[PREFIX]-XXX-feature.md"
+     content: [task details from ticket]
+   )
+
+3. Work on implementation with JITD workflow
+4. When complete: /update-doc feature [PREFIX]-XXX
+5. Update [Jira/GitLab] status manually
+
+FUTURE: API integration may be added in future versions
+
+Would you like to:
+1. Continue with manual workflow
+2. Change to Linear/GitHub for automation
+3. Change to "none"
+
+[Wait for user choice]
+```
+
+### If None Selected
+
+Skip PM tool setup entirely. No SOP needed.
+
+---
+
 ## Step 7: VERIFICATION (CRITICAL)
 
 **Run these checks and SHOW results to user**:
