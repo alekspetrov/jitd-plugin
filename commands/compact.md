@@ -161,15 +161,23 @@ Write(
 )
 ```
 
+### Step 3.5: Mark as Active Marker
+
+**NEW**: Create `.active` file to enable automatic resume
+
+```bash
+# Create .active file pointing to this marker
+echo "2025-10-12-143022-compact.md" > .agent/.context-markers/.active
+```
+
+**This enables**: `/jitd:start` will auto-detect and load this marker
+
 **Show user the saved location**:
 ```
-✅ Context marker saved to:
+✅ Context marker saved and marked as active:
    .agent/.context-markers/2025-10-12-143022-compact.md
 
-After compact, start your new session with:
-   Read @.agent/.context-markers/2025-10-12-143022-compact.md
-
-This will restore your context in ~3k tokens.
+This marker will be auto-loaded on next session start.
 ```
 
 **Alternative locations**:
@@ -207,17 +215,21 @@ Or save it manually before compacting.
 ║                                                      ║
 ╚══════════════════════════════════════════════════════╝
 
-Context marker saved to:
-→ .agent/.context-markers/2025-10-12-143022-compact.md
+✅ Context marker created and marked as active:
+   .agent/.context-markers/2025-10-12-143022-compact.md
 
 TO RESUME AFTER COMPACT:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-In your next conversation, start with:
+Simply run: /jitd:start
 
-1. Read @.agent/.context-markers/2025-10-12-143022-compact.md
+This will automatically:
+• Load navigator (.agent/DEVELOPMENT-README.md)
+• Detect active marker
+• Restore your context (~3k tokens)
+• Load current task (if applicable)
 
-That's it! Your context will be restored.
+All in one command. No manual steps needed.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

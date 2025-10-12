@@ -36,6 +36,65 @@ Read(
 
 ---
 
+### Step 1.5: Check for Active Context Marker (NEW)
+
+**Check if resuming from compact**:
+
+```bash
+cat .agent/.context-markers/.active 2>/dev/null
+```
+
+**If .active file exists**:
+
+1. Read the filename from .active file
+2. Show detection message:
+   ```
+   🔄 Active context marker detected!
+
+   Marker: [marker-name]
+   Created: [timestamp from filename]
+
+   This marker was saved during your last /jitd:compact.
+   Load it to continue where you left off?
+
+   [Y/n]:
+   ```
+
+3. **If user confirms (Y or Enter)**:
+   - Use Read tool to load the marker:
+     ```
+     Read(
+       file_path: ".agent/.context-markers/[filename-from-active]"
+     )
+     ```
+   - Show confirmation:
+     ```
+     ✅ Context restored from marker!
+
+     Your previous session state has been loaded.
+     Continue with your work.
+     ```
+   - Delete .active file (marker consumed):
+     ```bash
+     rm .agent/.context-markers/.active
+     ```
+
+4. **If user declines (n)**:
+   - Show message:
+     ```
+     Skipping marker load. You can load it later with:
+     /jitd:markers
+     ```
+   - Delete .active file (user chose not to load)
+
+5. **Continue to Step 2**
+
+**If .active file doesn't exist**:
+- No active marker (normal session start)
+- Continue to Step 2
+
+---
+
 ### Step 2: Set Session Context
 
 **Load JITD configuration**:
