@@ -92,7 +92,45 @@ Total: 9k tokens vs 150k
 /jitd:update-doc system architecture
 ```
 
-### 4. Smart Compact Strategy
+### 4. Autonomous Task Completion (CRITICAL)
+
+**When task implementation is complete, execute finish protocol AUTOMATICALLY**:
+
+✅ **DO automatically** (no human prompt needed):
+1. **Commit changes** with proper conventional commit message
+2. **Archive implementation plan** via `/jitd:update-doc feature TASK-XX`
+3. **Close ticket** in PM tool (if configured)
+4. **Create completion marker** `TASK-XX-complete`
+5. **Suggest compact** to clear context for next task
+
+❌ **DON'T wait for**:
+- "Please commit now"
+- "Close the ticket"
+- "Update documentation"
+- "Create a marker"
+
+**Exception cases** (ask first):
+- Uncommitted files contain secrets (.env, credentials, API keys)
+- Multiple unrelated tasks modified (unclear which to close)
+- No task context loaded (ambiguous which TASK-XX)
+- Tests failing or implementation incomplete
+
+**Completion summary template**:
+```
+✅ TASK-XX Complete
+
+Automated actions:
+- Committed: [hash] [message]
+- Documentation: Implementation plan archived
+- Ticket: Closed in [PM tool]
+- Marker: TASK-XX-complete created
+
+Next: Run /jitd:compact to clear context
+```
+
+**Key principle**: JITD projects expect full autonomy. When work is done, execute the complete finish protocol without coordination prompts.
+
+### 5. Smart Compact Strategy
 
 **Run `/jitd:compact` after**:
 - Completing isolated sub-task
@@ -120,10 +158,12 @@ Total: 9k tokens vs 150k
 ## Forbidden Actions
 
 ### JITD Violations (HIGHEST PRIORITY)
+- ❌ NEVER wait for explicit commit prompts after task completion (autonomous mode)
+- ❌ NEVER leave tickets open after implementation complete (close automatically)
+- ❌ NEVER skip documentation after completing features (knowledge loss)
 - ❌ NEVER load all `.agent/` docs at once (defeats context optimization)
 - ❌ NEVER skip reading DEVELOPMENT-README.md (navigator is essential)
 - ❌ NEVER create docs outside `.agent/` structure (breaks discovery)
-- ❌ NEVER skip documentation after completing features (knowledge loss)
 
 ### General Violations
 - ❌ No Claude Code mentions in commits/code
@@ -135,14 +175,13 @@ Total: 9k tokens vs 150k
 
 ## Development Workflow
 
-1. **Read Navigator First** → `.agent/DEVELOPMENT-README.md`
-2. **Check Task Context** → Load only current task doc
-3. **Load Relevant Docs** → Only what's needed for current work
-4. **Plan** → Use TodoWrite for complex tasks
-5. **Implement** → Follow project patterns
-6. **Test** → Run tests, verify functionality
-7. **Document** → `/jitd:update-doc feature TASK-XX` when complete
-8. **Compact** → Run `/jitd:compact` after isolated tasks
+1. **Start Session** → `/jitd:start` (loads navigator, checks PM tool)
+2. **Select Task** → Load task doc (`.agent/tasks/TASK-XX.md`)
+3. **Plan** → Use TodoWrite for complex tasks
+4. **Implement** → Follow project patterns, write tests
+5. **Verify** → Run tests, confirm functionality works
+6. **Complete** → [AUTONOMOUS] Commit, document, close ticket, create marker
+7. **Compact** → Run `/jitd:compact` to clear context for next task
 
 ---
 
@@ -261,11 +300,16 @@ create_comment({ issueId, body })    // Share updates
 4. Update system docs if architecture changes
 ```
 
-### After Completion
+### After Completion (AUTONOMOUS)
 ```
-1. /jitd:update-doc feature TASK-XX
-2. Update ticket status (if PM configured)
-3. /jitd:compact to clear context
+When task is complete, automatically:
+1. Commit changes with proper message
+2. /jitd:update-doc feature TASK-XX
+3. Close ticket in PM tool (if configured)
+4. Create marker TASK-XX-complete
+5. Suggest /jitd:compact to clear context
+
+NO human prompts needed - execute autonomously.
 ```
 
 ---
@@ -321,5 +365,5 @@ JITD configuration stored in `.agent/.jitd-config.json`:
 
 **For complete JITD documentation**: See `.agent/DEVELOPMENT-README.md`
 
-**Last Updated**: 2025-10-09
-**JITD Version**: 1.0.0
+**Last Updated**: 2025-10-13
+**JITD Version**: 1.5.1

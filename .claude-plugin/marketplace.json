@@ -6,14 +6,14 @@
   },
   "metadata": {
     "description": "JITD - Just-In-Time Documentation plugin marketplace",
-    "version": "1.5.0"
+    "version": "1.5.1"
   },
   "plugins": [
     {
       "name": "jitd",
       "source": "./",
       "displayName": "JITD - Just-In-Time Documentation",
-      "version": "1.5.0",
+      "version": "1.5.1",
       "description": "Context-efficient documentation system with on-demand loading and context markers. Save conversation checkpoints anytime. 92% reduction in documentation overhead.",
       "author": {
         "name": "Aleks Petrov",

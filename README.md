@@ -2,10 +2,10 @@
 
 > Context-efficient documentation system with on-demand loading and conversation checkpoints.
 
-**Status**: ✅ Published v1.5.0
+**Status**: ✅ Published v1.5.1
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.5.0-blue.svg)](https://github.com/alekspetrov/jitd-plugin/releases)
+[![Version](https://img.shields.io/badge/version-1.5.1-blue.svg)](https://github.com/alekspetrov/jitd-plugin/releases)
 
 ---
 
@@ -432,7 +432,8 @@ Read @.agent/.context-markers/before-api-refactor.md
 - Configuration system
 - Context markers with interactive management
 - Auto-resume system
-- v1.5.0 published
+- Autonomous task completion
+- v1.5.1 published
 
 ### 🚧 Phase 2: Documentation & Examples (In Progress)
 - [ ] Generic Next.js example project
@@ -503,6 +504,6 @@ MIT - Use freely, contribute back if it helps you.
 
 **Built in public** 🚀 Share your JITD success stories!
 
-**Version**: 1.5.0
+**Version**: 1.5.1
 **Last Updated**: 2025-10-13
 **Author**: [Aleks Petrov](https://github.com/alekspetrov)

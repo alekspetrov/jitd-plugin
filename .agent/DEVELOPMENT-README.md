@@ -26,6 +26,53 @@
 
 ---
 
+## 🤖 Task Completion Protocol (CRITICAL)
+
+### Autonomous Completion Expected
+
+JITD projects run in **full autonomy mode**. When task implementation is complete:
+
+✅ **Execute automatically** (no human prompt needed):
+1. **Commit changes** with conventional commit message
+2. **Archive implementation plan** (`/jitd:update-doc feature TASK-XX`)
+3. **Close ticket** in PM tool (if configured)
+4. **Create completion marker** (`TASK-XX-complete`)
+5. **Suggest compact** for next task
+
+❌ **Don't wait for**:
+- "Please commit now"
+- "Close the ticket"
+- "Update documentation"
+- "Create a marker"
+
+### Exception Cases (Ask First)
+
+Only interrupt autonomous flow if:
+- Uncommitted files contain secrets (.env, credentials, API keys)
+- Multiple unrelated tasks modified (unclear which to close)
+- No task context loaded (ambiguous TASK-XX)
+- Tests failing or implementation incomplete
+
+### Completion Summary Template
+
+```
+✅ TASK-XX Complete
+
+Automated actions:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ Committed: [hash] [message]
+✅ Documentation: Implementation plan archived
+✅ Ticket: Closed in [PM tool]
+✅ Marker: TASK-XX-complete created
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Next: Run /jitd:compact to clear context
+```
+
+**For detailed protocol**: See [`sops/development/autonomous-completion.md`](#autonomous-completion)
+
+---
+
 ## 📂 Documentation Structure
 
 ```
@@ -105,6 +152,19 @@
 
 **Impact**: Zero version drift prevention, professional release quality, clear process for contributors
 
+#### [TASK-05: Autonomous Task Completion](./tasks/TASK-05-autonomous-completion.md)
+**Status**: ✅ Completed (v1.5.1)
+**Completed**: 2025-10-13
+
+**What was built**:
+- Updated CLAUDE.md with autonomous completion protocol
+- Updated DEVELOPMENT-README.md with Task Completion Protocol
+- Created Autonomous Completion SOP (sops/development/)
+- Modified Development Workflow to show [AUTONOMOUS] completion
+- Enforced "no wait for prompts" behavior via Forbidden Actions
+
+**Impact**: Fully autonomous task completion - no more "please commit" or "close ticket" prompts needed
+
 ---
 
 ### System Architecture (`system/`)
@@ -162,6 +222,18 @@
 - Complete release checklist
 
 **Last Used**: v1.5.0 (2025-10-13)
+
+##### [Autonomous Completion](./sops/development/autonomous-completion.md)
+**When to use**: Understanding how to complete tasks autonomously
+
+**Contains**:
+- Autonomous completion protocol (7 steps)
+- Exception handling (secrets, multiple tasks, no context, test failures)
+- Completion summary template
+- Integration with PM tools and markers
+- Best practices for fully autonomous workflow
+
+**Last Updated**: 2025-10-13
 
 #### Integrations
 *No SOPs yet - this project doesn't integrate with external services*
@@ -335,5 +407,5 @@ gh release create v1.1.0 --title "JITD v1.1.0" --notes "..."
 
 **This documentation system keeps plugin development context-efficient while maintaining comprehensive knowledge.**
 
-**Last Updated**: 2025-10-12 (v1.5.0)
+**Last Updated**: 2025-10-13 (v1.5.1)
 **Powered By**: JITD (Just-In-Time Documentation)
