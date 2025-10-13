@@ -92,6 +92,19 @@
 
 **Impact**: One-command resume after compact (vs 3 manual steps), visual marker selection
 
+#### [TASK-04: Version Sync Fix & Release Process](./tasks/TASK-04-version-sync-release-process.md)
+**Status**: ✅ Completed (v1.5.0 docs)
+**Completed**: 2025-10-13
+
+**What was built**:
+- Fixed README.md version references (1.4.0 → 1.5.0)
+- Created Version Management SOP with audit script
+- Enhanced Plugin Release Workflow with mandatory version sync step
+- Created missing GitHub releases (v1.3.0, v1.4.0, v1.5.0)
+- Systematic checklist to prevent future version drift
+
+**Impact**: Zero version drift prevention, professional release quality, clear process for contributors
+
 ---
 
 ### System Architecture (`system/`)
@@ -125,17 +138,30 @@
 
 #### Development
 
+##### [Version Management](./sops/development/version-management.md)
+**When to use**: Before every release, auditing version consistency
+
+**Contains**:
+- Single source of truth (marketplace.json)
+- Version reference map (9 locations)
+- Pre-release checklist with audit script
+- Semantic versioning guide
+- Troubleshooting version mismatches
+
+**Last Updated**: 2025-10-13
+
 ##### [Plugin Release Workflow](./sops/development/plugin-release-workflow.md)
 **When to use**: Releasing new plugin version
 
 **Contains**:
+- **Step 0: Pre-Release Version Sync (MANDATORY)**
 - Semantic versioning guide
 - Step-by-step release process
 - Git tag and GitHub release creation
 - Troubleshooting common issues
 - Complete release checklist
 
-**Last Used**: v1.3.0 (2025-10-12)
+**Last Used**: v1.5.0 (2025-10-13)
 
 #### Integrations
 *No SOPs yet - this project doesn't integrate with external services*
