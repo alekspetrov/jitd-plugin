@@ -2,7 +2,8 @@
 
 **Category**: Development
 **Created**: 2025-10-12
-**Last Used**: v1.3.0 release
+**Last Used**: v1.5.0 release
+**Last Updated**: 2025-10-13
 
 ---
 
@@ -24,14 +25,50 @@ Use this SOP when:
 
 ## Prerequisites
 
+**BEFORE STARTING ANY RELEASE**:
+1. **Read [Version Management SOP](./version-management.md)** - Understand version sync process
+2. **Complete version consistency check** - Ensure no version drift exists
+
+**Release Prerequisites**:
 - [ ] All features implemented and tested
 - [ ] Local testing completed in jitd-test project
 - [ ] Documentation updated (task docs, system docs)
 - [ ] Working directory clean (no uncommitted changes)
+- [ ] Version references audited and consistent
 
 ---
 
 ## Step-by-Step Release Process
+
+### 0. Pre-Release Version Sync (MANDATORY)
+
+**⚠️ CRITICAL: Complete this step BEFORE any other release steps**
+
+See [Version Management SOP](./version-management.md) for complete instructions.
+
+**Quick Checklist**:
+1. Determine new version number (patch/minor/major)
+2. Update `.claude-plugin/marketplace.json` (2 locations)
+3. Update `README.md` (4 locations: status, badge, roadmap, footer)
+4. Update `.agent/DEVELOPMENT-README.md` (1 location: footer)
+5. Run audit script to verify consistency
+6. Commit version bump separately with `chore:` prefix
+
+**Audit command**:
+```bash
+# Set target version
+NEW_VERSION="1.6.0"
+
+# Quick audit
+jq -r '.metadata.version' .claude-plugin/marketplace.json
+jq -r '.plugins[0].version' .claude-plugin/marketplace.json
+grep -E "Published v|version-.*-blue|v.*published|^\*\*Version\*\*:" README.md
+grep -E "\(v[0-9]+\.[0-9]+\.[0-9]+\)" .agent/DEVELOPMENT-README.md
+```
+
+**⚠️ STOP if any mismatches found! Fix before proceeding.**
+
+---
 
 ### 1. Determine Version Number
 
@@ -48,42 +85,7 @@ Fixing typo in template → 1.2.4 (patch - bug fix)
 Changing command structure → 2.0.0 (major - breaking change)
 ```
 
-### 2. Update Version in marketplace.json
-
-**File**: `.claude-plugin/marketplace.json`
-
-**Update BOTH locations**:
-```json
-{
-  "metadata": {
-    "version": "1.3.0"  // <-- Update here
-  },
-  "plugins": [
-    {
-      "version": "1.3.0"  // <-- And here
-    }
-  ]
-}
-```
-
-**Verify versions match**:
-```bash
-grep -A 2 -B 2 version .claude-plugin/marketplace.json
-```
-
-### 3. Update System Documentation
-
-**Files to update**:
-- `.agent/system/project-architecture.md` - Update version references
-- `.agent/DEVELOPMENT-README.md` - Update timestamps
-- Any docs referencing old version
-
-**Search for old version**:
-```bash
-grep -r "1.2.0" .agent/
-```
-
-### 4. Commit Changes
+### 2. Commit Feature Changes
 
 **Use conventional commit format**:
 ```bash
@@ -111,10 +113,12 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 - `feat:` - New feature
 - `fix:` - Bug fix
 - `docs:` - Documentation only
-- `chore:` - Maintenance (version bump)
+- `chore:` - Maintenance (version bump, dependencies)
 - `refactor:` - Code restructuring
 
-### 5. Create Git Tag
+**Note**: Version bump should be committed separately in Step 0 with `chore:` prefix.
+
+### 3. Create Git Tag
 
 **Create annotated tag**:
 ```bash
@@ -137,7 +141,7 @@ consistent JITD workflow adoption across all sessions."
 - Bullet points of key changes
 - Optional: Additional context paragraph
 
-### 6. Push to GitHub
+### 4. Push to GitHub
 
 **Push commit and tag together**:
 ```bash
@@ -154,7 +158,7 @@ git tag -l | tail -3
 - Visit: https://github.com/alekspetrov/jitd-plugin/tags
 - Confirm new tag appears
 
-### 7. Create GitHub Release
+### 5. Create GitHub Release
 
 **Using gh CLI**:
 ```bash
@@ -191,7 +195,7 @@ EOF
 - Visit: https://github.com/alekspetrov/jitd-plugin/releases
 - Confirm release appears with notes
 
-### 8. Document the Release (JITD)
+### 6. Document the Release (JITD)
 
 **Create task documentation**:
 ```bash
@@ -208,7 +212,7 @@ EOF
 - Note any issues encountered
 - Add lessons learned section
 
-### 9. Verify Installation
+### 7. Verify Installation
 
 **Test in fresh project**:
 ```bash
@@ -314,11 +318,14 @@ git tag -a v1.3.0 -m "..."
 
 Complete release checklist:
 
-- [ ] Determine version (patch/minor/major)
-- [ ] Update `.claude-plugin/marketplace.json` (both locations)
-- [ ] Update version references in `.agent/system/`
-- [ ] Update timestamps in `.agent/DEVELOPMENT-README.md`
-- [ ] Commit with conventional commit message
+- [ ] **Step 0**: Complete version sync ([Version Management SOP](./version-management.md))
+  - [ ] Determine version (patch/minor/major)
+  - [ ] Update `.claude-plugin/marketplace.json` (both locations)
+  - [ ] Update `README.md` (4 locations)
+  - [ ] Update `.agent/DEVELOPMENT-README.md` (1 location)
+  - [ ] Run audit script to verify consistency
+  - [ ] Commit version bump with `chore:` prefix
+- [ ] **Step 1-2**: Implement and commit feature changes
 - [ ] Create annotated git tag
 - [ ] Push commit and tag to GitHub
 - [ ] Create GitHub release with detailed notes
@@ -353,15 +360,16 @@ Complete release checklist:
 
 ## Related Documentation
 
+**SOPs** (read first!):
+- [Version Management SOP](./version-management.md) - **MANDATORY** - Prevent version drift
+
 **System Docs**:
 - [Project Architecture](./../system/project-architecture.md) - Plugin structure
 - [Plugin Patterns](./../system/plugin-patterns.md) - Development patterns
 
 **Task Docs**:
 - [TASK-01: Session Start & PM Integration](./../tasks/TASK-01-session-start-pm-integration.md)
-
-**Other SOPs**:
-- None yet (this is the first development SOP)
+- [TASK-04: Version Sync Fix](./../tasks/TASK-04-version-sync-release-process.md)
 
 ---
 
@@ -369,7 +377,8 @@ Complete release checklist:
 
 ### Version History of This SOP
 - **2025-10-12**: Created during v1.3.0 release
-- **Last Updated**: 2025-10-12
+- **2025-10-13**: Added mandatory Step 0 (version sync) and reference to Version Management SOP
+- **Last Updated**: 2025-10-13
 
 ### Contributing
 If you find issues with this workflow or have improvements:
