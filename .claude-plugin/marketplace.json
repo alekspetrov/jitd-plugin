@@ -1,5 +1,6 @@
 {
   "name": "jitd-marketplace",
+  "displayName": "JITD - Just-In-Time Documentation",
   "owner": {
     "name": "Aleks Petrov",
     "email": "aleks@example.com"
