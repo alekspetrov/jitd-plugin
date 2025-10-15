@@ -12,25 +12,7 @@
   "plugins": [
     {
       "name": "jitd",
-      "source": "./",
-      "displayName": "JITD - Just-In-Time Documentation",
-      "version": "1.5.1",
-      "description": "Context-efficient documentation system with on-demand loading and context markers. Save conversation checkpoints anytime. 92% reduction in documentation overhead.",
-      "author": {
-        "name": "Aleks Petrov",
-        "url": "https://github.com/alekspetrov"
-      },
-      "repository": "https://github.com/alekspetrov/jitd-plugin",
-      "license": "MIT",
-      "keywords": [
-        "documentation",
-        "context-management",
-        "token-optimization",
-        "knowledge-management",
-        "productivity"
-      ],
-      "category": "documentation",
-      "strict": false
+      "source": "./"
     }
   ]
 }
