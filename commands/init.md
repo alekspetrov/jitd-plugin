@@ -43,13 +43,42 @@ ls -la .agent/ 2>/dev/null && echo "EXISTS" || echo "NOT_FOUND"
 ```
 
 **If EXISTS**:
-- Ask user:
-  1. Merge (keep existing, add missing)
-  2. Backup and recreate
-  3. Cancel
-- If choice 1: Set flag `MERGE_MODE=true`
-- If choice 2: Run `mv .agent .agent.backup.$(date +%Y%m%d-%H%M%S)`
-- If choice 3: Exit now
+
+Show clear message:
+```
+╔══════════════════════════════════════════════════════╗
+║                                                      ║
+║  ⚠️  .agent/ Directory Already Exists                ║
+║                                                      ║
+╚══════════════════════════════════════════════════════╝
+
+Found existing JITD structure in this project.
+
+OPTIONS:
+
+1. Merge (Recommended)
+   ✓ Keeps your existing docs
+   ✓ Adds any missing files
+   ✓ Safe, no data loss
+
+2. Backup and Recreate
+   ⚠️  Backs up existing .agent/ to .agent.backup.TIMESTAMP
+   ⚠️  Creates fresh structure
+   ⚠️  You'll need to restore files manually
+
+3. Cancel
+   ✗ Exit without changes
+
+Your choice [1-3]:
+```
+
+- If choice 1: Set flag `MERGE_MODE=true`, show "✓ Merge mode: Will preserve existing files"
+- If choice 2:
+  - Run `mv .agent .agent.backup.$(date +%Y%m%d-%H%M%S)`
+  - Show "✓ Backup created: .agent.backup.TIMESTAMP"
+- If choice 3:
+  - Show "Operation canceled. Run /jitd:init again when ready."
+  - Exit now
 
 ---
 

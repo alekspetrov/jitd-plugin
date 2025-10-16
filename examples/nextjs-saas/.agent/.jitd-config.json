@@ -1,0 +1,8 @@
+{
+  "version": "1.0.0",
+  "project_management": "none",
+  "task_prefix": "TASK",
+  "team_chat": "none",
+  "auto_load_navigator": true,
+  "compact_strategy": "conservative"
+}

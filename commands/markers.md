@@ -271,8 +271,14 @@ Found 8 markers older than 7 days:
 Total old markers: 8 (22.4k tokens)
 
 Cleanup options:
-1. Delete all markers older than 30 days (recommended)
-2. Delete all markers older than 7 days
+1. Archive markers older than 30 days (recommended)
+   → Moves to .agent/.context-markers/archive/
+   → Safe, can restore if needed
+
+2. Delete markers older than 30 days
+   → Permanent deletion
+   → Frees up space
+
 3. Keep all, just show me
 4. Cancel
 
@@ -281,16 +287,33 @@ Choice [1-4]:
 
 **Wait for user input**.
 
-**If option 1 selected** (30 days):
+**If option 1 selected** (Archive 30 days):
 ```bash
-# Delete markers older than 30 days
-find .agent/.context-markers/ -name "*.md" -mtime +30 -type f -delete
+# Create archive directory if it doesn't exist
+mkdir -p .agent/.context-markers/archive
+
+# Archive markers older than 30 days
+find .agent/.context-markers/ -maxdepth 1 -name "*.md" -mtime +30 -type f -exec mv {} .agent/.context-markers/archive/ \;
 ```
 
-**If option 2 selected** (7 days):
+**Confirm archival**:
+```
+✅ Cleanup complete
+
+Archived: 3 markers to .agent/.context-markers/archive/
+Kept active: 5 markers (14.3k tokens)
+
+To restore archived markers:
+  mv .agent/.context-markers/archive/[filename] .agent/.context-markers/
+
+To delete archived markers:
+  rm -rf .agent/.context-markers/archive/
+```
+
+**If option 2 selected** (Delete 30 days):
 ```bash
-# Delete markers older than 7 days
-find .agent/.context-markers/ -name "*.md" -mtime +7 -type f -delete
+# Delete markers older than 30 days
+find .agent/.context-markers/ -maxdepth 1 -name "*.md" -mtime +30 -type f -delete
 ```
 
 **Confirm deletion**:
@@ -300,8 +323,10 @@ find .agent/.context-markers/ -name "*.md" -mtime +7 -type f -delete
 Deleted: 3 markers (8.2k tokens freed)
 Kept: 5 recent markers (14.3k tokens)
 
-Recent markers are preserved.
+Permanent deletion - cannot be restored.
 ```
+
+**If option 3 or 4**: Exit without changes
 
 ---
 

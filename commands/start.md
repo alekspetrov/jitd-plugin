@@ -143,9 +143,79 @@ gh issue list --assignee @me --limit 10
 
 ---
 
-### Step 4: Session Context Summary
+### Step 4: Calculate Actual Token Usage
 
-**Show this summary**:
+**Measure files loaded in this session**:
+
+```bash
+# Get navigator size
+nav_bytes=$(wc -c < .agent/DEVELOPMENT-README.md 2>/dev/null || echo "0")
+nav_tokens=$((nav_bytes / 4))
+
+# Get CLAUDE.md size (auto-loaded by Claude Code)
+claude_bytes=$(wc -c < CLAUDE.md 2>/dev/null || echo "0")
+claude_tokens=$((claude_bytes / 4))
+
+# Calculate total
+total_tokens=$((nav_tokens + claude_tokens))
+
+# Calculate available (200k total context window)
+# System overhead: ~50k tokens
+available=$((200000 - 50000 - total_tokens))
+percent=$((available * 100 / 200000))
+```
+
+**Store these values for display**.
+
+---
+
+### Step 4.5: Extract Real Session Statistics (NEW)
+
+**Get actual token usage from Claude Code internals**:
+
+```bash
+# Run session stats script
+if [ -f "./scripts/session-stats.sh" ]; then
+  session_stats=$(./scripts/session-stats.sh 2>/dev/null)
+
+  # If successful, parse the output
+  if [ $? -eq 0 ]; then
+    # Extract values (format: KEY=VALUE)
+    eval "$session_stats"
+
+    # Now have variables:
+    # - MESSAGES (number of messages in session)
+    # - INPUT_TOKENS (fresh input tokens)
+    # - OUTPUT_TOKENS (assistant responses)
+    # - CACHE_CREATION (tokens loaded into cache)
+    # - CACHE_READ (tokens read from cache)
+    # - TOTAL_FRESH (input + cache_creation)
+    # - TOTAL_CACHED (input + cache_read)
+    # - CACHE_EFFICIENCY (percentage cached)
+
+    has_session_stats=true
+  else
+    has_session_stats=false
+  fi
+else
+  has_session_stats=false
+fi
+```
+
+**If session stats available**:
+- Display in summary (Step 5)
+- Show cache efficiency
+- Prove on-demand loading works
+
+**If not available**:
+- Just show file-size measurements
+- Session stats optional (nice-to-have)
+
+---
+
+### Step 5: Session Context Summary
+
+**Show this summary with REAL token counts**:
 
 ```
 ╔══════════════════════════════════════════════════════╗
@@ -160,10 +230,67 @@ gh issue list --assignee @me --limit 10
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+📊 DOCUMENTATION LOADED (MEASURED)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Navigator (.agent/DEVELOPMENT-README.md):
+  Size: [nav_bytes] bytes = [nav_tokens] tokens
+
+CLAUDE.md (auto-loaded):
+  Size: [claude_bytes] bytes = [claude_tokens] tokens
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Total documentation:     [total_tokens] tokens
+Available for work:      [available] tokens ([percent]%)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💡 On-demand loading strategy:
+   Load task doc when needed:  +3-5k tokens
+   Load system doc if needed:  +4-6k tokens
+   Load SOP if helpful:        +2-3k tokens
+
+   Total with all docs:        ~[total_tokens + 15]k tokens
+
+   vs Traditional (all upfront): ~150k tokens
+   Savings: ~[150 - total_tokens - 15]k tokens
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**If session stats available (has_session_stats=true), add this section**:
+
+```
+📈 REAL SESSION STATISTICS (from Claude Code internals)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Messages in session:     [MESSAGES]
+Input tokens:            [INPUT_TOKENS]
+Output tokens:           [OUTPUT_TOKENS]
+
+Cache Performance:
+  Cache creation:        [CACHE_CREATION] tokens
+  Cache read:            [CACHE_READ] tokens
+  Cache efficiency:      [CACHE_EFFICIENCY]%
+
+Total session usage:
+  Fresh input:           [TOTAL_FRESH] tokens
+  Cached read:           [TOTAL_CACHED] tokens
+
+💡 What this means:
+   Documentation loaded once ([CACHE_CREATION] tokens)
+   Then reused from cache ([CACHE_READ] tokens)
+   Result: Zero fresh tokens for repeated doc access
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**Continue with workflow reminder**:
+
+```
 🔹 JITD WORKFLOW REMINDER
 
 1. Navigator-first loading
-   - Loaded: .agent/DEVELOPMENT-README.md
+   - ✅ Loaded: .agent/DEVELOPMENT-README.md
    - Next: Load ONLY relevant task/system docs
 
 2. Task documentation
@@ -171,8 +298,8 @@ gh issue list --assignee @me --limit 10
    - After bugs: /jitd:update-doc sop debugging [issue]
 
 3. Context management
-   - Current: [X]k tokens used
    - Run /jitd:compact after isolated sub-tasks
+   - Context markers save your progress
 
 4. Agent usage for complex tasks
    - Use agents for multi-step research
@@ -190,7 +317,7 @@ No active tasks found. What would you like to work on?
 
 ---
 
-### Step 5: PM Tool Setup Check
+### Step 6: PM Tool Setup Check
 
 **If PM tool configured but not working**:
 
