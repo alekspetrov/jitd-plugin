@@ -130,7 +130,80 @@ Next: Run /jitd:compact to clear context
 
 **Key principle**: JITD projects expect full autonomy. When work is done, execute the complete finish protocol without coordination prompts.
 
-### 5. Smart Compact Strategy
+### 5. Agent Usage for Complex Tasks (CRITICAL FOR TOKEN OPTIMIZATION)
+
+**ALWAYS use agents instead of direct tool calls when**:
+
+✅ **Multi-file searches**:
+```
+BAD:  Grep for pattern, Read 10 files manually
+GOOD: Use Task agent to search and analyze pattern across codebase
+Savings: 60-80% tokens (agent optimizes file reading)
+```
+
+✅ **Research tasks** (understanding unfamiliar code):
+```
+BAD:  Read main.ts, utils.ts, config.ts, types.ts manually
+GOOD: Use Task agent "Research authentication flow in codebase"
+Savings: 70% tokens (agent reads only relevant sections)
+```
+
+✅ **Multi-step investigations**:
+```
+BAD:  Manually grep → read → grep again → read more
+GOOD: Use Task agent "Find all API endpoints and their authentication"
+Savings: 65% tokens (agent optimizes search strategy)
+```
+
+✅ **Code pattern discovery**:
+```
+BAD:  Read every component file to understand patterns
+GOOD: Use Task agent "Analyze React component patterns in /components"
+Savings: 75% tokens (agent samples representative files)
+```
+
+❌ **DON'T use agents when**:
+- Reading specific known file (use Read directly)
+- Working with 1-2 files you already loaded
+- Making small edits to current context
+- User explicitly wants to see the process
+
+**Why agents save tokens**:
+1. Agents run in separate context (don't pollute main conversation)
+2. Agents read/search efficiently without loading everything into your context
+3. Agents return only relevant findings (summary, not full files)
+4. Your main context stays free for implementation work
+
+**Example workflow**:
+```
+User: "Add rate limiting to all API endpoints"
+
+WRONG approach:
+1. Grep for "endpoint" → 50 files found
+2. Read api/users.ts (5k tokens)
+3. Read api/posts.ts (5k tokens)
+4. Read api/comments.ts (5k tokens)
+5. ... (15 more files)
+= 100k+ tokens consumed, context full
+
+CORRECT approach:
+1. Use Task agent: "Find all API endpoint patterns and list files"
+2. Agent returns: "Found 18 endpoints across 3 files: api/routes.ts, api/middleware.ts, api/handlers.ts"
+3. Read only api/middleware.ts (where rate limiting should go)
+= 8k tokens total (92% savings)
+```
+
+**Real impact**:
+- Multi-file search: 60-80% token reduction
+- Research task: 70% token reduction
+- Pattern discovery: 75% token reduction
+- **Average**: 65-70% token savings vs manual file reading
+
+**Remember**: Agents are your primary tool for exploration. Direct file reading is for implementation.
+
+---
+
+### 6. Smart Compact Strategy
 
 **Run `/jitd:compact` after**:
 - Completing isolated sub-task
@@ -164,6 +237,7 @@ Next: Run /jitd:compact to clear context
 - ❌ NEVER load all `.agent/` docs at once (defeats context optimization)
 - ❌ NEVER skip reading DEVELOPMENT-README.md (navigator is essential)
 - ❌ NEVER create docs outside `.agent/` structure (breaks discovery)
+- ❌ NEVER manually Read multiple files when Task agent should be used (wastes 60-80% tokens)
 
 ### General Violations
 - ❌ No Claude Code mentions in commits/code
@@ -177,11 +251,14 @@ Next: Run /jitd:compact to clear context
 
 1. **Start Session** → `/jitd:start` (loads navigator, checks PM tool)
 2. **Select Task** → Load task doc (`.agent/tasks/TASK-XX.md`)
-3. **Plan** → Use TodoWrite for complex tasks
-4. **Implement** → Follow project patterns, write tests
-5. **Verify** → Run tests, confirm functionality works
-6. **Complete** → [AUTONOMOUS] Commit, document, close ticket, create marker
-7. **Compact** → Run `/jitd:compact` to clear context for next task
+3. **Research** → Use Task agent for multi-file searches (NOT manual Read)
+4. **Plan** → Use TodoWrite for complex tasks
+5. **Implement** → Follow project patterns, write tests
+6. **Verify** → Run tests, confirm functionality works
+7. **Complete** → [AUTONOMOUS] Commit, document, close ticket, create marker
+8. **Compact** → Run `/jitd:compact` to clear context for next task
+
+**Critical**: Step 3 (Research) with agents saves 60-80% tokens vs manual file reading
 
 ---
 
@@ -295,10 +372,17 @@ create_comment({ issueId, body })    // Share updates
 ### During Work
 ```
 1. Follow JITD lazy-loading (don't load everything)
-2. Use TodoWrite for complex tasks
-3. Create SOPs for new patterns discovered
-4. Update system docs if architecture changes
+2. Use Task agent for multi-file searches (saves 60-80% tokens)
+3. Use TodoWrite for complex tasks
+4. Create SOPs for new patterns discovered
+5. Update system docs if architecture changes
 ```
+
+**Token Optimization Checklist**:
+- [ ] Used Task agent instead of manual file reading? (60-80% savings)
+- [ ] Loaded only relevant docs? (not everything)
+- [ ] Using navigator to find docs? (not guessing paths)
+- [ ] Planning to compact after this sub-task? (free up context)
 
 ### After Completion (AUTONOMOUS)
 ```
