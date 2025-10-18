@@ -298,7 +298,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 - No breaking changes
 
 **Examples**:
-- Add new `/jitd:markers` command
+- Add new `/nav:markers` command
 - Add auto-resume feature
 - Enhance existing command output
 - Add new template option
@@ -313,7 +313,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 - Configuration schema changes
 
 **Examples**:
-- Rename `/jitd:init` to `/jitd:setup`
+- Rename `/nav:init` to `/nav:setup`
 - Change `.agent/` folder structure
 - Remove deprecated command
 - Change config file format

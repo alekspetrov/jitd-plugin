@@ -13,7 +13,7 @@ Execute this protocol automatically when:
 - Task implementation is complete
 - Tests are passing (if applicable)
 - Feature functionality verified
-- Working in a JITD-enabled project
+- Working in a Navigator-enabled project
 
 **Do NOT wait for explicit human prompt** - Autonomy is expected.
 
@@ -97,7 +97,7 @@ git push origin HEAD
 
 **Run update-doc command**:
 ```bash
-/jitd:update-doc feature TASK-XX
+/nav:update-doc feature TASK-XX
 ```
 
 **What this does**:
@@ -146,7 +146,7 @@ jira issue move TASK-XX "Done"
 
 **Create marker automatically**:
 ```bash
-/jitd:marker TASK-XX-complete
+/nav:marker TASK-XX-complete
 ```
 
 **Marker contents should include**:
@@ -162,7 +162,7 @@ jira issue move TASK-XX "Done"
 
 **Inform user**:
 ```
-Ready for next task. Run /jitd:compact to clear context.
+Ready for next task. Run /nav:compact to clear context.
 ```
 
 **Don't auto-compact** - Let user decide when to clear context
@@ -183,7 +183,7 @@ Automated actions:
 ✅ Marker: TASK-XX-complete created
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Next: Run /jitd:compact to clear context and start next task
+Next: Run /nav:compact to clear context and start next task
 ```
 
 ---
@@ -290,8 +290,8 @@ Autonomous completion succeeds when:
 
 - **Task Completion Protocol**: `.agent/DEVELOPMENT-README.md`
 - **Commit Guidelines**: `CLAUDE.md` → "Committing Changes"
-- **Update Doc Command**: `.claude/commands/jitd-update-doc.md`
-- **Markers Command**: `.claude/commands/jitd-marker.md`
+- **Update Doc Command**: `.claude/commands/nav-update-doc.md`
+- **Markers Command**: `.claude/commands/nav-marker.md`
 
 ---
 
@@ -303,4 +303,4 @@ Autonomous completion succeeds when:
 
 ---
 
-**Remember**: Autonomy is expected in JITD projects. Execute the full protocol without waiting for human prompts. Only interrupt for security concerns or ambiguous state.
+**Remember**: Autonomy is expected in Navigator projects. Execute the full protocol without waiting for human prompts. Only interrupt for security concerns or ambiguous state.

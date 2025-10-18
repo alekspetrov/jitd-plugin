@@ -1,6 +1,6 @@
-# Next.js SaaS - JITD Reference Example
+# Next.js SaaS - Navigator Reference Example
 
-> **This is NOT a starter template.** This is a reference implementation showing JITD documentation workflow for a Next.js SaaS project.
+> **This is NOT a starter template.** This is a reference implementation showing Navigator documentation workflow for a Next.js SaaS project.
 
 ---
 
@@ -10,7 +10,7 @@
 - ✅ Task implementation plans (how features were planned)
 - ✅ System architecture docs (tech decisions documented)
 - ✅ Standard Operating Procedures (patterns discovered during development)
-- ✅ JITD workflow in action (navigator-first, on-demand loading)
+- ✅ Navigator workflow in action (navigator-first, on-demand loading)
 
 **NOT Included**: Production-ready code to copy-paste
 - ❌ No guarantee of latest Next.js version
@@ -24,7 +24,7 @@
 ### 1. Study the `.agent/` Structure
 
 ```bash
-# Read the navigator first (JITD workflow)
+# Read the navigator first (Navigator workflow)
 cat .agent/DEVELOPMENT-README.md
 
 # See how tasks were planned
@@ -63,13 +63,13 @@ This example uses specific choices (see `stack-choices.md`).
 - Keep: Navigator pattern, task structure, SOP organization
 - Change: Framework names, tool names, specific patterns
 
-**JITD workflow is universal. Tech stack is not.**
+**Navigator workflow is universal. Tech stack is not.**
 
 ---
 
 ## What You'll Learn
 
-### JITD Workflow in Practice
+### Navigator Workflow in Practice
 
 **See how**:
 1. Features start as task docs (`.agent/tasks/TASK-XX.md`)
@@ -106,7 +106,7 @@ This example uses specific choices (see `stack-choices.md`).
 - TASK-04: Stripe integration (payments)
 - TASK-05: AI API integration (OpenAI)
 
-**Not actually built** - Just documented to show JITD workflow
+**Not actually built** - Just documented to show Navigator workflow
 
 ---
 
@@ -128,7 +128,7 @@ See `stack-choices.md` for full reasoning and alternatives.
 
 ---
 
-## Quick Start (For Understanding JITD)
+## Quick Start (For Understanding Navigator)
 
 ```bash
 # 1. Read the navigator
@@ -146,9 +146,9 @@ cat .agent/system/project-architecture.md
 # 5. Copy the .agent/ structure to your project
 cp -r .agent/ ~/your-project/
 
-# 6. Start your JITD workflow
+# 6. Start your Navigator workflow
 cd ~/your-project
-/jitd:start
+/nav:start
 ```
 
 ---
@@ -159,7 +159,7 @@ cd ~/your-project
 Yes. The `.agent/` structure works with any framework. Change the framework names in docs.
 
 **"Can I use this with different styling (CSS Modules, etc.)?"**
-Yes. The JITD workflow doesn't care about styling choices. Update docs to match your stack.
+Yes. The Navigator workflow doesn't care about styling choices. Update docs to match your stack.
 
 **"Why Supabase? I use Firebase/Prisma"**
 Arbitrary choice for this example. Replace with your DB/auth setup. `.agent/` structure stays the same.
@@ -168,17 +168,17 @@ Arbitrary choice for this example. Replace with your DB/auth setup. `.agent/` st
 No. This is a documentation reference, not a code starter. The value is the `.agent/` folder.
 
 **"What if Next.js 16 changes everything?"**
-The JITD workflow (navigator → tasks → SOPs) won't change. Update framework-specific docs.
+The Navigator workflow (navigator → tasks → SOPs) won't change. Update framework-specific docs.
 
 ---
 
 ## Repository
 
-Part of [JITD Plugin](https://github.com/alekspetrov/jitd-plugin)
+Part of [Navigator Plugin](https://github.com/alekspetrov/nav-plugin)
 
 **More examples**:
 - `examples/python-api/` - FastAPI backend example (coming soon)
 
 ---
 
-**Remember**: Copy the documentation pattern, not the code. JITD is about workflow, not tech stack.
+**Remember**: Copy the documentation pattern, not the code. Navigator is about workflow, not tech stack.

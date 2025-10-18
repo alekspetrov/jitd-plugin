@@ -1,17 +1,17 @@
 {
-  "name": "jitd-marketplace",
-  "displayName": "JITD - Just-In-Time Documentation",
+  "name": "navigator-marketplace",
+  "displayName": "Navigator - Context-Efficient Documentation for Claude Code",
   "owner": {
     "name": "Aleks Petrov",
     "email": "aleks@example.com"
   },
   "metadata": {
-    "description": "JITD - Just-In-Time Documentation plugin marketplace",
-    "version": "1.6.0"
+    "description": "Navigator plugin marketplace - Skills + Agents for 95% token reduction",
+    "version": "2.0.0"
   },
   "plugins": [
     {
-      "name": "jitd",
+      "name": "navigator",
       "source": "./"
     }
   ]

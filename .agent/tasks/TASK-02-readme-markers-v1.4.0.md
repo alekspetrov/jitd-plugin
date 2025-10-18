@@ -10,7 +10,7 @@
 ## Context
 
 After releasing v1.4.0 with namespaced commands and context markers, the README.md was outdated (showed v1.2.0) and didn't clearly explain:
-- What JITD is
+- What Navigator is
 - How it optimizes tokens (92% reduction)
 - What features are included
 - How to use context markers
@@ -22,7 +22,7 @@ User feedback: "README must be clear what is this plugin, how to use it, what fe
 ## Implementation Plan
 
 ### Phase 1: Context Markers Feature ✅
-**Goal**: Add `/jitd:marker` command for on-demand conversation save points
+**Goal**: Add `/nav:marker` command for on-demand conversation save points
 
 **Implementation**:
 1. Created `commands/marker.md` (643 lines)
@@ -31,17 +31,17 @@ User feedback: "README must be clear what is this plugin, how to use it, what fe
    - Advanced features (list, clean, compare)
    - Best practices and strategies
 
-2. Updated `/jitd:init` command:
+2. Updated `/nav:init` command:
    - Added `.context-markers/` directory creation (Step 2)
    - Added `.gitignore` setup for markers (Step 6.3)
-   - Added marker usage to "How to Use JITD" (Step 9)
+   - Added marker usage to "How to Use Navigator" (Step 9)
 
 3. Created `templates/.gitignore`:
    - Git-ignore `.agent/.context-markers/`
    - Preserve directory structure with `.gitkeep`
 
 4. Updated CLAUDE.md templates:
-   - Added `/jitd:marker` to slash commands list
+   - Added `/nav:marker` to slash commands list
    - Updated both plugin and template versions
 
 **Files Changed**:
@@ -56,7 +56,7 @@ User feedback: "README must be clear what is this plugin, how to use it, what fe
 **Goal**: Create crystal-clear documentation for users
 
 **Implementation**:
-1. **What is JITD** section:
+1. **What is Navigator** section:
    - One-sentence explanation
    - Problem/solution comparison (150k vs 12k tokens)
    - Real results with metrics
@@ -64,7 +64,7 @@ User feedback: "README must be clear what is this plugin, how to use it, what fe
 2. **Quick Start** section:
    - Installation steps (5 steps)
    - Requirements clearly stated
-   - First session command (/jitd:start)
+   - First session command (/nav:start)
 
 3. **Features** section (5 features detailed):
    - Navigator-first pattern (2k token index)
@@ -123,17 +123,17 @@ User feedback: "README must be clear what is this plugin, how to use it, what fe
 ## Technical Decisions
 
 ### 1. Marker Scope Decision
-**Question**: Should agents, /jitd:start, /jitd:update-doc know about markers?
+**Question**: Should agents, /nav:start, /nav:update-doc know about markers?
 
 **Analysis**:
 - Agents are stateless (one-shot execution)
-- /jitd:start is for session beginning (nothing to save yet)
-- /jitd:update-doc creates permanent docs (different purpose)
+- /nav:start is for session beginning (nothing to save yet)
+- /nav:update-doc creates permanent docs (different purpose)
 
 **Decision**: Keep markers ONLY in:
-- `/jitd:marker` - Standalone command
-- `/jitd:compact` - Auto-creates markers
-- `/jitd:init` - Sets up directory
+- `/nav:marker` - Standalone command
+- `/nav:compact` - Auto-creates markers
+- `/nav:init` - Sets up directory
 - CLAUDE.md - Lists command
 
 **Rationale**:
@@ -150,7 +150,7 @@ User feedback: "README must be clear what is this plugin, how to use it, what fe
 **Examples Used**:
 ```
 ❌ Traditional: 150k loaded, 50k available (25%)
-✅ JITD: 12k loaded, 188k available (94%)
+✅ Navigator: 12k loaded, 188k available (94%)
 Improvement: 3.8x more context
 ```
 
@@ -173,8 +173,8 @@ Improvement: 3.8x more context
 ## Challenges & Solutions
 
 ### Challenge 1: README was too technical
-**Problem**: Previous README assumed users knew what JITD was
-**Solution**: Added "What is JITD" section with simple explanation
+**Problem**: Previous README assumed users knew what Navigator was
+**Solution**: Added "What is Navigator" section with simple explanation
 **Result**: Users understand purpose in 30 seconds
 
 ### Challenge 2: Token optimization not explained
@@ -222,15 +222,15 @@ Improvement: 3.8x more context
 1. `README.md` - Complete rewrite (502 lines, +377/-213)
 2. `commands/init.md` - Added marker setup (+30 lines)
 3. `commands/compact.md` - Enhanced marker explanation
-4. `CLAUDE.md` - Added /jitd:marker to commands
-5. `templates/CLAUDE.md` - Added /jitd:marker to commands
+4. `CLAUDE.md` - Added /nav:marker to commands
+5. `templates/CLAUDE.md` - Added /nav:marker to commands
 6. `.claude-plugin/marketplace.json` - Updated description
 
 ---
 
 ## Commits
 
-1. **bd38067**: `feat(marker): add /jitd:marker command for on-demand context save points`
+1. **bd38067**: `feat(marker): add /nav:marker command for on-demand context save points`
 2. **69b6be1**: `chore: update marketplace description to mention context markers`
 3. **8edb90b**: `docs: comprehensive README overhaul for v1.4.0`
 
@@ -263,7 +263,7 @@ Improvement: 3.8x more context
 
 ## Success Criteria
 
-- ✅ README explains what JITD is in 30 seconds
+- ✅ README explains what Navigator is in 30 seconds
 - ✅ Token optimization mechanism is clear (4-step process)
 - ✅ All 6 commands documented in table
 - ✅ Context markers explained with examples

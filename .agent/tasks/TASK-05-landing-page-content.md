@@ -2,13 +2,13 @@
 
 **Created**: 2025-10-13
 **Status**: In Progress
-**Target**: Website/landing page for JITD plugin
+**Target**: Website/landing page for Navigator plugin
 
 ---
 
 ## Objective
 
-Create technical landing page content that explains JITD without marketing fluff:
+Create technical landing page content that explains Navigator without marketing fluff:
 - Show the system clearly
 - Explain features with examples
 - Highlight use cases (what worked well in README)
@@ -21,11 +21,11 @@ Create technical landing page content that explains JITD without marketing fluff
 
 ### Content Sections
 
-1. **Hero/Intro** - What is JITD in 2-3 sentences
+1. **Hero/Intro** - What is Navigator in 2-3 sentences
 2. **The Problem** - Why context efficiency matters (with numbers)
 3. **How It Works** - Technical explanation with examples
-4. **Features** - What you can do with JITD
-5. **Use Cases** - Real scenarios where JITD helps (expand from README)
+4. **Features** - What you can do with Navigator
+5. **Use Cases** - Real scenarios where Navigator helps (expand from README)
 6. **Installation** - Quick start
 7. **Documentation** - Link to full docs
 
@@ -59,7 +59,7 @@ Landing page content in markdown format that can be:
 
 ## Success Criteria
 
-- [ ] Content explains JITD without jargon
+- [ ] Content explains Navigator without jargon
 - [ ] Engineers can understand the system in 2 minutes
 - [ ] Use cases are specific and relatable
 - [ ] No marketing bullshit detected

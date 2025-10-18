@@ -1,35 +1,35 @@
-# JITD Plugin - Claude Code Configuration
+# Navigator Plugin - Claude Code Configuration
 
 ## Context
-JITD (Just-In-Time Documentation) plugin for context-efficient AI development. Load documentation on-demand, not upfront.
+Navigator (Navigator) plugin for context-efficient AI development. Load documentation on-demand, not upfront.
 
 **Core Principle**: Navigator-first pattern → 92% reduction in doc loading overhead (12k vs 150k tokens)
 
 ---
 
-## JITD Workflow (CRITICAL - ENFORCE STRICTLY)
+## Navigator Workflow (CRITICAL - ENFORCE STRICTLY)
 
 ### SESSION START PROTOCOL (MANDATORY)
 
 **🚨 EVERY new conversation/session MUST begin with**:
 
 ```bash
-/jitd:start
+/nav:start
 ```
 
-**What `/jitd:start` does**:
+**What `/nav:start` does**:
 1. Loads `.agent/DEVELOPMENT-README.md` (navigator)
 2. Checks for assigned tasks from PM tool (if configured)
-3. Sets JITD workflow context
+3. Sets Navigator workflow context
 4. Activates token optimization strategy
 5. Reminds about agent usage for complex tasks
 
-**If user doesn't explicitly run `/jitd:start`**:
+**If user doesn't explicitly run `/nav:start`**:
 - You MUST proactively run it or ask to run it
 - Never proceed with work without loading navigator
-- This is NOT optional - it's the foundation of JITD
+- This is NOT optional - it's the foundation of Navigator
 
-**Alternative (if `/jitd:start` unavailable)**:
+**Alternative (if `/nav:start` unavailable)**:
 ```
 Read .agent/DEVELOPMENT-README.md
 ```
@@ -38,7 +38,7 @@ Read .agent/DEVELOPMENT-README.md
 
 ### 1. Read Documentation Navigator First (Always)
 
-**AFTER running `/jitd:start`, the navigator is loaded**:
+**AFTER running `/nav:start`, the navigator is loaded**:
 
 This navigator provides:
 - Documentation index
@@ -47,7 +47,7 @@ This navigator provides:
 - Quick start guides
 - Integration setup status
 
-**Never load all docs at once** - This defeats JITD's purpose
+**Never load all docs at once** - This defeats Navigator's purpose
 
 ### 2. Lazy-Load Documentation Based on Task
 
@@ -79,17 +79,17 @@ Total: 9k tokens vs 150k
 
 **After completing feature**:
 ```bash
-/jitd:update-doc feature TASK-XX
+/nav:update-doc feature TASK-XX
 ```
 
 **After solving novel issue**:
 ```bash
-/jitd:update-doc sop debugging issue-name
+/nav:update-doc sop debugging issue-name
 ```
 
 **After architecture change**:
 ```bash
-/jitd:update-doc system architecture
+/nav:update-doc system architecture
 ```
 
 ### 4. Autonomous Task Completion (CRITICAL)
@@ -98,7 +98,7 @@ Total: 9k tokens vs 150k
 
 ✅ **DO automatically** (no human prompt needed):
 1. **Commit changes** with proper conventional commit message
-2. **Archive implementation plan** via `/jitd:update-doc feature TASK-XX`
+2. **Archive implementation plan** via `/nav:update-doc feature TASK-XX`
 3. **Close ticket** in PM tool (if configured)
 4. **Create completion marker** `TASK-XX-complete`
 5. **Suggest compact** to clear context for next task
@@ -125,10 +125,10 @@ Automated actions:
 - Ticket: Closed in [PM tool]
 - Marker: TASK-XX-complete created
 
-Next: Run /jitd:compact to clear context
+Next: Run /nav:compact to clear context
 ```
 
-**Key principle**: JITD projects expect full autonomy. When work is done, execute the complete finish protocol without coordination prompts.
+**Key principle**: Navigator projects expect full autonomy. When work is done, execute the complete finish protocol without coordination prompts.
 
 ### 5. Agent Usage for Complex Tasks (CRITICAL FOR TOKEN OPTIMIZATION)
 
@@ -205,7 +205,7 @@ CORRECT approach:
 
 ### 6. Smart Compact Strategy
 
-**Run `/jitd:compact` after**:
+**Run `/nav:compact` after**:
 - Completing isolated sub-task
 - Finishing documentation update
 - Creating SOP
@@ -230,7 +230,7 @@ CORRECT approach:
 
 ## Forbidden Actions
 
-### JITD Violations (HIGHEST PRIORITY)
+### Navigator Violations (HIGHEST PRIORITY)
 - ❌ NEVER wait for explicit commit prompts after task completion (autonomous mode)
 - ❌ NEVER leave tickets open after implementation complete (close automatically)
 - ❌ NEVER skip documentation after completing features (knowledge loss)
@@ -249,14 +249,14 @@ CORRECT approach:
 
 ## Development Workflow
 
-1. **Start Session** → `/jitd:start` (loads navigator, checks PM tool)
+1. **Start Session** → `/nav:start` (loads navigator, checks PM tool)
 2. **Select Task** → Load task doc (`.agent/tasks/TASK-XX.md`)
 3. **Research** → Use Task agent for multi-file searches (NOT manual Read)
 4. **Plan** → Use TodoWrite for complex tasks
 5. **Implement** → Follow project patterns, write tests
 6. **Verify** → Run tests, confirm functionality works
 7. **Complete** → [AUTONOMOUS] Commit, document, close ticket, create marker
-8. **Compact** → Run `/jitd:compact` to clear context for next task
+8. **Compact** → Run `/nav:compact` to clear context for next task
 
 **Critical**: Step 3 (Research) with agents saves 60-80% tokens vs manual file reading
 
@@ -286,14 +286,14 @@ CORRECT approach:
 
 ### Slash Commands
 ```bash
-/jitd:init                     # Initialize JITD in project (one-time setup)
-/jitd:start                    # Start JITD session (EVERY new conversation)
-/jitd:update-doc feature TASK-XX    # Archive implementation plan
-/jitd:update-doc sop <category> <name>  # Create SOP
-/jitd:update-doc system <doc-name>  # Update architecture doc
-/jitd:marker [name]            # Create context save point (anytime)
-/jitd:markers                  # Manage markers: list, load, clean
-/jitd:compact                  # Smart context compact
+/nav:init                     # Initialize Navigator in project (one-time setup)
+/nav:start                    # Start Navigator session (EVERY new conversation)
+/nav:update-doc feature TASK-XX    # Archive implementation plan
+/nav:update-doc sop <category> <name>  # Create SOP
+/nav:update-doc system <doc-name>  # Update architecture doc
+/nav:marker [name]            # Create context save point (anytime)
+/nav:markers                  # Manage markers: list, load, clean
+/nav:compact                  # Smart context compact
 ```
 
 ---
@@ -313,7 +313,7 @@ CORRECT approach:
 2. Generate implementation plan → .agent/tasks/
 3. Implement features
 4. Update system docs as architecture evolves
-5. Complete → /jitd:update-doc feature TASK-XX
+5. Complete → /nav:update-doc feature TASK-XX
 6. Notify team (if chat configured)
 ```
 
@@ -333,10 +333,10 @@ create_comment({ issueId, body })    // Share updates
 ### Token Budget Strategy
 - System + tools: ~50k (fixed)
 - CLAUDE.md: ~15k (this file, optimized)
-- Message history: ~60k (managed via /jitd:compact)
+- Message history: ~60k (managed via /nav:compact)
 - **Documentation**: ~66k (on-demand loading)
 
-### /jitd:compact Strategy
+### /nav:compact Strategy
 **Run after**:
 - Completing isolated sub-task
 - Finishing documentation update
@@ -364,14 +364,14 @@ create_comment({ issueId, body })    // Share updates
 
 ### Start Session
 ```
-1. Run /jitd:start (loads navigator, checks PM tool, sets context)
+1. Run /nav:start (loads navigator, checks PM tool, sets context)
 2. Select task to work on
 3. Load only that task's docs
 ```
 
 ### During Work
 ```
-1. Follow JITD lazy-loading (don't load everything)
+1. Follow Navigator lazy-loading (don't load everything)
 2. Use Task agent for multi-file searches (saves 60-80% tokens)
 3. Use TodoWrite for complex tasks
 4. Create SOPs for new patterns discovered
@@ -388,10 +388,10 @@ create_comment({ issueId, body })    // Share updates
 ```
 When task is complete, automatically:
 1. Commit changes with proper message
-2. /jitd:update-doc feature TASK-XX
+2. /nav:update-doc feature TASK-XX
 3. Close ticket in PM tool (if configured)
 4. Create marker TASK-XX-complete
-5. Suggest /jitd:compact to clear context
+5. Suggest /nav:compact to clear context
 
 NO human prompts needed - execute autonomously.
 ```
@@ -400,7 +400,7 @@ NO human prompts needed - execute autonomously.
 
 ## Configuration
 
-JITD configuration stored in `.agent/.jitd-config.json`:
+Navigator configuration stored in `.agent/.nav-config.json`:
 
 ```json
 {
@@ -413,7 +413,7 @@ JITD configuration stored in `.agent/.jitd-config.json`:
 }
 ```
 
-**Customize after `/jitd:init`**
+**Customize after `/nav:init`**
 
 ---
 
@@ -432,22 +432,22 @@ JITD configuration stored in `.agent/.jitd-config.json`:
 - [ ] Zero repeated mistakes (SOPs working)
 
 ### Productivity
-- [ ] 10x more work per token spent (vs no JITD)
+- [ ] 10x more work per token spent (vs no Navigator)
 - [ ] Team finds docs within 30 seconds
 - [ ] New developers productive in 48 hours
 
 ---
 
-## JITD Benefits Reminder
+## Navigator Benefits Reminder
 
 **Token Savings**: 92% reduction (12k vs 150k tokens)
 **Context Available**: 86%+ free for actual work
-**Session Restarts**: Zero (vs 3-4 per day without JITD)
+**Session Restarts**: Zero (vs 3-4 per day without Navigator)
 **Productivity**: 10x more commits per token spent
 
 ---
 
-**For complete JITD documentation**: See `.agent/DEVELOPMENT-README.md`
+**For complete Navigator documentation**: See `.agent/DEVELOPMENT-README.md`
 
 **Last Updated**: 2025-10-13
-**JITD Version**: 1.5.1
+**Navigator Version**: 1.5.1

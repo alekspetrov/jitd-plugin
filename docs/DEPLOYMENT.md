@@ -1,6 +1,6 @@
-# JITD Plugin Deployment Guide
+# Navigator Plugin Deployment Guide
 
-How to deploy JITD to Claude Code marketplace and make it available to users.
+How to deploy Navigator to Claude Code marketplace and make it available to users.
 
 ---
 
@@ -46,14 +46,14 @@ This is the **actual working schema** (as of v1.0.1):
     "email": "aleks@example.com",
     "url": "https://github.com/alekspetrov"
   },
-  "homepage": "https://github.com/alekspetrov/jitd-plugin",
-  "repository": "https://github.com/alekspetrov/jitd-plugin",
+  "homepage": "https://github.com/alekspetrov/nav-plugin",
+  "repository": "https://github.com/alekspetrov/nav-plugin",
   "license": "MIT",
   "keywords": ["documentation", "context-management", "token-optimization"],
   "commands": [
-    "./commands/jitd:init.md",
+    "./commands/nav:init.md",
     "./commands/update-doc.md",
-    "./commands/jitd:compact.md"
+    "./commands/nav:compact.md"
   ]
 }
 ```
@@ -84,7 +84,7 @@ A **marketplace** is a Git repository (usually GitHub) that hosts Claude Code pl
 ### How Marketplaces Work
 
 ```
-GitHub Repo (jitd-plugin)
+GitHub Repo (nav-plugin)
     ↓
 Contains .claude-plugin/marketplace.json
     ↓
@@ -101,13 +101,13 @@ Plugin files copied to user's project
 
 ## Deployment Options
 
-### Option 1: Official JITD Marketplace (Recommended)
+### Option 1: Official Navigator Marketplace (Recommended)
 
 **Setup**: Host as standalone marketplace
 
 **Repository structure**:
 ```
-github.com/alekspetrov/jitd-plugin
+github.com/alekspetrov/nav-plugin
 ├── .claude-plugin/
 │   ├── marketplace.json
 │   └── README.md
@@ -120,13 +120,13 @@ github.com/alekspetrov/jitd-plugin
 **How users install**:
 ```bash
 # Add marketplace
-/plugin marketplace add alekspetrov/jitd-plugin
+/plugin marketplace add alekspetrov/nav-plugin
 
 # Install plugin
 /plugin install jitd
 
 # Use plugin
-/jitd:init
+/nav:init
 ```
 
 **Benefits**:
@@ -140,7 +140,7 @@ github.com/alekspetrov/jitd-plugin
 
 **Process**:
 1. Fork anthropics/claude-code
-2. Add JITD to their plugins/
+2. Add Navigator to their plugins/
 3. Submit PR
 4. Wait for review/approval
 
@@ -190,20 +190,20 @@ github.com/alekspetrov/claude-plugins
 
 **Option A: Via GitHub Website**
 1. Go to github.com/new
-2. Repository name: `jitd-plugin`
-3. Description: "Just-In-Time Documentation plugin for Claude Code"
+2. Repository name: `nav-plugin`
+3. Description: "Navigator plugin for Claude Code"
 4. Public (recommended for community)
 5. Don't initialize (we have existing code)
 6. Create repository
 
 **Option B: Via GitHub CLI**
 ```bash
-cd /Users/aleks.petrov/Projects/startups/jitd-plugin
+cd /Users/aleks.petrov/Projects/startups/nav-plugin
 
 # Create repo
-gh repo create alekspetrov/jitd-plugin \
+gh repo create alekspetrov/nav-plugin \
   --public \
-  --description "Just-In-Time Documentation plugin for Claude Code - 92% token reduction" \
+  --description "Navigator plugin for Claude Code - 92% token reduction" \
   --source=. \
   --push
 ```
@@ -211,10 +211,10 @@ gh repo create alekspetrov/jitd-plugin \
 ### Step 2: Push Code to GitHub
 
 ```bash
-cd /Users/aleks.petrov/Projects/startups/jitd-plugin
+cd /Users/aleks.petrov/Projects/startups/nav-plugin
 
 # Add remote
-git remote add origin https://github.com/alekspetrov/jitd-plugin.git
+git remote add origin https://github.com/alekspetrov/nav-plugin.git
 
 # Push
 git push -u origin main
@@ -227,12 +227,12 @@ Ensure `.claude-plugin/marketplace.json` is correct:
 ```json
 {
   "name": "jitd",
-  "displayName": "JITD - Just-In-Time Documentation",
+  "displayName": "Navigator - Navigator",
   "version": "1.0.0",
   "description": "Context-efficient documentation system...",
   "repository": {
     "type": "git",
-    "url": "https://github.com/alekspetrov/jitd-plugin"  // Update this!
+    "url": "https://github.com/alekspetrov/nav-plugin"  // Update this!
   }
 }
 ```
@@ -243,29 +243,29 @@ Ensure `.claude-plugin/marketplace.json` is correct:
 
 ```bash
 # Tag version
-git tag -a v1.0.0 -m "Initial release: JITD plugin"
+git tag -a v1.0.0 -m "Initial release: Navigator plugin"
 git push origin v1.0.0
 
 # Create release via GitHub CLI
 gh release create v1.0.0 \
-  --title "JITD v1.0.0 - Initial Release" \
+  --title "Navigator v1.0.0 - Initial Release" \
   --notes "$(cat <<'EOF'
-# JITD v1.0.0 - Just-In-Time Documentation
+# Navigator v1.0.0 - Navigator
 
-First public release of JITD plugin for Claude Code.
+First public release of Navigator plugin for Claude Code.
 
 ## Features
 - 92% reduction in documentation loading overhead
 - Navigator-first pattern for context efficiency
-- Slash commands: /jitd:init, /jitd:update-doc, /jitd:compact
+- Slash commands: /nav:init, /nav:update-doc, /nav:compact
 - Universal templates for any tech stack
 - Optional integrations: Linear, Jira, GitHub, Slack, Discord
 
 ## Installation
 \`\`\`bash
-/plugin marketplace add alekspetrov/jitd-plugin
+/plugin marketplace add alekspetrov/nav-plugin
 /plugin install jitd
-/jitd:init
+/nav:init
 \`\`\`
 
 ## Metrics from Production Testing
@@ -284,17 +284,17 @@ In a **different project**, test the installation:
 
 ```bash
 # Add your marketplace
-/plugin marketplace add alekspetrov/jitd-plugin
+/plugin marketplace add alekspetrov/nav-plugin
 
 # Install plugin
 /plugin install jitd
 
 # Verify files copied
 ls .claude/commands/
-# Should show: jitd-init.md, update-doc.md, jitd-compact.md
+# Should show: nav-init.md, update-doc.md, nav-compact.md
 
 # Test initialization
-/jitd:init
+/nav:init
 ```
 
 ### Step 6: Update Main README
@@ -305,14 +305,14 @@ Ensure main README has installation instructions:
 ## Installation
 
 \`\`\`bash
-# Add JITD marketplace
-/plugin marketplace add alekspetrov/jitd-plugin
+# Add Navigator marketplace
+/plugin marketplace add alekspetrov/nav-plugin
 
 # Install plugin
 /plugin install jitd
 
 # Initialize in your project
-/jitd:init
+/nav:init
 \`\`\`
 ```
 
@@ -325,7 +325,7 @@ Ensure main README has installation instructions:
 ```json
 {
   "name": "jitd",                    // Plugin identifier (lowercase, no spaces)
-  "displayName": "JITD - Just-In-Time Documentation",  // Shown to users
+  "displayName": "Navigator - Navigator",  // Shown to users
   "version": "1.0.0",                // Semantic versioning
   "description": "...",              // Short description
 
@@ -336,7 +336,7 @@ Ensure main README has installation instructions:
 
   "repository": {
     "type": "git",
-    "url": "https://github.com/alekspetrov/jitd-plugin"  // Must match actual repo!
+    "url": "https://github.com/alekspetrov/nav-plugin"  // Must match actual repo!
   },
 
   "license": "MIT",
@@ -361,8 +361,8 @@ Ensure main README has installation instructions:
   "examples": [...],                 // Example projects
 
   "support": {                       // Help resources
-    "docs": "https://github.com/alekspetrov/jitd-plugin/blob/main/docs/README.md",
-    "issues": "https://github.com/alekspetrov/jitd-plugin/issues"
+    "docs": "https://github.com/alekspetrov/nav-plugin/blob/main/docs/README.md",
+    "issues": "https://github.com/alekspetrov/nav-plugin/issues"
   }
 }
 ```
@@ -391,13 +391,13 @@ Must have:
 
 ```bash
 # User runs:
-/plugin marketplace add alekspetrov/jitd-plugin
+/plugin marketplace add alekspetrov/nav-plugin
 ```
 
 Claude Code:
-1. Fetches `https://github.com/alekspetrov/jitd-plugin`
+1. Fetches `https://github.com/alekspetrov/nav-plugin`
 2. Reads `.claude-plugin/marketplace.json`
-3. Registers marketplace as "alekspetrov/jitd-plugin"
+3. Registers marketplace as "alekspetrov/nav-plugin"
 
 ```bash
 # User runs:
@@ -406,7 +406,7 @@ Claude Code:
 
 Claude Code:
 1. Looks up `jitd` in registered marketplaces
-2. Finds it in `alekspetrov/jitd-plugin`
+2. Finds it in `alekspetrov/nav-plugin`
 3. Copies these files to user's project:
    - `.claude/commands/` → User's `.claude/commands/`
    - `templates/` → Available for reference
@@ -414,14 +414,14 @@ Claude Code:
 
 ```bash
 # User runs:
-/jitd:init
+/nav:init
 ```
 
 Plugin:
-1. Runs `.claude/commands/jitd:init.md`
+1. Runs `.claude/commands/nav:init.md`
 2. Creates `.agent/` structure
 3. Copies templates from plugin
-4. User's project now has JITD
+4. User's project now has Navigator
 
 ---
 
@@ -444,7 +444,7 @@ git tag -a v1.1.0 -m "Version 1.1.0: Add feature X"
 git push origin v1.1.0
 
 # Create GitHub release
-gh release create v1.1.0 --title "JITD v1.1.0" --notes "..."
+gh release create v1.1.0 --title "Navigator v1.1.0" --notes "..."
 ```
 
 ### User Updates
@@ -474,7 +474,7 @@ github.com/alekspetrov/claude-plugins/
 │   └── marketplace.json          # Lists all plugins
 ├── jitd/
 │   ├── .claude-plugin/
-│   │   └── plugin.json           # JITD plugin manifest
+│   │   └── plugin.json           # Navigator plugin manifest
 │   ├── .claude/commands/
 │   └── templates/
 ├── another-plugin/
@@ -519,11 +519,11 @@ github.com/alekspetrov/claude-plugins/
 
 ### 1. Direct GitHub (Primary)
 
-**URL**: `https://github.com/alekspetrov/jitd-plugin`
+**URL**: `https://github.com/alekspetrov/nav-plugin`
 
 **Installation**:
 ```bash
-/plugin marketplace add alekspetrov/jitd-plugin
+/plugin marketplace add alekspetrov/nav-plugin
 ```
 
 **Best for**: Full control, fast updates
@@ -574,10 +574,10 @@ github.com/alekspetrov/claude-plugins/
 
 ### Twitter/LinkedIn
 
-Use tweet from `JITD-TWEET.md` (Option 0 - Experiment):
+Use tweet from `Navigator-TWEET.md` (Option 0 - Experiment):
 
 ```
-Experimenting with Just-In-Time Documentation (JITD) for @AnthropicAI Claude Code.
+Experimenting with Navigator (Navigator) for @AnthropicAI Claude Code.
 
 Goal: Cut token usage, improve performance by loading docs on-demand
 instead of everything upfront.
@@ -586,7 +586,7 @@ Early results: 92% less loading overhead (12k vs 150k tokens)
 
 Following this experiment in real-time 🧪
 
-Install: /plugin marketplace add alekspetrov/jitd-plugin
+Install: /plugin marketplace add alekspetrov/nav-plugin
 ```
 
 ### Blog Post
@@ -605,7 +605,7 @@ Write blog post covering:
 ### Free Core + Paid Extensions
 
 **Free** (Open Source):
-- Core JITD plugin
+- Core Navigator plugin
 - Basic templates
 - Documentation
 
@@ -637,7 +637,7 @@ A clear description of what the bug is.
 **To Reproduce**
 Steps to reproduce:
 1. Run `/plugin install jitd`
-2. Run `/jitd:init`
+2. Run `/nav:init`
 3. See error...
 
 **Expected behavior**
@@ -646,7 +646,7 @@ What you expected to happen.
 **Environment**
 - Claude Code version: [e.g., 1.0.0]
 - OS: [e.g., macOS 14.0]
-- JITD version: [e.g., 1.0.0]
+- Navigator version: [e.g., 1.0.0]
 ```
 
 ### Contributing Guide
@@ -672,7 +672,7 @@ Create `CONTRIBUTING.md`:
 
 - Installations
 - Active users
-- Command usage (/jitd:init, /jitd:update-doc, etc.)
+- Command usage (/nav:init, /nav:update-doc, etc.)
 
 ### Community Feedback
 
@@ -713,19 +713,19 @@ Create `CONTRIBUTING.md`:
 
 ```bash
 # Create GitHub repo
-gh repo create alekspetrov/jitd-plugin --public --source=. --push
+gh repo create alekspetrov/nav-plugin --public --source=. --push
 
 # Tag version
 git tag -a v1.0.0 -m "Initial release"
 git push origin v1.0.0
 
 # Create release
-gh release create v1.0.0 --title "JITD v1.0.0" --notes "..."
+gh release create v1.0.0 --title "Navigator v1.0.0" --notes "..."
 
 # Test installation
-/plugin marketplace add alekspetrov/jitd-plugin
+/plugin marketplace add alekspetrov/nav-plugin
 /plugin install jitd
-/jitd:init
+/nav:init
 
 # Update plugin
 git commit -m "feat: new feature (v1.1.0)"
@@ -735,6 +735,6 @@ git push origin v1.1.0
 
 ---
 
-**Ready to deploy**: Follow steps above to publish JITD to GitHub and make it available to the world! 🚀
+**Ready to deploy**: Follow steps above to publish Navigator to GitHub and make it available to the world! 🚀
 
-**Support**: Issues at https://github.com/alekspetrov/jitd-plugin/issues
+**Support**: Issues at https://github.com/alekspetrov/nav-plugin/issues

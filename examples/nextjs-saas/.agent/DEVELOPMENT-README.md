@@ -21,7 +21,7 @@
 ### Fixing a Bug?
 1. Check [`sops/debugging/`](#debugging) for known issues
 2. Review relevant system docs for context
-3. After fixing, create SOP: `/jitd:update-doc sop debugging [issue-name]`
+3. After fixing, create SOP: `/nav:update-doc sop debugging [issue-name]`
 
 ---
 
@@ -29,11 +29,11 @@
 
 ### Autonomous Completion Expected
 
-JITD projects run in **full autonomy mode**. When task implementation is complete:
+Navigator projects run in **full autonomy mode**. When task implementation is complete:
 
 ✅ **Execute automatically** (no human prompt needed):
 1. **Commit changes** with conventional commit message
-2. **Archive implementation plan** (`/jitd:update-doc feature TASK-XX`)
+2. **Archive implementation plan** (`/nav:update-doc feature TASK-XX`)
 3. **Create completion marker** (`TASK-XX-complete`)
 4. **Suggest compact** for next task
 
@@ -287,7 +287,7 @@ Only interrupt autonomous flow if:
 3. `sops/development/adding-protected-routes.md` → Auth middleware
 4. Check `tasks/TASK-02-dashboard-layout.md` → Similar work
 5. Implement new page
-6. Document: `/jitd:update-doc feature TASK-XX`
+6. Document: `/nav:update-doc feature TASK-XX`
 
 ### Scenario: Adding Payment Feature
 
@@ -305,7 +305,7 @@ Only interrupt autonomous flow if:
 1. Check `sops/debugging/hydration-mismatch.md` → Known solution?
 2. `system/tech-stack-patterns.md` → Server/Client Component rules
 3. Debug issue
-4. If new issue, create SOP: `/jitd:update-doc sop debugging [issue-name]`
+4. If new issue, create SOP: `/nav:update-doc sop debugging [issue-name]`
 
 ### Scenario: Onboarding New Developer
 
@@ -343,8 +343,8 @@ npm run dev
 ### Making Changes
 
 ```bash
-# 1. Start JITD session
-/jitd:start
+# 1. Start Navigator session
+/nav:start
 
 # 2. Load relevant task
 Read .agent/tasks/TASK-XX-feature.md
@@ -360,17 +360,17 @@ npm run build
 npm run test (if tests exist)
 
 # 6. Document changes
-/jitd:update-doc feature TASK-XX
+/nav:update-doc feature TASK-XX
 
 # 7. If new pattern discovered
-/jitd:update-doc sop development pattern-name
+/nav:update-doc sop development pattern-name
 ```
 
 ---
 
 ## 📊 Token Optimization Strategy
 
-**This project follows JITD principles**:
+**This project follows Navigator principles**:
 
 1. **Always load**: `DEVELOPMENT-README.md` (~2k tokens)
 2. **Load for current work**: Specific task doc (~3k tokens)
@@ -401,18 +401,18 @@ npm run test (if tests exist)
 
 ```bash
 # Start session (every new conversation)
-/jitd:start
+/nav:start
 
 # Update documentation
-/jitd:update-doc feature TASK-XX
-/jitd:update-doc sop debugging [issue]
-/jitd:update-doc system [doc-name]
+/nav:update-doc feature TASK-XX
+/nav:update-doc sop debugging [issue]
+/nav:update-doc system [doc-name]
 
 # Create context marker
-/jitd:marker [name] "optional note"
+/nav:marker [name] "optional note"
 
 # Smart compact
-/jitd:compact
+/nav:compact
 ```
 
 ---
@@ -420,4 +420,4 @@ npm run test (if tests exist)
 **This documentation system keeps the project context-efficient while maintaining comprehensive knowledge.**
 
 **Last Updated**: 2025-10-15
-**Powered By**: JITD (Just-In-Time Documentation)
+**Powered By**: Navigator (Navigator)

@@ -1,12 +1,12 @@
-# JITD Configuration Guide
+# Navigator Configuration Guide
 
-Complete guide to configuring JITD for your project and workflow.
+Complete guide to configuring Navigator for your project and workflow.
 
 ---
 
 ## Configuration File
 
-JITD settings stored in `.agent/.jitd-config.json`:
+Navigator settings stored in `.agent/.nav-config.json`:
 
 ```json
 {
@@ -19,7 +19,7 @@ JITD settings stored in `.agent/.jitd-config.json`:
 }
 ```
 
-Created automatically by `/jitd:init`, customizable anytime.
+Created automatically by `/nav:init`, customizable anytime.
 
 ---
 
@@ -33,7 +33,7 @@ Created automatically by `/jitd:init`, customizable anytime.
    claude mcp add linear-server
    ```
 
-2. Configure in `.jitd-config.json`:
+2. Configure in `.nav-config.json`:
    ```json
    {
      "project_management": "linear",
@@ -54,7 +54,7 @@ Created automatically by `/jitd:init`, customizable anytime.
 
 **Usage**:
 ```bash
-/jitd:update-doc feature QF-123
+/nav:update-doc feature QF-123
 ```
 
 Automatically:
@@ -77,7 +77,7 @@ Automatically:
    gh auth login
    ```
 
-3. Configure in `.jitd-config.json`:
+3. Configure in `.nav-config.json`:
    ```json
    {
      "project_management": "github",
@@ -97,7 +97,7 @@ Automatically:
 
 **Usage**:
 ```bash
-/jitd:update-doc feature GH-456
+/nav:update-doc feature GH-456
 ```
 
 Uses `gh issue view 456` to get details.
@@ -130,7 +130,7 @@ Uses `gh issue view 456` to get details.
 
 **Usage**:
 ```bash
-/jitd:update-doc feature PROJ-789
+/nav:update-doc feature PROJ-789
 ```
 
 ### Option 4: None (Manual)
@@ -150,10 +150,10 @@ Uses `gh issue view 456` to get details.
 
 **Usage**:
 ```bash
-/jitd:update-doc feature TASK-123
+/nav:update-doc feature TASK-123
 ```
 
-You provide context manually, JITD creates docs.
+You provide context manually, Navigator creates docs.
 
 ---
 
@@ -167,7 +167,7 @@ You provide context manually, JITD creates docs.
    claude mcp add slack
    ```
 
-2. Configure in `.jitd-config.json`:
+2. Configure in `.nav-config.json`:
    ```json
    {
      "team_chat": "slack",
@@ -192,7 +192,7 @@ You provide context manually, JITD creates docs.
 
 **Setup**:
 1. Create Discord webhook
-2. Configure in `.jitd-config.json`:
+2. Configure in `.nav-config.json`:
    ```json
    {
      "team_chat": "discord",
@@ -299,7 +299,7 @@ You manually load navigator when needed. Saves 2k tokens if working on isolated 
 
 **Behavior**:
 - Never auto-suggest compact
-- User runs `/jitd:compact` explicitly
+- User runs `/nav:compact` explicitly
 
 **Best for**: Experienced users who know when to compact
 
@@ -319,7 +319,7 @@ Create `.agent/.templates/` with custom versions:
 │   └── system-template.md        # Custom system doc format
 ```
 
-JITD uses custom templates if they exist, otherwise uses plugin defaults.
+Navigator uses custom templates if they exist, otherwise uses plugin defaults.
 
 ### Example: Custom Task Template
 
@@ -336,7 +336,7 @@ JITD uses custom templates if they exist, otherwise uses plugin defaults.
 [How to verify]
 ```
 
-Save to `.agent/.templates/task-template.md`, JITD uses it automatically.
+Save to `.agent/.templates/task-template.md`, Navigator uses it automatically.
 
 ---
 
@@ -364,7 +364,7 @@ Edit `.agent/DEVELOPMENT-README.md` to add custom docs:
 
 Then create:
 ```bash
-/jitd:update-doc system database
+/nav:update-doc system database
 ```
 
 ### Add Custom SOP Categories
@@ -401,7 +401,7 @@ Update navigator to include new category.
 }
 ```
 
-JITD warns if docs exceed limits.
+Navigator warns if docs exceed limits.
 
 ### Documentation Freshness
 
@@ -415,7 +415,7 @@ JITD warns if docs exceed limits.
 }
 ```
 
-JITD warns if system docs haven't been updated in 7 days.
+Navigator warns if system docs haven't been updated in 7 days.
 
 ### Context Markers
 
@@ -429,7 +429,7 @@ JITD warns if system docs haven't been updated in 7 days.
 }
 ```
 
-Automatically saves context markers when running `/jitd:compact`.
+Automatically saves context markers when running `/nav:compact`.
 
 ---
 
@@ -470,8 +470,8 @@ Reference in config:
 .env
 .env.local
 
-# Share JITD config with team
-# .agent/.jitd-config.json  # Commented out = committed
+# Share Navigator config with team
+# .agent/.nav-config.json  # Commented out = committed
 ```
 
 **Benefits**:
@@ -481,11 +481,11 @@ Reference in config:
 
 ### Personal Configuration
 
-Create `.agent/.jitd-config.local.json`:
+Create `.agent/.nav-config.local.json`:
 
 ```json
 {
-  "extends": ".jitd-config.json",
+  "extends": ".nav-config.json",
   "overrides": {
     "auto_load_navigator": false,
     "compact_strategy": "aggressive"
@@ -495,7 +495,7 @@ Create `.agent/.jitd-config.local.json`:
 
 Add to .gitignore:
 ```gitignore
-.agent/.jitd-config.local.json
+.agent/.nav-config.local.json
 ```
 
 ---
@@ -509,23 +509,23 @@ Add to .gitignore:
 **After**: Centralized in `.agent/`
 
 **Steps**:
-1. Run `/jitd:init`
+1. Run `/nav:init`
 2. Copy existing docs to `.agent/system/`
 3. Update navigator to index them
-4. Use `/jitd:update-doc` going forward
+4. Use `/nav:update-doc` going forward
 
 ### From Other Documentation System
 
 **Before**: Custom doc structure
 
-**After**: JITD structure
+**After**: Navigator structure
 
 **Steps**:
-1. Map existing docs to JITD categories:
+1. Map existing docs to Navigator categories:
    - Implementation plans → `.agent/tasks/`
    - Architecture docs → `.agent/system/`
    - Procedures → `.agent/sops/`
-2. Convert to JITD templates
+2. Convert to Navigator templates
 3. Update navigator
 
 ---
@@ -535,11 +535,11 @@ Add to .gitignore:
 ### Configuration Not Loading
 
 **Check**:
-1. File exists: `.agent/.jitd-config.json`
+1. File exists: `.agent/.nav-config.json`
 2. Valid JSON (no syntax errors)
 3. Required fields present
 
-**Fix**: Run `/jitd:init` to regenerate
+**Fix**: Run `/nav:init` to regenerate
 
 ### Integration Not Working
 
@@ -557,7 +557,7 @@ Add to .gitignore:
 
 ### Auto-Load Not Working
 
-**Check**: `.jitd-config.json`:
+**Check**: `.nav-config.json`:
 ```json
 {
   "auto_load_navigator": true
@@ -625,4 +625,4 @@ Full PM/chat integration, documentation freshness checks.
 
 ---
 
-**Start configuring**: Edit `.agent/.jitd-config.json` after `/jitd:init` 🚀
+**Start configuring**: Edit `.agent/.nav-config.json` after `/nav:init` 🚀

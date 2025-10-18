@@ -9,12 +9,12 @@
 
 ## Context
 
-After releasing v1.4.0 with `/jitd:marker` for creating save points, user identified a gap:
-- "We have /jitd:marker to CREATE markers, but no commands to USE them"
+After releasing v1.4.0 with `/nav:marker` for creating save points, user identified a gap:
+- "We have /nav:marker to CREATE markers, but no commands to USE them"
 - "Why don't we have select-marker or markers-list?"
 - Current flow requires manual `Read @.agent/.context-markers/file.md`
 
-Additionally, after `/jitd:compact`, users had to manually copy and paste 3 Read commands to restore context. This was friction in the workflow.
+Additionally, after `/nav:compact`, users had to manually copy and paste 3 Read commands to restore context. This was friction in the workflow.
 
 **User request**: "Can we make it back, and markers-list also might be interesting"
 
@@ -24,11 +24,11 @@ Additionally, after `/jitd:compact`, users had to manually copy and paste 3 Read
 
 ### Phase 1: Interactive Marker Management ✅
 
-**Goal**: Create `/jitd:markers` (plural) command for managing context markers
+**Goal**: Create `/nav:markers` (plural) command for managing context markers
 
 **Design Decision**:
-- `/jitd:marker` (singular) = CREATE markers
-- `/jitd:markers` (plural) = MANAGE markers (list, load, clean)
+- `/nav:marker` (singular) = CREATE markers
+- `/nav:markers` (plural) = MANAGE markers (list, load, clean)
 - Interactive by default for best UX
 
 **Implementation**:
@@ -37,7 +37,7 @@ Created `commands/markers.md` (435 lines) with 3 modes:
 
 1. **Interactive Mode** (default):
    ```bash
-   /jitd:markers
+   /nav:markers
    ```
    - Lists all markers with details (name, date, size, task)
    - Prompts user to select one
@@ -46,7 +46,7 @@ Created `commands/markers.md` (435 lines) with 3 modes:
 
 2. **List Mode**:
    ```bash
-   /jitd:markers list
+   /nav:markers list
    ```
    - Shows all markers with metadata
    - No selection prompt
@@ -54,7 +54,7 @@ Created `commands/markers.md` (435 lines) with 3 modes:
 
 3. **Clean Mode**:
    ```bash
-   /jitd:markers clean
+   /nav:markers clean
    ```
    - Shows markers older than 7 days
    - Asks which to keep/delete
@@ -72,14 +72,14 @@ Created `commands/markers.md` (435 lines) with 3 modes:
 
 ### Phase 2: Active Marker Auto-Resume ✅
 
-**Goal**: Eliminate manual copying after `/jitd:compact`
+**Goal**: Eliminate manual copying after `/nav:compact`
 
 **Problem Identified**:
-User feedback from testing: After `/jitd:compact`, it returns instructions to manually Read 3 files. But we could just mark the marker as "active" and auto-load it on `/jitd:start`.
+User feedback from testing: After `/nav:compact`, it returns instructions to manually Read 3 files. But we could just mark the marker as "active" and auto-load it on `/nav:start`.
 
 **Solution Design**:
-1. `/jitd:compact` creates `.active` file pointing to marker
-2. `/jitd:start` detects `.active` file
+1. `/nav:compact` creates `.active` file pointing to marker
+2. `/nav:start` detects `.active` file
 3. Prompts user to load marker
 4. Loads automatically on confirmation
 5. Deletes `.active` file (consumed)
@@ -93,7 +93,7 @@ Updated `commands/compact.md`:
   ```
 - **Step 4**: Updated resume instructions
   - Before: "Read @.agent/.context-markers/file.md"
-  - After: "Simply run: /jitd:start"
+  - After: "Simply run: /nav:start"
 
 Updated `commands/start.md`:
 - **Step 1.5** (new): Check for active marker
@@ -116,14 +116,14 @@ Updated `commands/start.md`:
 **Question**: What to call marker management command?
 
 **Options Considered**:
-- Sub-commands: `/jitd:marker list`, `/jitd:marker load`
-- Separate commands: `/jitd:marker-list`, `/jitd:marker-load`
-- Plural command: `/jitd:markers`
+- Sub-commands: `/nav:marker list`, `/nav:marker load`
+- Separate commands: `/nav:marker-list`, `/nav:marker-load`
+- Plural command: `/nav:markers`
 
-**Decision**: `/jitd:markers` (plural) for management
+**Decision**: `/nav:markers` (plural) for management
 
 **Rationale**:
-- Clear separation: `/jitd:marker` = CREATE, `/jitd:markers` = MANAGE
+- Clear separation: `/nav:marker` = CREATE, `/nav:markers` = MANAGE
 - Interactive by default (best UX)
 - Singular vs plural is intuitive
 - Keeps command count low (8 total)
@@ -133,7 +133,7 @@ Updated `commands/start.md`:
 **Question**: How to track which marker should auto-load?
 
 **Options Considered**:
-- Config file: Add "active_marker" field to `.jitd-config.json`
+- Config file: Add "active_marker" field to `.nav-config.json`
 - Marker filename: Rename marker to `.active-[name].md`
 - Separate file: Create `.active` file with pointer
 
@@ -147,7 +147,7 @@ Updated `commands/start.md`:
 
 ### 3. Auto-Load vs Prompt
 
-**Question**: Should `/jitd:start` auto-load marker or prompt first?
+**Question**: Should `/nav:start` auto-load marker or prompt first?
 
 **Decision**: Prompt user, then auto-load on confirmation
 
@@ -172,16 +172,16 @@ Updated `commands/start.md`:
 
 **Result**: <1 second for 50+ markers
 
-### Challenge 2: User Forgets to Run /jitd:start
+### Challenge 2: User Forgets to Run /nav:start
 
-**Problem**: If user starts new conversation without `/jitd:start`, active marker not loaded
+**Problem**: If user starts new conversation without `/nav:start`, active marker not loaded
 
 **Solution**:
-- Strong CLAUDE.md enforcement: "EVERY session MUST begin with /jitd:start"
+- Strong CLAUDE.md enforcement: "EVERY session MUST begin with /nav:start"
 - Clear resume instructions after compact
-- Visual cue: "Simply run: /jitd:start"
+- Visual cue: "Simply run: /nav:start"
 
-**Result**: Users trained to run /jitd:start first
+**Result**: Users trained to run /nav:start first
 
 ### Challenge 3: Marker Cleanup Safety
 
@@ -201,7 +201,7 @@ Updated `commands/start.md`:
 
 ### Before v1.5.0
 
-**After /jitd:compact**:
+**After /nav:compact**:
 ```
 TO RESUME AFTER COMPACT:
 1. Read @.agent/DEVELOPMENT-README.md
@@ -221,15 +221,15 @@ User: "What was I working on yesterday?"
 
 ### After v1.5.0
 
-**After /jitd:compact**:
+**After /nav:compact**:
 ```
 ✅ Context marker created and marked as active
 
 TO RESUME AFTER COMPACT:
-Simply run: /jitd:start
+Simply run: /nav:start
 
 [New session]
-/jitd:start
+/nav:start
 → "🔄 Active marker detected! Load it? [Y/n]"
 → Y
 → "✅ Context restored!"
@@ -238,7 +238,7 @@ Simply run: /jitd:start
 **Loading old marker**:
 ```
 User: "What was I working on yesterday?"
-/jitd:markers
+/nav:markers
 → Visual list appears
 → Select marker
 → Context restored automatically
@@ -266,13 +266,13 @@ User: "What was I working on yesterday?"
    - Auto-load prompt and logic
 
 3. `CLAUDE.md` (+1 line)
-   - Added `/jitd:markers` to commands list
+   - Added `/nav:markers` to commands list
 
 4. `templates/CLAUDE.md` (+1 line)
-   - Added `/jitd:markers` to commands list
+   - Added `/nav:markers` to commands list
 
 5. `README.md` (updated examples)
-   - Updated workflow to show `/jitd:markers`
+   - Updated workflow to show `/nav:markers`
    - Updated feature descriptions
 
 6. `.claude-plugin/marketplace.json`
@@ -280,7 +280,7 @@ User: "What was I working on yesterday?"
 
 ### Commits
 
-1. **d329ef3**: `feat(markers): add /jitd:markers command for interactive marker management`
+1. **d329ef3**: `feat(markers): add /nav:markers command for interactive marker management`
 2. **e613e7d**: `feat(markers): add active marker auto-resume system`
 
 ### Metrics
@@ -291,7 +291,7 @@ User: "What was I working on yesterday?"
 
 **User Steps to Resume**:
 - Before: 3 manual Read commands
-- After: 1 command (`/jitd:start`)
+- After: 1 command (`/nav:start`)
 - **Improvement**: 66% reduction
 
 **Marker Management**:
@@ -321,13 +321,13 @@ User: "What was I working on yesterday?"
 
 ## Success Criteria
 
-- ✅ `/jitd:markers` lists all markers with details
+- ✅ `/nav:markers` lists all markers with details
 - ✅ Interactive mode loads selected marker automatically
 - ✅ List mode shows overview without prompt
 - ✅ Clean mode removes old markers safely
 - ✅ Performance <1s for 50+ markers
-- ✅ Active marker auto-detected by `/jitd:start`
-- ✅ One-command resume after `/jitd:compact`
+- ✅ Active marker auto-detected by `/nav:start`
+- ✅ One-command resume after `/nav:compact`
 - ✅ `.active` file cleaned after use
 - ✅ User has full control (prompt before loading)
 
@@ -341,8 +341,8 @@ User: "What was I working on yesterday?"
 - [ ] Gather user feedback on UX
 
 ### Future Enhancements
-- [ ] `/jitd:markers diff marker1 marker2` - Compare two markers
-- [ ] `/jitd:markers search "OAuth"` - Search marker content
+- [ ] `/nav:markers diff marker1 marker2` - Compare two markers
+- [ ] `/nav:markers search "OAuth"` - Search marker content
 - [ ] Auto-marker creation on certain triggers
 - [ ] Marker templates for common scenarios
 
@@ -356,7 +356,7 @@ User: "What was I working on yesterday?"
    - Update version reference: v1.4.0 → v1.5.0
 
 2. ~~**README.md**~~ (already updated):
-   - ✅ Added `/jitd:markers` to commands table
+   - ✅ Added `/nav:markers` to commands table
    - ✅ Updated example workflows
    - ✅ Updated feature descriptions
 

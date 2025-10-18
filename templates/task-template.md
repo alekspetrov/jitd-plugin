@@ -130,7 +130,7 @@ src/
 ### Finalization
 - [ ] Ticket marked as completed
 - [ ] Team notified (if significant feature)
-- [ ] Documentation archived via `/jitd:update-doc feature TASK-XX`
+- [ ] Documentation archived via `/nav:update-doc feature TASK-XX`
 
 ---
 

@@ -1,25 +1,31 @@
 {
-  "name": "jitd",
-  "version": "1.6.0",
-  "description": "Context-efficient documentation system that loads what you need, when you need it. 92% reduction in documentation loading overhead.",
+  "name": "navigator",
+  "version": "2.0.0",
+  "description": "Navigator for Claude Code - Context-efficient documentation system with Skills + Agents. 95% token reduction through progressive disclosure.",
   "author": {
     "name": "Aleks Petrov",
     "email": "aleks@example.com",
     "url": "https://github.com/alekspetrov"
   },
-  "homepage": "https://github.com/alekspetrov/jitd-plugin",
-  "repository": "https://github.com/alekspetrov/jitd-plugin",
+  "homepage": "https://github.com/alekspetrov/navigator-plugin",
+  "repository": "https://github.com/alekspetrov/navigator-plugin",
   "license": "MIT",
   "keywords": [
     "documentation",
     "context-management",
     "token-optimization",
     "knowledge-management",
-    "productivity"
+    "productivity",
+    "skills",
+    "agents",
+    "navigator"
   ],
   "commands": [
-    "./commands/jitd-init.md",
-    "./commands/update-doc.md",
-    "./commands/jitd-compact.md"
+    "./commands/init.md",
+    "./commands/start.md",
+    "./commands/doc.md",
+    "./commands/marker.md",
+    "./commands/markers.md",
+    "./commands/compact.md"
   ]
 }

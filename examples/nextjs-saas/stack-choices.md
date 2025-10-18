@@ -2,7 +2,7 @@
 
 This document explains **why** specific technologies were chosen for this example and provides **alternatives** for your project.
 
-**Remember**: JITD works with any stack. These choices make the example concrete, not prescriptive.
+**Remember**: Navigator works with any stack. These choices make the example concrete, not prescriptive.
 
 ---
 
@@ -20,7 +20,7 @@ This document explains **why** specific technologies were chosen for this exampl
 - **Nuxt 3**: Vue ecosystem, similar patterns to Next.js
 - **Astro**: Content-focused, islands architecture
 
-**JITD impact**: None. `.agent/` structure identical, just change framework names in docs.
+**Navigator impact**: None. `.agent/` structure identical, just change framework names in docs.
 
 ---
 
@@ -36,7 +36,7 @@ This document explains **why** specific technologies were chosen for this exampl
 - **Client-Side Rendering (CSR)**: Simpler, worse SEO, slower initial load
 - **Incremental Static Regeneration (ISR)**: Hybrid approach, more complex
 
-**JITD impact**: None. Rendering strategy is implementation detail, not workflow.
+**Navigator impact**: None. Rendering strategy is implementation detail, not workflow.
 
 ---
 
@@ -54,7 +54,7 @@ This document explains **why** specific technologies were chosen for this exampl
 - **Panda CSS**: Zero-runtime CSS-in-JS, type-safe
 - **Vanilla CSS**: No framework, full control, more manual
 
-**JITD impact**: None. Styling doesn't affect documentation workflow.
+**Navigator impact**: None. Styling doesn't affect documentation workflow.
 
 ---
 
@@ -72,7 +72,7 @@ This document explains **why** specific technologies were chosen for this exampl
 - **Firebase**: NoSQL, real-time by default, different mental model
 - **PlanetScale**: MySQL, serverless, schema branching
 
-**JITD impact**: None. Database choice affects `.agent/sops/development/` patterns, not structure.
+**Navigator impact**: None. Database choice affects `.agent/sops/development/` patterns, not structure.
 
 ---
 
@@ -90,7 +90,7 @@ This document explains **why** specific technologies were chosen for this exampl
 - **Auth0**: Enterprise features, more expensive, OAuth specialist
 - **Custom JWT**: Full control, more work, security responsibility
 
-**JITD impact**: None. Auth provider affects `.agent/sops/integrations/` docs, not workflow.
+**Navigator impact**: None. Auth provider affects `.agent/sops/integrations/` docs, not workflow.
 
 ---
 
@@ -108,7 +108,7 @@ This document explains **why** specific technologies were chosen for this exampl
 - **PayPal**: Widely trusted, worse developer experience
 - **Crypto payments**: Niche, volatile, regulatory unclear
 
-**JITD impact**: None. Payment provider affects `.agent/tasks/TASK-XX-payments.md`, not structure.
+**Navigator impact**: None. Payment provider affects `.agent/tasks/TASK-XX-payments.md`, not structure.
 
 ---
 
@@ -126,7 +126,7 @@ This document explains **why** specific technologies were chosen for this exampl
 - **Ollama**: Self-hosted, open models, no API costs
 - **Replicate**: Many models, pay-per-use, good for experiments
 
-**JITD impact**: None. AI provider affects `.agent/sops/integrations/` docs.
+**Navigator impact**: None. AI provider affects `.agent/sops/integrations/` docs.
 
 ---
 
@@ -144,7 +144,7 @@ This document explains **why** specific technologies were chosen for this exampl
 - **Fly.io**: Full VM control, global deployment, more complex
 - **AWS/GCP/Azure**: More control, more complexity, better at scale
 
-**JITD impact**: None. Hosting affects `.agent/sops/deployment/` docs.
+**Navigator impact**: None. Hosting affects `.agent/sops/deployment/` docs.
 
 ---
 
@@ -161,7 +161,7 @@ This document explains **why** specific technologies were chosen for this exampl
 - **JSDoc**: Type hints without compilation, less safety
 - **Flow**: Facebook's type checker, less adoption
 
-**JITD impact**: None. Language choice doesn't affect documentation workflow.
+**Navigator impact**: None. Language choice doesn't affect documentation workflow.
 
 ---
 
@@ -173,7 +173,7 @@ This document explains **why** specific technologies were chosen for this exampl
 - **Playwright**: E2E testing, multi-browser
 - **Cypress**: E2E testing, better DX, slower
 
-**JITD impact**: Test strategy affects `.agent/sops/development/testing-workflow.md`
+**Navigator impact**: Test strategy affects `.agent/sops/development/testing-workflow.md`
 
 ---
 
@@ -192,7 +192,7 @@ This document explains **why** specific technologies were chosen for this exampl
 - Task documentation (`.agent/tasks/TASK-XX-*.md`)
 - SOP organization (`.agent/sops/{development,debugging,integrations}/`)
 - System docs (`.agent/system/`)
-- JITD workflow (`/jitd:start` → work → `/jitd:compact`)
+- Navigator workflow (`/nav:start` → work → `/nav:compact`)
 
 ### What Changes
 
@@ -207,7 +207,7 @@ This document explains **why** specific technologies were chosen for this exampl
 
 **This example makes concrete choices** to show real patterns, not abstract concepts.
 
-**Your project will differ** and that's fine. JITD is stack-agnostic.
+**Your project will differ** and that's fine. Navigator is stack-agnostic.
 
 **Copy the `.agent/` structure, not the tech stack.**
 

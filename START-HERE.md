@@ -6,9 +6,9 @@
 
 ## What is This Project?
 
-**JITD Plugin** - Just-In-Time Documentation plugin for Claude Code
+**Navigator Plugin** - Navigator plugin for Claude Code
 
-**Status**: ✅ Published and live at https://github.com/alekspetrov/jitd-plugin
+**Status**: ✅ Published and live at https://github.com/alekspetrov/nav-plugin
 
 **Version**: v1.0.0
 
@@ -16,19 +16,19 @@
 
 ## Quick Context
 
-### What JITD Does
+### What Navigator Does
 
 Context-efficient documentation system that **loads what you need, when you need it**.
 
 **Problem**: AI agents load entire codebase docs upfront (150k+ tokens wasted)
-**Solution**: JITD loads on-demand (92% reduction to ~12k tokens)
+**Solution**: Navigator loads on-demand (92% reduction to ~12k tokens)
 **Result**: 86%+ context available for actual work, zero session restarts
 
 ### Production Metrics (Real Data)
 
 From 2-week experiment (Oct 4-9, 2025) with quant-flow-landing project:
 
-- **10x productivity**: 18% tokens → 10 commits (vs 32% → 1 commit before JITD)
+- **10x productivity**: 18% tokens → 10 commits (vs 32% → 1 commit before Navigator)
 - **Zero restarts**: 100% session completion over 11 sessions
 - **Token range**: 2.2%-50.9% usage across different work types
 - **Context free**: 86%+ available for actual work
@@ -46,14 +46,14 @@ Extracted from `/Users/aleks.petrov/Projects/startups/quant-flow-landing`:
 ## Project Structure
 
 ```
-jitd-plugin/
+nav-plugin/
 ├── .claude-plugin/              # Plugin manifest for marketplace
 │   ├── marketplace.json         # Plugin config
 │   └── README.md                # Marketplace description
 ├── .claude/commands/            # Slash commands
-│   ├── jitd-init.md            # Initialize JITD in project
+│   ├── nav-init.md            # Initialize Navigator in project
 │   ├── update-doc.md           # Maintain documentation
-│   └── jitd-compact.md         # Smart context compact
+│   └── nav-compact.md         # Smart context compact
 ├── templates/                   # Universal templates
 │   ├── DEVELOPMENT-README.md   # Navigator template
 │   ├── task-template.md        # Feature planning
@@ -63,7 +63,7 @@ jitd-plugin/
 │   ├── QUICK-START.md          # 5-minute setup
 │   ├── CONFIGURATION.md        # All options
 │   └── DEPLOYMENT.md           # Publishing guide
-├── CLAUDE.md                    # Optimized for JITD workflow
+├── CLAUDE.md                    # Optimized for Navigator workflow
 ├── README.md                    # Master roadmap
 └── .gitignore                   # Proper excludes
 ```
@@ -75,7 +75,7 @@ jitd-plugin/
 ### For Development Work
 
 **CLAUDE.md** - Read this first every session
-- JITD workflow principles
+- Navigator workflow principles
 - Token optimization rules
 - Slash command usage
 - Code standards
@@ -83,18 +83,18 @@ jitd-plugin/
 **templates/** - Core plugin templates
 - Universal (no project-specific content)
 - Customizable for any stack
-- Used by `/jitd:init` command
+- Used by `/nav:init` command
 
 **.claude/commands/** - Slash command implementations
-- `jitd-init.md` - Sets up `.agent/` structure in user projects
+- `nav-init.md` - Sets up `.agent/` structure in user projects
 - `update-doc.md` - Maintains living documentation
-- `jitd-compact.md` - Smart context clearing
+- `nav-compact.md` - Smart context clearing
 
 ### For Plugin Maintenance
 
 **.claude-plugin/marketplace.json** - Plugin manifest
 - Version number (update when releasing)
-- Repository URL (already set to github.com/alekspetrov/jitd-plugin)
+- Repository URL (already set to github.com/alekspetrov/nav-plugin)
 - Capabilities and configuration
 
 **docs/** - User-facing documentation
@@ -107,16 +107,16 @@ jitd-plugin/
 
 ```bash
 # Add marketplace
-/plugin marketplace add alekspetrov/jitd-plugin
+/plugin marketplace add alekspetrov/nav-plugin
 
 # Install plugin
 /plugin install jitd
 
 # Use in their project
-/jitd:init
+/nav:init
 ```
 
-When they run `/jitd:init`:
+When they run `/nav:init`:
 1. Creates `.agent/` folder structure
 2. Copies templates from `templates/`
 3. Generates initial system docs from their codebase
@@ -132,7 +132,7 @@ When they run `/jitd:init`:
 Read CLAUDE.md (~15k tokens)
 ```
 
-This contains JITD-optimized workflow for this repo.
+This contains Navigator-optimized workflow for this repo.
 
 ### 2. Working on Features
 
@@ -159,9 +159,9 @@ This contains JITD-optimized workflow for this repo.
 ```bash
 # In a different project, test installation
 cd ~/test-project
-/plugin marketplace add alekspetrov/jitd-plugin
+/plugin marketplace add alekspetrov/nav-plugin
 /plugin install jitd
-/jitd:init
+/nav:init
 
 # Verify it works
 ls .agent/
@@ -185,21 +185,21 @@ git tag -a v1.1.0 -m "Version 1.1.0: Feature X"
 git push origin v1.1.0
 
 # 4. Create GitHub release
-gh release create v1.1.0 --title "JITD v1.1.0" --notes "..."
+gh release create v1.1.0 --title "Navigator v1.1.0" --notes "..."
 ```
 
 ---
 
 ## Important Principles
 
-### JITD Meta-Usage
+### Navigator Meta-Usage
 
-**This repo follows JITD principles**:
+**This repo follows Navigator principles**:
 
 ❌ **Don't** load all files at once
 ✅ **Do** read CLAUDE.md first (navigator for this repo)
 ✅ **Do** load only files you're working on
-✅ **Do** use `/jitd:compact` after isolated tasks
+✅ **Do** use `/nav:compact` after isolated tasks
 
 **Token budget**:
 - CLAUDE.md: ~15k tokens
@@ -245,14 +245,14 @@ gh release create v1.1.0 --title "JITD v1.1.0" --notes "..."
 **Tagged** v1.0.0:
 - First public release
 - Published to GitHub
-- Live at https://github.com/alekspetrov/jitd-plugin/releases/tag/v1.0.0
+- Live at https://github.com/alekspetrov/nav-plugin/releases/tag/v1.0.0
 
 ---
 
 ## Current Status
 
 ✅ **Published**: Live on GitHub
-✅ **Installable**: Users can `/plugin marketplace add alekspetrov/jitd-plugin`
+✅ **Installable**: Users can `/plugin marketplace add alekspetrov/nav-plugin`
 ✅ **Documented**: Complete guides for users
 ✅ **Tested**: Extracted from real 2-week production usage
 
@@ -275,7 +275,7 @@ gh release create v1.1.0 --title "JITD v1.1.0" --notes "..."
 - Token optimization patterns
 - Navigator-first loading strategy
 - Slash command implementations
-- `/jitd:update-doc` system
+- `/nav:update-doc` system
 
 **What we left behind** (project-specific):
 - H-1B alternative business model
@@ -323,7 +323,7 @@ gh release create v1.1.0 --title "JITD v1.1.0" --notes "..."
 
 1. Edit template in `templates/`
 2. Keep universal (no project-specific content)
-3. Test with `/jitd:init` in clean project
+3. Test with `/nav:init` in clean project
 4. Update docs if template changed significantly
 
 ### Fix Bug
@@ -356,7 +356,7 @@ gh release create v1.1.0 --title "JITD v1.1.0" --notes "..."
    - Specific file: Read only that file
    - Related files: Load on-demand
 
-3. **Am I following JITD principles?**
+3. **Am I following Navigator principles?**
    - Loading only what's needed?
    - Not reading everything upfront?
    - Ready to compact after isolated task?
@@ -365,9 +365,9 @@ gh release create v1.1.0 --title "JITD v1.1.0" --notes "..."
 
 ## Support Resources
 
-- **GitHub Repo**: https://github.com/alekspetrov/jitd-plugin
-- **Issues**: https://github.com/alekspetrov/jitd-plugin/issues
-- **Releases**: https://github.com/alekspetrov/jitd-plugin/releases
+- **GitHub Repo**: https://github.com/alekspetrov/nav-plugin
+- **Issues**: https://github.com/alekspetrov/nav-plugin/issues
+- **Releases**: https://github.com/alekspetrov/nav-plugin/releases
 - **Original Experiment**: quant-flow-landing (Oct 4-9, 2025 sessions)
 
 ---

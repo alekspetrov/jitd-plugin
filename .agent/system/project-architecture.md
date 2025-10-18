@@ -1,4 +1,4 @@
-# JITD Plugin - Project Architecture
+# Navigator Plugin - Project Architecture
 
 **Tech Stack**: Markdown templates, JSON configuration, Bash
 **Updated**: 2025-10-10
@@ -23,16 +23,16 @@
 ## Project Structure
 
 ```
-jitd-plugin/
+nav-plugin/
 ├── .claude-plugin/              # Plugin manifest for marketplace
 │   ├── marketplace.json         # Plugin config (version, metadata)
 │   └── README.md                # Marketplace description
 │
 ├── commands/                    # Slash commands (note: commands/ not .claude/commands/)
-│   ├── jitd-init.md            # Initialize JITD in project (one-time)
-│   ├── jitd-start.md           # Start JITD session (every conversation)
+│   ├── nav-init.md            # Initialize Navigator in project (one-time)
+│   ├── nav-start.md           # Start Navigator session (every conversation)
 │   ├── update-doc.md           # Maintain documentation
-│   └── jitd-compact.md         # Smart context compact
+│   └── nav-compact.md         # Smart context compact
 │
 ├── templates/                   # Universal templates
 │   ├── CLAUDE.md                # Project configuration template
@@ -46,13 +46,13 @@ jitd-plugin/
 │   ├── CONFIGURATION.md         # All options
 │   └── DEPLOYMENT.md            # Publishing guide
 │
-├── .agent/                      # JITD for this repo (meta!)
+├── .agent/                      # Navigator for this repo (meta!)
 │   ├── DEVELOPMENT-README.md    # Development navigator
 │   ├── tasks/                   # Feature implementation plans
 │   ├── system/                  # Architecture docs
 │   └── sops/                    # Development SOPs
 │
-├── CLAUDE.md                    # JITD configuration for this repo
+├── CLAUDE.md                    # Navigator configuration for this repo
 ├── README.md                    # Master roadmap
 └── .gitignore                   # Proper excludes
 ```
@@ -65,7 +65,7 @@ jitd-plugin/
 
 ```json
 {
-  "name": "jitd-marketplace",
+  "name": "nav-marketplace",
   "metadata": {
     "version": "1.3.0"  // Update on release
   },
@@ -73,7 +73,7 @@ jitd-plugin/
     {
       "name": "jitd",
       "version": "1.3.0",  // Keep in sync with metadata.version
-      "repository": "https://github.com/alekspetrov/jitd-plugin"
+      "repository": "https://github.com/alekspetrov/nav-plugin"
     }
   ]
 }
@@ -101,14 +101,14 @@ Instructions for Claude to execute...
 **Invocation**: `/command-name` in Claude Code
 
 **Current Commands**:
-- `/jitd:init` → Initialize JITD structure in user project (one-time setup)
-- `/jitd:start` → Start JITD session (EVERY new conversation) **NEW in v1.3.0**
-- `/jitd:update-doc` → Maintain documentation (feature|sop|system)
-- `/jitd:compact` → Smart context compact
+- `/nav:init` → Initialize Navigator structure in user project (one-time setup)
+- `/nav:start` → Start Navigator session (EVERY new conversation) **NEW in v1.3.0**
+- `/nav:update-doc` → Maintain documentation (feature|sop|system)
+- `/nav:compact` → Smart context compact
 
 ### 3. Templates (`templates/*.md`)
 
-**Purpose**: Copied to user projects during `/jitd:init`
+**Purpose**: Copied to user projects during `/nav:init`
 
 **Design Principles**:
 - Universal (no project-specific content)
@@ -142,18 +142,18 @@ Instructions for Claude to execute...
 
 ```bash
 # 1. Make changes to plugin repo
-cd ~/Projects/startups/jitd-plugin
+cd ~/Projects/startups/nav-plugin
 vim templates/CLAUDE.md  # or other file
 
-# 2. Test in jitd-test project
-cd ~/Projects/tmp/jitd-test
+# 2. Test in nav-test project
+cd ~/Projects/tmp/nav-test
 
 # 3. Point to local plugin
-/plugin marketplace add file:///Users/aleks.petrov/Projects/startups/jitd-plugin
+/plugin marketplace add file:///Users/aleks.petrov/Projects/startups/nav-plugin
 
 # 4. Reinstall and test
 /plugin install jitd
-/jitd:init  # or other command
+/nav:init  # or other command
 
 # 5. Verify results
 ls -la .agent/
@@ -180,7 +180,7 @@ cat CLAUDE.md
 ## Plugin Distribution
 
 ### GitHub Repository
-- **URL**: https://github.com/alekspetrov/jitd-plugin
+- **URL**: https://github.com/alekspetrov/nav-plugin
 - **License**: MIT
 - **Public**: Yes
 
@@ -188,13 +188,13 @@ cat CLAUDE.md
 
 ```bash
 # Add marketplace
-/plugin marketplace add alekspetrov/jitd-plugin
+/plugin marketplace add alekspetrov/nav-plugin
 
 # Install plugin
 /plugin install jitd
 
 # Use commands
-/jitd:init
+/nav:init
 ```
 
 ### Caching Issues
@@ -202,17 +202,17 @@ cat CLAUDE.md
 **Problem**: GitHub CDN caches for hours
 
 **Solutions**:
-- Specific commit: `alekspetrov/jitd-plugin#789bd4e`
-- Local file: `file:///path/to/jitd-plugin`
+- Specific commit: `alekspetrov/nav-plugin#789bd4e`
+- Local file: `file:///path/to/nav-plugin`
 - Wait 1-2 hours for CDN refresh
 
 ---
 
 ## Configuration System
 
-### Plugin Config (`.agent/.jitd-config.json`)
+### Plugin Config (`.agent/.nav-config.json`)
 
-Created during `/jitd:init` in user projects:
+Created during `/nav:init` in user projects:
 
 ```json
 {
@@ -244,7 +244,7 @@ Created during `/jitd:init` in user projects:
 
 ### Manual Testing Checklist
 
-- [ ] `/jitd:init` creates complete structure
+- [ ] `/nav:init` creates complete structure
 - [ ] CLAUDE.md generated in project root
 - [ ] DEVELOPMENT-README.md in .agent/
 - [ ] System docs generated
@@ -254,7 +254,7 @@ Created during `/jitd:init` in user projects:
 
 ### Test Projects
 
-- `/Users/aleks.petrov/Projects/tmp/jitd-test` → Clean test environment
+- `/Users/aleks.petrov/Projects/tmp/nav-test` → Clean test environment
 
 ---
 
@@ -266,7 +266,7 @@ Created during `/jitd:init` in user projects:
 - System docs: ~3k tokens each
 - **Total**: ~23k tokens (on-demand loading)
 
-### User Projects (After `/jitd:init`)
+### User Projects (After `/nav:init`)
 - CLAUDE.md: ~15k tokens (auto-loaded by Claude Code)
 - .agent/DEVELOPMENT-README.md: ~2k tokens (read first)
 - System docs: ~5k tokens each (lazy-loaded)
@@ -278,12 +278,12 @@ Created during `/jitd:init` in user projects:
 
 ### Plugin Efficiency
 - Template count: 5
-- Slash commands: 4 (added /jitd:start in v1.3.0)
+- Slash commands: 4 (added /nav:start in v1.3.0)
 - Plugin size: <60KB
 - Install time: <5 seconds
 
 ### User Impact
-- Setup time: 2 minutes (`/jitd:init`)
+- Setup time: 2 minutes (`/nav:init`)
 - Token reduction: 92% (12k vs 150k)
 - Context available: 86%+
 - Session restarts: 0
@@ -293,7 +293,7 @@ Created during `/jitd:init` in user projects:
 ## Future Enhancements
 
 ### Potential Features
-- [ ] Integration-specific plugins (jitd-linear, jitd-slack)
+- [ ] Integration-specific plugins (nav-linear, nav-slack)
 - [ ] Example projects (Next.js, Python, Go)
 - [ ] Video walkthrough
 - [ ] Blog post and announcement

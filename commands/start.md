@@ -1,17 +1,17 @@
 ---
-description: Start JITD session - load navigator, set context, check tasks
+description: Start Navigator session - load navigator, set context, check tasks
 ---
 
-# Start JITD Session
+# Start Navigator Session
 
-Initialize your development session with JITD workflow and context optimization.
+Initialize your development session with Navigator workflow and context optimization.
 
 ---
 
 ## What This Command Does
 
 1. Loads documentation navigator
-2. Sets JITD workflow context
+2. Sets Navigator workflow context
 3. Checks for assigned tasks (if PM tool configured)
 4. Reminds about token optimization strategy
 
@@ -30,8 +30,8 @@ Read(
 ```
 
 **If file not found**:
-- Ask user if JITD is initialized
-- Suggest running `/jitd:init` first
+- Ask user if Navigator is initialized
+- Suggest running `/nav:init` first
 - Exit command
 
 ---
@@ -54,7 +54,7 @@ cat .agent/.context-markers/.active 2>/dev/null
    Marker: [marker-name]
    Created: [timestamp from filename]
 
-   This marker was saved during your last /jitd:compact.
+   This marker was saved during your last /nav:compact.
    Load it to continue where you left off?
 
    [Y/n]:
@@ -83,7 +83,7 @@ cat .agent/.context-markers/.active 2>/dev/null
    - Show message:
      ```
      Skipping marker load. You can load it later with:
-     /jitd:markers
+     /nav:markers
      ```
    - Delete .active file (user chose not to load)
 
@@ -97,11 +97,11 @@ cat .agent/.context-markers/.active 2>/dev/null
 
 ### Step 2: Set Session Context
 
-**Load JITD configuration**:
+**Load Navigator configuration**:
 
 ```
 Read(
-  file_path: ".agent/.jitd-config.json"
+  file_path: ".agent/.nav-config.json"
 )
 ```
 
@@ -220,7 +220,7 @@ fi
 ```
 ╔══════════════════════════════════════════════════════╗
 ║                                                      ║
-║  🚀 JITD Session Started                             ║
+║  🚀 Navigator Session Started                             ║
 ║                                                      ║
 ╚══════════════════════════════════════════════════════╝
 
@@ -287,18 +287,18 @@ Total session usage:
 **Continue with workflow reminder**:
 
 ```
-🔹 JITD WORKFLOW REMINDER
+🔹 Navigator WORKFLOW REMINDER
 
 1. Navigator-first loading
    - ✅ Loaded: .agent/DEVELOPMENT-README.md
    - Next: Load ONLY relevant task/system docs
 
 2. Task documentation
-   - After features: /jitd:update-doc feature [TASK-XX]
-   - After bugs: /jitd:update-doc sop debugging [issue]
+   - After features: /nav:update-doc feature [TASK-XX]
+   - After bugs: /nav:update-doc sop debugging [issue]
 
 3. Context management
-   - Run /jitd:compact after isolated sub-tasks
+   - Run /nav:compact after isolated sub-tasks
    - Context markers save your progress
 
 4. Agent usage for complex tasks
@@ -328,7 +328,7 @@ For **Linear**:
 Setup Linear MCP:
 1. Install: claude mcp add linear-server
 2. Configure API key when prompted
-3. Test: /jitd:start (run this command again)
+3. Test: /nav:start (run this command again)
 
 Need help? Check .agent/sops/integrations/linear-mcp.md
 ```
@@ -360,12 +360,12 @@ Need help? Check .agent/sops/integrations/github-cli.md
 - Total used: ~25k tokens
 - Still available: ~175k tokens (87%+)
 
-**Traditional approach** (without JITD):
+**Traditional approach** (without Navigator):
 - All docs loaded: 150k tokens
 - Available for work: ~50k tokens (25%)
 - Session restarts: 3-4 per day
 
-**JITD advantage**: 3.5x more context available
+**Navigator advantage**: 3.5x more context available
 
 ---
 
@@ -381,7 +381,7 @@ Read .agent/tasks/[TASK-XX]-feature.md
 1. Create task doc: .agent/tasks/TASK-XX-feature.md
 2. Plan implementation
 3. Execute with TodoWrite tracking
-4. Document: /jitd:update-doc feature TASK-XX
+4. Document: /nav:update-doc feature TASK-XX
 ```
 
 **If debugging issue**:
@@ -389,7 +389,7 @@ Read .agent/tasks/[TASK-XX]-feature.md
 1. Check .agent/sops/debugging/ for similar issues
 2. Load relevant system doc for context
 3. Fix issue
-4. Document: /jitd:update-doc sop debugging [issue-name]
+4. Document: /nav:update-doc sop debugging [issue-name]
 ```
 
 ---
@@ -402,7 +402,7 @@ Read .agent/tasks/[TASK-XX]-feature.md
 
 **Solution**:
 ```
-Run /jitd:init to initialize JITD structure
+Run /nav:init to initialize Navigator structure
 ```
 
 ### PM tool not responding
@@ -410,22 +410,22 @@ Run /jitd:init to initialize JITD structure
 **Error**: Linear/GitHub commands fail
 
 **Solution**:
-1. Check `.agent/.jitd-config.json`
+1. Check `.agent/.nav-config.json`
 2. Verify PM tool is installed
 3. Check authentication
 4. Update config if needed
 
 ### Config file malformed
 
-**Error**: Cannot parse `.agent/.jitd-config.json`
+**Error**: Cannot parse `.agent/.nav-config.json`
 
 **Solution**:
 ```bash
 # Validate JSON
-cat .agent/.jitd-config.json | jq .
+cat .agent/.nav-config.json | jq .
 
 # Fix any syntax errors
-# Re-run /jitd:init if corrupted
+# Re-run /nav:init if corrupted
 ```
 
 ---
@@ -434,7 +434,7 @@ cat .agent/.jitd-config.json | jq .
 
 **This command succeeds when**:
 - [ ] Navigator loaded successfully
-- [ ] JITD workflow context set
+- [ ] Navigator workflow context set
 - [ ] Token optimization active
 - [ ] PM tool status checked (if configured)
 - [ ] User knows what to work on next

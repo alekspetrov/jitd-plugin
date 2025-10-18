@@ -1,8 +1,8 @@
-# JITD - Just-In-Time Documentation for Claude Code
+# Navigator - Navigator for Claude Code
 
 A Claude Code plugin that loads documentation on-demand instead of all at once. Uses 12k tokens instead of 150k, freeing 92% of your context window for actual work.
 
-**Version**: 1.5.0 | **License**: MIT | [GitHub](https://github.com/alekspetrov/jitd-plugin)
+**Version**: 1.5.0 | **License**: MIT | [GitHub](https://github.com/alekspetrov/nav-plugin)
 
 ---
 
@@ -12,19 +12,19 @@ A Claude Code plugin that loads documentation on-demand instead of all at once. 
 # 1. Initialize Claude Code in your project
 /init
 
-# 2. Add JITD plugin marketplace
-/plugin marketplace add alekspetrov/jitd-plugin
+# 2. Add Navigator plugin marketplace
+/plugin marketplace add alekspetrov/nav-plugin
 
 # 3. Install plugin
 /plugin install jitd
 
 # 4. Restart Claude Code
 
-# 5. Initialize JITD in your project
-/jitd:init
+# 5. Initialize Navigator in your project
+/nav:init
 
 # 6. Start every session with
-/jitd:start
+/nav:start
 ```
 
 ---
@@ -36,11 +36,11 @@ A Claude Code plugin that loads documentation on-demand instead of all at once. 
 When Claude Code finishes a ticket and you're ready to compact, create a marker first:
 
 ```bash
-/jitd:marker ticket-123-complete "Auth flow working, tests passing"
-/jitd:compact
+/nav:marker ticket-123-complete "Auth flow working, tests passing"
+/nav:compact
 ```
 
-Next session, `/jitd:start` will detect the marker and offer to restore your context in 30 seconds.
+Next session, `/nav:start` will detect the marker and offer to restore your context in 30 seconds.
 
 **Result**: Zero time spent re-explaining what you did.
 
@@ -52,13 +52,13 @@ When approaching token limits:
 
 ```bash
 # Option 1: Save current state
-/jitd:marker before-refactor
+/nav:marker before-refactor
 
 # Option 2: Clear and preserve
-/jitd:compact  # Creates marker automatically
+/nav:compact  # Creates marker automatically
 
 # Resume anytime
-/jitd:start  # Auto-detects active marker
+/nav:start  # Auto-detects active marker
 ```
 
 **Result**: Never lose context mid-feature again.
@@ -72,11 +72,11 @@ Working on multiple projects?
 ```bash
 # Project A
 cd ~/project-a
-/jitd:start  # Loads project-a context
+/nav:start  # Loads project-a context
 
 # Project B
 cd ~/project-b
-/jitd:start  # Loads project-b context
+/nav:start  # Loads project-b context
 ```
 
 Each project has its own `.agent/` structure. Claude remembers everything per-project.
@@ -90,10 +90,10 @@ Each project has its own `.agent/` structure. Claude remembers everything per-pr
 After solving a tricky issue:
 
 ```bash
-/jitd:update-doc sop debugging cors-proxy-issue
+/nav:update-doc sop debugging cors-proxy-issue
 ```
 
-JITD creates a Standard Operating Procedure in `.agent/sops/debugging/`. Next time someone hits the same issue, the solution is documented.
+Navigator creates a Standard Operating Procedure in `.agent/sops/debugging/`. Next time someone hits the same issue, the solution is documented.
 
 **Result**: Zero repeated mistakes, team knowledge compounds.
 
@@ -105,7 +105,7 @@ Don't load all documentation at once:
 
 ```bash
 # Start with navigator (2k tokens)
-/jitd:start
+/nav:start
 
 # Load only current task (3k tokens)
 Read .agent/tasks/TASK-123-oauth.md
@@ -126,13 +126,13 @@ Total: ~10k tokens vs 150k loading everything.
 
 **Scenario**: Building a SaaS app, working nights and weekends.
 
-**Without JITD**:
+**Without Navigator**:
 - Restart session 3-4 times per feature
 - Spend 10 minutes re-explaining context each time
 - Lose implementation details mid-conversation
 - Documentation gets stale, forget architectural decisions
 
-**With JITD**:
+**With Navigator**:
 - Zero session restarts during features
 - Create marker before bed, restore next session in 30 seconds
 - Documentation stays current (update after each feature)
@@ -146,17 +146,17 @@ Total: ~10k tokens vs 150k loading everything.
 
 **Scenario**: Freelancer juggling 3 client projects.
 
-**Without JITD**:
+**Without Navigator**:
 - Switch projects = lose all context
 - Re-explain project to Claude each time
 - Documentation scattered across conversations
 - Client questions require code archaeology
 
-**With JITD**:
+**With Navigator**:
 - Each project has its own .agent/ structure
-- Switch projects: `/jitd:start` → back to work in 30 seconds
+- Switch projects: `/nav:start` → back to work in 30 seconds
 - Client asks "why did we do X?" → check .agent/tasks/ for reasoning
-- Onboard replacement contractor in 2 hours with JITD docs
+- Onboard replacement contractor in 2 hours with Navigator docs
 
 **Real impact**: Handle 2-3x more clients without context-switching overhead.
 
@@ -166,13 +166,13 @@ Total: ~10k tokens vs 150k loading everything.
 
 **Scenario**: Early-stage startup, everyone codes.
 
-**Without JITD**:
+**Without Navigator**:
 - Repeated mistakes (same bug fixed 3 times)
 - Architecture decisions lost in Slack threads
 - New hire takes 2 weeks to be productive
 - Each dev has different understanding of system
 
-**With JITD**:
+**With Navigator**:
 - Bug fixed once → SOP created → never happens again
 - Architecture decisions documented in .agent/system/
 - New hire: reads navigator, productive in 48 hours
@@ -186,16 +186,16 @@ Total: ~10k tokens vs 150k loading everything.
 
 **Scenario**: Agency building sites for clients, 4-8 week projects.
 
-**Without JITD**:
+**Without Navigator**:
 - Project handoffs lose context
 - "Why did we build it this way?" = no answer
 - Maintenance 6 months later = reverse engineering
 - Client wants feature → forgot how auth works
 
-**With JITD**:
+**With Navigator**:
 - Project handoff = share .agent/ folder
 - Reasoning preserved in task docs
-- Maintenance: `/jitd:start` → understand system in 5 minutes
+- Maintenance: `/nav:start` → understand system in 5 minutes
 - Each project's .agent/ folder = complete project memory
 
 **Real impact**: Maintenance projects take 50% less time, higher margins.
@@ -206,13 +206,13 @@ Total: ~10k tokens vs 150k loading everything.
 
 **Scenario**: Product team, multiple features in parallel.
 
-**Without JITD**:
+**Without Navigator**:
 - Inconsistent patterns across features
 - Duplicate integrations (Stripe setup done 3 times)
 - Tribal knowledge (only Sarah knows deployment)
 - Architecture drift (no single source of truth)
 
-**With JITD**:
+**With Navigator**:
 - Patterns documented as SOPs in .agent/sops/
 - Integration done once → SOP created → everyone uses it
 - Deployment SOP means anyone can deploy
@@ -226,13 +226,13 @@ Total: ~10k tokens vs 150k loading everything.
 
 **Scenario**: 50+ engineers, microservices architecture.
 
-**Without JITD**:
+**Without Navigator**:
 - Each team reinvents patterns
 - Cross-team collaboration requires meetings
 - New service = copy old one, hope for the best
 - Documentation in Confluence, always outdated
 
-**With JITD**:
+**With Navigator**:
 - Shared .agent/sops/ template library
 - Teams fork SOPs, customize, share improvements
 - New service: copy .agent/ structure, adapt patterns
@@ -246,13 +246,13 @@ Total: ~10k tokens vs 150k loading everything.
 
 **Scenario**: Popular OSS project, contributors come and go.
 
-**Without JITD**:
+**Without Navigator**:
 - New contributors ask same questions repeatedly
 - Architecture decisions lost in old GitHub issues
 - Maintainer becomes bottleneck (only they understand everything)
 - Pull requests need extensive code review
 
-**With JITD**:
+**With Navigator**:
 - .agent/DEVELOPMENT-README.md = comprehensive contributor guide
 - Architecture reasoning in .agent/system/
 - Common patterns documented in .agent/sops/
@@ -266,13 +266,13 @@ Total: ~10k tokens vs 150k loading everything.
 
 **Scenario**: Writing docs for complex API.
 
-**Without JITD**:
+**Without Navigator**:
 - Load all API specs upfront = 200k tokens
 - Context limit hit after 3 endpoints
 - Restart session, lose formatting decisions
 - Inconsistent voice across documents
 
-**With JITD**:
+**With Navigator**:
 - Navigator with API structure (2k tokens)
 - Load one endpoint spec at a time (5k tokens)
 - Style guide in .agent/sops/development/
@@ -286,13 +286,13 @@ Total: ~10k tokens vs 150k loading everything.
 
 **Scenario**: Technical consultant, advising 5+ clients.
 
-**Without JITD**:
+**Without Navigator**:
 - Can't remember client context without notes
 - Spend 20 minutes reviewing past conversations
 - Recommendations lack historical context
 - Repeat same advice (not customized)
 
-**With JITD**:
+**With Navigator**:
 - Each client has .agent/ folder
 - Past recommendations in .agent/tasks/
 - Client-specific patterns in .agent/sops/
@@ -306,13 +306,13 @@ Total: ~10k tokens vs 150k loading everything.
 
 **Scenario**: Teaching web development, students ask questions.
 
-**Without JITD**:
+**Without Navigator**:
 - Load entire curriculum = 150k tokens
 - Can only help with 2-3 student questions per session
 - Lose context mid-explanation
 - Repeat setup instructions for each student
 
-**With JITD**:
+**With Navigator**:
 - Navigator with curriculum structure (2k tokens)
 - Load relevant lesson on-demand (5k tokens)
 - Common issues documented in .agent/sops/debugging/
@@ -326,13 +326,13 @@ Total: ~10k tokens vs 150k loading everything.
 
 **Scenario**: Training models, iterating on features.
 
-**Without JITD**:
+**Without Navigator**:
 - Load all experiment notes = context limit
 - Forget which hyperparameters worked
 - Re-explain dataset preprocessing each session
 - Lost track of what was tried
 
-**With JITD**:
+**With Navigator**:
 - Experiment results in .agent/tasks/
 - Working configurations in .agent/sops/
 - Dataset decisions in .agent/system/
@@ -347,7 +347,7 @@ Total: ~10k tokens vs 150k loading everything.
 Claude Code has a 200k token context window. Traditional documentation approaches consume most of it before you write any code:
 
 ```
-Without JITD:
+Without Navigator:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 All documentation:     150k tokens
 System prompts:         50k tokens
@@ -360,10 +360,10 @@ Result:
 - Re-explaining work after compact
 ```
 
-JITD changes this:
+Navigator changes this:
 
 ```
-With JITD:
+With Navigator:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Navigator:               2k tokens
 Current task doc:        3k tokens
@@ -388,7 +388,7 @@ Result:
 Every session starts by loading a lightweight navigator (~2k tokens):
 
 ```bash
-/jitd:start
+/nav:start
 ```
 
 The navigator contains:
@@ -418,7 +418,7 @@ Total: ~12k tokens for documentation, leaving ~188k for actual work.
 
 ### 3. Documentation Structure
 
-JITD creates this structure in your project:
+Navigator creates this structure in your project:
 
 ```
 .agent/
@@ -441,18 +441,18 @@ Save conversation state before compacting:
 
 ```bash
 # Before lunch
-/jitd:marker lunch-break
+/nav:marker lunch-break
 
 # Before risky refactor
-/jitd:marker before-routing-refactor
+/nav:marker before-routing-refactor
 
 # End of day
-/jitd:marker eod-2025-10-12 "OAuth done, need tests"
+/nav:marker eod-2025-10-12 "OAuth done, need tests"
 ```
 
 Markers compress 130k conversations → 3k snapshots (97.7% compression).
 
-When you compact, JITD automatically creates a marker. Next session, `/jitd:start` detects it and offers to restore your context.
+When you compact, Navigator automatically creates a marker. Next session, `/nav:start` detects it and offers to restore your context.
 
 ---
 
@@ -461,24 +461,24 @@ When you compact, JITD automatically creates a marker. Next session, `/jitd:star
 ### Session Management
 
 ```bash
-/jitd:start                     # Start session, load navigator
-/jitd:compact                   # Clear context, create marker
-/jitd:marker [name] "note"      # Save conversation state anytime
-/jitd:markers                   # List/load/clean markers
+/nav:start                     # Start session, load navigator
+/nav:compact                   # Clear context, create marker
+/nav:marker [name] "note"      # Save conversation state anytime
+/nav:markers                   # List/load/clean markers
 ```
 
 ### Documentation Updates
 
 ```bash
-/jitd:update-doc feature TASK-123        # Archive implementation plan
-/jitd:update-doc sop debugging issue     # Create SOP from solution
-/jitd:update-doc system architecture     # Update architecture doc
+/nav:update-doc feature TASK-123        # Archive implementation plan
+/nav:update-doc sop debugging issue     # Create SOP from solution
+/nav:update-doc system architecture     # Update architecture doc
 ```
 
 ### Project Setup
 
 ```bash
-/jitd:init                      # One-time setup (creates .agent/ structure)
+/nav:init                      # One-time setup (creates .agent/ structure)
 ```
 
 ---
@@ -509,7 +509,7 @@ When you compact, JITD automatically creates a marker. Next session, `/jitd:star
 
 ### The System
 
-JITD is a documentation pattern implemented as a Claude Code plugin. Instead of loading your entire codebase documentation upfront (150k+ tokens), it loads a lightweight navigator (2k tokens) that helps you load only what you need, when you need it.
+Navigator is a documentation pattern implemented as a Claude Code plugin. Instead of loading your entire codebase documentation upfront (150k+ tokens), it loads a lightweight navigator (2k tokens) that helps you load only what you need, when you need it.
 
 **Result**: Your context window stays free for code, implementation details, and conversation history instead of being consumed by docs you're not using.
 
@@ -517,8 +517,8 @@ JITD is a documentation pattern implemented as a Claude Code plugin. Instead of 
 
 - Markdown file with session summary (~3k tokens)
 - Stores: current task, completed work, technical decisions, next steps
-- `/jitd:compact` creates marker automatically
-- `/jitd:start` offers to restore if active marker exists
+- `/nav:compact` creates marker automatically
+- `/nav:start` offers to restore if active marker exists
 - Stored in `.agent/.context-markers/` (git-ignored)
 
 ### How on-demand loading works
@@ -539,9 +539,9 @@ JITD is a documentation pattern implemented as a Claude Code plugin. Instead of 
 
 ## Documentation
 
-- **Full README**: [GitHub](https://github.com/alekspetrov/jitd-plugin)
-- **Installation Guide**: [docs/QUICK-START.md](https://github.com/alekspetrov/jitd-plugin/blob/main/docs/QUICK-START.md)
-- **Report Issues**: [GitHub Issues](https://github.com/alekspetrov/jitd-plugin/issues)
+- **Full README**: [GitHub](https://github.com/alekspetrov/nav-plugin)
+- **Installation Guide**: [docs/QUICK-START.md](https://github.com/alekspetrov/nav-plugin/blob/main/docs/QUICK-START.md)
+- **Report Issues**: [GitHub Issues](https://github.com/alekspetrov/nav-plugin/issues)
 
 ---
 
@@ -550,12 +550,12 @@ JITD is a documentation pattern implemented as a Claude Code plugin. Instead of 
 MIT License - Use freely, contribute back if it helps you.
 
 **Contribute**:
-- [Report bugs](https://github.com/alekspetrov/jitd-plugin/issues)
-- [Request features](https://github.com/alekspetrov/jitd-plugin/issues)
-- [Submit PRs](https://github.com/alekspetrov/jitd-plugin/pulls)
+- [Report bugs](https://github.com/alekspetrov/nav-plugin/issues)
+- [Request features](https://github.com/alekspetrov/nav-plugin/issues)
+- [Submit PRs](https://github.com/alekspetrov/nav-plugin/pulls)
 
 ---
 
 **Version**: 1.5.0
 **Author**: [Aleks Petrov](https://github.com/alekspetrov)
-**Repository**: [alekspetrov/jitd-plugin](https://github.com/alekspetrov/jitd-plugin)
+**Repository**: [alekspetrov/nav-plugin](https://github.com/alekspetrov/nav-plugin)

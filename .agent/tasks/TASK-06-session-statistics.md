@@ -8,9 +8,9 @@
 
 ## Context
 
-JITD claims 92% token reduction through on-demand loading, but users had no way to verify this. The `/jitd:start` command showed file size estimates (`~2k tokens`), not actual measurements.
+Navigator claims 92% token reduction through on-demand loading, but users had no way to verify this. The `/nav:start` command showed file size estimates (`~2k tokens`), not actual measurements.
 
-**Problem**: "Educational estimates" don't prove JITD works. Users need real data.
+**Problem**: "Educational estimates" don't prove Navigator works. Users need real data.
 
 **Goal**: Extract actual token usage from Claude Code's internal conversation data to prove caching efficiency.
 
@@ -72,9 +72,9 @@ CACHE_EFFICIENCY=100.0
 ./scripts/session-stats.sh
 ```
 
-Works from any project directory with JITD initialized.
+Works from any project directory with Navigator initialized.
 
-### Phase 3: Integrate into /jitd:start ✅
+### Phase 3: Integrate into /nav:start ✅
 
 **Updated**: `commands/start.md`
 
@@ -119,7 +119,7 @@ Total session usage:
 
 **Updated**: `README.md`
 
-**Added FAQ entry**: "How does JITD calculate token usage?"
+**Added FAQ entry**: "How does Navigator calculate token usage?"
 - Explains two methods: file sizes (always) + session stats (optional)
 - Shows real example output
 - Emphasizes "no estimates, real data"
@@ -146,7 +146,7 @@ Ready to add real statistics section showcasing actual cache efficiency.
 **Shell** (bash):
 - Path detection and encoding
 - File finding (ls -t for most recent)
-- Integration with `/jitd:start`
+- Integration with `/nav:start`
 
 **Python**:
 - JSONL parsing (reliable, safe)
@@ -165,7 +165,7 @@ Ready to add real statistics section showcasing actual cache efficiency.
 **Solution**: Make it optional, graceful degradation:
 - If script works → show real statistics
 - If script fails → just show file sizes
-- Never break `/jitd:start`
+- Never break `/nav:start`
 
 ---
 
@@ -189,9 +189,9 @@ CACHE_EFFICIENCY=100.0
 
 ### Test 2: Path Encoding ✅
 
-**Test path**: `/Users/aleks.petrov/Projects/startups/jitd-plugin`
-**Expected encoded**: `-Users-aleks-petrov-Projects-startups-jitd-plugin`
-**Actual encoded**: `-Users-aleks-petrov-Projects-startups-jitd-plugin`
+**Test path**: `/Users/aleks.petrov/Projects/startups/nav-plugin`
+**Expected encoded**: `-Users-aleks-petrov-Projects-startups-nav-plugin`
+**Actual encoded**: `-Users-aleks-petrov-Projects-startups-nav-plugin`
 
 **Verified**: Path encoding matches Claude Code's format
 
@@ -219,7 +219,7 @@ CACHE_READ=14861372  (+937,293 tokens)
 
 **Meaning**: Every token read after first access came from cache (zero fresh tokens)
 
-**Verified**: Proves JITD caching strategy works perfectly
+**Verified**: Proves Navigator caching strategy works perfectly
 
 ---
 
@@ -229,7 +229,7 @@ CACHE_READ=14861372  (+937,293 tokens)
 
 **Before** (TASK-06):
 ```
-/jitd:start output:
+/nav:start output:
   Navigator: ~2k tokens (estimate)
   CLAUDE.md: ~15k tokens (estimate)
   Total: ~17k tokens (guess)
@@ -237,7 +237,7 @@ CACHE_READ=14861372  (+937,293 tokens)
 
 **After** (TASK-06):
 ```
-/jitd:start output:
+/nav:start output:
   File sizes (measured):
     Navigator: 3,070 tokens (actual)
     CLAUDE.md: 2,521 tokens (actual)
@@ -250,7 +250,7 @@ CACHE_READ=14861372  (+937,293 tokens)
 
 ### Impact
 
-**Credibility**: No more estimates—real measurements prove JITD works
+**Credibility**: No more estimates—real measurements prove Navigator works
 
 **Education**: Users see exactly how caching reduces token costs
 
@@ -283,7 +283,7 @@ CACHE_READ=14861372  (+937,293 tokens)
 - [x] Decoded path encoding scheme
 - [x] Parsed JSONL format successfully
 - [x] Created working session-stats.sh script
-- [x] Integrated into /jitd:start command
+- [x] Integrated into /nav:start command
 - [x] Tested across multiple sessions
 - [x] Verified cache efficiency metrics
 - [x] Updated README with FAQ
@@ -321,7 +321,7 @@ Show token usage across multiple projects:
 Warn when approaching limits:
 ```
 ⚠️  Token usage: 150k / 200k (75%)
-   Consider running /jitd:compact
+   Consider running /nav:compact
 ```
 
 **Not implemented**: Out of scope for v1.5.1, consider for v1.6.0
@@ -334,7 +334,7 @@ Warn when approaching limits:
 Initial implementation used file size estimates. Real data from Claude Code proved far more valuable.
 
 ### 2. Make Features Optional
-Script could break with Claude Code updates. Optional integration means `/jitd:start` never fails.
+Script could break with Claude Code updates. Optional integration means `/nav:start` never fails.
 
 ### 3. Shell-Parseable Output
 Using `KEY=VALUE` format allows easy integration with bash via `eval`.
@@ -351,4 +351,4 @@ Path encoding with dots/slashes was non-obvious. Documenting prevents future con
 - Script: ~2k tokens
 - Total: ~5.5k tokens
 
-**Benefit**: Proves JITD saves 92% tokens with real measurements (priceless)
+**Benefit**: Proves Navigator saves 92% tokens with real measurements (priceless)

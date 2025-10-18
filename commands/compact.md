@@ -1,16 +1,16 @@
 ---
-description: Smart context compact - preserve essential JITD markers and documentation context
+description: Smart context compact - preserve essential Navigator markers and documentation context
 ---
 
-# JITD Smart Compact
+# Navigator Smart Compact
 
-You are performing a context-optimized compact operation that preserves essential JITD documentation markers.
+You are performing a context-optimized compact operation that preserves essential Navigator documentation markers.
 
 ## What This Does
 
 **Regular `/compact`**: Clears all conversation history, loses context
 
-**JITD `/jitd:compact`**:
+**Navigator `/nav:compact`**:
 - Generates a **context marker** (snapshot of where you are)
 - Saves marker to `.agent/.context-markers/`
 - Shows you exactly how to resume
@@ -32,7 +32,7 @@ You: "Now add OAuth"
 Claude: [20 messages of OAuth work]
 Total: 130k tokens, approaching limit
 
-After /jitd:compact:
+After /nav:compact:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ✅ Marker saved: .agent/.context-markers/2025-10-12.md
 
@@ -72,7 +72,7 @@ Claude: *continues seamlessly*
 **Token optimization**:
 - Approaching 70% token usage
 - Long conversation with repeated info
-- After multiple /jitd:update-doc operations
+- After multiple /nav:update-doc operations
 
 ### ❌ Bad Times to Compact
 
@@ -110,7 +110,7 @@ Scan conversation for:
 Create compact marker to preserve essentials:
 
 ```markdown
-# JITD Context Marker (Post-Compact)
+# Navigator Context Marker (Post-Compact)
 
 **Session**: [Date/Time]
 **Navigator**: .agent/DEVELOPMENT-README.md
@@ -170,7 +170,7 @@ Write(
 echo "2025-10-12-143022-compact.md" > .agent/.context-markers/.active
 ```
 
-**This enables**: `/jitd:start` will auto-detect and load this marker
+**This enables**: `/nav:start` will auto-detect and load this marker
 
 **Show user the saved location**:
 ```
@@ -221,7 +221,7 @@ Or save it manually before compacting.
 TO RESUME AFTER COMPACT:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Simply run: /jitd:start
+Simply run: /nav:start
 
 This will automatically:
 • Load navigator (.agent/DEVELOPMENT-README.md)
@@ -297,7 +297,7 @@ Proceed with compact? Type 'yes' to continue.
 
 **When**: User knows when to compact
 
-**Trigger**: User runs `/jitd:compact` explicitly
+**Trigger**: User runs `/nav:compact` explicitly
 
 **Trade-off**: Full control, requires judgment
 
@@ -305,7 +305,7 @@ Proceed with compact? Type 'yes' to continue.
 
 ## Configuration
 
-Set in `.agent/.jitd-config.json`:
+Set in `.agent/.nav-config.json`:
 
 ```json
 {
@@ -329,7 +329,7 @@ Feature TASK-123 complete
 Docs updated
 Tests passing
 
-Action: /jitd:compact
+Action: /nav:compact
 Reason: Feature done, docs archived, ready for next task
 
 After Compact:
@@ -352,7 +352,7 @@ Research: Explored 5 different approaches
 Decision: Chose approach #3
 Key findings: Documented in SOP
 
-Action: /jitd:compact
+Action: /nav:compact
 Reason: Research done, documented, time to implement
 
 After Compact:
@@ -371,13 +371,13 @@ Savings: 76k tokens freed
 ```
 Morning:
 - TASK-101: Bug fix (15k tokens)
-- /jitd:compact
+- /nav:compact
 - TASK-102: New feature (25k tokens)
-- /jitd:compact
+- /nav:compact
 
 Afternoon:
 - TASK-103: Integration (20k tokens)
-- /jitd:compact
+- /nav:compact
 - TASK-104: Documentation (10k tokens)
 
 Total work: 4 tasks
@@ -389,7 +389,7 @@ Benefit: Maintained fast responses all day
 
 ## Compact Checklist
 
-Before running `/jitd:compact`:
+Before running `/nav:compact`:
 
 - [ ] Current task completed or at good stopping point
 - [ ] Important decisions documented (task doc or SOP)
@@ -397,7 +397,7 @@ Before running `/jitd:compact`:
 - [ ] Ready to switch tasks or take break
 - [ ] Context marker generated (if needed)
 
-After running `/jitd:compact`:
+After running `/nav:compact`:
 
 - [ ] Load navigator (.agent/DEVELOPMENT-README.md)
 - [ ] Load context marker (if saved)
@@ -424,10 +424,10 @@ After running `/jitd:compact`:
 
 When trigger hit:
 ```
-⚠️  JITD Auto-Compact Suggested
+⚠️  Navigator Auto-Compact Suggested
 
 Reason: Token usage at 71%
-Action: Run /jitd:compact to free 60k+ tokens
+Action: Run /nav:compact to free 60k+ tokens
 
 Compact now? [Y/n]:
 ```
@@ -453,4 +453,4 @@ Track compact efficiency:
 
 ---
 
-**Remember**: JITD compact preserves what matters (documented knowledge) and clears what doesn't (conversation history). This keeps your context lean and your sessions productive.
+**Remember**: Navigator compact preserves what matters (documented knowledge) and clears what doesn't (conversation history). This keeps your context lean and your sessions productive.

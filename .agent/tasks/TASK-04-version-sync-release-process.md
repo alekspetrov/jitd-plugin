@@ -95,24 +95,24 @@ Version references are scattered across multiple files, leading to inconsistenci
 
 **v1.3.0 Release Notes** (from TASK-01):
 ```markdown
-# JITD v1.3.0 - Session Start & PM Integration
+# Navigator v1.3.0 - Session Start & PM Integration
 
 ## 🚀 New Features
 
-### `/jitd:start` Command
+### `/nav:start` Command
 - Loads documentation navigator automatically
 - Checks for assigned tasks (Linear MCP, GitHub CLI support)
-- Sets JITD workflow context
+- Sets Navigator workflow context
 - Shows token optimization status
 
-### Enhanced `/jitd:init`
+### Enhanced `/nav:init`
 - Auto-detects Linear MCP and GitHub CLI
 - Generates setup guidance for PM tools
 - Creates integration SOPs automatically
 - Improved error handling
 
 ## 🔧 Improvements
-- Stronger JITD workflow enforcement in CLAUDE.md
+- Stronger Navigator workflow enforcement in CLAUDE.md
 - Better onboarding UX for new users
 - PM tool configuration simplified
 
@@ -126,17 +126,17 @@ Version references are scattered across multiple files, leading to inconsistenci
 
 **v1.4.0 Release Notes** (from TASK-02):
 ```markdown
-# JITD v1.4.0 - Context Markers & README Overhaul
+# Navigator v1.4.0 - Context Markers & README Overhaul
 
 ## 🚀 New Features
 
-### `/jitd:marker` Command
+### `/nav:marker` Command
 - Create conversation save points anytime
 - Compress 130k sessions → 3k snapshots (97.7% reduction)
 - Safety nets before risky changes
 - Perfect handoffs between sessions
 
-### Updated `/jitd:init`
+### Updated `/nav:init`
 - Creates `.context-markers/` directory
 - Adds `.context-markers/` to .gitignore
 - Sets up marker infrastructure
@@ -148,7 +148,7 @@ Version references are scattered across multiple files, leading to inconsistenci
 - Context markers explained step-by-step
 
 ## 🔧 Improvements
-- Better value proposition (understand JITD in 30 seconds)
+- Better value proposition (understand Navigator in 30 seconds)
 - Real-world workflow examples
 - Metrics and benefits clearly shown
 
@@ -162,11 +162,11 @@ Version references are scattered across multiple files, leading to inconsistenci
 
 **v1.5.0 Release Notes** (from TASK-03):
 ```markdown
-# JITD v1.5.0 - Interactive Marker Management & Auto-Resume
+# Navigator v1.5.0 - Interactive Marker Management & Auto-Resume
 
 ## 🚀 New Features
 
-### `/jitd:markers` Command
+### `/nav:markers` Command
 - **Interactive marker management**
   - List all markers with timestamps and descriptions
   - Load any marker with visual selection
@@ -176,14 +176,14 @@ Version references are scattered across multiple files, leading to inconsistenci
 
 ### Active Marker Auto-Resume
 - **Automatic context restoration**
-  - `/jitd:compact` creates "active" marker
-  - `/jitd:start` detects and offers to load it
+  - `/nav:compact` creates "active" marker
+  - `/nav:start` detects and offers to load it
   - One-command resume (vs 3 manual steps)
 - **Smart workflow**: Compact → Start → Continue
 
 ### Updated Commands
-- `/jitd:compact`: Now creates `.active` marker automatically
-- `/jitd:start`: Auto-detects active marker, prompts to load
+- `/nav:compact`: Now creates `.active` marker automatically
+- `/nav:start`: Auto-detects active marker, prompts to load
 
 ## 🔧 Improvements
 - Marker file naming: `YYYY-MM-DD_HH-MM-SS_name.md`
@@ -201,7 +201,7 @@ Version references are scattered across multiple files, leading to inconsistenci
 
 **Before v1.5.0**:
 ```bash
-/jitd:compact                          # Creates marker
+/nav:compact                          # Creates marker
 # ...new session...
 ls .agent/.context-markers/            # Find marker manually
 Read .agent/.context-markers/file.md   # Load manually
@@ -209,9 +209,9 @@ Read .agent/.context-markers/file.md   # Load manually
 
 **After v1.5.0**:
 ```bash
-/jitd:compact                          # Creates active marker
+/nav:compact                          # Creates active marker
 # ...new session...
-/jitd:start                            # Detects & loads automatically
+/nav:start                            # Detects & loads automatically
 # Continue working immediately!
 ```
 
@@ -295,7 +295,7 @@ Read .agent/.context-markers/file.md   # Load manually
 # Version Management - Standard Operating Procedure
 
 **Last Updated**: 2025-10-13
-**Applies To**: All JITD plugin releases
+**Applies To**: All Navigator plugin releases
 
 ---
 

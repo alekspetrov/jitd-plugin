@@ -1,7 +1,7 @@
 # Next.js SaaS Example - Summary
 
 **Created**: 2025-10-15
-**Purpose**: Reference implementation showing JITD documentation workflow
+**Purpose**: Reference implementation showing Navigator documentation workflow
 
 ---
 
@@ -12,7 +12,7 @@
 ```
 examples/nextjs-saas/
 ├── README.md                 # How to use this example
-├── CLAUDE.md                 # JITD configuration for Claude Code
+├── CLAUDE.md                 # Navigator configuration for Claude Code
 ├── stack-choices.md          # Explains tech decisions & alternatives
 ├── version-note.md           # Version info & adaptation guide
 ├── SUMMARY.md               # This file
@@ -20,7 +20,7 @@ examples/nextjs-saas/
 │
 └── .agent/                   # THE EXAMPLE (this is what matters)
     ├── DEVELOPMENT-README.md    # Navigator (2k tokens, load first)
-    ├── .jitd-config.json        # JITD configuration
+    ├── .nav-config.json        # Navigator configuration
     │
     ├── tasks/                   # Implementation plans (completed)
     │   ├── TASK-01-auth-setup.md
@@ -151,7 +151,7 @@ System prompts:           50,000 tokens
 Available for work:       50,000 tokens (25%)
 ```
 
-### JITD Approach (This Example)
+### Navigator Approach (This Example)
 ```
 Navigator:                 2,000 tokens
 Task doc (if working):     4,000 tokens
@@ -166,13 +166,13 @@ Available for work:      186,000 tokens (93%)
 
 ---
 
-## JITD Workflow Demonstrated
+## Navigator Workflow Demonstrated
 
 ### Morning Workflow Example
 
 ```bash
 # 1. Start session
-/jitd:start
+/nav:start
 # → Loads navigator (2k tokens)
 # → Shows: "TASK-01 completed, TASK-04 completed"
 
@@ -189,14 +189,14 @@ Available for work:      186,000 tokens (93%)
 
 # 5. Complete feature
 # → Claude (autonomous): Commits, creates TASK-05.md, creates marker
-# → Claude suggests: /jitd:compact to clear for next task
+# → Claude suggests: /nav:compact to clear for next task
 ```
 
 **Tokens used for docs**: 9k
 **Tokens available for work**: 191k (95%)
 **Session restarts needed**: 0
 
-### Traditional Workflow (Without JITD)
+### Traditional Workflow (Without Navigator)
 
 ```bash
 # 1. Start session
@@ -306,7 +306,7 @@ Available for work:      186,000 tokens (93%)
 2. Navigator pattern
 3. Task doc template
 4. SOP template
-5. JITD workflow
+5. Navigator workflow
 
 **Replace this**:
 1. All Next.js-specific content
@@ -315,7 +315,7 @@ Available for work:      186,000 tokens (93%)
 4. Integration SOPs (unless using same services)
 
 **Keep this**:
-- JITD workflow (universal)
+- Navigator workflow (universal)
 - Documentation organization (universal)
 - Token optimization strategy (universal)
 
@@ -334,7 +334,7 @@ Available for work:      186,000 tokens (93%)
 - ✅ Patterns discoverable in <30 seconds
 
 **Token Efficiency**:
-- ✅ Navigator: 2k tokens (vs 0 without JITD)
+- ✅ Navigator: 2k tokens (vs 0 without Navigator)
 - ✅ On-demand loading: 12k avg (vs 150k loading all)
 - ✅ 92% token reduction
 - ✅ 186k tokens free for work (vs 50k)
@@ -343,7 +343,7 @@ Available for work:      186,000 tokens (93%)
 - ✅ New developer onboarding: Read navigator → productive
 - ✅ Pattern discovery: Check SOPs → implement
 - ✅ Architecture understanding: Read 1 doc (5k) not 150k
-- ✅ Context switching: /jitd:start → back to work
+- ✅ Context switching: /nav:start → back to work
 
 ---
 
@@ -377,10 +377,10 @@ Available for work:      186,000 tokens (93%)
    - Replace task examples with your tasks
    - Replace SOPs with your patterns
 
-6. **Start using JITD**
+6. **Start using Navigator**
    ```bash
    cd ~/your-project
-   /jitd:start
+   /nav:start
    ```
 
 ---
@@ -419,12 +419,12 @@ MIT - Use freely, contribute back if it helps you.
 
 ---
 
-**This example demonstrates JITD at its best**: Complete documentation, minimal tokens, maximum productivity.
+**This example demonstrates Navigator at its best**: Complete documentation, minimal tokens, maximum productivity.
 
-**Remember**: Copy the pattern, not the code. JITD is about workflow, not tech stack.
+**Remember**: Copy the pattern, not the code. Navigator is about workflow, not tech stack.
 
 ---
 
 **Last Updated**: 2025-10-15
 **Example Version**: 1.0
-**Maintained By**: JITD Plugin Contributors
+**Maintained By**: Navigator Plugin Contributors

@@ -1,4 +1,4 @@
-# JITD - Just-In-Time Documentation
+# Navigator - Navigator
 
 **Context-efficient documentation that loads what you need, when you need it.**
 
@@ -17,7 +17,7 @@ AI coding assistants have finite context windows. Traditional approaches load en
 
 ## The Solution
 
-**JITD loads documentation on-demand, not upfront.**
+**Navigator loads documentation on-demand, not upfront.**
 
 Instead of loading everything:
 ```
@@ -38,7 +38,7 @@ Total: 12k tokens (92% reduction)
 
 From production usage (2-week experiment):
 
-| Metric | Before JITD | After JITD | Improvement |
+| Metric | Before Navigator | After Navigator | Improvement |
 |--------|-------------|------------|-------------|
 | **Commits per session** | 1 commit @ 32% | 10 commits @ 18% | **10x productivity** |
 | **Session restarts** | 12+ per feature | 0 | **100% completion rate** |
@@ -60,7 +60,7 @@ From production usage (2-week experiment):
 - Context budget tracking
 
 ### 🔄 Workflow Integration
-- `/jitd:update-doc` command for maintenance
+- `/nav:update-doc` command for maintenance
 - Optional Linear/Jira integration
 - Optional Slack/Discord notifications
 
@@ -85,7 +85,7 @@ From production usage (2-week experiment):
 ### Initialize in Your Project
 
 ```bash
-/jitd:init
+/nav:init
 ```
 
 This creates:
@@ -107,24 +107,24 @@ your-project/
 
 2. **Create task docs** (after features):
    ```
-   /jitd:update-doc feature TASK-123
+   /nav:update-doc feature TASK-123
    ```
 
 3. **Create SOPs** (after solving issues):
    ```
-   /jitd:update-doc sop debugging auth-errors
+   /nav:update-doc sop debugging auth-errors
    ```
 
 4. **Update system docs** (after arch changes):
    ```
-   /jitd:update-doc system architecture
+   /nav:update-doc system architecture
    ```
 
 ---
 
 ## Configuration
 
-JITD works standalone, but integrates with your tools:
+Navigator works standalone, but integrates with your tools:
 
 ```bash
 # Set your project management tool (optional)
@@ -183,7 +183,7 @@ See [examples/](../examples/) for complete project setups:
 = 150,000+ tokens before work begins
 ```
 
-### JITD Approach (12k tokens)
+### Navigator Approach (12k tokens)
 ```
 ✓ Navigator only (2k)
 ✓ Current task only (3k)
@@ -218,9 +218,9 @@ Load docs based on current task:
 
 ### 3. Living Documentation
 Docs update as code evolves:
-- Complete feature → `/jitd:update-doc feature TASK-XX`
-- Solve novel issue → `/jitd:update-doc sop debugging issue-x`
-- Refactor architecture → `/jitd:update-doc system architecture`
+- Complete feature → `/nav:update-doc feature TASK-XX`
+- Solve novel issue → `/nav:update-doc sop debugging issue-x`
+- Refactor architecture → `/nav:update-doc system architecture`
 
 **Benefit**: Always current, never outdated
 
@@ -236,20 +236,20 @@ Clear context strategically:
 
 ## FAQ
 
-### Does JITD work with my project management tool?
-Yes. JITD works standalone or integrates with Linear, Jira, GitHub Issues, etc. Integration is optional.
+### Does Navigator work with my project management tool?
+Yes. Navigator works standalone or integrates with Linear, Jira, GitHub Issues, etc. Integration is optional.
 
-### Does JITD work with my tech stack?
-Yes. JITD is framework-agnostic. We provide examples for Next.js, Python, and Go, but it works with any stack.
+### Does Navigator work with my tech stack?
+Yes. Navigator is framework-agnostic. We provide examples for Next.js, Python, and Go, but it works with any stack.
 
 ### How much setup time required?
-5 minutes. Run `/jitd:init`, customize navigator template, start documenting.
+5 minutes. Run `/nav:init`, customize navigator template, start documenting.
 
 ### Will my team adopt this?
-JITD shows immediate benefits (zero restarts, faster sessions). Teams naturally adopt tools that save time.
+Navigator shows immediate benefits (zero restarts, faster sessions). Teams naturally adopt tools that save time.
 
-### Is JITD only for Claude Code?
-JITD principles work with any context-limited AI (Cursor, GitHub Copilot, etc). Plugin is Claude Code-specific, but approach is universal.
+### Is Navigator only for Claude Code?
+Navigator principles work with any context-limited AI (Cursor, GitHub Copilot, etc). Plugin is Claude Code-specific, but approach is universal.
 
 ---
 

@@ -3,30 +3,30 @@
 ## Context
 AI Content Generator SaaS with credit-based payments.
 
-**Core Principle**: JITD workflow → Load docs on-demand, not upfront (92% token reduction)
+**Core Principle**: Navigator workflow → Load docs on-demand, not upfront (92% token reduction)
 
 ---
 
-## JITD Workflow (CRITICAL - ENFORCE STRICTLY)
+## Navigator Workflow (CRITICAL - ENFORCE STRICTLY)
 
 ### SESSION START PROTOCOL (MANDATORY)
 
 **🚨 EVERY new conversation/session MUST begin with**:
 
 ```bash
-/jitd:start
+/nav:start
 ```
 
-**What `/jitd:start` does**:
+**What `/nav:start` does**:
 1. Loads `.agent/DEVELOPMENT-README.md` (navigator)
-2. Sets JITD workflow context
+2. Sets Navigator workflow context
 3. Activates token optimization strategy
 4. Reminds about agent usage for complex tasks
 
-**If you don't explicitly run `/jitd:start`**:
+**If you don't explicitly run `/nav:start`**:
 - Claude MUST proactively run it or ask to run it
 - Never proceed with work without loading navigator
-- This is NOT optional - it's the foundation of JITD
+- This is NOT optional - it's the foundation of Navigator
 
 ---
 
@@ -64,7 +64,7 @@ Total: 9k tokens vs 150k
 
 ✅ **DO automatically** (no human prompt needed):
 1. **Commit changes** with proper conventional commit message
-2. **Archive implementation plan** via `/jitd:update-doc feature TASK-XX`
+2. **Archive implementation plan** via `/nav:update-doc feature TASK-XX`
 3. **Create completion marker** `TASK-XX-complete`
 4. **Suggest compact** to clear context for next task
 
@@ -83,7 +83,7 @@ Total: 9k tokens vs 150k
 
 ### Smart Compact Strategy
 
-**Run `/jitd:compact` after**:
+**Run `/nav:compact` after**:
 - Completing isolated sub-task
 - Finishing documentation update
 - Creating SOP
@@ -153,7 +153,7 @@ Total: 9k tokens vs 150k
 
 ## Forbidden Actions
 
-### JITD Violations (HIGHEST PRIORITY)
+### Navigator Violations (HIGHEST PRIORITY)
 - ❌ NEVER wait for explicit commit prompts after task completion (autonomous mode)
 - ❌ NEVER skip documentation after completing features (knowledge loss)
 - ❌ NEVER load all `.agent/` docs at once (defeats context optimization)
@@ -171,13 +171,13 @@ Total: 9k tokens vs 150k
 
 ## Development Workflow
 
-1. **Start Session** → `/jitd:start` (loads navigator)
+1. **Start Session** → `/nav:start` (loads navigator)
 2. **Select Task** → Load task doc (`.agent/tasks/TASK-XX.md`)
 3. **Plan** → Use TodoWrite for complex tasks
-4. **Implement** → Follow Next.js + JITD patterns
+4. **Implement** → Follow Next.js + Navigator patterns
 5. **Verify** → Test locally, check functionality
 6. **Complete** → [AUTONOMOUS] Commit, document, create marker
-7. **Compact** → Run `/jitd:compact` to clear context for next task
+7. **Compact** → Run `/nav:compact` to clear context for next task
 
 ---
 
@@ -204,13 +204,13 @@ Total: 9k tokens vs 150k
 
 ### Slash Commands
 ```bash
-/jitd:start                    # Start JITD session (EVERY new conversation)
-/jitd:update-doc feature TASK-XX    # Archive implementation plan
-/jitd:update-doc sop <category> <name>  # Create SOP
-/jitd:update-doc system <doc-name>  # Update architecture doc
-/jitd:marker [name]            # Create context save point (anytime)
-/jitd:markers                  # Manage markers: list, load, clean
-/jitd:compact                  # Smart context compact
+/nav:start                    # Start Navigator session (EVERY new conversation)
+/nav:update-doc feature TASK-XX    # Archive implementation plan
+/nav:update-doc sop <category> <name>  # Create SOP
+/nav:update-doc system <doc-name>  # Update architecture doc
+/nav:marker [name]            # Create context save point (anytime)
+/nav:markers                  # Manage markers: list, load, clean
+/nav:compact                  # Smart context compact
 ```
 
 ---
@@ -220,10 +220,10 @@ Total: 9k tokens vs 150k
 ### Token Budget Strategy
 - System + tools: ~50k (fixed)
 - CLAUDE.md: ~15k (this file, optimized)
-- Message history: ~60k (managed via /jitd:compact)
+- Message history: ~60k (managed via /nav:compact)
 - **Documentation**: ~66k (on-demand loading)
 
-### /jitd:compact Strategy
+### /nav:compact Strategy
 **Run after**:
 - Completing isolated sub-task
 - Finishing documentation update
@@ -253,14 +253,14 @@ Total: 9k tokens vs 150k
 
 ### Start Session
 ```
-1. Run /jitd:start (loads navigator, sets context)
+1. Run /nav:start (loads navigator, sets context)
 2. Select task to work on
 3. Load only that task's docs
 ```
 
 ### During Work
 ```
-1. Follow JITD lazy-loading (don't load everything)
+1. Follow Navigator lazy-loading (don't load everything)
 2. Use TodoWrite for complex tasks
 3. Create SOPs for new patterns discovered
 4. Update system docs if architecture changes
@@ -270,25 +270,25 @@ Total: 9k tokens vs 150k
 ```
 When task is complete, automatically:
 1. Commit changes with proper message
-2. /jitd:update-doc feature TASK-XX
+2. /nav:update-doc feature TASK-XX
 3. Create marker TASK-XX-complete
-4. Suggest /jitd:compact to clear context
+4. Suggest /nav:compact to clear context
 
 NO human prompts needed - execute autonomously.
 ```
 
 ---
 
-## JITD Benefits Reminder
+## Navigator Benefits Reminder
 
 **Token Savings**: 92% reduction (12k vs 150k tokens)
 **Context Available**: 86%+ free for actual work
-**Session Restarts**: Zero (vs 3-4 per day without JITD)
+**Session Restarts**: Zero (vs 3-4 per day without Navigator)
 **Productivity**: 10x more commits per token spent
 
 ---
 
-**For complete JITD documentation**: See `.agent/DEVELOPMENT-README.md`
+**For complete Navigator documentation**: See `.agent/DEVELOPMENT-README.md`
 
 **Last Updated**: 2025-10-15
-**JITD Version**: 1.5.1
+**Navigator Version**: 1.5.1

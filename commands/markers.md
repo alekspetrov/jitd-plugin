@@ -2,11 +2,11 @@
 description: Manage context markers - list, load, and clean conversation save points
 ---
 
-# JITD Markers Management
+# Navigator Markers Management
 
 Manage your context markers: list, load, and clean conversation save points.
 
-**Related**: Use `/jitd:marker` to CREATE new markers.
+**Related**: Use `/nav:marker` to CREATE new markers.
 
 ---
 
@@ -24,7 +24,7 @@ Interactive management of context markers:
 ### Interactive Mode (Default)
 
 ```bash
-/jitd:markers
+/nav:markers
 ```
 
 **What happens**:
@@ -38,7 +38,7 @@ Interactive management of context markers:
 ### List Mode
 
 ```bash
-/jitd:markers list
+/nav:markers list
 ```
 
 **What happens**:
@@ -51,7 +51,7 @@ Interactive management of context markers:
 ### Clean Mode
 
 ```bash
-/jitd:markers clean
+/nav:markers clean
 ```
 
 **What happens**:
@@ -78,12 +78,12 @@ ls -la .agent/.context-markers/ 2>/dev/null
 Context markers aren't set up yet.
 
 To enable markers:
-1. Run /jitd:init (if JITD not initialized)
+1. Run /nav:init (if Navigator not initialized)
    OR
 2. mkdir -p .agent/.context-markers
 
 After setup, create markers with:
-   /jitd:marker [name]
+   /nav:marker [name]
 ```
 
 **Exit command**.
@@ -95,9 +95,9 @@ After setup, create markers with:
 You haven't created any context markers yet.
 
 To create a marker:
-   /jitd:marker lunch-break
-   /jitd:marker before-refactor
-   /jitd:marker eod-2025-10-12 "Description here"
+   /nav:marker lunch-break
+   /nav:marker before-refactor
+   /nav:marker eod-2025-10-12 "Description here"
 
 Markers let you save conversation state and restore later.
 ```
@@ -228,7 +228,7 @@ Recent markers (last 30 days):
 Total: 3 markers | Combined: 9.5k tokens
 
 To load a marker:
-   /jitd:markers
+   /nav:markers
 
    OR
 
@@ -363,7 +363,7 @@ Read first 50 lines, look for:
 
 **No markers directory**:
 - Show setup instructions
-- Suggest `/jitd:init` or manual mkdir
+- Suggest `/nav:init` or manual mkdir
 
 **Empty directory**:
 - Show "no markers yet"
@@ -384,7 +384,7 @@ Read first 50 lines, look for:
 ### Example 1: Interactive Load
 
 ```bash
-User: /jitd:markers
+User: /nav:markers
 
 System:
 📍 Available Context Markers
@@ -412,7 +412,7 @@ Context restored! Continue where you left off.
 ### Example 2: Quick List
 
 ```bash
-User: /jitd:markers list
+User: /nav:markers list
 
 System:
 📍 Available Context Markers
@@ -431,7 +431,7 @@ Total: 2 markers (6.0k tokens)
 ### Example 3: Cleanup
 
 ```bash
-User: /jitd:markers clean
+User: /nav:markers clean
 
 System:
 🧹 Found 5 markers older than 7 days (15.2k tokens)
@@ -457,16 +457,16 @@ Kept: 3 markers (9.8k tokens)
 
 ## User Experience Guidelines
 
-### When to run `/jitd:markers`
+### When to run `/nav:markers`
 
 **Daily workflow**:
-- Morning: `/jitd:markers` → Load yesterday's eod marker
-- After break: `/jitd:markers` → Load pre-break marker
-- Context switch: `/jitd:markers` → Load previous task marker
+- Morning: `/nav:markers` → Load yesterday's eod marker
+- After break: `/nav:markers` → Load pre-break marker
+- Context switch: `/nav:markers` → Load previous task marker
 
 **Periodic maintenance**:
-- Weekly: `/jitd:markers clean` → Remove old markers
-- Monthly: `/jitd:markers list` → Review what's saved
+- Weekly: `/nav:markers clean` → Remove old markers
+- Monthly: `/nav:markers list` → Review what's saved
 
 ### Best Practices
 
@@ -482,29 +482,29 @@ Kept: 3 markers (9.8k tokens)
 
 ---
 
-## Integration with `/jitd:marker`
+## Integration with `/nav:marker`
 
 **Clear separation**:
-- `/jitd:marker` → CREATE markers (during work)
-- `/jitd:markers` → MANAGE markers (load, list, clean)
+- `/nav:marker` → CREATE markers (during work)
+- `/nav:markers` → MANAGE markers (load, list, clean)
 
 **Typical workflow**:
 ```bash
 # During work
-/jitd:marker lunch-break
+/nav:marker lunch-break
 
 # After break
-/jitd:markers
+/nav:markers
 # [Select lunch-break from list]
 # [Context restored]
 
 # Continue working...
 
 # End of day
-/jitd:marker eod-2025-10-12
+/nav:marker eod-2025-10-12
 
 # Next morning
-/jitd:markers
+/nav:markers
 # [Select eod marker]
 # [Yesterday's context restored]
 ```
@@ -523,4 +523,4 @@ Kept: 3 markers (9.8k tokens)
 
 ---
 
-**Remember**: Markers are your conversation save points. Create with `/jitd:marker`, manage with `/jitd:markers`. 🎯
+**Remember**: Markers are your conversation save points. Create with `/nav:marker`, manage with `/nav:markers`. 🎯

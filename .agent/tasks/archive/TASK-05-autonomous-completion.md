@@ -15,7 +15,7 @@ Claude completes feature implementation but waits for explicit human prompts to:
 - Update documentation
 - Create completion markers
 
-This creates friction and breaks the autonomous workflow JITD is designed to enable.
+This creates friction and breaks the autonomous workflow Navigator is designed to enable.
 
 **User feedback**: "Most of the time they don't... finish the job, don't close the ticket, or more often don't commit changes on finish, maybe expecting human input."
 
@@ -25,7 +25,7 @@ This creates friction and breaks the autonomous workflow JITD is designed to ena
 
 **Conflict between safety protocols and autonomy**:
 1. Claude Code's commit protocol: "NEVER commit changes unless the user explicitly asks"
-2. No explicit "task complete" signal in JITD workflow
+2. No explicit "task complete" signal in Navigator workflow
 3. Documentation doesn't override default conservative behavior
 4. Claude assumes coordination over autonomy
 
@@ -34,16 +34,16 @@ This creates friction and breaks the autonomous workflow JITD is designed to ena
 ## Solution Design
 
 ### Core Principle
-**JITD projects expect full autonomy** - When task is complete, execute the entire finish protocol automatically without waiting for human prompts.
+**Navigator projects expect full autonomy** - When task is complete, execute the entire finish protocol automatically without waiting for human prompts.
 
 ### Autonomous Completion Protocol
 
 **When task implementation is complete, automatically**:
 1. ✅ Commit changes with proper conventional commit message
-2. ✅ Run `/jitd:update-doc feature TASK-XX` to archive implementation plan
+2. ✅ Run `/nav:update-doc feature TASK-XX` to archive implementation plan
 3. ✅ Close ticket in PM tool (if configured)
 4. ✅ Create completion marker `TASK-XX-complete`
-5. ✅ Suggest `/jitd:compact` to clear context
+5. ✅ Suggest `/nav:compact` to clear context
 
 **Only ask for human confirmation if**:
 - Uncommitted changes contain secrets (.env, credentials, API keys)
@@ -70,16 +70,16 @@ This creates friction and breaks the autonomous workflow JITD is designed to ena
 
 **Add new section**:
 ```markdown
-## Autonomous Task Completion (JITD Override)
+## Autonomous Task Completion (Navigator Override)
 
-### Standard Projects vs JITD Projects
+### Standard Projects vs Navigator Projects
 
 **Standard Projects**: Conservative approach
 - Ask before committing
 - Wait for explicit "close ticket" request
 - Wait for "update documentation" prompt
 
-**JITD Projects**: Autonomous completion (when task is done)
+**Navigator Projects**: Autonomous completion (when task is done)
 - ✅ Commit automatically with proper message
 - ✅ Archive implementation plan automatically
 - ✅ Close ticket automatically (if PM configured)
@@ -116,7 +116,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 
 **Step 2: Archive Implementation Plan**
 ```bash
-/jitd:update-doc feature TASK-XX
+/nav:update-doc feature TASK-XX
 ```
 
 **Step 3: Close Ticket (if PM configured)**
@@ -130,12 +130,12 @@ gh issue close TASK-XX
 
 **Step 4: Create Completion Marker**
 ```bash
-/jitd:marker TASK-XX-complete
+/nav:marker TASK-XX-complete
 ```
 
 **Step 5: Suggest Compact**
 ```
-Inform user: "Run /jitd:compact to clear context and start next task."
+Inform user: "Run /nav:compact to clear context and start next task."
 ```
 
 **Step 6: Show Summary**
@@ -148,13 +148,13 @@ Automated actions:
 - Closed ticket in Linear
 - Created marker: TASK-XX-complete
 
-Ready for next task. Run /jitd:compact to clear context.
+Ready for next task. Run /nav:compact to clear context.
 ```
 ```
 
 **Update "Forbidden Actions" section**:
 ```markdown
-### JITD Violations (HIGHEST PRIORITY)
+### Navigator Violations (HIGHEST PRIORITY)
 - ❌ NEVER wait for explicit commit prompts after task completion (autonomous mode)
 - ❌ NEVER leave tickets open after implementation complete (close automatically)
 - ❌ NEVER skip documentation after completing features (knowledge loss)
@@ -171,16 +171,16 @@ Ready for next task. Run /jitd:compact to clear context.
 
 ### Autonomous Completion (CRITICAL)
 
-JITD projects expect **full autonomy** when tasks complete. No human prompts needed.
+Navigator projects expect **full autonomy** when tasks complete. No human prompts needed.
 
 **When task implementation is done**:
 
 ✅ **Automatically execute** (no confirmation needed):
 1. Commit changes with conventional commit message
-2. Archive implementation plan (`/jitd:update-doc feature TASK-XX`)
+2. Archive implementation plan (`/nav:update-doc feature TASK-XX`)
 3. Close ticket in PM tool (if configured)
 4. Create completion marker (`TASK-XX-complete`)
-5. Suggest `/jitd:compact`
+5. Suggest `/nav:compact`
 
 ❌ **Don't wait for**:
 - "Please commit now"
@@ -210,7 +210,7 @@ Automated actions:
 - Ticket: Closed in [PM tool]
 - Marker: TASK-XX-complete created
 
-Next: Run /jitd:compact to clear context
+Next: Run /nav:compact to clear context
 ```
 ```
 
@@ -218,11 +218,11 @@ Next: Run /jitd:compact to clear context
 ```markdown
 ## Development Workflow
 
-1. **Start Session** → `/jitd:start` (loads navigator, checks PM tool)
+1. **Start Session** → `/nav:start` (loads navigator, checks PM tool)
 2. **Select Task** → Load task doc (`.agent/tasks/TASK-XX.md`)
 3. **Implement** → Follow patterns, write tests, verify functionality
 4. **Complete** → [AUTONOMOUS] Commit, document, close ticket, create marker
-5. **Compact** → Run `/jitd:compact` to clear context for next task
+5. **Compact** → Run `/nav:compact` to clear context for next task
 ```
 
 ### 5. Create Autonomous Completion SOP
@@ -247,7 +247,7 @@ Execute this protocol automatically when:
 - Task implementation is complete
 - Tests are passing (if applicable)
 - Feature functionality verified
-- Working in a JITD-enabled project
+- Working in a Navigator-enabled project
 
 **Do NOT wait for explicit human prompt** - Autonomy is expected.
 
@@ -331,7 +331,7 @@ git push origin HEAD
 
 **Run update-doc command**:
 ```bash
-/jitd:update-doc feature TASK-XX
+/nav:update-doc feature TASK-XX
 ```
 
 **What this does**:
@@ -380,7 +380,7 @@ jira issue move TASK-XX "Done"
 
 **Create marker automatically**:
 ```bash
-/jitd:marker TASK-XX-complete
+/nav:marker TASK-XX-complete
 ```
 
 **Marker contents should include**:
@@ -396,7 +396,7 @@ jira issue move TASK-XX "Done"
 
 **Inform user**:
 ```
-Ready for next task. Run /jitd:compact to clear context.
+Ready for next task. Run /nav:compact to clear context.
 ```
 
 **Don't auto-compact** - Let user decide when to clear context
@@ -417,7 +417,7 @@ Automated actions:
 ✅ Marker: TASK-XX-complete created
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Next: Run /jitd:compact to clear context and start next task
+Next: Run /nav:compact to clear context and start next task
 ```
 
 ---
@@ -524,8 +524,8 @@ Autonomous completion succeeds when:
 
 - **Task Completion Protocol**: `.agent/DEVELOPMENT-README.md`
 - **Commit Guidelines**: `CLAUDE.md` → "Committing Changes"
-- **Update Doc Command**: `.claude/commands/jitd-update-doc.md`
-- **Markers Command**: `.claude/commands/jitd-marker.md`
+- **Update Doc Command**: `.claude/commands/nav-update-doc.md`
+- **Markers Command**: `.claude/commands/nav-marker.md`
 
 ---
 
@@ -537,7 +537,7 @@ Autonomous completion succeeds when:
 
 ---
 
-**Remember**: Autonomy is expected in JITD projects. Execute the full protocol without waiting for human prompts. Only interrupt for security concerns or ambiguous state.
+**Remember**: Autonomy is expected in Navigator projects. Execute the full protocol without waiting for human prompts. Only interrupt for security concerns or ambiguous state.
 ```
 
 ### 6. Update README.md Version References
@@ -614,8 +614,8 @@ CLAUDE: "✅ TASK-XX Complete. Ready for next task."
 - ✅ Rely on Claude's training to follow instructions
 
 ### Phase 2 (v1.6.0+)
-- [ ] Add `.jitd-config.json` flag: `"autonomous_completion": true`
-- [ ] Create `/jitd:config` command to toggle settings
+- [ ] Add `.nav-config.json` flag: `"autonomous_completion": true`
+- [ ] Create `/nav:config` command to toggle settings
 - [ ] Add telemetry to track autonomous completion success rate
 - [ ] Smart detection: "This looks complete, should I finish?"
 
@@ -626,7 +626,7 @@ CLAUDE: "✅ TASK-XX Complete. Ready for next task."
 **Why patch version (1.5.1)?**
 - No breaking changes
 - No new features (just behavior enhancement)
-- Backward compatible (doesn't affect projects without JITD)
+- Backward compatible (doesn't affect projects without Navigator)
 - Semantic versioning: PATCH for behavior fixes
 
 **Why not a new command?**

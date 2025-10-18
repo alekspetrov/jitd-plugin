@@ -2,13 +2,13 @@
 description: Maintain .agent/ documentation system - initialize structure, archive task docs, generate SOPs, update system docs
 ---
 
-# JITD Documentation System Maintenance
+# Navigator Documentation System Maintenance
 
-You are maintaining the Just-In-Time Documentation (JITD) system that transforms tickets into living knowledge while optimizing context efficiency.
+You are maintaining the Navigator (Navigator) system that transforms tickets into living knowledge while optimizing context efficiency.
 
 ## Command Modes
 
-### Mode 1: Initialize (`/jitd:update-doc init`)
+### Mode 1: Initialize (`/nav:update-doc init`)
 
 **Purpose**: Set up .agent/ documentation structure for first time
 
@@ -29,7 +29,7 @@ You are maintaining the Just-In-Time Documentation (JITD) system that transforms
    ```
 
 2. **Copy templates**:
-   - Use templates from jitd-plugin/templates/
+   - Use templates from nav-plugin/templates/
    - Customize DEVELOPMENT-README.md with project specifics
    - Replace placeholders: [Project Name], [Tech Stack], etc.
 
@@ -42,7 +42,7 @@ You are maintaining the Just-In-Time Documentation (JITD) system that transforms
    - Show created structure
    - Prompt user to customize DEVELOPMENT-README.md
 
-### Mode 2: Feature Complete (`/jitd:update-doc feature TASK-XX`)
+### Mode 2: Feature Complete (`/nav:update-doc feature TASK-XX`)
 
 **Purpose**: Archive implementation plan and update system docs after completing feature
 
@@ -77,7 +77,7 @@ You are maintaining the Just-In-Time Documentation (JITD) system that transforms
    - Teams: Post to project channel
    - None: Skip notification
 
-### Mode 3: Create SOP (`/jitd:update-doc sop <category> <name>`)
+### Mode 3: Create SOP (`/nav:update-doc sop <category> <name>`)
 
 **Purpose**: Document processes, integrations, or debugging solutions
 
@@ -108,7 +108,7 @@ You are maintaining the Just-In-Time Documentation (JITD) system that transforms
 5. **Share with team** (if configured):
    - Post announcement with SOP summary
 
-### Mode 4: Update System Doc (`/jitd:update-doc system <doc-name>`)
+### Mode 4: Update System Doc (`/nav:update-doc system <doc-name>`)
 
 **Purpose**: Refresh specific system documentation from current codebase state
 
@@ -253,7 +253,7 @@ team_chat: slack | discord | teams | none
 
 **Benefit**: 92% reduction in documentation loading overhead
 
-### When to Run /jitd:compact
+### When to Run /nav:compact
 After completing these isolated tasks:
 - Finishing documentation update
 - Creating SOP
@@ -301,18 +301,18 @@ Track these in DEVELOPMENT-README.md:
 
 ```bash
 # First time setup
-/jitd:update-doc init
+/nav:update-doc init
 
 # After completing task
-/jitd:update-doc feature TASK-123
+/nav:update-doc feature TASK-123
 
 # After integrating new service
-/jitd:update-doc sop integrations stripe-payment
+/nav:update-doc sop integrations stripe-payment
 
 # After major code changes
-/jitd:update-doc system architecture
+/nav:update-doc system architecture
 ```
 
 ---
 
-**Remember**: JITD optimizes context by loading documentation on-demand, not upfront. This keeps 86%+ of your context available for actual work while maintaining complete project knowledge.
+**Remember**: Navigator optimizes context by loading documentation on-demand, not upfront. This keeps 86%+ of your context available for actual work while maintaining complete project knowledge.

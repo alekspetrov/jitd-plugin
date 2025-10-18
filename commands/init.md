@@ -1,12 +1,12 @@
 ---
-description: Initialize JITD documentation structure in your project
+description: Initialize Navigator documentation structure in your project
 ---
 
-# Initialize JITD - Just-In-Time Documentation
+# Initialize Navigator - Navigator
 
-You are setting up the JITD (Just-In-Time Documentation) system in this project.
+You are setting up the Navigator (Navigator) system in this project.
 
-**What JITD Does**:
+**What Navigator Does**:
 - Problem: AI loads 150k+ tokens of docs upfront
 - Solution: Load on-demand (92% reduction to ~12k tokens)
 - Result: 86%+ context free for work, zero session restarts
@@ -52,7 +52,7 @@ Show clear message:
 ║                                                      ║
 ╚══════════════════════════════════════════════════════╝
 
-Found existing JITD structure in this project.
+Found existing Navigator structure in this project.
 
 OPTIONS:
 
@@ -77,7 +77,7 @@ Your choice [1-3]:
   - Run `mv .agent .agent.backup.$(date +%Y%m%d-%H%M%S)`
   - Show "✓ Backup created: .agent.backup.TIMESTAMP"
 - If choice 3:
-  - Show "Operation canceled. Run /jitd:init again when ready."
+  - Show "Operation canceled. Run /nav:init again when ready."
   - Exit now
 
 ---
@@ -118,10 +118,10 @@ touch .agent/.context-markers/.gitkeep
 Use the `Bash` tool with curl:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/alekspetrov/jitd-plugin/main/templates/CLAUDE.md -o /tmp/jitd-template-CLAUDE.md
+curl -fsSL https://raw.githubusercontent.com/alekspetrov/nav-plugin/main/templates/CLAUDE.md -o /tmp/nav-template-CLAUDE.md
 ```
 
-**Verify**: Run `ls -lh /tmp/jitd-template-CLAUDE.md` to confirm download
+**Verify**: Run `ls -lh /tmp/nav-template-CLAUDE.md` to confirm download
 
 ### 3B: Detect Project Info
 
@@ -136,7 +136,7 @@ Use the `Read` tool to read the downloaded template:
 
 ```
 Read(
-  file_path: "/tmp/jitd-template-CLAUDE.md"
+  file_path: "/tmp/nav-template-CLAUDE.md"
 )
 ```
 
@@ -173,10 +173,10 @@ Write(
 Use the `Bash` tool with curl:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/alekspetrov/jitd-plugin/main/templates/DEVELOPMENT-README.md -o /tmp/jitd-template-DEV-README.md
+curl -fsSL https://raw.githubusercontent.com/alekspetrov/nav-plugin/main/templates/DEVELOPMENT-README.md -o /tmp/nav-template-DEV-README.md
 ```
 
-**Verify**: Run `ls -lh /tmp/jitd-template-DEV-README.md` to confirm download
+**Verify**: Run `ls -lh /tmp/nav-template-DEV-README.md` to confirm download
 
 ### 4B: Read Template
 
@@ -184,7 +184,7 @@ Use the `Read` tool:
 
 ```
 Read(
-  file_path: "/tmp/jitd-template-DEV-README.md"
+  file_path: "/tmp/nav-template-DEV-README.md"
 )
 ```
 
@@ -299,7 +299,7 @@ Write(
 Ask these questions (don't assume):
 
 ```
-JITD Configuration
+Navigator Configuration
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Project Management Tool:
@@ -341,14 +341,14 @@ Use the `Write` tool:
 
 ```
 Write(
-  file_path: ".agent/.jitd-config.json"
+  file_path: ".agent/.nav-config.json"
   content: [config JSON]
 )
 ```
 
 ---
 
-## Step 6.3: Setup .gitignore for JITD
+## Step 6.3: Setup .gitignore for Navigator
 
 **Create .gitignore entry for context markers**:
 
@@ -357,21 +357,21 @@ Context markers are session-specific and shouldn't be committed to git.
 ### 6.3A: Fetch .gitignore template
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/alekspetrov/jitd-plugin/main/templates/.gitignore -o /tmp/jitd-template-gitignore
+curl -fsSL https://raw.githubusercontent.com/alekspetrov/nav-plugin/main/templates/.gitignore -o /tmp/nav-template-gitignore
 ```
 
 ### 6.3B: Append to existing .gitignore or create new
 
 **If .gitignore exists**:
 ```bash
-# Append JITD entries
-cat /tmp/jitd-template-gitignore >> .gitignore
+# Append Navigator entries
+cat /tmp/nav-template-gitignore >> .gitignore
 ```
 
 **If .gitignore doesn't exist**:
 ```bash
 # Create new .gitignore
-cp /tmp/jitd-template-gitignore .gitignore
+cp /tmp/nav-template-gitignore .gitignore
 ```
 
 **Result**: Context markers are git-ignored but directory structure is preserved
@@ -384,7 +384,7 @@ cp /tmp/jitd-template-gitignore .gitignore
 
 ### Check PM Tool Selection
 
-Read `.agent/.jitd-config.json` to get `project_management` value.
+Read `.agent/.nav-config.json` to get `project_management` value.
 
 ### If Linear Selected
 
@@ -425,14 +425,14 @@ SETUP STEPS:
 3. Restart Claude Code after installation
 
 4. Test Linear integration:
-   /jitd:start
+   /nav:start
 
    This will verify Linear is working and show your tasks.
 
 ALTERNATIVE: Manual Workflow
 
 If you prefer not to use Linear MCP:
-- Update .agent/.jitd-config.json
+- Update .agent/.nav-config.json
 - Change "project_management": "none"
 - Track tasks manually
 
@@ -446,7 +446,7 @@ Would you like me to:
 
 **If choice is 1 or 3**: Continue to next step
 
-**If choice is 2**: Update `.agent/.jitd-config.json` to set `"project_management": "none"`
+**If choice is 2**: Update `.agent/.nav-config.json` to set `"project_management": "none"`
 
 **If Linear MCP IS detected**:
 
@@ -483,12 +483,12 @@ Reference issue ID (e.g., "LIN-123") and request status update.
 
 Mention issue ID and provide comment text.
 
-## JITD Workflow Integration
+## Navigator Workflow Integration
 
 ### Starting Work on Issue
 
 ```
-1. /jitd:start
+1. /nav:start
    - Lists your assigned issues
 2. Select issue to work on
 3. Claude loads issue details from Linear
@@ -500,7 +500,7 @@ Mention issue ID and provide comment text.
 
 ```
 1. Finish implementation
-2. /jitd:update-doc feature LIN-XXX
+2. /nav:update-doc feature LIN-XXX
    - Archives task doc
    - Updates system docs if needed
 3. Update Linear issue status (done/completed)
@@ -537,7 +537,7 @@ Mention issue ID and provide comment text.
 
 ---
 
-**Linear MCP makes JITD even more powerful by connecting docs to real tasks** 🚀
+**Linear MCP makes Navigator even more powerful by connecting docs to real tasks** 🚀
 ```
 
 Write this to: `.agent/sops/integrations/linear-mcp.md`
@@ -584,14 +584,14 @@ SETUP STEPS:
 
    Should show issues from current repository.
 
-4. Use with JITD:
+4. Use with Navigator:
 
-   /jitd:start will now show your GitHub issues
+   /nav:start will now show your GitHub issues
 
 ALTERNATIVE: Manual Workflow
 
 If you prefer not to use GitHub CLI:
-- Update .agent/.jitd-config.json
+- Update .agent/.nav-config.json
 - Change "project_management": "none"
 - Track tasks manually
 
@@ -649,12 +649,12 @@ gh issue edit [issue-number] --add-label "in-progress"
 gh issue close [issue-number]
 ```
 
-## JITD Workflow Integration
+## Navigator Workflow Integration
 
 ### Starting Work on Issue
 
 ```
-1. /jitd:start
+1. /nav:start
    - Lists your assigned GitHub issues via gh CLI
 2. Select issue to work on
 3. Claude loads issue details
@@ -666,7 +666,7 @@ gh issue close [issue-number]
 
 ```
 1. Finish implementation
-2. /jitd:update-doc feature GH-XXX
+2. /nav:update-doc feature GH-XXX
    - Archives task doc
    - Updates system docs if needed
 3. Close issue: gh issue close XXX
@@ -704,7 +704,7 @@ gh auth login
 
 ---
 
-**GitHub CLI + JITD = Seamless issue tracking** 🚀
+**GitHub CLI + Navigator = Seamless issue tracking** 🚀
 ```
 
 Write this to: `.agent/sops/integrations/github-cli.md`
@@ -722,7 +722,7 @@ Show manual setup instructions:
 
 You selected [Jira/GitLab] for project management.
 
-Currently, JITD doesn't have automated integration for this tool.
+Currently, Navigator doesn't have automated integration for this tool.
 
 MANUAL WORKFLOW:
 
@@ -734,8 +734,8 @@ MANUAL WORKFLOW:
      content: [task details from ticket]
    )
 
-3. Work on implementation with JITD workflow
-4. When complete: /jitd:update-doc feature [PREFIX]-XXX
+3. Work on implementation with Navigator workflow
+4. When complete: /nav:update-doc feature [PREFIX]-XXX
 5. Update [Jira/GitLab] status manually
 
 FUTURE: API integration may be added in future versions
@@ -761,7 +761,7 @@ Skip PM tool setup entirely. No SOP needed.
 ### File Existence Checks
 
 ```bash
-echo "=== JITD Installation Verification ==="
+echo "=== Navigator Installation Verification ==="
 echo ""
 echo "1. CLAUDE.md (project root):"
 ls -lh CLAUDE.md 2>/dev/null && echo "✓ EXISTS" || echo "✗ MISSING"
@@ -779,8 +779,8 @@ echo "4. .agent/system/tech-stack-patterns.md:"
 ls -lh .agent/system/tech-stack-patterns.md 2>/dev/null && echo "✓ EXISTS" || echo "✗ MISSING"
 
 echo ""
-echo "5. .agent/.jitd-config.json:"
-ls -lh .agent/.jitd-config.json 2>/dev/null && echo "✓ EXISTS" || echo "✗ MISSING"
+echo "5. .agent/.nav-config.json:"
+ls -lh .agent/.nav-config.json 2>/dev/null && echo "✓ EXISTS" || echo "✗ MISSING"
 
 echo ""
 echo "6. Directory structure:"
@@ -808,7 +808,7 @@ grep -q "\[Project Name\]" .agent/DEVELOPMENT-README.md && echo "✗ FAIL: Place
 - [ ] .agent/DEVELOPMENT-README.md exists
 - [ ] .agent/system/project-architecture.md exists
 - [ ] .agent/system/tech-stack-patterns.md exists
-- [ ] .agent/.jitd-config.json exists and is valid JSON
+- [ ] .agent/.nav-config.json exists and is valid JSON
 - [ ] No `[Project Name]` placeholders remain in CLAUDE.md
 - [ ] No `[Project Name]` placeholders remain in DEVELOPMENT-README.md
 - [ ] Directory structure complete (tasks/, system/, sops/)
@@ -830,13 +830,13 @@ grep -q "\[Project Name\]" .agent/DEVELOPMENT-README.md && echo "✗ FAIL: Place
 ```
 ╔══════════════════════════════════════════════════════╗
 ║                                                      ║
-║  ✅ JITD Initialized Successfully!                   ║
+║  ✅ Navigator Initialized Successfully!                   ║
 ║                                                      ║
 ║  Your project now has:                               ║
 ║  ✓ CLAUDE.md - Project configuration (~15k tokens)  ║
 ║  ✓ .agent/DEVELOPMENT-README.md - Navigator (~2k)   ║
 ║  ✓ .agent/system/ - Architecture docs               ║
-║  ✓ .agent/.jitd-config.json - Settings              ║
+║  ✓ .agent/.nav-config.json - Settings              ║
 ║  ✓ Complete documentation structure                 ║
 ║                                                      ║
 ╚══════════════════════════════════════════════════════╝
@@ -854,14 +854,14 @@ Delete after verifying: rm backup-file
 
 ---
 
-## Step 9: How to Use JITD
+## Step 9: How to Use Navigator
 
 **Show this guide**:
 
 ```
 ╔══════════════════════════════════════════════════════╗
 ║                                                      ║
-║  📖 HOW TO USE JITD                                  ║
+║  📖 HOW TO USE Navigator                                  ║
 ║                                                      ║
 ╚══════════════════════════════════════════════════════╝
 
@@ -886,7 +886,7 @@ Delete after verifying: rm backup-file
 
 🔹 AFTER COMPLETING FEATURE:
 
-   /jitd:update-doc feature TASK-XX
+   /nav:update-doc feature TASK-XX
 
    This creates documentation from your work so:
    - You never solve same problem twice
@@ -896,7 +896,7 @@ Delete after verifying: rm backup-file
 
 🔹 AFTER SOLVING A BUG:
 
-   /jitd:update-doc sop debugging issue-name
+   /nav:update-doc sop debugging issue-name
 
    Creates a Standard Operating Procedure so you
    never waste time on this issue again.
@@ -904,7 +904,7 @@ Delete after verifying: rm backup-file
 
 🔹 SAVE YOUR PROGRESS ANYTIME:
 
-   /jitd:marker lunch-break
+   /nav:marker lunch-break
 
    Creates a save point you can restore later.
    Perfect for:
@@ -918,9 +918,9 @@ Delete after verifying: rm backup-file
 
 🔹 WHEN CONTEXT GETS FULL:
 
-   /jitd:compact
+   /nav:compact
 
-   Clears conversation while preserving JITD markers.
+   Clears conversation while preserving Navigator markers.
    Run after completing isolated sub-tasks.
 
 
@@ -938,8 +938,8 @@ Delete after verifying: rm backup-file
 
 🔹 TOKEN OPTIMIZATION:
 
-   Before JITD: 150k+ tokens loaded upfront
-   With JITD:   12k tokens (on-demand loading)
+   Before Navigator: 150k+ tokens loaded upfront
+   With Navigator:   12k tokens (on-demand loading)
    Reduction:   92%
 
    Context available for work: 86%+
@@ -951,7 +951,7 @@ Delete after verifying: rm backup-file
    [ ] Customize CLAUDE.md with your code standards
    [ ] Customize .agent/DEVELOPMENT-README.md
    [ ] Commit .agent/ to git (share with team)
-   [ ] Start using /jitd:update-doc after features
+   [ ] Start using /nav:update-doc after features
    [ ] Read navigator at start of every session
 
 
@@ -982,8 +982,8 @@ Linear MCP Setup
 3. Test:
    /linear list-issues
 
-4. Use with JITD:
-   /jitd:update-doc feature LIN-123
+4. Use with Navigator:
+   /nav:update-doc feature LIN-123
 ```
 
 **If user selected GitHub Issues (Step 6)**:
@@ -1003,8 +1003,8 @@ GitHub CLI Setup
 3. Test:
    gh issue list
 
-4. Use with JITD:
-   /jitd:update-doc feature GH-123
+4. Use with Navigator:
+   /nav:update-doc feature GH-123
 ```
 
 ---
@@ -1018,7 +1018,7 @@ GitHub CLI Setup
 **Solution**:
 - Check internet connection
 - Try again (GitHub may be temporarily down)
-- Fallback: Manually create CLAUDE.md from https://github.com/alekspetrov/jitd-plugin/blob/main/templates/CLAUDE.md
+- Fallback: Manually create CLAUDE.md from https://github.com/alekspetrov/nav-plugin/blob/main/templates/CLAUDE.md
 
 ### Verification fails
 
@@ -1042,11 +1042,11 @@ pwd
 # Ensure you're in project root
 cd /path/to/your/project
 
-# Run /jitd:init again
+# Run /nav:init again
 ```
 
 ---
 
-**Remember**: JITD saves 92% documentation loading overhead through on-demand loading, not upfront loading.
+**Remember**: Navigator saves 92% documentation loading overhead through on-demand loading, not upfront loading.
 
 **Your context is now optimized for productivity** 🚀

@@ -9,7 +9,7 @@
 
 ## Context
 
-Standard operating procedure for releasing new versions of the JITD Claude Code plugin. This workflow ensures consistent releases with proper versioning, documentation, and GitHub distribution.
+Standard operating procedure for releasing new versions of the Navigator Claude Code plugin. This workflow ensures consistent releases with proper versioning, documentation, and GitHub distribution.
 
 ---
 
@@ -31,7 +31,7 @@ Use this SOP when:
 
 **Release Prerequisites**:
 - [ ] All features implemented and tested
-- [ ] Local testing completed in jitd-test project
+- [ ] Local testing completed in nav-test project
 - [ ] Documentation updated (task docs, system docs)
 - [ ] Working directory clean (no uncommitted changes)
 - [ ] Version references audited and consistent
@@ -80,7 +80,7 @@ grep -E "\(v[0-9]+\.[0-9]+\.[0-9]+\)" .agent/DEVELOPMENT-README.md
 **Example**:
 ```
 Current: 1.2.3
-Adding /jitd:start command → 1.3.0 (minor - new feature)
+Adding /nav:start command → 1.3.0 (minor - new feature)
 Fixing typo in template → 1.2.4 (patch - bug fix)
 Changing command structure → 2.0.0 (major - breaking change)
 ```
@@ -90,12 +90,12 @@ Changing command structure → 2.0.0 (major - breaking change)
 **Use conventional commit format**:
 ```bash
 git add -A
-git commit -m "feat: add /jitd:start command and PM tool auto-configuration
+git commit -m "feat: add /nav:start command and PM tool auto-configuration
 
-- New /jitd:start command for session initialization
-- Enhanced /jitd:init with PM tool integration guidance
+- New /nav:start command for session initialization
+- Enhanced /nav:init with PM tool integration guidance
 - Auto-generates Linear and GitHub integration SOPs
-- Stronger CLAUDE.md enforcement of JITD workflow
+- Stronger CLAUDE.md enforcement of Navigator workflow
 - Version bump to 1.3.0
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
@@ -125,13 +125,13 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 git tag -a v1.3.0 -m "Version 1.3.0: Session start command and PM integration
 
 Features:
-- /jitd:start command for consistent session initialization
+- /nav:start command for consistent session initialization
 - Automated PM tool integration setup (Linear, GitHub)
 - Auto-generated integration SOPs
-- Stronger JITD workflow enforcement in CLAUDE.md
+- Stronger Navigator workflow enforcement in CLAUDE.md
 
 This release dramatically improves the onboarding experience and ensures
-consistent JITD workflow adoption across all sessions."
+consistent Navigator workflow adoption across all sessions."
 ```
 
 **Tag message format**:
@@ -155,7 +155,7 @@ git tag -l | tail -3
 ```
 
 **Check on GitHub**:
-- Visit: https://github.com/alekspetrov/jitd-plugin/tags
+- Visit: https://github.com/alekspetrov/nav-plugin/tags
 - Confirm new tag appears
 
 ### 5. Create GitHub Release
@@ -163,9 +163,9 @@ git tag -l | tail -3
 **Using gh CLI**:
 ```bash
 gh release create v1.3.0 \
-  --title "JITD v1.3.0: Session Start Command & PM Integration" \
+  --title "Navigator v1.3.0: Session Start Command & PM Integration" \
   --notes "$(cat <<'EOF'
-# JITD v1.3.0: Session Start Command & PM Integration
+# Navigator v1.3.0: Session Start Command & PM Integration
 
 ## 🎯 What's New
 
@@ -176,7 +176,7 @@ gh release create v1.3.0 \
 - Documentation links
 - Feedback section
 
-**Full Changelog**: https://github.com/alekspetrov/jitd-plugin/compare/v1.2.3...v1.3.0
+**Full Changelog**: https://github.com/alekspetrov/nav-plugin/compare/v1.2.3...v1.3.0
 EOF
 )"
 ```
@@ -192,14 +192,14 @@ EOF
 8. **Full Changelog** - Link to compare view
 
 **Verify release**:
-- Visit: https://github.com/alekspetrov/jitd-plugin/releases
+- Visit: https://github.com/alekspetrov/nav-plugin/releases
 - Confirm release appears with notes
 
-### 6. Document the Release (JITD)
+### 6. Document the Release (Navigator)
 
 **Create task documentation**:
 ```bash
-/jitd:update-doc feature TASK-XX
+/nav:update-doc feature TASK-XX
 ```
 
 **This creates**:
@@ -217,15 +217,15 @@ EOF
 **Test in fresh project**:
 ```bash
 cd /path/to/test/project
-/plugin marketplace add alekspetrov/jitd-plugin
+/plugin marketplace add alekspetrov/nav-plugin
 /plugin install jitd
-/jitd:init
-/jitd:start
+/nav:init
+/nav:start
 ```
 
 **Verify**:
 - [ ] Plugin installs without errors
-- [ ] Commands available (/jitd:init, /jitd:start, etc.)
+- [ ] Commands available (/nav:init, /nav:start, etc.)
 - [ ] Templates copy correctly
 - [ ] Version shows correctly in marketplace
 
@@ -280,11 +280,11 @@ git tag -a v1.3.0 -m "..."
 1. Wait 1-2 hours for CDN refresh
 2. Users can force specific commit:
    ```bash
-   /plugin marketplace add alekspetrov/jitd-plugin#422875d
+   /plugin marketplace add alekspetrov/nav-plugin#422875d
    ```
 3. Users can use local file for testing:
    ```bash
-   /plugin marketplace add file:///path/to/jitd-plugin
+   /plugin marketplace add file:///path/to/nav-plugin
    ```
 
 ---
@@ -293,7 +293,7 @@ git tag -a v1.3.0 -m "..."
 
 ### Before Starting Release
 
-- [ ] Run tests in jitd-test project
+- [ ] Run tests in nav-test project
 - [ ] Verify all commands work
 - [ ] Check for hardcoded version references
 - [ ] Review CHANGELOG or commit history
@@ -329,7 +329,7 @@ Complete release checklist:
 - [ ] Create annotated git tag
 - [ ] Push commit and tag to GitHub
 - [ ] Create GitHub release with detailed notes
-- [ ] Document with `/jitd:update-doc feature TASK-XX`
+- [ ] Document with `/nav:update-doc feature TASK-XX`
 - [ ] Test installation in fresh project
 - [ ] Verify commands work
 - [ ] Update this SOP with lessons learned
@@ -353,8 +353,8 @@ Complete release checklist:
 
 **Lessons Learned**:
 - Using `gh release create` with heredoc for notes is much cleaner than web UI
-- Documenting with `/jitd:update-doc` immediately after saves time
-- Testing in jitd-test project catches issues early
+- Documenting with `/nav:update-doc` immediately after saves time
+- Testing in nav-test project catches issues early
 
 ---
 

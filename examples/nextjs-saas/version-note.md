@@ -35,7 +35,7 @@ This example was documented with the following versions in mind:
 3. Use `npm install <package>@latest` or check npm for stable versions
 
 **What won't change**:
-- JITD workflow (navigator → tasks → SOPs → compact)
+- Navigator workflow (navigator → tasks → SOPs → compact)
 - Documentation patterns (`.agent/` structure)
 - On-demand loading strategy (12k vs 150k tokens)
 
@@ -113,9 +113,9 @@ WebFetch https://stripe.com/docs/checkout/quickstart
 - ❌ Code snippets (check current docs instead)
 - ❌ Deprecated packages or patterns
 
-**The JITD workflow is forever. The code is not.**
+**The Navigator workflow is forever. The code is not.**
 
 ---
 
 **Last Updated**: 2025-10-15
-**Advice**: Re-read this every 6 months. Update outdated parts. Keep JITD structure.
+**Advice**: Re-read this every 6 months. Update outdated parts. Keep Navigator structure.

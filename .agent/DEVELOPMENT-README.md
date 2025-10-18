@@ -1,6 +1,6 @@
-# JITD Plugin - Development Documentation Navigator
+# Navigator Plugin - Development Documentation Navigator
 
-**Project**: Claude Code plugin for Just-In-Time Documentation
+**Project**: Claude Code plugin for Navigator
 **Tech Stack**: Markdown templates, JSON configuration, Bash slash commands
 **Updated**: 2025-10-10
 
@@ -17,12 +17,12 @@
 1. Check if similar task exists in [`tasks/`](#implementation-plans-tasks)
 2. Read relevant system docs from [`system/`](#system-architecture-system)
 3. Check for integration SOPs in [`sops/`](#standard-operating-procedures-sops)
-4. Test changes in `/Users/aleks.petrov/Projects/tmp/jitd-test`
+4. Test changes in `/Users/aleks.petrov/Projects/tmp/nav-test`
 
 ### Fixing a Bug?
 1. Check [`sops/debugging/`](#debugging) for known issues
 2. Review relevant system docs for context
-3. After fixing, create SOP: `/jitd:update-doc sop debugging [issue-name]`
+3. After fixing, create SOP: `/nav:update-doc sop debugging [issue-name]`
 
 ---
 
@@ -30,11 +30,11 @@
 
 ### Autonomous Completion Expected
 
-JITD projects run in **full autonomy mode**. When task implementation is complete:
+Navigator projects run in **full autonomy mode**. When task implementation is complete:
 
 ✅ **Execute automatically** (no human prompt needed):
 1. **Commit changes** with conventional commit message
-2. **Archive implementation plan** (`/jitd:update-doc feature TASK-XX`)
+2. **Archive implementation plan** (`/nav:update-doc feature TASK-XX`)
 3. **Close ticket** in PM tool (if configured)
 4. **Create completion marker** (`TASK-XX-complete`)
 5. **Suggest compact** for next task
@@ -66,7 +66,7 @@ Automated actions:
 ✅ Marker: TASK-XX-complete created
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Next: Run /jitd:compact to clear context
+Next: Run /nav:compact to clear context
 ```
 
 **For detailed protocol**: See [`sops/development/autonomous-completion.md`](#autonomous-completion)
@@ -105,37 +105,37 @@ Next: Run /jitd:compact to clear context
 **Completed**: 2025-10-12
 
 **What was built**:
-- New `/jitd:start` command for session initialization
-- Enhanced `/jitd:init` with PM tool auto-configuration (Step 6.5)
+- New `/nav:start` command for session initialization
+- Enhanced `/nav:init` with PM tool auto-configuration (Step 6.5)
 - Linear MCP and GitHub CLI detection with setup guidance
 - Auto-generated integration SOPs
-- Stronger CLAUDE.md enforcement of JITD workflow
+- Stronger CLAUDE.md enforcement of Navigator workflow
 
-**Impact**: Dramatically improved onboarding UX and consistent JITD adoption
+**Impact**: Dramatically improved onboarding UX and consistent Navigator adoption
 
 #### [TASK-02: README Overhaul & Context Markers](./tasks/TASK-02-readme-markers-v1.4.0.md)
 **Status**: ✅ Completed (v1.4.0)
 **Completed**: 2025-10-12
 
 **What was built**:
-- New `/jitd:marker` command for on-demand conversation save points
-- Updated `/jitd:init` with `.context-markers/` setup and .gitignore
+- New `/nav:marker` command for on-demand conversation save points
+- Updated `/nav:init` with `.context-markers/` setup and .gitignore
 - Comprehensive README.md rewrite with clear feature explanations
 - Token optimization strategy documented step-by-step
 - Context markers explained with examples (97.7% compression)
 
-**Impact**: Crystal-clear plugin value proposition, users understand JITD in 30 seconds
+**Impact**: Crystal-clear plugin value proposition, users understand Navigator in 30 seconds
 
 #### [TASK-03: Interactive Marker Management + Auto-Resume](./tasks/TASK-03-markers-management-auto-resume.md)
 **Status**: ✅ Completed (v1.5.0)
 **Completed**: 2025-10-12
 
 **What was built**:
-- New `/jitd:markers` command for interactive marker management (list, load, clean)
-- Active marker auto-resume system (.active file + /jitd:start detection)
+- New `/nav:markers` command for interactive marker management (list, load, clean)
+- Active marker auto-resume system (.active file + /nav:start detection)
 - Performance optimizations (<1s for 50+ markers)
-- Updated `/jitd:compact` to create active markers
-- Updated `/jitd:start` to auto-detect and load active markers
+- Updated `/nav:compact` to create active markers
+- Updated `/nav:start` to auto-detect and load active markers
 
 **Impact**: One-command resume after compact (vs 3 manual steps), visual marker selection
 
@@ -255,8 +255,8 @@ Next: Run /jitd:compact to clear context
 2. `system/plugin-patterns.md` → Command structure
 3. Check existing commands in `.claude/commands/`
 4. Implement new command
-5. Test in jitd-test project
-6. Document: `/jitd:update-doc feature TASK-XX`
+5. Test in nav-test project
+6. Document: `/nav:update-doc feature TASK-XX`
 
 ### Scenario: Adding New Template
 
@@ -265,9 +265,9 @@ Next: Run /jitd:compact to clear context
 2. `system/project-architecture.md` → Template location
 3. Check existing templates in `templates/`
 4. Create new template
-5. Update `/jitd:init` command to copy it
-6. Test in jitd-test project
-7. Document: `/jitd:update-doc feature TASK-XX`
+5. Update `/nav:init` command to copy it
+6. Test in nav-test project
+7. Document: `/nav:update-doc feature TASK-XX`
 
 ### Scenario: Fixing Plugin Installation Issues
 
@@ -275,7 +275,7 @@ Next: Run /jitd:compact to clear context
 1. Check `sops/debugging/` → Known installation issues?
 2. `system/project-architecture.md` → Plugin manifest
 3. Debug issue
-4. Create SOP: `/jitd:update-doc sop debugging [issue-name]`
+4. Create SOP: `/nav:update-doc sop debugging [issue-name]`
 
 ### Scenario: Releasing New Plugin Version
 
@@ -283,7 +283,7 @@ Next: Run /jitd:compact to clear context
 1. This navigator (DEVELOPMENT-README.md)
 2. `sops/development/plugin-release-workflow.md` → Complete process
 3. Follow checklist step-by-step
-4. Document: `/jitd:update-doc feature TASK-XX`
+4. Document: `/nav:update-doc feature TASK-XX`
 5. Update SOP with lessons learned
 
 ---
@@ -294,16 +294,16 @@ Next: Run /jitd:compact to clear context
 
 ```bash
 # 1. Clone repo
-git clone https://github.com/alekspetrov/jitd-plugin.git
-cd jitd-plugin
+git clone https://github.com/alekspetrov/nav-plugin.git
+cd nav-plugin
 
 # 2. Create test project
-mkdir -p ~/Projects/tmp/jitd-test
-cd ~/Projects/tmp/jitd-test
+mkdir -p ~/Projects/tmp/nav-test
+cd ~/Projects/tmp/nav-test
 
 # 3. Point to local plugin (for testing)
 # In Claude Code:
-/plugin marketplace add file:///Users/aleks.petrov/Projects/startups/jitd-plugin
+/plugin marketplace add file:///Users/aleks.petrov/Projects/startups/nav-plugin
 /plugin install jitd
 ```
 
@@ -318,16 +318,16 @@ Read .agent/DEVELOPMENT-README.md
 # - Commands: .claude/commands/
 # - Config: .claude-plugin/marketplace.json
 
-# 3. Test in jitd-test project
-cd ~/Projects/tmp/jitd-test
-/jitd:init  # or other command you're testing
+# 3. Test in nav-test project
+cd ~/Projects/tmp/nav-test
+/nav:init  # or other command you're testing
 
 # 4. Verify changes work
 ls .agent/  # Check structure created
 cat CLAUDE.md  # Check file generated
 
 # 5. Document changes
-/jitd:update-doc feature TASK-XX
+/nav:update-doc feature TASK-XX
 ```
 
 ### Release Process
@@ -350,14 +350,14 @@ git tag -a v1.1.0 -m "Version 1.1.0: Feature X"
 git push origin v1.1.0
 
 # 5. Create GitHub release (optional)
-gh release create v1.1.0 --title "JITD v1.1.0" --notes "..."
+gh release create v1.1.0 --title "Navigator v1.1.0" --notes "..."
 ```
 
 ---
 
 ## 📊 Token Optimization Strategy
 
-**This repo follows JITD principles**:
+**This repo follows Navigator principles**:
 
 1. **Always load**: `DEVELOPMENT-README.md` (~2k tokens)
 2. **Load for current work**: Specific system doc (~3k tokens)
@@ -379,10 +379,10 @@ gh release create v1.1.0 --title "JITD v1.1.0" --notes "..."
 ### Token Efficiency
 - [ ] <30k tokens per development session
 - [ ] Navigator-first loading practiced
-- [ ] `/jitd:compact` used between tasks
+- [ ] `/nav:compact` used between tasks
 
 ### User Experience
-- [ ] `/jitd:init` creates complete structure
+- [ ] `/nav:init` creates complete structure
 - [ ] Templates easy to customize
 - [ ] Documentation clear and helpful
 
@@ -391,16 +391,16 @@ gh release create v1.1.0 --title "JITD v1.1.0" --notes "..."
 ## 🚀 Quick Commands Reference
 
 ```bash
-# Initialize JITD in project
-/jitd:init
+# Initialize Navigator in project
+/nav:init
 
 # Update documentation
-/jitd:update-doc feature TASK-XX
-/jitd:update-doc sop debugging [issue]
-/jitd:update-doc system [doc-name]
+/nav:update-doc feature TASK-XX
+/nav:update-doc sop debugging [issue]
+/nav:update-doc system [doc-name]
 
 # Smart compact
-/jitd:compact
+/nav:compact
 ```
 
 ---
@@ -408,4 +408,4 @@ gh release create v1.1.0 --title "JITD v1.1.0" --notes "..."
 **This documentation system keeps plugin development context-efficient while maintaining comprehensive knowledge.**
 
 **Last Updated**: 2025-10-13 (v1.5.1)
-**Powered By**: JITD (Just-In-Time Documentation)
+**Powered By**: Navigator (Navigator)
