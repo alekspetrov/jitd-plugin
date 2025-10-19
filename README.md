@@ -2,10 +2,29 @@
 
 > **Skills + Agents + Documentation** - The plugin that generates its own tools and optimizes your context.
 
-**Status**: ✅ v2.2.0 - Self-Improving Capability Released
+**Status**: ✅ v3.0.0 - Skills-Only Architecture Released (Breaking Change)
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-2.2.0-blue.svg)](https://github.com/alekspetrov/navigator-plugin/releases)
+[![Version](https://img.shields.io/badge/version-3.0.0-blue.svg)](https://github.com/alekspetrov/navigator-plugin/releases)
+
+---
+
+## 🚨 v3.0 Breaking Change: Natural Language Only
+
+**Navigator v3.0 removes all slash commands.** Skills auto-invoke via natural language.
+
+```diff
+- /nav:start
+- /nav:marker checkpoint
++ "Start my Navigator session"
++ "Create a marker called checkpoint"
+```
+
+**Migration**: All skills work immediately - just use natural language instead of commands.
+
+**What you gain**: +11k tokens saved, simpler UX, no syntax to remember.
+
+[Full migration guide →](https://github.com/alekspetrov/jitd-plugin/releases/tag/v3.0.0)
 
 ---
 
@@ -22,7 +41,11 @@ v2.0: + Skills architecture (progressive disclosure)
   ↓
 v2.1: + Predefined functions (0-token execution)
   ↓
-v2.2: + Self-improving capability (generates own tools) ← YOU ARE HERE
+v2.2: + Self-improving capability (generates own tools)
+  ↓
+v2.3: + Project-specific skills (5 dev pattern skills)
+  ↓
+v3.0: Natural language only (commands removed) ← YOU ARE HERE
 ```
 
 ### Three Core Capabilities
