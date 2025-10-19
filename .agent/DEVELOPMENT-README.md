@@ -1,8 +1,8 @@
 # Navigator Plugin - Development Documentation Navigator
 
 **Project**: Claude Code plugin for Navigator
-**Tech Stack**: Markdown templates, JSON configuration, Bash slash commands
-**Updated**: 2025-10-10
+**Tech Stack**: Markdown templates, JSON configuration, Bash slash commands, Python functions
+**Updated**: 2025-10-19
 
 ---
 
@@ -164,6 +164,55 @@ Next: Run /nav:compact to clear context
 - Enforced "no wait for prompts" behavior via Forbidden Actions
 
 **Impact**: Fully autonomous task completion - no more "please commit" or "close ticket" prompts needed
+
+#### [TASK-06: Real Session Statistics from Claude Code Internals](./tasks/TASK-06-session-statistics.md)
+**Status**: ✅ Completed (v1.6.0)
+**Completed**: 2025-10-16
+
+**What was built**:
+- session_stats.py script to extract real token usage from Claude Code internals
+- Proof of Navigator efficiency with actual measurements (not estimates)
+- Integration with /nav:start command to show cache performance
+- Real-world validation of 92% token reduction claim
+
+**Impact**: Concrete proof of Navigator's token efficiency, verified cache performance metrics
+
+#### [TASK-07: Skills Migration Strategy](./tasks/TASK-07-skills-migration.md)
+**Status**: ✅ Completed (v2.0.0)
+**Completed**: 2025-10-19
+
+**What was built**:
+- 5 core Navigator skills (nav-start, nav-marker, nav-compact, nav-task, nav-sop)
+- Skills registered in plugin.json with auto-invocation capability
+- Hybrid architecture: Both commands and skills work simultaneously
+- Foundation for progressive disclosure (250 token overhead)
+
+**Impact**: Natural language invocation, auto-detection, zero breaking changes for v1.x users
+
+#### [TASK-08: Skills Enhancements & Hybrid Architecture](./tasks/TASK-08-skills-enhancements-v2.1.md)
+**Status**: ✅ Completed (v2.1.0)
+**Completed**: 2025-10-19
+
+**What was built**:
+- Predefined functions for nav-task (task_id_generator.py, task_formatter.py, index_updater.py)
+- Predefined functions for nav-sop (sop_formatter.py)
+- Predefined functions for nav-marker (marker_compressor.py)
+- nav-skill-creator skill (self-improving capability)
+- Functions execute with 0 tokens (no context pollution)
+
+**Impact**: Consistent output via templates, self-improving system, foundation for v2.2 project-specific skills
+
+#### [TASK-09: Plugin Update Migration System](./tasks/TASK-09-migration-system.md)
+**Status**: ✅ Completed (v2.0.0)
+**Completed**: 2025-10-19
+
+**What was built**:
+- Backward compatibility commands (_jitd_*.md) for smooth v1→v2 transition
+- Post-install script for automatic project migration discovery
+- Config migration (.jitd-config.json → .nav-config.json)
+- Zero breaking changes for existing users
+
+**Impact**: Smooth migration path, old commands work with warnings, automatic upgrade detection
 
 ---
 
