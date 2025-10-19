@@ -1,0 +1,15 @@
+/* ${COMPONENT_NAME} Styles */
+
+.container {
+${BASE_STYLES}
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.content {
+  flex: 1;
+}

@@ -1,6 +1,6 @@
 {
   "name": "navigator",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Navigator for Claude Code - Context-efficient documentation system with Skills + Agents. Self-improving capability generates project-specific tools. 95% token reduction through progressive disclosure.",
   "author": {
     "name": "Aleks Petrov",
@@ -42,6 +42,11 @@
     "./skills/nav-task",
     "./skills/nav-sop",
     "./skills/nav-skill-creator",
-    "./skills/plugin-slash-command"
+    "./skills/plugin-slash-command",
+    "./skills/frontend-component",
+    "./skills/backend-endpoint",
+    "./skills/database-migration",
+    "./skills/backend-test",
+    "./skills/frontend-test"
   ]
 }
