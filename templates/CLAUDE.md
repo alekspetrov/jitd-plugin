@@ -15,23 +15,29 @@
 
 **🚨 EVERY new conversation/session MUST begin with**:
 
-```bash
-/nav:start
+```
+"Start my Navigator session"
 ```
 
-**What `/nav:start` does**:
-1. Loads `.agent/DEVELOPMENT-README.md` (navigator)
-2. Checks for assigned tasks from PM tool
-3. Sets Navigator workflow context
-4. Activates token optimization strategy
-5. Reminds about agent usage for complex tasks
+**What this does**:
+1. nav-start skill auto-invokes
+2. Loads `.agent/DEVELOPMENT-README.md` (navigator)
+3. Checks for assigned tasks from PM tool
+4. Sets Navigator workflow context
+5. Activates token optimization strategy
+6. Reminds about agent usage for complex tasks
 
-**If user doesn't explicitly run `/nav:start`**:
-- You MUST proactively run it or ask to run it
+**Alternative phrases**:
+- "Load the navigator"
+- "Initialize my session"
+- "Begin working on this project"
+
+**If nav-start doesn't activate**:
+- You MUST proactively invoke it or ask user
 - Never proceed with work without loading navigator
 - This is NOT optional - it's the foundation of Navigator
 
-**Alternative (if `/nav:start` unavailable)**:
+**Manual fallback** (if skill doesn't work):
 ```
 Read .agent/DEVELOPMENT-README.md
 ```
@@ -40,7 +46,7 @@ Read .agent/DEVELOPMENT-README.md
 
 ### 1. Read Documentation Navigator First (Always)
 
-**AFTER running `/nav:start`, the navigator is loaded**:
+**AFTER starting session, the navigator is loaded**:
 
 This navigator provides:
 - Documentation index
@@ -80,27 +86,32 @@ Total: 9k tokens vs 150k
 ### 3. Update Documentation As You Go
 
 **After completing feature**:
-```bash
-/nav:update-doc feature TASK-XX
 ```
+"Archive TASK-XX documentation"
+```
+(nav-task skill auto-invokes)
 
 **After solving novel issue**:
-```bash
-/nav:update-doc sop debugging issue-name
 ```
+"Create an SOP for debugging [issue-name]"
+```
+(nav-sop skill auto-invokes)
 
 **After architecture change**:
-```bash
-/nav:update-doc system architecture
 ```
+"Update system architecture documentation"
+```
+(nav-task skill auto-invokes)
 
 ### 4. Smart Compact Strategy
 
-**Run `/nav:compact` after**:
+**Clear context after**:
 - Completing isolated sub-task
 - Finishing documentation update
 - Creating SOP
 - Switching between unrelated tasks
+
+Say: "Clear context and preserve markers" (nav-compact skill auto-invokes)
 
 **Don't compact when**:
 - In middle of feature implementation
@@ -156,14 +167,14 @@ Total: 9k tokens vs 150k
 
 ## Development Workflow
 
-1. **Read Navigator First** → `.agent/DEVELOPMENT-README.md`
+1. **Start Session** → "Start my Navigator session"
 2. **Check Task Context** → Load only current task doc
 3. **Load Relevant Docs** → Only what's needed for current work
 4. **Plan** → Use TodoWrite for complex tasks
 5. **Implement** → Follow project patterns
 6. **Test** → Run tests, verify functionality
-7. **Document** → `/nav:update-doc feature TASK-XX` when complete
-8. **Compact** → Run `/nav:compact` after isolated tasks
+7. **Document** → "Archive TASK-XX documentation" when complete
+8. **Compact** → "Clear context and preserve markers" after isolated tasks
 
 ---
 
@@ -189,17 +200,48 @@ Total: 9k tokens vs 150k
 **Load if required**: Specific SOP (~2k tokens)
 **Total**: ~12k tokens vs ~150k if loading all docs
 
-### Slash Commands
-```bash
-/nav:init                     # Initialize Navigator in project (one-time setup)
-/nav:start                    # Start Navigator session (EVERY new conversation)
-/nav:update-doc feature TASK-XX    # Archive implementation plan
-/nav:update-doc sop <category> <name>  # Create SOP
-/nav:update-doc system <doc-name>  # Update architecture doc
-/nav:marker [name]            # Create context save point (anytime)
-/nav:markers                  # Manage markers: list, load, clean
-/nav:compact                  # Smart context compact
-```
+### Natural Language Commands (v3.0)
+
+Navigator uses **skills** that auto-invoke based on your intent:
+
+**Initialize Navigator**:
+- "Initialize Navigator in this project"
+- "Set up Navigator documentation structure"
+→ nav-init skill activates
+
+**Start Session**:
+- "Start my Navigator session"
+- "Load the navigator"
+- "Begin working"
+→ nav-start skill activates
+
+**Archive Task Documentation**:
+- "Archive TASK-XX documentation"
+- "Document this completed feature"
+→ nav-task skill activates
+
+**Create SOP**:
+- "Create an SOP for debugging [issue]"
+- "Document this solution as a procedure"
+→ nav-sop skill activates
+
+**Create Marker**:
+- "Create a checkpoint marker called [name]"
+- "Save my progress as [name]"
+→ nav-marker skill activates
+
+**Manage Markers**:
+- "Show my markers"
+- "Load a previous marker"
+- "Clean up old markers"
+→ nav-markers skill activates
+
+**Compact Context**:
+- "Clear context and preserve markers"
+- "Smart compact"
+→ nav-compact skill activates
+
+**No slash commands needed** - just describe what you want!
 
 ---
 
@@ -220,7 +262,7 @@ Total: 9k tokens vs 150k
 2. Generate implementation plan → .agent/tasks/
 3. Implement features
 4. Update system docs as architecture evolves
-5. Complete → /nav:update-doc feature TASK-XX
+5. Complete → "Archive TASK-XX documentation"
 6. Notify team (if chat configured)
 ```
 
@@ -242,18 +284,18 @@ create_comment({ issueId, body })    // Share updates
 ### Token Budget Strategy
 - System + tools: ~50k (fixed)
 - CLAUDE.md: ~15k (this file, optimized)
-- Message history: ~60k (managed via /nav:compact)
+- Message history: ~60k (managed via compacting)
 - **Documentation**: ~66k (on-demand loading)
 
-### /nav:compact Strategy
-**Run after**:
+### Smart Compact Strategy
+**Clear context after**:
 - Completing isolated sub-task
 - Finishing documentation update
 - Creating SOP
 - Research phase before implementation
 - Resolving blocker
 
-**Don't run when**:
+**Don't clear when**:
 - In middle of feature
 - Context needed for next sub-task
 - Debugging complex issue
@@ -273,7 +315,7 @@ create_comment({ issueId, body })    // Share updates
 
 ### Start Session
 ```
-1. Run /nav:start (loads navigator, checks PM tool, sets context)
+1. "Start my Navigator session" (loads navigator, checks PM tool)
 2. Select task to work on
 3. Load only that task's docs
 ```
@@ -288,9 +330,9 @@ create_comment({ issueId, body })    // Share updates
 
 ### After Completion
 ```
-1. /nav:update-doc feature TASK-XX
+1. "Archive TASK-XX documentation"
 2. Update ticket status (if PM configured)
-3. /nav:compact to clear context
+3. "Clear context and preserve markers"
 ```
 
 ---
@@ -301,7 +343,7 @@ Navigator configuration stored in `.agent/.nav-config.json`:
 
 ```json
 {
-  "version": "1.0.0",
+  "version": "3.0.0",
   "project_management": "none",
   "task_prefix": "TASK",
   "team_chat": "none",
@@ -310,7 +352,7 @@ Navigator configuration stored in `.agent/.nav-config.json`:
 }
 ```
 
-**Customize after `/nav:init`**
+**Customize after initializing Navigator**
 
 ---
 
@@ -337,10 +379,11 @@ Navigator configuration stored in `.agent/.nav-config.json`:
 
 ## Navigator Benefits Reminder
 
-**Token Savings**: 92% reduction (12k vs 150k tokens)
-**Context Available**: 86%+ free for actual work
+**Token Savings**: 97% reduction (6k vs 200k tokens)
+**Context Available**: 97%+ free for actual work
 **Session Restarts**: Zero (vs 3-4 per day without Navigator)
 **Productivity**: 10x more commits per token spent
+**Interface**: Natural language (no commands to remember)
 
 ---
 
@@ -377,4 +420,4 @@ Navigator configuration stored in `.agent/.nav-config.json`:
 **For complete Navigator documentation**: See `.agent/DEVELOPMENT-README.md`
 
 **Last Updated**: [Date]
-**Navigator Version**: 1.0.0
+**Navigator Version**: 3.0.0

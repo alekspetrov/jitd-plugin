@@ -242,6 +242,19 @@ Next: Run /nav:compact to clear context
 
 **Impact**: 80% token reduction for common dev patterns (15k → 3k tokens), validates self-improving capability at scale, proven repeatable skill generation process
 
+#### [TASK-12: v3.0 Skills-Only Migration](./tasks/TASK-12-v3.0-skills-only.md)
+**Status**: 🚧 In Progress (v3.0.0)
+**Started**: 2025-10-19
+
+**What's being built**:
+- Remove all slash commands (/nav:* deleted)
+- Skills-only architecture (natural language interface)
+- Breaking change migration (v3.0 major version)
+- 11k token reduction (commands overhead eliminated)
+- Cleaner architecture (no hybrid complexity)
+
+**Impact**: Natural language only, simpler UX, 11k additional token savings, future-proof architecture
+
 ---
 
 ### System Architecture (`system/`)
@@ -465,24 +478,30 @@ gh release create v1.1.0 --title "Navigator v1.1.0" --notes "..."
 
 ---
 
-## 🚀 Quick Commands Reference
+## 🚀 Quick Natural Language Reference
 
-```bash
-# Initialize Navigator in project
-/nav:init
+Navigator v3.0 uses natural language - no commands needed!
 
-# Update documentation
-/nav:update-doc feature TASK-XX
-/nav:update-doc sop debugging [issue]
-/nav:update-doc system [doc-name]
+**Initialize Navigator**:
+```
+"Initialize Navigator in this project"
+```
 
-# Smart compact
-/nav:compact
+**Update documentation**:
+```
+"Archive TASK-XX documentation"
+"Create an SOP for debugging [issue]"
+"Update system architecture documentation"
+```
+
+**Smart compact**:
+```
+"Clear context and preserve markers"
 ```
 
 ---
 
 **This documentation system keeps plugin development context-efficient while maintaining comprehensive knowledge.**
 
-**Last Updated**: 2025-10-13 (v1.5.1)
-**Powered By**: Navigator (Navigator)
+**Last Updated**: 2025-10-19 (v3.0.0)
+**Powered By**: Navigator (Skills-Only Architecture)

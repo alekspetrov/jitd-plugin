@@ -1,13 +1,18 @@
 {
   "name": "navigator-marketplace",
-  "displayName": "Navigator - Context-Efficient Documentation for Claude Code",
+  "displayName": "Navigator - Skills-Only Architecture for Claude Code",
   "owner": {
     "name": "Aleks Petrov",
     "email": "aleks@example.com"
   },
   "metadata": {
-    "description": "Navigator plugin marketplace - Skills + Agents for 95% token reduction",
-    "version": "2.3.0"
+    "description": "Navigator plugin - Natural language interface with Skills + Agents for 97% token reduction",
+    "version": "3.0.0",
+    "breaking_changes": [
+      "v3.0.0: Removed all slash commands (/nav:*)",
+      "Use natural language instead: 'Start my Navigator session'",
+      "Skills auto-invoke based on intent - no manual commands needed"
+    ]
   },
   "plugins": [
     {

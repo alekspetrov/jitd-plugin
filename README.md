@@ -435,34 +435,63 @@ Savings: 97%
 
 ---
 
-## 📋 Slash Commands
+## 🗣️ Natural Language Interface (v3.0)
 
-Navigator provides 7 slash commands + 6 backward-compatible aliases:
+**No slash commands needed!** Navigator skills auto-invoke based on your intent.
 
-### Main Commands
+### Session Management
 
-```bash
-/nav:init          # Initialize Navigator in project (one-time)
-/nav:start         # Start session (loads navigator, EVERY conversation)
-/nav:doc           # Update documentation (tasks, SOPs, system docs)
-/nav:marker        # Create context save point (anytime)
-/nav:markers       # Manage markers (list, load, clean)
-/nav:compact       # Smart context clearing (preserves markers)
-/nav:migrate       # Migrate from v1.x to v2.x (one-time)
+**Start session**:
+```
+"Start my Navigator session"
+"Load the navigator"
+"Begin working on this project"
 ```
 
-### Backward Compatible (v1.x → v2.x)
+### Documentation
 
-```bash
-/jitd:init         # → /nav:init (with deprecation warning)
-/jitd:start        # → /nav:start
-/jitd:marker       # → /nav:marker
-/jitd:markers      # → /nav:markers
-/jitd:compact      # → /nav:compact
-/jitd:update_doc   # → /nav:doc
+**Archive task**:
+```
+"Archive TASK-12 documentation"
+"Document this completed feature"
 ```
 
-All `/jitd:*` commands work but show migration prompts.
+**Create SOP**:
+```
+"Create an SOP for debugging memory leaks"
+"Document this solution as a procedure"
+```
+
+### Context Management
+
+**Create marker**:
+```
+"Create a checkpoint marker called feature-complete"
+"Save my progress as experiment-1"
+```
+
+**Manage markers**:
+```
+"Show my markers"
+"Load the profile-edit-started marker"
+"Clean up old markers"
+```
+
+**Smart compact**:
+```
+"Clear context and preserve markers"
+"Smart compact"
+```
+
+### Initialization
+
+**First-time setup**:
+```
+"Initialize Navigator in this project"
+"Set up Navigator documentation structure"
+```
+
+**Skills auto-detect intent** - just describe what you want!
 
 ---
 
@@ -470,9 +499,9 @@ All `/jitd:*` commands work but show migration prompts.
 
 ### Day 1: New Feature
 
-```bash
+```
 # Morning - Start session
-/nav:start
+"Start my Navigator session"
 
 "Implement user profile editing"
 
@@ -494,21 +523,21 @@ All `/jitd:*` commands work but show migration prompts.
 → 3k tokens
 
 # Save progress before lunch
-/nav:marker profile-edit-started "Component created, need validation"
+"Create a marker called profile-edit-started"
 
 # After lunch
 → Read the marker (3k tokens)
 → Continue where you left off
 
 # End of day
-/nav:marker eod-day1 "Profile edit 70% done, need API integration tomorrow"
+"Save progress as eod-day1"
 ```
 
 ### Day 2: Continue Feature
 
-```bash
+```
 # Morning - Resume
-/nav:start
+"Start my Navigator session"
 → Loads navigator
 → Detects active marker from yesterday
 → Prompts: "Load eod-day1 marker?"
@@ -525,7 +554,7 @@ All `/jitd:*` commands work but show migration prompts.
 → Ready for review
 
 # Document completion
-/nav:doc feature TASK-45
+"Archive TASK-45 documentation"
 
 # Autonomous completion
 → Commits changes
@@ -533,7 +562,7 @@ All `/jitd:*` commands work but show migration prompts.
 → Closes ticket (if PM tool configured)
 → Creates TASK-45-complete marker
 
-/nav:compact
+"Clear context and preserve markers"
 → Clears conversation
 → Preserves marker for future reference
 ```
@@ -639,9 +668,9 @@ All `/jitd:*` commands work but show migration prompts.
 
 ### Session Workflow
 
-```bash
+```
 # 1. ALWAYS start with
-/nav:start
+"Start my Navigator session"
 
 # 2. Let skills auto-invoke (don't force)
 ✅ "Add user authentication"
@@ -652,13 +681,13 @@ All `/jitd:*` commands work but show migration prompts.
 ❌ "Read all route files" (manual, expensive)
 
 # 4. Save progress with markers
-/nav:marker [name] before breaks/experiments
+"Create a marker called [name]" before breaks/experiments
 
 # 5. Compact when switching contexts
-/nav:compact after completing isolated work
+"Clear context and preserve markers" after completing isolated work
 
 # 6. Document as you go
-/nav:doc feature TASK-XX when done
+"Archive TASK-XX documentation" when done
 ```
 
 ### Skill Creation
@@ -694,26 +723,52 @@ All `/jitd:*` commands work but show migration prompts.
 
 ## 🔮 What's Next
 
-### v2.3+ Roadmap
+### v3.0 Roadmap (In Progress)
+
+**Breaking Change**: Skills-only architecture
+
+**What's changing**:
+- ❌ Remove all slash commands (`/nav:*`)
+- ✅ Natural language only ("Start my session" vs `/nav:start`)
+- ✅ 11k token reduction (commands overhead eliminated)
+- ✅ Cleaner architecture (no hybrid complexity)
+- ✅ Simpler UX (no syntax to remember)
+
+**Migration**:
+```bash
+# Before (v2.x)
+/nav:start
+/nav:marker checkpoint
+
+# After (v3.0)
+"Start my Navigator session"
+"Create a checkpoint marker"
+```
+
+Skills auto-invoke - no manual commands needed.
+
+**Target**: v3.0.0 release in 3 days
+
+---
+
+### v3.1+ Roadmap (Post-v3.0)
 
 **More Built-in Skills**:
 - `test-generator` - Generate test files
 - `doc-generator` - Generate API docs
 - `config-generator` - Generate config files
-
-**Generic Framework Skills** (community can generate):
-- `react-component` - React/Next.js components
-- `vue-component` - Vue/Nuxt components
-- `express-endpoint` - Express.js routes
-- `fastify-endpoint` - Fastify routes
-- `prisma-migration` - Prisma schema changes
-- `drizzle-migration` - Drizzle schema changes
+- `session-analytics` - Real-time token tracking
 
 **Platform Features**:
 - Skill marketplace (share skills)
 - Skill versioning
 - Cross-project sync
 - Skill dependencies
+
+**Framework Skills** (community-driven):
+- Community can generate via `nav-skill-creator`
+- React, Vue, Express, Prisma patterns
+- Shared via skill marketplace
 
 ---
 
@@ -753,7 +808,7 @@ Others can use your skill immediately
 - [Agent Usage Guide](./docs/agents.md)
 - [CLAUDE.md Template](./templates/CLAUDE.md)
 
-**In-project docs** (after `/nav:init`):
+**In-project docs** (after initializing Navigator):
 - `.agent/DEVELOPMENT-README.md` - Navigator
 - `.agent/system/` - Architecture docs
 - `.agent/sops/` - Procedures
@@ -780,8 +835,12 @@ MIT License - see [LICENSE](LICENSE) file
 /plugin marketplace add alekspetrov/navigator-plugin
 /plugin install navigator
 # Restart Claude Code
-/nav:init
-/nav:start
 ```
 
-**Welcome to self-improving AI development.** 🔄
+Then use natural language:
+```
+"Initialize Navigator in this project"
+"Start my Navigator session"
+```
+
+**Welcome to self-improving AI development with natural language.** 🔄
