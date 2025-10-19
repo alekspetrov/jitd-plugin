@@ -130,11 +130,34 @@ Next: Run /nav:compact to clear context
 
 **Key principle**: Navigator projects expect full autonomy. When work is done, execute the complete finish protocol without coordination prompts.
 
-### 5. Agent Usage for Complex Tasks (CRITICAL FOR TOKEN OPTIMIZATION)
+### 5. Agents vs Skills - Hybrid Architecture (CRITICAL FOR TOKEN OPTIMIZATION)
 
-**ALWAYS use agents instead of direct tool calls when**:
+Navigator uses **both Agents and Skills strategically**:
+- **Agents** = Research & exploration (separate context, 60-80% token savings)
+- **Skills** = Execution & consistency (main context, predefined functions/templates)
 
-✅ **Multi-file searches**:
+```
+┌─────────────────────────────────────────┐
+│ User: "Add authentication to frontend" │
+└─────────────────────────────────────────┘
+                  ↓
+      ┌───────────┴────────────┐
+      ↓                        ↓
+  [AGENT]                  [SKILL]
+  Research                 Execute
+      ↓                        ↓
+"JWT in api/auth.ts"     Uses functions:
+"Context in App.tsx"     - auth_generator.py
+                         - test_generator.py
+8k tokens (agent)        Output: Consistent
+200 tokens (summary)     5k tokens (skill)
+```
+
+#### When to Use Agents (Research & Exploration)
+
+**Agents = Separate Context (No Pollution)**
+
+✅ **Multi-file codebase searches**:
 ```
 BAD:  Grep for pattern, Read 10 files manually
 GOOD: Use Task agent to search and analyze pattern across codebase
@@ -199,7 +222,82 @@ CORRECT approach:
 - Pattern discovery: 75% token reduction
 - **Average**: 65-70% token savings vs manual file reading
 
-**Remember**: Agents are your primary tool for exploration. Direct file reading is for implementation.
+#### When to Use Skills (Execution & Consistency)
+
+**Skills = Main Context (Predefined Functions & Templates)**
+
+✅ **Implementing features following patterns**:
+```
+User: "Create a new React component for user profile"
+→ Skill auto-invokes: frontend-component
+→ Uses: component_generator.py, test_generator.py
+→ Uses: component-template.tsx, test-template.spec.tsx
+→ Output: Consistent, follows project conventions
+```
+
+✅ **Generating boilerplate code**:
+```
+User: "Add API endpoint for posts"
+→ Skill auto-invokes: backend-endpoint
+→ Uses: endpoint_generator.py, route_validator.py
+→ Uses: endpoint-template.ts, test-template.spec.ts
+→ Output: Follows project API patterns
+```
+
+✅ **Enforcing project conventions**:
+```
+User: "Create migration to add users table"
+→ Skill auto-invokes: database-migration
+→ Uses: migration_generator.py, schema_validator.py
+→ Uses: migration-template.sql
+→ Output: Follows migration standards
+```
+
+**Why skills ensure consistency**:
+1. Predefined functions handle boilerplate automatically
+2. Templates ensure format consistency
+3. Examples guide implementation style
+4. Auto-invocation (no manual commands needed)
+
+**❌ Don't create broad "engineer" skills**:
+- Too broad: "backend-engineer", "frontend-engineer"
+- ✅ Better: Specific task skills (backend-endpoint, frontend-component, database-migration)
+
+#### Hybrid Workflow Example
+
+```
+User: "Add user profile page with avatar upload"
+
+Step 1: Agent explores (if needed)
+→ Task agent: "Find existing upload patterns"
+→ Returns: "File upload in utils/upload.ts, S3 in api/storage.ts"
+→ Token cost: 200 tokens (summary)
+
+Step 2: Skill executes
+→ Skill auto-invokes: frontend-component
+→ Uses findings from agent
+→ Uses functions: page_generator.py, upload_component_generator.py
+→ Uses templates: page-template.tsx, upload-form-template.tsx
+→ Output: Consistent implementation
+→ Token cost: 5k tokens (skill instructions)
+
+Total: 5.2k tokens vs 100k+ if reading all files manually
+```
+
+#### Skills vs Agents Decision Matrix
+
+| Scenario | Use | Why |
+|----------|-----|-----|
+| "How does auth work?" | **Agent** | Research, no pollution (200 tokens) |
+| "Find all endpoints" | **Agent** | Multi-file search (60-80% savings) |
+| "Create component" | **Skill** | Auto-invoke, templates, consistency |
+| "Add endpoint" | **Skill** | Predefined functions, patterns |
+| "Understand codebase" | **Agent** | Exploration (separate context) |
+| "Generate boilerplate" | **Skill** | Templates ensure consistency |
+| "Debug issue" | **Agent** | Investigation across files |
+| "Follow conventions" | **Skill** | Enforce project patterns |
+
+**Key principle**: Agents for exploration, Skills for execution. Both auto-invoke, both save tokens.
 
 ---
 
