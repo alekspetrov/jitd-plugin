@@ -1,7 +1,7 @@
 {
   "name": "navigator",
-  "version": "2.0.0",
-  "description": "Navigator for Claude Code - Context-efficient documentation system with Skills + Agents. 95% token reduction through progressive disclosure.",
+  "version": "2.2.0",
+  "description": "Navigator for Claude Code - Context-efficient documentation system with Skills + Agents. Self-improving capability generates project-specific tools. 95% token reduction through progressive disclosure.",
   "author": {
     "name": "Aleks Petrov",
     "email": "aleks@example.com",
@@ -41,6 +41,7 @@
     "./skills/nav-compact",
     "./skills/nav-task",
     "./skills/nav-sop",
-    "./skills/nav-skill-creator"
+    "./skills/nav-skill-creator",
+    "./skills/plugin-slash-command"
   ]
 }
