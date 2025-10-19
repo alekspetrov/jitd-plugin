@@ -27,6 +27,19 @@
     "./commands/marker.md",
     "./commands/markers.md",
     "./commands/compact.md",
-    "./commands/migrate.md"
+    "./commands/migrate.md",
+    "./commands/_jitd_init.md",
+    "./commands/_jitd_start.md",
+    "./commands/_jitd_marker.md",
+    "./commands/_jitd_markers.md",
+    "./commands/_jitd_compact.md",
+    "./commands/_jitd_update_doc.md"
+  ],
+  "skills": [
+    "./skills/nav-start",
+    "./skills/nav-marker",
+    "./skills/nav-compact",
+    "./skills/nav-task",
+    "./skills/nav-sop"
   ]
 }
