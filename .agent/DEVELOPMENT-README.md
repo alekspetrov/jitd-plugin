@@ -385,8 +385,8 @@ Next: Run /nav:compact to clear context
 
 ```bash
 # 1. Clone repo
-git clone https://github.com/alekspetrov/nav-plugin.git
-cd nav-plugin
+git clone https://github.com/alekspetrov/navigator.git
+cd navigator
 
 # 2. Create test project
 mkdir -p ~/Projects/tmp/nav-test
@@ -394,8 +394,8 @@ cd ~/Projects/tmp/nav-test
 
 # 3. Point to local plugin (for testing)
 # In Claude Code:
-/plugin marketplace add file:///Users/aleks.petrov/Projects/startups/nav-plugin
-/plugin install jitd
+/plugin marketplace add file:///Users/aleks.petrov/Projects/startups/navigator
+/plugin install navigator
 ```
 
 ### Making Changes

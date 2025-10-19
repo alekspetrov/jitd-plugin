@@ -32,7 +32,7 @@
 
 **File Structure**:
 ```
-navigator-plugin/
+navigator/
 ├── commands/               # TO BE REMOVED
 │   ├── init.md
 │   ├── start.md

@@ -5,7 +5,7 @@
 **Status**: ✅ v3.0.0 - Skills-Only Architecture Released (Breaking Change)
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-3.0.0-blue.svg)](https://github.com/alekspetrov/navigator-plugin/releases)
+[![Version](https://img.shields.io/badge/version-3.0.0-blue.svg)](https://github.com/alekspetrov/navigator/releases)
 
 ---
 
@@ -24,7 +24,7 @@
 
 **What you gain**: +11k tokens saved, simpler UX, no syntax to remember.
 
-[Full migration guide →](https://github.com/alekspetrov/jitd-plugin/releases/tag/v3.0.0)
+[Full migration guide →](https://github.com/alekspetrov/navigator/releases/tag/v3.0.0)
 
 ---
 
@@ -99,7 +99,7 @@ v3.0: Natural language only (commands removed) ← YOU ARE HERE
 
 ```bash
 # 1. Install Navigator plugin
-/plugin marketplace add alekspetrov/navigator-plugin
+/plugin marketplace add alekspetrov/navigator
 /plugin install navigator
 
 # 2. Restart Claude Code
@@ -855,7 +855,7 @@ MIT License - see [LICENSE](LICENSE) file
 ## 🚀 Get Started
 
 ```bash
-/plugin marketplace add alekspetrov/navigator-plugin
+/plugin marketplace add alekspetrov/navigator
 /plugin install navigator
 # Restart Claude Code
 ```
