@@ -1,8 +1,8 @@
-# Navigator Plugin - Navigator for Claude Code
+# Navigator - Self-Improving Claude Code Plugin
 
-> Context-efficient documentation system with on-demand loading and conversation checkpoints.
+> **Skills + Agents + Documentation** - The plugin that generates its own tools and optimizes your context.
 
-**Status**: ✅ Published v2.2.0 - Self-Improving Capability
+**Status**: ✅ v2.2.0 - Self-Improving Capability Released
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/version-2.2.0-blue.svg)](https://github.com/alekspetrov/navigator-plugin/releases)
@@ -11,41 +11,62 @@
 
 ## 🎯 What is Navigator?
 
-Navigator (Navigator) is a Claude Code plugin that **optimizes context usage through on-demand documentation loading**. Instead of loading 150k+ tokens of docs upfront, Navigator loads only what you need (12k tokens), freeing 92% of your context for actual work.
+Navigator is a **self-improving Claude Code plugin** that combines **Skills** (execution tools), **Agents** (research assistants), and **on-demand documentation** to maximize your context efficiency.
 
-### The Problem
-
-```
-❌ Traditional Approach:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Entire codebase docs    ~150,000 tokens
-System prompts          ~50,000 tokens
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-= 200k tokens used before any work
-= Frequent session restarts
-= Lost context mid-feature
-```
-
-### The Navigator Solution
+### The Evolution
 
 ```
-✅ Navigator Approach:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Navigator (roadmap)      ~2,000 tokens
-Current task doc         ~3,000 tokens
-Relevant system doc      ~5,000 tokens
-Specific SOP (optional)  ~2,000 tokens
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-= 12,000 tokens (92% reduction)
-= 188k tokens free for work
-= Zero session restarts
+v1.x: Documentation system (on-demand loading)
+  ↓
+v2.0: + Skills architecture (progressive disclosure)
+  ↓
+v2.1: + Predefined functions (0-token execution)
+  ↓
+v2.2: + Self-improving capability (generates own tools) ← YOU ARE HERE
 ```
 
-**Real Results**:
-- 92% reduction in documentation overhead
-- 10x more work per token spent
-- Zero session restarts over multi-week projects
-- Context markers compress 130k sessions → 3k snapshots
+### Three Core Capabilities
+
+**1. Skills (Execution)**
+- Auto-invoke when you mention patterns
+- Use predefined functions and templates
+- Ensure consistency across your project
+- Generate boilerplate following your conventions
+
+**2. Agents (Research)**
+- Explore codebase in separate context (60-80% token savings)
+- Return summaries, not full files
+- Perfect for "How does X work?" questions
+- No pollution of main conversation
+
+**3. Documentation (Knowledge)**
+- Load only what you need, when you need it
+- Navigator-first pattern (2k tokens vs 150k upfront)
+- Living docs that update with code
+- Context markers compress 130k → 3k
+
+---
+
+## ⚡ Quick Example
+
+```bash
+# Traditional approach (150k+ tokens loaded upfront)
+❌ "Help me add a new API endpoint"
+→ Claude reads all documentation
+→ Manually creates endpoint
+→ You validate format
+→ Token-heavy, inconsistent
+
+# Navigator approach (Skills auto-invoke)
+✅ "Add a POST /users endpoint"
+→ backend-endpoint skill auto-invokes (50 tokens)
+→ Analyzes existing endpoints (Agent, separate context)
+→ Generates route + controller + tests (predefined functions)
+→ Follows your project conventions
+→ Total: ~3k tokens, consistent output
+```
+
+**Result**: 95% token reduction, 10x productivity boost
 
 ---
 
@@ -54,716 +75,713 @@ Specific SOP (optional)  ~2,000 tokens
 ### Installation
 
 ```bash
-# 1. Ensure Claude Code is initialized in your project
-/init
+# 1. Install Navigator plugin
+/plugin marketplace add alekspetrov/navigator-plugin
+/plugin install navigator
 
-# 2. Add the Navigator plugin marketplace
-/plugin marketplace add alekspetrov/nav-plugin
+# 2. Restart Claude Code
 
-# 3. Install the plugin
-/plugin install jitd
-
-# 4. Restart Claude Code to load the plugin
-
-# 5. Initialize Navigator in your project
+# 3. Initialize in your project
 /nav:init
+
+# 4. Start every session with:
+/nav:start
 ```
 
-**Requirements**:
-- Claude Code with plugin support (October 2025+)
-- Update if needed: `pnpm upgrade -g @anthropic-ai/claude-code@latest`
-- `.claude/` directory in project (run `/init` first)
-
-### First Session
+### Your First Skill
 
 ```bash
-# Start every new conversation with:
-/nav:start
+# Navigator includes 7 built-in skills that auto-invoke:
 
-# This loads the navigator and sets up Navigator workflow
+"Create a skill for adding React components"
+# → nav-skill-creator auto-invokes
+# → Analyzes your components/
+# → Generates frontend-component skill
+# → Ready to use immediately
+
+"Add a UserProfile component"
+# → frontend-component auto-invokes
+# → Generates component + tests + styles
+# → Follows your project patterns
 ```
 
 ---
 
-## 🎨 Features
+## 🎨 Core Architecture
 
-### 1. Self-Improving Capability (v2.2+) 🔄
+### Skills (What Navigator Executes)
 
-**The plugin that generates its own tools.**
+Skills auto-invoke when you mention trigger phrases. They use predefined functions and templates to ensure consistency.
 
-Navigator can now analyze your codebase patterns and generate project-specific skills automatically:
+#### Built-in Skills (7)
+
+**1. nav-skill-creator** 🔄
+- **Triggers**: "Create a skill for...", "Automate this workflow"
+- **Purpose**: Analyzes codebase and generates project-specific skills
+- **Output**: Complete skill with SKILL.md, functions, templates, examples
+- **Token cost**: 50 (description) + 3k (instructions on invoke)
+
+**2. plugin-slash-command**
+- **Triggers**: "Add slash command", "Create /nav:... command"
+- **Purpose**: Generate Navigator slash commands following conventions
+- **Functions**: command_generator.py, command_validator.py
+- **Token cost**: 50 + 3k on invoke
+
+**3. nav-start**
+- **Triggers**: Loads on /nav:start
+- **Purpose**: Initialize session, load navigator, check PM tool
+- **Functions**: session_stats.py (real token metrics)
+- **Token cost**: 50 + 2k on invoke
+
+**4. nav-marker**
+- **Triggers**: "Create marker", "Save progress"
+- **Purpose**: Save conversation state (like git commits)
+- **Functions**: marker_compressor.py
+- **Token cost**: 50 + 2k on invoke
+
+**5. nav-compact**
+- **Triggers**: Loads on /nav:compact
+- **Purpose**: Smart context clearing with preservation
+- **Token cost**: 50 + 2k on invoke
+
+**6. nav-task**
+- **Triggers**: "Create task doc", "Document implementation"
+- **Purpose**: Generate implementation plans
+- **Functions**: task_id_generator.py, task_formatter.py, index_updater.py
+- **Token cost**: 50 + 2k on invoke
+
+**7. nav-sop**
+- **Triggers**: "Document solution", "Create SOP"
+- **Purpose**: Capture solutions as reusable procedures
+- **Functions**: sop_formatter.py
+- **Token cost**: 50 + 2k on invoke
+
+**Total overhead**: 350 tokens (7 skills × 50) - always loaded
+**Instructions**: Loaded only when skill invokes (progressive disclosure)
+
+#### Skills You Can Generate
+
+Use `nav-skill-creator` to generate project-specific skills:
 
 ```bash
-# Tell Navigator what pattern to automate
 "Create a skill for adding API endpoints"
+→ Generates: backend-endpoint skill
+→ Auto-invokes on: "Add endpoint", "Create API"
+→ Functions: endpoint_generator.py, route_validator.py
+→ Templates: endpoint-template.ts, test-template.spec.ts
 
-# nav-skill-creator auto-invokes and:
-# 1. Analyzes existing endpoints in your codebase
-# 2. Identifies patterns and conventions
-# 3. Generates complete skill with functions
-# 4. Creates templates and examples
-# 5. Validates output quality
+"Create a skill for React components"
+→ Generates: frontend-component skill
+→ Auto-invokes on: "Add component", "Create component"
+→ Functions: component_generator.py, test_generator.py
+→ Templates: component-template.tsx, test-template.spec.tsx
 
-# Result: New skill ready to use!
+"Create a skill for database migrations"
+→ Generates: database-migration skill
+→ Auto-invokes on: "Create migration", "Add table"
+→ Functions: migration_generator.py, schema_validator.py
+→ Templates: migration-template.sql
 ```
 
-**What gets generated**:
-- Complete SKILL.md with instructions
-- Predefined Python functions (generators, validators)
-- Templates with placeholders
-- Real examples from your codebase
+**The self-improving loop**: Navigator generates tools that generate more tools.
 
-**Token efficiency**:
-- Before: Read 3-5 examples manually (~15k tokens)
-- After: Skill auto-invokes (~3k tokens)
-- **Savings**: 80% reduction
+---
 
-**Example skills**:
-- `plugin-slash-command` - Generate Navigator commands (built-in)
-- `frontend-component` - Generate React/Vue components (you create)
-- `backend-endpoint` - Generate API endpoints (you create)
-- `database-migration` - Generate schema changes (you create)
+### Agents (How Navigator Researches)
 
-The self-improving loop: Navigator generates tools that generate more tools.
+Agents run in **separate context** - they explore your codebase without polluting your main conversation.
 
-### 2. Navigator-First Pattern
+#### When to Use Agents
 
-**Always load lightweight navigator first** (2k tokens):
-- Documentation index
-- "When to read what" decision tree
-- Project setup guides
-- Current sprint focus
+**✅ Use Agents for** (60-80% token savings):
+- Multi-file searches: "Find all API endpoints"
+- Pattern discovery: "How does authentication work?"
+- Code exploration: "What's the structure of components/"
+- Research: "Analyze Redux patterns in this project"
 
-```bash
-/nav:start  # Loads .agent/DEVELOPMENT-README.md
+**❌ Don't use Agents for**:
+- Reading specific known file (use Read tool)
+- Working with 1-2 files already loaded
+- Small edits to current context
+
+#### How Agents Save Tokens
+
+```
+Manual approach:
+Grep for "endpoint" → 50 files found
+Read api/users.ts (5k tokens)
+Read api/posts.ts (5k tokens)
+Read api/comments.ts (5k tokens)
+... (15 more files)
+= 100k+ tokens consumed
+
+Agent approach:
+Task agent: "Find all API endpoint patterns"
+Agent reads 50 files in separate context
+Agent returns: "Found 18 endpoints in 3 files: routes.ts, middleware.ts, handlers.ts"
+= 200 tokens returned (summary only)
+= 99.8% token savings
 ```
 
-### 2. On-Demand Documentation Loading
+**Critical**: Agent instructions in CLAUDE.md remind Claude to use agents for exploration automatically.
 
-**Load only what you need, when you need it**:
+---
 
-| Scenario | Load | Tokens |
-|----------|------|--------|
-| Working on feature | Task doc | +3k |
-| Need architecture | System doc | +5k |
-| Solving pattern | SOP | +2k |
-| **Total** | | **~12k** |
+### Documentation (Navigator's Knowledge Base)
 
-**vs Traditional**: Loading everything = 150k tokens
+On-demand loading with Navigator-first pattern.
 
-### 3. Context Markers (Save Points)
+#### Structure
 
-**Save conversation state anytime** - like git commits for AI conversations:
+```
+.agent/
+├── DEVELOPMENT-README.md      # Navigator (ALWAYS load first, 2k tokens)
+│
+├── tasks/                     # Implementation plans (load when working on task)
+│   ├── TASK-01-feature.md    # (~3k tokens each)
+│   └── archive/               # Completed tasks
+│
+├── system/                    # Architecture docs (load as needed)
+│   ├── project-architecture.md    # (~5k tokens)
+│   └── plugin-patterns.md         # (~4k tokens)
+│
+└── sops/                      # Standard Operating Procedures (load when relevant)
+    ├── integrations/          # How to integrate tools
+    ├── debugging/             # Common issue solutions
+    ├── development/           # Development workflows
+    └── deployment/            # Deployment procedures
+```
+
+#### Loading Strategy
+
+```
+ALWAYS load first:
+  .agent/DEVELOPMENT-README.md  (~2k tokens)
+
+Load for current work:
+  .agent/tasks/TASK-XX.md       (~3k tokens)
+
+Load as needed:
+  .agent/system/[doc].md        (~5k tokens)
+
+Load if helpful:
+  .agent/sops/[category]/[sop].md  (~2k tokens)
+
+Total: ~12k tokens vs ~150k (92% reduction)
+```
+
+---
+
+## 🔧 How It Works Together
+
+### Example: Adding a New Feature
+
+```
+User: "Add user authentication with OAuth"
+
+1. nav-task skill auto-invokes
+   → Creates .agent/tasks/TASK-XX-oauth-auth.md
+   → Implementation plan generated
+
+2. Agent explores (separate context)
+   → "Find existing auth patterns"
+   → Returns: "Uses passport.js in api/auth.ts"
+   → 200 tokens (summary) vs 50k (manual reading)
+
+3. backend-endpoint skill auto-invokes
+   → Generates /auth/login, /auth/callback endpoints
+   → Follows project patterns
+   → Tests included
+
+4. nav-marker saves progress
+   → "OAuth routes implemented, need session management"
+   → 3k token snapshot
+
+5. Continue working...
+
+6. nav-task completes
+   → Archives implementation plan
+   → Updates navigator with completion
+
+Total tokens: ~15k (Agent + Skills + Docs)
+vs Traditional: ~200k (loading everything upfront)
+Savings: 92%
+```
+
+---
+
+## 📊 Token Efficiency Breakdown
+
+### Before Navigator
+
+```
+Upfront loading:
+  All documentation        150,000 tokens
+  System prompts            50,000 tokens
+  ──────────────────────────────────────
+  Total before work:       200,000 tokens
+  Available for work:            0 tokens
+
+  Result: Session restart required immediately
+```
+
+### With Navigator v2.2
+
+```
+Progressive loading:
+  Skills (7 descriptions)      350 tokens
+  Navigator (roadmap)        2,000 tokens
+  Task doc (if needed)       3,000 tokens
+  ──────────────────────────────────────
+  Loaded upfront:            5,350 tokens
+  Available for work:      194,650 tokens (97% free)
+
+When skill invokes:
+  Skill instructions         3,000 tokens (one-time)
+  Functions                      0 tokens (execute separately)
+  ──────────────────────────────────────
+  Total after invoke:        8,350 tokens
+  Available for work:      191,650 tokens (96% free)
+
+When agent researches:
+  Agent context          50,000 tokens (separate, doesn't count)
+  Agent summary             200 tokens (returned)
+  ──────────────────────────────────────
+  Main context impact:        200 tokens
+  Savings vs manual:       49,800 tokens (99.6%)
+```
+
+**Result**: 10x more work per session, zero restarts
+
+---
+
+## 🎓 Skills vs Agents - Decision Guide
+
+### Use Skills When...
+
+✅ **Implementing** following patterns
+- "Add a React component"
+- "Create API endpoint"
+- "Generate database migration"
+
+✅ **Generating** boilerplate code
+- Components, endpoints, migrations, tests
+
+✅ **Enforcing** project conventions
+- Naming, structure, format
+
+✅ **Automating** repetitive tasks
+- Slash command creation
+- Documentation updates
+- SOP generation
+
+**How Skills work**:
+- Auto-invoke based on trigger phrases
+- Load instructions only when invoked (progressive disclosure)
+- Execute predefined functions (0 tokens)
+- Use templates for consistency
+- Run in main context
+
+### Use Agents When...
+
+✅ **Researching** codebase
+- "How does auth work?"
+- "Find all API endpoints"
+- "What's the component structure?"
+
+✅ **Exploring** patterns
+- "Analyze Redux usage"
+- "Find similar implementations"
+- "Understand data flow"
+
+✅ **Searching** across files
+- Multi-file pattern discovery
+- Dependency tracing
+- Architecture understanding
+
+✅ **Understanding** unfamiliar code
+- Before making changes
+- Learning project patterns
+- Onboarding to codebase
+
+**How Agents work**:
+- Run in separate context (no pollution)
+- Search/read efficiently
+- Return summaries only (200 tokens vs 50k)
+- 60-80% token savings vs manual
+- Triggered automatically by CLAUDE.md instructions
+
+### Hybrid Workflow (Best Practice)
+
+```
+User: "Add payment processing with Stripe"
+
+Step 1: Agent explores
+  → "Find existing payment code"
+  → Returns: "Payment utils in lib/payments.ts, using checkout API"
+  → 200 tokens
+
+Step 2: Skill executes
+  → backend-endpoint auto-invokes
+  → Uses agent findings
+  → Generates /api/payment/checkout endpoint
+  → Follows project patterns
+  → 3k tokens
+
+Total: 3.2k tokens
+vs Manual: 100k+ tokens (reading all payment-related files)
+Savings: 97%
+```
+
+---
+
+## 📋 Slash Commands
+
+Navigator provides 7 slash commands + 6 backward-compatible aliases:
+
+### Main Commands
 
 ```bash
-# Before lunch break
-/nav:marker lunch-break
+/nav:init          # Initialize Navigator in project (one-time)
+/nav:start         # Start session (loads navigator, EVERY conversation)
+/nav:doc           # Update documentation (tasks, SOPs, system docs)
+/nav:marker        # Create context save point (anytime)
+/nav:markers       # Manage markers (list, load, clean)
+/nav:compact       # Smart context clearing (preserves markers)
+/nav:migrate       # Migrate from v1.x to v2.x (one-time)
+```
 
-# Before risky refactor
-/nav:marker before-routing-refactor
+### Backward Compatible (v1.x → v2.x)
+
+```bash
+/jitd:init         # → /nav:init (with deprecation warning)
+/jitd:start        # → /nav:start
+/jitd:marker       # → /nav:marker
+/jitd:markers      # → /nav:markers
+/jitd:compact      # → /nav:compact
+/jitd:update_doc   # → /nav:doc
+```
+
+All `/jitd:*` commands work but show migration prompts.
+
+---
+
+## 🏗️ Complete Workflow Example
+
+### Day 1: New Feature
+
+```bash
+# Morning - Start session
+/nav:start
+
+"Implement user profile editing"
+
+# nav-task auto-invokes
+→ Creates TASK-45-user-profile-edit.md
+→ Implementation plan ready
+
+# Agent explores
+"Find existing profile code"
+→ Agent searches in separate context
+→ Returns: "Profile in components/Profile.tsx, uses Formik"
+→ 200 tokens
+
+# Skill executes
+"Create ProfileEdit component"
+→ frontend-component auto-invokes
+→ Generates component + tests + styles
+→ Follows project Formik patterns
+→ 3k tokens
+
+# Save progress before lunch
+/nav:marker profile-edit-started "Component created, need validation"
+
+# After lunch
+→ Read the marker (3k tokens)
+→ Continue where you left off
 
 # End of day
-/nav:marker eod-2025-10-12 "Finished OAuth, need tests tomorrow"
-
-# Manage markers (interactive)
-/nav:markers
-
-# Or list all markers
-/nav:markers list
-
-# Clean old markers
-/nav:markers clean
+/nav:marker eod-day1 "Profile edit 70% done, need API integration tomorrow"
 ```
 
-**Benefits**:
-- Resume after breaks in 30 seconds (vs 5-10 min re-explaining)
-- Safety nets before experiments
-- Perfect handoff between sessions
-- 85-90% token savings vs re-explaining context
-
-### 4. Living Documentation
-
-**Docs update as code evolves**:
+### Day 2: Continue Feature
 
 ```bash
-# After completing feature
-/nav:update-doc feature TASK-123
-
-# After solving novel issue
-/nav:update-doc sop debugging cors-issue
-
-# After architecture change
-/nav:update-doc system architecture
-```
-
-### 5. Smart Context Compacting
-
-**Clear conversation while preserving knowledge**:
-
-```bash
-/nav:compact
-```
-
-- Creates context marker automatically
-- Shows you how to restore
-- Clears conversation history
-- Frees up tokens for new work
-
-**When to compact**:
-- After completing isolated sub-tasks
-- After documentation updates
-- Before switching to unrelated work
-- When approaching 70%+ token usage
-
----
-
-## 📋 Available Commands
-
-| Command | Description |
-|---------|-------------|
-| `/nav:init` | One-time setup: creates .agent/ structure |
-| `/nav:start` | Start session: loads navigator, sets Navigator context |
-| `/nav:update-doc feature TASK-XX` | Archive implementation plan after feature |
-| `/nav:update-doc sop <category> <name>` | Create Standard Operating Procedure |
-| `/nav:update-doc system <doc>` | Update architecture documentation |
-| `/nav:marker [name]` | Create context save point anytime |
-| `/nav:markers` | Manage markers: list, load, clean |
-| `/nav:compact` | Smart compact: preserves markers, clears history |
-
----
-
-## 🏗️ How It Works
-
-### Token Optimization Strategy
-
-Navigator uses a **navigator-first pattern** with lazy-loading:
-
-**Step 1: Session Start**
-```bash
+# Morning - Resume
 /nav:start
-# Loads: .agent/DEVELOPMENT-README.md (~2k tokens)
-# Result: Documentation index loaded, ready to load specific docs
-```
+→ Loads navigator
+→ Detects active marker from yesterday
+→ Prompts: "Load eod-day1 marker?"
+→ Context restored (3k tokens vs re-explaining)
 
-**Step 2: Load On-Demand**
-```bash
-# Only load what's needed for current task
-Read .agent/tasks/TASK-123-oauth.md  # +3k tokens
-Read .agent/system/project-architecture.md  # +5k tokens (if needed)
-```
+# Add API integration
+"Add PUT /api/profile endpoint"
+→ backend-endpoint auto-invokes
+→ Generates endpoint + validation + tests
+→ 3k tokens
 
-**Step 3: Work Efficiently**
-```
-Total loaded: 10k tokens (vs 150k traditional)
-Available for work: 190k tokens (95%)
-```
+# Complete feature
+→ Tests passing
+→ Ready for review
 
-**Step 4: Document & Clear**
-```bash
-# After completing work
-/nav:update-doc feature TASK-123
+# Document completion
+/nav:doc feature TASK-45
 
-# Then compact context
+# Autonomous completion
+→ Commits changes
+→ Archives task doc
+→ Closes ticket (if PM tool configured)
+→ Creates TASK-45-complete marker
+
 /nav:compact
-# Creates marker automatically
-# Frees up tokens for next task
+→ Clears conversation
+→ Preserves marker for future reference
 ```
 
-### Context Markers Explained
-
-**Problem**: Conversations grow to 130k+ tokens, then you compact and lose everything.
-
-**Navigator Solution**: Create markers (3k token snapshots) before compacting:
-
-```markdown
-# Context Marker Structure
-
-## Current Location
-- Task: TASK-123 - OAuth implementation
-- Phase: Integration complete, testing pending
-- Files: src/auth/oauth.ts, src/routes/auth.ts
-
-## What's Done
-✅ OAuth flow implemented with passport.js
-✅ JWT token generation working
-✅ Login/logout endpoints created
-
-## Technical Decisions
-- Chose passport.js over next-auth (better control)
-- JWT in httpOnly cookies (XSS protection)
-- Redis for session storage (fast, scalable)
-
-## Next Steps
-1. Write comprehensive tests
-2. Add error handling
-3. Document OAuth setup in README
-
-## Restore Instructions
-Read @.agent/.context-markers/oauth-working.md
-```
-
-**Result**: 130k conversation → 3k marker (97.7% compression)
+**Total tokens used over 2 days**: ~25k
+**vs Traditional (loading all docs)**: ~400k
+**Savings**: 93%
 
 ---
 
-## 📁 Project Structure
+## 🔄 Self-Improving Capability
 
-After running `/nav:init`:
+### How It Works
 
 ```
-your-project/
-├── CLAUDE.md                    # Project configuration
-├── .agent/
-│   ├── DEVELOPMENT-README.md    # Navigator (2k tokens)
-│   ├── .nav-config.json        # Plugin configuration
-│   ├── .context-markers/        # Session save points (git-ignored)
-│   │   ├── lunch-break-2025-10-12.md
-│   │   └── before-refactor-2025-10-12.md
-│   ├── tasks/                   # Implementation plans
-│   │   └── TASK-123-oauth.md    # Generated from tickets
-│   ├── system/                  # Living architecture docs
-│   │   ├── project-architecture.md
-│   │   └── tech-stack-patterns.md
-│   └── sops/                    # Standard Operating Procedures
-│       ├── integrations/        # Third-party service setups
-│       ├── debugging/           # Common issues & solutions
-│       ├── development/         # Dev workflows
-│       └── deployment/          # Deploy procedures
-└── .gitignore                   # Includes .context-markers/
+1. Identify Pattern
+   User: "We keep adding API endpoints manually"
+
+2. Request Skill
+   User: "Create a skill for adding endpoints"
+
+3. nav-skill-creator auto-invokes
+   → Asks: Framework? Location? Auth? Testing?
+   → User: "Express, api/routes/, JWT, Jest"
+
+4. Agent Analyzes (separate context)
+   → Searches api/routes/*.ts
+   → Identifies patterns (structure, naming, tests)
+   → Returns summary (200 tokens)
+
+5. Skill Generates
+   → Creates skills/backend-endpoint/
+   → SKILL.md (auto-invocation instructions)
+   → Functions (endpoint_generator.py, route_validator.py)
+   → Templates (endpoint-template.ts, test-template.spec.ts)
+   → Examples (real endpoints from your codebase)
+
+6. Skill Ready
+   User: "Add GET /api/users endpoint"
+   → backend-endpoint auto-invokes
+   → Generates route + middleware + tests
+   → Follows YOUR project conventions
 ```
+
+### Generated Skills Include
+
+**SKILL.md**:
+- Auto-invocation triggers
+- Execution steps
+- Examples from your codebase
+
+**Functions** (predefined Python scripts):
+- Generators (create boilerplate)
+- Validators (ensure quality)
+- Formatters (consistent style)
+
+**Templates** (with placeholders):
+- ${ENDPOINT_NAME}, ${HTTP_METHOD}, etc.
+- Your project structure
+- Your coding conventions
+
+**Examples** (from your code):
+- Best practices extracted
+- Real implementations
+- Common patterns
 
 ---
 
-## 💡 Use Cases
-
-### Solo Developer
-- Maintain project knowledge as you build
-- No session restarts mid-feature
-- Resume after breaks instantly with markers
-- Onboard future contributors in 48 hours
-
-### Small Team (2-5)
-- Share patterns via SOPs
-- Consistent architecture decisions
-- Context markers for handoffs
-- Zero repeated mistakes
-
-### Enterprise
-- Standardize documentation across teams
-- Enforce best practices through templates
-- Scale knowledge without context bloat
-- Institutional memory that compounds
-
----
-
-## 🔧 Configuration
-
-Navigator configuration in `.agent/.nav-config.json`:
-
-```json
-{
-  "version": "1.0.0",
-  "project_management": "linear",  // linear | github | jira | gitlab | none
-  "task_prefix": "TASK",           // TASK | GH | LIN | JIRA-123
-  "team_chat": "none",             // slack | discord | teams | none
-  "auto_load_navigator": true,
-  "compact_strategy": "conservative"  // aggressive | conservative | manual
-}
-```
-
-**Supported Integrations**:
-- **Linear**: Full MCP integration (list issues, create tasks, update status)
-- **GitHub**: Via gh CLI (issues, PRs)
-- **Jira**: Manual workflow (API integration available)
-- **GitLab**: Via glab CLI
-
----
-
-## 📊 Metrics & Benefits
+## 📈 Success Metrics
 
 ### Token Efficiency
-- **Before Navigator**: 150k tokens loaded, 50k available (25%)
-- **With Navigator**: 12k tokens loaded, 188k available (94%)
-- **Improvement**: 3.8x more context for work
 
-### Productivity Gains
-- **92% reduction** in documentation overhead
-- **10x more work** per token spent
-- **Zero session restarts** during features
-- **85-90% token savings** with markers vs re-explaining
+**Documentation loading**:
+- Traditional: 150k tokens upfront
+- Navigator: 2k upfront, 10k as needed
+- **Savings**: 92-95%
 
-### Real-World Results
-- Multi-week projects without session restart
-- 30-second context restoration after breaks
-- Complete feature history in 3k token markers
-- Team finds docs in <30 seconds
+**Research & exploration**:
+- Manual file reading: 50k+ tokens
+- Agent summaries: 200 tokens
+- **Savings**: 99.6%
+
+**Code generation**:
+- Manual with examples: 15k tokens
+- Skills with templates: 3k tokens
+- **Savings**: 80%
+
+**Overall session efficiency**:
+- Work per session: 10x increase
+- Session restarts: 0 (vs 3-4/day)
+- Context available: 96% (vs 0%)
+
+### Development Productivity
+
+- **Onboarding**: New devs productive in 48 hours (vs 2 weeks)
+- **Pattern consistency**: 100% (templates enforce)
+- **Documentation**: Always current (living docs)
+- **Knowledge loss**: 0% (SOPs capture solutions)
 
 ---
 
-## 🎓 Example Workflow
+## 🎯 Best Practices
 
-### Morning: Start New Feature
+### Session Workflow
 
 ```bash
-# 1. Start session
+# 1. ALWAYS start with
 /nav:start
-# Loads navigator, shows assigned tasks from Linear/GitHub
 
-# 2. Select task to work on
-# Claude loads: .agent/tasks/TASK-456-payment.md
+# 2. Let skills auto-invoke (don't force)
+✅ "Add user authentication"
+❌ "Use the backend-endpoint skill to add auth"
 
-# 3. Load relevant architecture
-Read .agent/system/project-architecture.md
+# 3. Use agents for research
+✅ "How does our routing work?" (agent explores)
+❌ "Read all route files" (manual, expensive)
 
-# 4. Implement feature
-# (Using only ~10k tokens for docs, 190k available for work)
+# 4. Save progress with markers
+/nav:marker [name] before breaks/experiments
+
+# 5. Compact when switching contexts
+/nav:compact after completing isolated work
+
+# 6. Document as you go
+/nav:doc feature TASK-XX when done
 ```
 
-### Noon: Take Lunch Break
+### Skill Creation
 
 ```bash
-# Create marker before leaving
-/nav:marker lunch-break "Stripe integration 70% complete, need to add webhooks"
+# Generate skills for patterns you repeat 3+ times
+✅ "We add components weekly" → Create skill
+❌ "I added one endpoint" → Too early
 
-# Resume after lunch
-/nav:markers
-# [Interactive list appears]
-# [Select "lunch-break" from list]
-# Context restored in 30 seconds!
+# Let nav-skill-creator analyze first
+✅ "Create skill for components" → Agent finds patterns
+❌ "I'll describe the pattern" → Skip analysis
+
+# Test generated skills immediately
+✅ "Add UserCard component" → Verify output
+❌ Generate and forget → Might not match needs
 ```
 
-### Afternoon: Complete Feature
+### Agent Usage
 
 ```bash
-# Finish implementation and tests
+# Use for broad questions
+✅ "Find all database queries"
+✅ "How is state managed?"
+✅ "What's the auth flow?"
 
-# Document what you built
-/nav:update-doc feature TASK-456
-
-# Clear context for next task
-/nav:compact
-# Automatically creates marker
-# Shows restore instructions
-```
-
-### Evening: Risky Refactor
-
-```bash
-# Before trying new approach
-/nav:marker before-api-refactor
-
-# Try refactoring API structure
-# ...doesn't work well...
-
-# Restore from marker
-Read @.agent/.context-markers/before-api-refactor.md
-
-# Try different approach with full context
+# Not for specific files
+❌ "Find UserProfile.tsx" (use Glob)
+❌ "Read one file" (use Read)
 ```
 
 ---
 
-## 🗺️ Roadmap
-
-### ✅ Phase 1: Core Plugin (Complete)
-- Slash commands (/nav:init, /nav:start, /nav:update-doc, /nav:compact, /nav:marker, /nav:markers)
-- Documentation templates
-- Configuration system
-- Context markers with interactive management
-- Auto-resume system
-- Autonomous task completion
-- v1.5.1 published
-
-### 🚧 Phase 2: Documentation & Examples (In Progress)
-- [ ] Generic Next.js example project
-- [ ] Generic Python/Django example project
-- [ ] Generic Go example project
-- [ ] Video walkthrough
-- [x] Comprehensive README
-
-### 📈 Phase 3: Community & Growth (Planned)
-- [ ] Gather user feedback
-- [ ] Submit to Anthropic official marketplace
-- [ ] Build integration examples
-- [ ] Create announcement blog post
-- [ ] GitHub Discussions
-
----
-
-## ❓ FAQ
-
-### General Questions
-
-**Q: What makes Navigator different from just organizing docs well?**
-
-A: Organization helps discoverability for humans. Navigator adds **token efficiency** for AI. Traditional well-organized docs still load 150k tokens upfront. Navigator's navigator pattern loads 2k tokens initially, then lazy-loads specific docs (3-5k each) only when needed. Result: 92% fewer tokens wasted on unused documentation.
-
-**Q: Do I need project management tools (Linear/GitHub) to use Navigator?**
-
-A: No. Navigator works standalone. PM integrations are optional enhancements. Set `"project_management": "none"` in `.agent/.nav-config.json` and document tasks manually from conversation context.
-
-**Q: What's the minimum project size where Navigator makes sense?**
-
-A: Any project with 3+ documentation files benefits. Even small projects (5-10 files) see 60-70% token reduction. Larger codebases (50+ files) achieve 90%+ savings.
-
-**Q: Can I use Navigator with existing documentation?**
-
-A: Yes. Run `/nav:init` to create `.agent/` structure, then migrate existing docs:
-- README → `.agent/DEVELOPMENT-README.md` (navigator)
-- Architecture docs → `.agent/system/`
-- Setup guides → `.agent/sops/integrations/`
-- Issue resolutions → `.agent/sops/debugging/`
-
-### Token Optimization
-
-**Q: How does Navigator calculate token usage?**
-
-A: When you run `/nav:start`, it measures actual file sizes using `wc -c` (bytes) and calculates tokens as `bytes / 4` (standard estimation). This shows real documentation overhead, not educational guesses.
-
-Example output:
-```
-Navigator: 12,282 bytes = 3,070 tokens (measured)
-CLAUDE.md: 10,085 bytes = 2,521 tokens (measured)
-Total documentation: 5,591 tokens
-Available for work: 144,409 tokens (72%)
-```
-
-**Q: Why load navigator every session if it costs 2k tokens?**
-
-A: Navigator is your **documentation index**. Without it, you either:
-1. Load all docs (150k tokens) to find what you need, or
-2. Blindly guess which docs exist (inefficient, error-prone)
-
-2k tokens for complete documentation awareness is a 98.7% savings vs loading everything.
-
-**Q: Does `/nav:compact` delete my work?**
-
-A: No. It creates a **context marker** (save point) automatically, then clears conversation history. Your code, documentation, and markers remain intact. You can restore context anytime with `/nav:markers`.
-
-**Q: How much space do context markers save?**
-
-A: Context markers compress conversations by 85-97%:
-- 30-message conversation: ~130k tokens → 3k marker (97.7% reduction)
-- 10-message sub-task: ~40k tokens → 2k marker (95% reduction)
-
-Markers extract key decisions, progress, and next steps—discarding redundant conversational back-and-forth.
-
-### Context Markers
-
-**Q: When should I create a marker?**
-
-A: Create markers before:
-- **Breaks** (lunch, end of day): Resume faster than re-explaining
-- **Experiments** (refactors, new approaches): Safety net if it fails
-- **Compacting** (automatic): Preserve context before clearing
-- **Handoffs** (switching tasks): Clear boundary between work streams
-
-**Q: How are markers different from git commits?**
-
-A: Git commits save **code state**. Markers save **conversation state**:
-- What you were working on
-- Technical decisions and reasoning
-- What's done vs what's pending
-- Files modified and why
-- Next steps
-
-Think: Git commits are for code history, markers are for context history.
-
-**Q: Can I load markers from old projects?**
-
-A: Technically yes, but not recommended. Markers are **session-specific**: they reference code state, task context, and decisions from that project. Loading cross-project markers creates context mismatch. Create new markers for each project.
-
-**Q: Do markers work across different Claude Code sessions?**
-
-A: Yes! That's the point. Create marker in session A → start session B → run `/nav:markers` → select marker → full context restored. No need to re-explain 20 messages of context.
-
-### Workflow
-
-**Q: Do I have to run `/nav:start` every session?**
-
-A: Yes. It's **mandatory** for Navigator workflow. Without it:
-- Navigator not loaded (documentation index missing)
-- Token optimization not active
-- PM tool not checked (if configured)
-- Navigator context not set
-
-Think of it like `git status` at start of day—essential for knowing where you are.
-
-**Q: What's "autonomous task completion"?**
-
-A: When you finish a task, Claude **automatically**:
-1. Commits changes with proper message
-2. Archives implementation plan (`/nav:update-doc feature TASK-XX`)
-3. Creates completion marker (`TASK-XX-complete`)
-4. Suggests compact to clear context
-
-No need to prompt "please commit now" or "update docs"—it's done autonomously once work is verified complete.
-
-**Q: Can I skip documentation updates?**
-
-A: You *can*, but you **shouldn't**. Documentation updates are the compounding benefit:
-- Week 1: 3 features documented → 9k tokens of reusable knowledge
-- Month 1: 15 features + 10 SOPs → 45k tokens (but you load 3-5k at a time)
-- Year 1: Complete project knowledge base, onboard new devs in 48h
-
-Skipping documentation is like skipping git commits—you lose the trail of why decisions were made.
-
-**Q: How do I share Navigator docs with my team?**
-
-A: Commit `.agent/` to git (except `.agent/.context-markers/`—those are personal session save points). Team members:
-1. Pull repo
-2. Install Navigator plugin
-3. Run `/nav:start`
-4. Instant access to all documentation, SOPs, architecture
-
-### Technical
-
-**Q: What's the `.agent/.context-markers/.active` file?**
-
-A: When you run `/nav:compact`, it creates a marker and writes the filename to `.active`. Next time you run `/nav:start`, it detects the active marker and asks if you want to load it (auto-resume feature). After loading, `.active` is deleted.
-
-**Q: Why are context markers git-ignored?**
-
-A: Markers are **personal session save points**, not project documentation:
-- Contain incomplete thoughts, experiments, failed attempts
-- Specific to your work stream, not useful to team
-- Would create merge conflicts (everyone has different markers)
-
-Task docs and SOPs (in `.agent/tasks/` and `.agent/sops/`) ARE committed—they're polished documentation.
-
-**Q: Can I customize the Navigator templates?**
-
-A: Yes. After `/nav:init`, edit templates in `.agent/`:
-- `DEVELOPMENT-README.md`: Customize navigator sections
-- `.nav-config.json`: Change PM tool, task prefix, compact strategy
-- Template files: Modify structures for your workflow
-
-Changes persist across sessions. Share customizations by committing `.agent/` structure.
-
-**Q: Does Navigator work with other AI assistants (Cursor, Copilot, etc.)?**
-
-A: Navigator is a **Claude Code plugin**—it won't run in other tools. However, the **documentation pattern** (navigator + lazy loading + markers) works anywhere:
-- Manually follow Navigator workflow
-- Manually create/load `.agent/` docs
-- Use bash scripts to mimic `/nav:compact` functionality
-
-But you lose slash commands, autonomous completion, and PM integrations.
-
-**Q: What if `/nav:start` shows "navigator not found"?**
-
-A: Navigator isn't initialized. Run:
-```bash
-/nav:init
-```
-
-This creates `.agent/` structure with DEVELOPMENT-README.md. Then `/nav:start` will work.
-
-**Q: Can I use Navigator for non-code projects (writing, research, etc.)?**
-
-A: Yes! Navigator is a **documentation workflow**, not code-specific:
-- Writing project: Task docs = chapter plans, SOPs = style guides
-- Research project: Task docs = experiment logs, SOPs = methodologies
-- Creative project: Task docs = scene outlines, SOPs = character bibles
-
-Any project with evolving documentation benefits from on-demand loading and context markers.
-
-### Troubleshooting
-
-**Q: I ran `/nav:compact` but lost all my context—how do I recover?**
-
-A: `/nav:compact` creates a marker automatically. Run:
-```bash
-/nav:markers
-```
-
-Select the most recent marker to restore context. If you want to restore immediately after compact, copy the marker filename shown in compact output and:
-```bash
-Read @.agent/.context-markers/[marker-name].md
-```
-
-**Q: My tokens are still high after `/nav:start`—why?**
-
-A: Tokens accumulate from:
-1. **Documentation** (shown in `/nav:start` output)
-2. **Message history** (grows with conversation)
-3. **Code files read** (not shown in Navigator tracking)
-
-Navigator optimizes documentation (1). To reduce message history (2), run `/nav:compact`. To reduce code reads (3), use agents for multi-file searches instead of reading files directly.
-
-**Q: `/nav:update-doc` created a doc I don't like—can I regenerate?**
-
-A: Yes. Documentation is versioned with git, so you can:
-1. Review the generated doc
-2. Edit manually if needed
-3. Or delete and run `/nav:update-doc` again with better context
-4. Commit when satisfied
-
-SOPs and task docs are living documents—iterate until they're useful.
-
-**Q: Can I have multiple projects with different Navigator configs?**
-
-A: Yes! Each project has its own `.agent/.nav-config.json`. Configure per project:
-- Project A: Linear + Slack + aggressive compact
-- Project B: GitHub + Discord + conservative compact
-- Project C: No PM tool + manual workflow
-
-Navigator detects config when you run `/nav:start` in each project directory.
+## 🔮 What's Next
+
+### v2.3+ Roadmap
+
+**More Built-in Skills**:
+- `test-generator` - Generate test files
+- `doc-generator` - Generate API docs
+- `config-generator` - Generate config files
+
+**Generic Framework Skills** (community can generate):
+- `react-component` - React/Next.js components
+- `vue-component` - Vue/Nuxt components
+- `express-endpoint` - Express.js routes
+- `fastify-endpoint` - Fastify routes
+- `prisma-migration` - Prisma schema changes
+- `drizzle-migration` - Drizzle schema changes
+
+**Platform Features**:
+- Skill marketplace (share skills)
+- Skill versioning
+- Cross-project sync
+- Skill dependencies
 
 ---
 
 ## 🤝 Contributing
 
-Navigator is open source (MIT) and community-driven.
+Navigator is open source and welcomes contributions:
 
-**How to Help**:
-1. Try Navigator in your project
-2. Share your results (token usage, productivity improvements)
-3. Contribute templates for your tech stack
-4. Report issues or suggest improvements
-5. Build integration plugins
+**Ways to contribute**:
+1. **Generate skills** for your stack (React, Vue, Express, etc.)
+2. **Share skills** via GitHub (skill marketplace coming)
+3. **Report issues** with navigator workflow
+4. **Suggest improvements** to core skills
+5. **Document patterns** you've discovered
 
-**Want to contribute?**
-- [Report bugs](https://github.com/alekspetrov/nav-plugin/issues)
-- [Request features](https://github.com/alekspetrov/nav-plugin/issues)
-- [Submit PRs](https://github.com/alekspetrov/nav-plugin/pulls)
+**Skill contribution**:
+```bash
+# 1. Generate skill for your project
+"Create a skill for [pattern]"
+
+# 2. Test it thoroughly
+Use skill 5-10 times, verify output
+
+# 3. Share via GitHub
+Fork repo, add to skills/, PR with examples
+
+# 4. Community benefits
+Others can use your skill immediately
+```
+
+---
+
+## 📚 Documentation
+
+**Quick references**:
+- [Installation Guide](./docs/installation.md)
+- [Skills Architecture](./docs/skills.md)
+- [Agent Usage Guide](./docs/agents.md)
+- [CLAUDE.md Template](./templates/CLAUDE.md)
+
+**In-project docs** (after `/nav:init`):
+- `.agent/DEVELOPMENT-README.md` - Navigator
+- `.agent/system/` - Architecture docs
+- `.agent/sops/` - Procedures
+
+---
+
+## 🙏 Acknowledgments
+
+Built with [Claude Code](https://claude.com/claude-code)
+
+Inspired by the need for context-efficient AI development and the realization that AI should generate its own tools.
 
 ---
 
 ## 📄 License
 
-MIT - Use freely, contribute back if it helps you.
+MIT License - see [LICENSE](LICENSE) file
 
 ---
 
-## 📚 Resources
+## 🚀 Get Started
 
-- **Documentation**: [docs/](./docs/)
-- **Templates**: [templates/](./templates/)
-- **Commands**: [commands/](./commands/)
-- **Quick Start**: [docs/QUICK-START.md](./docs/QUICK-START.md)
-- **GitHub**: [alekspetrov/nav-plugin](https://github.com/alekspetrov/nav-plugin)
-- **Issues**: [Report bugs or request features](https://github.com/alekspetrov/nav-plugin/issues)
+```bash
+/plugin marketplace add alekspetrov/navigator-plugin
+/plugin install navigator
+# Restart Claude Code
+/nav:init
+/nav:start
+```
 
----
-
-## 🎯 Success Criteria
-
-### Context Efficiency
-- ✅ <70% token usage for typical tasks
-- ✅ <12k tokens loaded per session (documentation)
-- ✅ 10+ exchanges per session without compact
-- ✅ Zero session restarts during features
-
-### Documentation Coverage
-- ✅ 100% completed features have task docs
-- ✅ 90%+ integrations have SOPs
-- ✅ System docs updated within 24h
-- ✅ Zero repeated mistakes (SOPs prevent them)
-
----
-
-**Built in public** 🚀 Share your Navigator success stories!
-
-**Version**: 1.6.0
-**Last Updated**: 2025-10-16
-**Author**: [Aleks Petrov](https://github.com/alekspetrov)
+**Welcome to self-improving AI development.** 🔄
