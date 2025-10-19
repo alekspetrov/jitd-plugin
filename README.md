@@ -24,7 +24,7 @@
 
 **What you gain**: +11k tokens saved, simpler UX, no syntax to remember.
 
-[Full migration guide →](https://github.com/alekspetrov/navigator/releases/tag/v3.0.0)
+📖 **[Complete Migration Guide](MIGRATION.md)** | **[v3.0.0 Release Notes](https://github.com/alekspetrov/navigator/releases/tag/v3.0.0)**
 
 ---
 
