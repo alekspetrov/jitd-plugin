@@ -2,10 +2,10 @@
 
 > Context-efficient documentation system with on-demand loading and conversation checkpoints.
 
-**Status**: ✅ Published v1.6.0
+**Status**: ✅ Published v2.2.0 - Self-Improving Capability
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.6.0-blue.svg)](https://github.com/alekspetrov/nav-plugin/releases)
+[![Version](https://img.shields.io/badge/version-2.2.0-blue.svg)](https://github.com/alekspetrov/navigator-plugin/releases)
 
 ---
 
@@ -87,7 +87,46 @@ Specific SOP (optional)  ~2,000 tokens
 
 ## 🎨 Features
 
-### 1. Navigator-First Pattern
+### 1. Self-Improving Capability (v2.2+) 🔄
+
+**The plugin that generates its own tools.**
+
+Navigator can now analyze your codebase patterns and generate project-specific skills automatically:
+
+```bash
+# Tell Navigator what pattern to automate
+"Create a skill for adding API endpoints"
+
+# nav-skill-creator auto-invokes and:
+# 1. Analyzes existing endpoints in your codebase
+# 2. Identifies patterns and conventions
+# 3. Generates complete skill with functions
+# 4. Creates templates and examples
+# 5. Validates output quality
+
+# Result: New skill ready to use!
+```
+
+**What gets generated**:
+- Complete SKILL.md with instructions
+- Predefined Python functions (generators, validators)
+- Templates with placeholders
+- Real examples from your codebase
+
+**Token efficiency**:
+- Before: Read 3-5 examples manually (~15k tokens)
+- After: Skill auto-invokes (~3k tokens)
+- **Savings**: 80% reduction
+
+**Example skills**:
+- `plugin-slash-command` - Generate Navigator commands (built-in)
+- `frontend-component` - Generate React/Vue components (you create)
+- `backend-endpoint` - Generate API endpoints (you create)
+- `database-migration` - Generate schema changes (you create)
+
+The self-improving loop: Navigator generates tools that generate more tools.
+
+### 2. Navigator-First Pattern
 
 **Always load lightweight navigator first** (2k tokens):
 - Documentation index
