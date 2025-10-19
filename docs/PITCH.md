@@ -10,17 +10,21 @@
 **Use for**: README hero, landing page, general conversations
 
 ### **Navigator Tagline**
-*"The Claude Code plugin that solves context waste"*
+
+_"The Claude Code plugin that solves context waste"_
 
 ### **What It Does**
+
 Navigator makes AI 10x more productive through on-demand documentation loading, auto-invoking skills, and context compression.
 
 ### **The Numbers**
+
 - **92% token reduction** (150k → 12k)
 - **100% cache efficiency** (load once, reuse forever)
 - **Zero session restarts** (vs 3-4/day traditional)
 
 ### **Why It Matters**
+
 Stop hitting context limits. Work all day without restarts. Let AI focus on your code, not documentation overhead.
 
 ---
@@ -42,6 +46,7 @@ Traditional AI development loads entire codebases and documentation upfront—15
 Navigator uses on-demand loading: just 12k tokens for essentials, load the rest only when needed. Plus, context markers compress 130k conversations into 3k for instant resume.
 
 **The Impact:**
+
 - **92% token reduction** (150k → 12k)
 - **10x productivity** (more commits per session)
 - **Zero restarts** (context never fills up)
@@ -56,23 +61,27 @@ Navigator uses on-demand loading: just 12k tokens for essentials, load the rest 
 Navigator is a self-improving Claude Code plugin that combines three innovations:
 
 **1. On-Demand Documentation (92% token savings)**
+
 - Don't load everything upfront
 - Load navigator first (4k tokens)
 - Load specific docs when needed (3-8k each)
 - Total: 12k vs 150k traditional
 
 **2. Skills + Agents Architecture (80% execution savings)**
+
 - **Skills**: Pre-built tools that auto-invoke ("Add a login component" → frontend-component skill executes)
 - **Agents**: Research assistants that explore code in separate context (no pollution)
 - **Self-improving**: Analyzes your codebase and generates project-specific skills
 
 **3. Context Markers (97.7% compression)**
+
 - Save conversation state anytime
 - 130k token conversation → 3k marker
 - Resume exactly where you left off
 - Never lose context when switching tasks
 
 **Real Numbers:**
+
 - Session from this morning: 54k tokens loaded once, reused 529k times (100% cache efficiency)
 - Productivity: 10x more commits per token spent vs traditional approach
 - Restarts: Zero (vs 3-4/day without Navigator)
@@ -85,6 +94,7 @@ AI development is bottlenecked by context limits. Navigator removes that bottlen
 ## 🔥 One-Liners (Social Media)
 
 ### Twitter/X (280 chars)
+
 ```
 Navigator: Claude Code plugin that loads docs on-demand (12k tokens vs 150k).
 Add context markers (97.7% compression) + auto-invoking skills.
@@ -93,21 +103,25 @@ Free & open source.
 ```
 
 ### LinkedIn (Tagline)
+
 ```
 "The Claude Code plugin that makes AI 10x more productive by optimizing context usage"
 ```
 
 ### GitHub (Subtitle)
+
 ```
 Self-improving Claude Code plugin · 92% token reduction · Zero session restarts
 ```
 
 ### Hacker News (Title)
+
 ```
 Navigator – Claude Code plugin with 92% token reduction via on-demand loading
 ```
 
 ### Reddit (r/programming)
+
 ```
 I built a Claude Code plugin that reduces token waste by 92%.
 Instead of loading 150k tokens upfront, Navigator loads 12k and fetches on-demand.
@@ -119,6 +133,7 @@ Result: 10x productivity, zero session restarts.
 ## 🎨 Value Propositions (By Audience)
 
 ### For Developers
+
 ```
 Stop wasting tokens on upfront documentation.
 Navigator loads what you need, when you need it.
@@ -126,6 +141,7 @@ Work 10x longer without session restarts.
 ```
 
 ### For Teams
+
 ```
 Standardize AI workflows with auto-invoking skills.
 Share knowledge through living documentation.
@@ -133,6 +149,7 @@ Onboard new developers in hours, not days.
 ```
 
 ### For Projects
+
 ```
 Generate project-specific tools automatically.
 Maintain consistency across your codebase.
@@ -146,11 +163,13 @@ Build a self-improving development environment.
 **Navigator is like a smart librarian for AI development.**
 
 **Bad librarian (traditional):**
+
 - Dumps every book on your desk at once
 - Your desk overflows in 30 minutes
 - You spend all day clearing space instead of working
 
 **Navigator (smart librarian):**
+
 - Hands you the index first
 - Brings exactly the book you need, when you ask
 - Your desk stays clear all day
@@ -163,6 +182,7 @@ Build a self-improving development environment.
 ## 📊 Feature-Specific Pitches
 
 ### On-Demand Documentation
+
 ```
 Traditional: Load 150k tokens upfront → context full → restart
 Navigator: Load 12k navigator → fetch 3-8k when needed → 90% context free
@@ -170,6 +190,7 @@ Result: Work all day without restarts
 ```
 
 ### Skills Architecture
+
 ```
 Say "Add a login component" → frontend-component skill auto-invokes
 Uses predefined functions (0 tokens) + templates (cached)
@@ -178,6 +199,7 @@ Total cost: 3k tokens vs 70k traditional
 ```
 
 ### Context Markers
+
 ```
 Working on feature → save progress anytime
 130k conversation compressed to 3k marker (97.7% reduction)
@@ -186,6 +208,7 @@ Never lose work when switching tasks
 ```
 
 ### Self-Improving
+
 ```
 "Create a skill for API endpoints"
 Navigator analyzes your existing endpoints
@@ -199,22 +222,27 @@ Your workflow becomes a reusable tool
 ## 🎯 Problem-Solution Pairs
 
 ### Problem 1: Context Limits
+
 **Pain:** "I hit token limits every 30 minutes and have to restart Claude"
 **Solution:** "Navigator loads docs on-demand. 92% token reduction = all-day sessions"
 
 ### Problem 2: Inconsistent Output
+
 **Pain:** "AI generates code differently every time, breaks our patterns"
 **Solution:** "Navigator skills use predefined functions and templates. Consistent output guaranteed"
 
 ### Problem 3: Losing Context
+
 **Pain:** "When I switch tasks, I lose all context and have to re-explain everything"
 **Solution:** "Context markers compress 130k → 3k. Resume exactly where you left off"
 
 ### Problem 4: Repetitive Work
+
 **Pain:** "I keep asking AI to generate the same boilerplate over and over"
 **Solution:** "Navigator creates custom skills for your patterns. One command = full implementation"
 
 ### Problem 5: Slow Onboarding
+
 **Pain:** "New team members take weeks to understand our codebase conventions"
 **Solution:** "Living documentation + auto-invoking skills = productive in 48 hours"
 
@@ -224,24 +252,24 @@ Your workflow becomes a reusable tool
 
 ### Before/After Navigator
 
-| Metric | Traditional | Navigator | Improvement |
-|--------|-------------|-----------|-------------|
-| Docs loaded upfront | 150k tokens | 12k tokens | 92% reduction |
-| Context available | 50k (25%) | 180k (90%) | 260% more |
-| Session restarts/day | 3-4 | 0 | 100% elimination |
-| Commits per session | 1-2 | 10+ | 10x productivity |
-| Onboarding time | 1-2 weeks | 48 hours | 75% faster |
+| Metric               | Traditional | Navigator  | Improvement      |
+| -------------------- | ----------- | ---------- | ---------------- |
+| Docs loaded upfront  | 150k tokens | 12k tokens | 92% reduction    |
+| Context available    | 50k (25%)   | 180k (90%) | 260% more        |
+| Session restarts/day | 3-4         | 0          | 100% elimination |
+| Commits per session  | 1-2         | 10+        | 10x productivity |
+| Onboarding time      | 1-2 weeks   | 48 hours   | 75% faster       |
 
 ### Navigator vs Alternatives
 
-| Feature | Navigator | Custom Docs | No System |
-|---------|-----------|-------------|-----------|
-| On-demand loading | ✅ | ❌ | ❌ |
-| Auto-invoking skills | ✅ | ❌ | ❌ |
-| Context compression | ✅ | ❌ | ❌ |
-| Self-improving | ✅ | ❌ | ❌ |
-| Token reduction | 92% | ~50% | 0% |
-| Setup time | 5 min | Days | N/A |
+| Feature              | Navigator | Custom Docs | No System |
+| -------------------- | --------- | ----------- | --------- |
+| On-demand loading    | ✅        | ❌          | ❌        |
+| Auto-invoking skills | ✅        | ❌          | ❌        |
+| Context compression  | ✅        | ❌          | ❌        |
+| Self-improving       | ✅        | ❌          | ❌        |
+| Token reduction      | 92%       | ~50%        | 0%        |
+| Setup time           | 5 min     | Days        | N/A       |
 
 ---
 
@@ -263,26 +291,31 @@ keeps our context free all day. Saved 10+ hours/week on re-explaining context."
 ## 🎬 Video Script Outline (2-Minute Demo)
 
 **:00-:15 - Hook**
+
 - "Watch me build an entire feature without restarting Claude once"
 - Screen: Token usage bar (90% free)
 
 **:15-:30 - Problem**
+
 - "Traditional approach loads everything upfront"
 - Screen: Token bar filling up, restart needed
 - "150k tokens wasted. Restart every 30 minutes."
 
 **:30-:60 - Solution Demo**
+
 - "Navigator loads on-demand"
 - Screen: Start session, show 12k loaded
 - "Say 'Add login component'" → skill auto-invokes
 - Screen: Component + tests generated, token bar still 85% free
 
 **:60-:90 - More Features**
+
 - "Save progress anytime" → context marker demo
 - "Resume later" → load marker, restore context
 - Screen: 130k → 3k compression
 
 **:90-:120 - Call to Action**
+
 - "Work all day. Zero restarts. 10x productivity."
 - Screen: Before/after comparison
 - "Install Navigator free: github.com/alekspetrov/navigator"
@@ -446,17 +479,20 @@ Traditional approach wastes 75% of context on upfront documentation loading. Dev
 
 **Our Solution:**
 Navigator is a Claude Code plugin that reduces token waste by 92% through three innovations:
+
 1. On-demand documentation loading (12k vs 150k tokens)
 2. Auto-invoking skills with predefined functions (0-token execution)
 3. Context markers (97.7% compression for instant resume)
 
 **Traction:**
+
 - Open source (MIT license)
 - v3.0 released (skills-only architecture)
 - Growing community adoption
 - 100% cache efficiency proven in production
 
 **Business Model:** (If applicable)
+
 - Free tier: Core Navigator features
 - Pro tier: Advanced skills, team collaboration, analytics
 - Enterprise: Custom skill development, priority support, SLA
@@ -474,6 +510,7 @@ Navigator is a Claude Code plugin that reduces token waste by 92% through three 
 "Mastering Context-Efficient AI Development with Navigator"
 
 **What You'll Learn:**
+
 - Lesson 1: Understanding token waste and context limits
 - Lesson 2: On-demand documentation loading strategies
 - Lesson 3: Building auto-invoking skills for your project
