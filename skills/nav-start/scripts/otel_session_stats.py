@@ -349,15 +349,34 @@ def display_navigator_stats(metrics: Dict):
     cache_read = metrics["cache_read_tokens"]
     cache_creation = metrics["cache_creation_tokens"]
 
-    print(f"📥 Input Tokens:        {input_tokens:,}")
-    print(f"📤 Output Tokens:       {output_tokens:,}")
+    # Calculate totals
+    total_tokens = input_tokens + output_tokens + cache_read + cache_creation
+    charged_tokens = input_tokens + output_tokens
+
+    # Visual token distribution bar
+    bar_width = 50
+    if total_tokens > 0:
+        input_bars = int((input_tokens / total_tokens) * bar_width)
+        output_bars = int((output_tokens / total_tokens) * bar_width)
+        cache_read_bars = int((cache_read / total_tokens) * bar_width)
+        cache_creation_bars = bar_width - input_bars - output_bars - cache_read_bars
+
+        print("Token Distribution:")
+        print("┌" + "─" * bar_width + "┐")
+        bar_content = ("🟦" * input_bars +
+                      "🟩" * output_bars +
+                      "🟨" * cache_read_bars +
+                      "🟧" * cache_creation_bars)
+        print(f"│{bar_content}│")
+        print("└" + "─" * bar_width + "┘")
+        print("  🟦 Input  🟩 Output  🟨 Cache Read (free)  🟧 Cache Creation")
+        print()
+
+    print(f"📥 Input:               {input_tokens:,}")
+    print(f"📤 Output:              {output_tokens:,}")
     print(f"💾 Cache Read:          {cache_read:,} (free)")
     print(f"🔧 Cache Creation:      {cache_creation:,}")
     print()
-
-    # Calculate total tokens (charged + free)
-    total_tokens = input_tokens + output_tokens + cache_read + cache_creation
-    charged_tokens = input_tokens + output_tokens
 
     print(f"📊 Total Tokens:        {total_tokens:,}")
     print(f"   ├─ Charged:          {charged_tokens:,}")
