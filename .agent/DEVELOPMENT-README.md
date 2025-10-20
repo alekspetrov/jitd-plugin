@@ -48,7 +48,7 @@ cd .agent/grafana
 docker compose up -d
 ```
 
-Access at **http://localhost:3001** (admin/admin)
+Access at **http://localhost:3333** (admin/admin)
 
 ### What You Get
 

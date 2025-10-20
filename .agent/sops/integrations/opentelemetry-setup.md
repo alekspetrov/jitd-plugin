@@ -376,7 +376,7 @@ docker compose up -d
 ```
 
 **Access Dashboard**:
-- **Grafana**: http://localhost:3001 (admin/admin)
+- **Grafana**: http://localhost:3333 (admin/admin)
 - **Prometheus**: http://localhost:9092
 - **Dashboard**: Dashboards → "Navigator - Claude Code Metrics"
 
@@ -387,7 +387,7 @@ docker compose up -d
 - 10-panel dashboard with all key metrics
 
 **Ports** (configurable in `docker-compose.yml`):
-- Grafana: 3001 (avoid conflicts with dev servers on 3000)
+- Grafana: 3333 (avoid conflicts with dev servers on 3000/3001)
 - Prometheus: 9092 (avoid conflicts with other Prometheus instances)
 
 **Complete setup guide**: See `.agent/grafana/README.md`

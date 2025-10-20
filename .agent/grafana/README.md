@@ -31,11 +31,11 @@ docker compose up -d
 
 This starts:
 - **Prometheus** on http://localhost:9092
-- **Grafana** on http://localhost:3001
+- **Grafana** on http://localhost:3333
 
 ### Access Dashboard
 
-1. Open http://localhost:3001
+1. Open http://localhost:3333
 2. Login:
    - Username: `admin`
    - Password: `admin`
@@ -88,7 +88,7 @@ This starts:
 ### Port Conflicts
 
 Default ports configured to avoid common conflicts:
-- Grafana: `3001` (not 3000 - often used by dev servers)
+- Grafana: `3333` (not 3000/3001 - often used by dev servers)
 - Prometheus: `9092` (not 9090 - often used by other Prometheus instances)
 
 **To change ports**, edit `docker-compose.yml`:
@@ -96,7 +96,7 @@ Default ports configured to avoid common conflicts:
 ```yaml
 # Grafana
 ports:
-  - "3002:3000"  # Change 3001 to 3002
+  - "3334:3000"  # Change 3333 to 3334
 
 # Prometheus
 ports:
@@ -177,7 +177,7 @@ Then restart: `docker compose restart prometheus`
 
 ### Port Already in Use
 
-**Problem**: "Port 3001 is already allocated" or "Port 9092 is already allocated"
+**Problem**: "Port 3333 is already allocated" or "Port 9092 is already allocated"
 
 **Solutions**:
 1. Stop conflicting service
