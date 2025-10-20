@@ -131,10 +131,9 @@ def parse_prometheus_metrics(prometheus_data: str) -> Optional[Dict]:
             if line.startswith('#') or not line.strip():
                 continue
 
-            # For now, aggregate all sessions
-            # TODO: Filter by current session_id for multi-session environments
-            # if current_session_id and f'session_id="{current_session_id}"' not in line:
-            #     continue
+            # Filter by current session_id for accurate stats
+            if current_session_id and f'session_id="{current_session_id}"' not in line:
+                continue
 
             # Parse token usage metrics
             if 'claude_code_token_usage' in line and not line.startswith('#'):
@@ -173,6 +172,57 @@ def parse_prometheus_metrics(prometheus_data: str) -> Optional[Dict]:
         # Return metrics only if we have actual data
         if metrics["input_tokens"] > 0 or metrics["output_tokens"] > 0:
             return metrics
+
+        # If current session has no data, try without session filter (most recent data)
+        if current_session_id:
+            # Retry without session filter
+            metrics_fallback = {
+                "input_tokens": 0,
+                "output_tokens": 0,
+                "cache_read_tokens": 0,
+                "cache_creation_tokens": 0,
+                "cost_usd": 0.0,
+                "active_time_seconds": 0,
+                "model": "unknown",
+                "session_id": None  # No specific session (aggregate)
+            }
+
+            for line in prometheus_data.split('\n'):
+                if line.startswith('#') or not line.strip():
+                    continue
+
+                # No session filtering - aggregate all
+                if 'claude_code_token_usage' in line:
+                    parts = line.split()
+                    if len(parts) >= 2:
+                        value = float(parts[-1])
+                        if 'type="input"' in line:
+                            metrics_fallback["input_tokens"] += int(value)
+                        elif 'type="output"' in line:
+                            metrics_fallback["output_tokens"] += int(value)
+                        elif 'type="cacheRead"' in line:
+                            metrics_fallback["cache_read_tokens"] += int(value)
+                        elif 'type="cacheCreation"' in line:
+                            metrics_fallback["cache_creation_tokens"] += int(value)
+
+                        if 'model="' in line:
+                            model_start = line.find('model="') + 7
+                            model_end = line.find('"', model_start)
+                            if model_end > model_start:
+                                metrics_fallback["model"] = line[model_start:model_end]
+
+                elif 'claude_code_cost_usage' in line:
+                    parts = line.split()
+                    if len(parts) >= 2:
+                        metrics_fallback["cost_usd"] += float(parts[-1])
+
+                elif 'claude_code_active_time_total' in line:
+                    parts = line.split()
+                    if len(parts) >= 2:
+                        metrics_fallback["active_time_seconds"] = int(float(parts[-1]))
+
+            if metrics_fallback["input_tokens"] > 0 or metrics_fallback["output_tokens"] > 0:
+                return metrics_fallback
 
     except Exception as e:
         print(f"Error parsing Prometheus metrics: {e}", file=sys.stderr)
@@ -294,22 +344,30 @@ def display_navigator_stats(metrics: Dict):
     print()
 
     # Token usage breakdown
-    total_input = metrics["input_tokens"]
+    input_tokens = metrics["input_tokens"]
+    output_tokens = metrics["output_tokens"]
     cache_read = metrics["cache_read_tokens"]
-    fresh_input = total_input - cache_read
+    cache_creation = metrics["cache_creation_tokens"]
 
-    print(f"📥 Input Tokens:  {total_input:,}")
-    print(f"   ├─ Cache read:  {cache_read:,} (free ✅)")
-    print(f"   └─ Fresh:       {fresh_input:,} (charged)")
+    print(f"📥 Input Tokens:        {input_tokens:,}")
+    print(f"📤 Output Tokens:       {output_tokens:,}")
+    print(f"💾 Cache Read:          {cache_read:,} (free)")
+    print(f"🔧 Cache Creation:      {cache_creation:,}")
     print()
 
-    print(f"📤 Output Tokens: {metrics['output_tokens']:,}")
+    # Calculate total tokens (charged + free)
+    total_tokens = input_tokens + output_tokens + cache_read + cache_creation
+    charged_tokens = input_tokens + output_tokens
+
+    print(f"📊 Total Tokens:        {total_tokens:,}")
+    print(f"   ├─ Charged:          {charged_tokens:,}")
+    print(f"   └─ Free (cache):     {cache_read:,}")
     print()
 
-    # Cache performance
-    if total_input > 0:
-        cache_hit_rate = (cache_read / total_input) * 100
-        print(f"⚡ Cache Hit Rate: {cache_hit_rate:.1f}%")
+    # Cache efficiency (if cache was used)
+    if cache_read > 0:
+        cache_percentage = (cache_read / total_tokens) * 100
+        print(f"⚡ Cache Efficiency:    {cache_percentage:.1f}% of total tokens")
         print()
 
     # Cost analysis
@@ -322,13 +380,13 @@ def display_navigator_stats(metrics: Dict):
     print(f"⏱️  Active Time:   {minutes}m {seconds}s")
     print()
 
-    # Context availability
-    context_used = total_input + metrics['output_tokens']
+    # Context availability (only charged tokens count toward window)
+    context_used = charged_tokens
     total_context = 200000
     available = total_context - context_used
     percent_available = int((available / total_context) * 100)
 
-    print(f"📦 Context Usage:")
+    print(f"📦 Context Window:")
     print(f"   ├─ Used:        {context_used:,} tokens")
     print(f"   └─ Available:   {available:,} tokens ({percent_available}%)")
     print()

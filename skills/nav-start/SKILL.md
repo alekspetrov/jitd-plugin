@@ -119,7 +119,9 @@ Skip task checking.
 Run the OpenTelemetry session statistics script:
 
 ```bash
-python3 scripts/otel_session_stats.py
+# Get the skill's base directory (passed via SKILL_BASE_DIR)
+SKILL_DIR="${SKILL_BASE_DIR:-$HOME/.claude/plugins/marketplaces/jitd-marketplace/skills/nav-start}"
+python3 "$SKILL_DIR/scripts/otel_session_stats.py"
 ```
 
 This script:
@@ -222,7 +224,8 @@ No active tasks found. What would you like to work on?
 
 **Execution**:
 ```bash
-python3 scripts/otel_session_stats.py
+SKILL_DIR="${SKILL_BASE_DIR:-$HOME/.claude/plugins/marketplaces/jitd-marketplace/skills/nav-start}"
+python3 "$SKILL_DIR/scripts/otel_session_stats.py"
 ```
 
 **Output**: Formatted statistics with:
