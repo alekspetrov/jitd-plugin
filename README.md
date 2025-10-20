@@ -133,30 +133,49 @@ v3.1: + OpenTelemetry integration (real session metrics) ← YOU ARE HERE
 /plugin install navigator
 
 # 2. Restart Claude Code
-
-# 3. Initialize in your project
-/nav:init
-
-# 4. Start every session with:
-/nav:start
 ```
+
+### Initialize Navigator
+
+Navigator uses **natural language** - just tell Claude what you want:
+
+```
+"Initialize Navigator in this project"
+```
+
+This creates:
+- `.agent/` documentation structure
+- `CLAUDE.md` project configuration
+- Templates customized for your tech stack
+- Grafana metrics dashboard (optional)
+
+### Start Your First Session
+
+```
+"Start my Navigator session"
+```
+
+Navigator loads your documentation navigator and is ready to use!
 
 ### Your First Skill
 
-```bash
-# Navigator includes 7 built-in skills that auto-invoke:
+Navigator includes 14 built-in skills that auto-invoke on natural language:
 
-"Create a skill for adding React components"
-# → nav-skill-creator auto-invokes
-# → Analyzes your components/
-# → Generates frontend-component skill
-# → Ready to use immediately
-
-"Add a UserProfile component"
-# → frontend-component auto-invokes
-# → Generates component + tests + styles
-# → Follows your project patterns
 ```
+"Create a React component for user profile"
+```
+→ `frontend-component` skill auto-invokes
+→ Generates component with TypeScript, tests, and styles
+→ Follows your project conventions
+
+```
+"Add an API endpoint for posts"
+```
+→ `backend-endpoint` skill auto-invokes
+→ Creates route with validation and error handling
+→ Includes tests
+
+**No commands to memorize** - just describe what you want!
 
 ---
 

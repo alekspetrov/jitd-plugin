@@ -5,6 +5,8 @@ Navigator (Navigator) plugin for context-efficient AI development. Load document
 
 **Core Principle**: Navigator-first pattern → 92% reduction in doc loading overhead (12k vs 150k tokens)
 
+**v3.0+ Note**: Navigator uses **natural language** (recommended) but also supports slash commands for compatibility.
+
 ---
 
 ## Navigator Workflow (CRITICAL - ENFORCE STRICTLY)
@@ -13,11 +15,17 @@ Navigator (Navigator) plugin for context-efficient AI development. Load document
 
 **🚨 EVERY new conversation/session MUST begin with**:
 
+**Natural language** (recommended):
+```
+"Start my Navigator session"
+```
+
+**Slash command** (legacy, still works):
 ```bash
 /nav:start
 ```
 
-**What `/nav:start` does**:
+**What this does**:
 1. Loads `.agent/DEVELOPMENT-README.md` (navigator)
 2. Checks for assigned tasks from PM tool (if configured)
 3. Sets Navigator workflow context
