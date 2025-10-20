@@ -29,22 +29,118 @@ def get_otel_metrics() -> Optional[Dict]:
     """
     Get OpenTelemetry metrics from Claude Code.
 
-    Strategy: Query metrics from console exporter or OTLP endpoint.
-    For now, we'll use a simple approach that reads from the environment.
+    Strategy: Read from OpenTelemetry SDK's metric reader if available.
 
     Returns:
-        Dict with session metrics or None if unavailable
+        Dict with raw metrics data or None if unavailable
     """
-    # For initial implementation, we'll check if metrics are being exported
-    # In a real session, these would be queried from the OTel collector
+    # Try to access metrics from OpenTelemetry SDK
+    try:
+        from opentelemetry import metrics as otel_metrics
 
-    # This is a placeholder - in production, this would:
-    # 1. Parse console exporter output from stderr
-    # 2. Query OTLP endpoint via HTTP/gRPC
-    # 3. Use OpenTelemetry Python SDK
+        # Get the global meter provider
+        meter_provider = otel_metrics.get_meter_provider()
 
-    # For now, return None to trigger the "setup needed" message
-    # Real implementation will query actual metrics
+        # Check if metrics are available
+        if hasattr(meter_provider, '_sdk_config'):
+            # This would contain the metrics if SDK is properly configured
+            # For now, we don't have direct access to metric values
+            # They're exported to console/OTLP but not easily queryable
+            pass
+
+    except ImportError:
+        # OpenTelemetry SDK not installed - expected in most cases
+        pass
+
+    # Alternative: Check if Prometheus exporter is running
+    exporter_type = os.getenv("OTEL_METRICS_EXPORTER", "")
+
+    if exporter_type == "prometheus":
+        # Try to query Prometheus endpoint
+        try:
+            import urllib.request
+            response = urllib.request.urlopen("http://localhost:9464/metrics", timeout=1)
+            prometheus_data = response.read().decode('utf-8')
+            return {"source": "prometheus", "data": prometheus_data}
+        except Exception:
+            pass
+
+    # For console exporter, metrics go to stderr and aren't easily captured
+    # In a real implementation, we'd need to:
+    # 1. Store metrics in a shared location
+    # 2. Use a metrics backend (Prometheus/OTLP collector)
+    # 3. Query from Claude Code's internal metrics store
+
+    return None
+
+
+def parse_prometheus_metrics(prometheus_data: str) -> Optional[Dict]:
+    """
+    Parse Prometheus format metrics from Claude Code.
+
+    Args:
+        prometheus_data: Raw Prometheus metrics text
+
+    Returns:
+        Parsed metrics dictionary or None
+    """
+    metrics = {
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "cache_read_tokens": 0,
+        "cache_creation_tokens": 0,
+        "cost_usd": 0.0,
+        "active_time_seconds": 0,
+        "model": "unknown"
+    }
+
+    try:
+        for line in prometheus_data.split('\n'):
+            # Skip comments and empty lines
+            if line.startswith('#') or not line.strip():
+                continue
+
+            # Parse token usage metrics
+            if 'claude_code_token_usage' in line:
+                parts = line.split()
+                if len(parts) >= 2:
+                    value = float(parts[-1])
+
+                    if 'type="input"' in line:
+                        metrics["input_tokens"] += int(value)
+                    elif 'type="output"' in line:
+                        metrics["output_tokens"] += int(value)
+                    elif 'type="cacheRead"' in line:
+                        metrics["cache_read_tokens"] += int(value)
+                    elif 'type="cacheCreation"' in line:
+                        metrics["cache_creation_tokens"] += int(value)
+
+                    # Extract model
+                    if 'model="' in line:
+                        model_start = line.find('model="') + 7
+                        model_end = line.find('"', model_start)
+                        if model_end > model_start:
+                            metrics["model"] = line[model_start:model_end]
+
+            # Parse cost metrics
+            elif 'claude_code_cost_usage' in line:
+                parts = line.split()
+                if len(parts) >= 2:
+                    metrics["cost_usd"] += float(parts[-1])
+
+            # Parse active time
+            elif 'claude_code_active_time_total' in line:
+                parts = line.split()
+                if len(parts) >= 2:
+                    metrics["active_time_seconds"] = int(float(parts[-1]))
+
+        # Return metrics only if we have actual data
+        if metrics["input_tokens"] > 0 or metrics["output_tokens"] > 0:
+            return metrics
+
+    except Exception as e:
+        print(f"Error parsing Prometheus metrics: {e}", file=sys.stderr)
+
     return None
 
 
@@ -69,9 +165,13 @@ def query_session_metrics() -> Optional[Dict]:
     if not metrics_data:
         return None
 
-    # Parse OTel data structure
-    # This would extract from the actual OTel metrics format
-    # For now, return None (no metrics available yet)
+    # Parse based on source
+    if metrics_data.get("source") == "prometheus":
+        return parse_prometheus_metrics(metrics_data.get("data", ""))
+
+    # For console exporter, we'd need to implement JSON parsing
+    # This is more complex as it requires capturing stderr output
+
     return None
 
 
@@ -105,13 +205,39 @@ def display_setup_instructions():
 
 def display_no_metrics_message():
     """Display message when OTel is enabled but no metrics available yet."""
-    print("📊 OpenTelemetry Enabled (No metrics yet)")
+    exporter = os.getenv("OTEL_METRICS_EXPORTER", "console")
+
+    print("📊 OpenTelemetry Enabled")
     print()
-    print("Metrics export every 60 seconds by default.")
-    print("Continue working - stats will appear on next session start.")
-    print()
-    print("For faster metrics (development):")
-    print("  export OTEL_METRIC_EXPORT_INTERVAL=10000  # 10 seconds")
+
+    if exporter == "console":
+        print("⚠️  Console exporter detected")
+        print()
+        print("Console exporter writes metrics to stderr (not queryable by this script).")
+        print()
+        print("To see formatted metrics, switch to Prometheus exporter:")
+        print()
+        print("  1. Update ~/.zshrc:")
+        print("     export OTEL_METRICS_EXPORTER=prometheus")
+        print()
+        print("  2. Restart terminal:")
+        print("     exec zsh")
+        print()
+        print("  3. Start Claude Code:")
+        print("     claude")
+        print()
+        print("  4. Run this script again:")
+        print("     python3 scripts/otel_session_stats.py")
+        print()
+        print("Prometheus metrics will be available at: http://localhost:9464/metrics")
+    else:
+        print(f"Exporter: {exporter}")
+        print()
+        print("Metrics export every 60 seconds by default.")
+        print("Continue working - stats will appear after first export.")
+        print()
+        print("For faster metrics (development):")
+        print("  export OTEL_METRIC_EXPORT_INTERVAL=10000  # 10 seconds")
     print()
 
 
