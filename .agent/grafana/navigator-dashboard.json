@@ -655,20 +655,50 @@
     },
     {
       "datasource": "Prometheus",
-      "description": "Model distribution",
+      "description": "Cost efficiency over time (tokens per dollar)",
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "palette-classic"
           },
           "custom": {
+            "axisLabel": "Tokens per $",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "opacity",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
             }
           },
-          "unit": "short"
+          "unit": "short",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
         }
       },
       "gridPos": {
@@ -680,27 +710,25 @@
       "id": 13,
       "options": {
         "legend": {
+          "calcs": ["lastNotNull"],
           "displayMode": "table",
-          "placement": "right",
-          "values": [
-            "value",
-            "percent"
-          ]
+          "placement": "bottom",
+          "showLegend": true
         },
-        "pieType": "donut",
         "tooltip": {
-          "mode": "single"
+          "mode": "multi",
+          "sort": "none"
         }
       },
       "targets": [
         {
-          "expr": "sum by (model) (claude_code_token_usage_total)",
-          "legendFormat": "{{model}}",
+          "expr": "(sum(increase(claude_code_token_usage_total[5m])) / sum(increase(claude_code_cost_usage_total[5m])))",
+          "legendFormat": "Tokens per Dollar",
           "refId": "A"
         }
       ],
-      "title": "Model Usage",
-      "type": "piechart"
+      "title": "Cost Efficiency (Tokens/$)",
+      "type": "timeseries"
     }
   ],
   "refresh": "10s",
