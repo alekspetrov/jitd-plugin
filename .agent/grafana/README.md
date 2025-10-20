@@ -45,25 +45,38 @@ This starts:
 
 ---
 
+## Dashboard Preview
+
+![Navigator Grafana Dashboard](./dashboard-screenshot.png)
+
+*Real-time productivity and token analytics for Navigator*
+
+---
+
 ## What You'll See
 
-### Dashboard Panels (10 Total)
+### Dashboard Panels (13 Total)
 
-**Row 1 - Overview**:
-1. **Token Usage (Cumulative)** - All token types over time with legend table
-2. **Cache Hit Rate** - Gauge (0-100%, green >60%, validates CLAUDE.md caching)
-3. **Total Session Cost** - USD with color thresholds (green <$5, yellow $5-10, red >$10)
-4. **Active Time** - Duration formatted, excludes idle time
+**Row 1 - Performance KPIs**:
+1. **Cache Hit Rate** - Navigator efficiency (green >80%)
+2. **Code Acceptance Rate** - Quality metric (green >85%)
+3. **Commits** - Total commits created
+4. **Lines Added** - Productivity metric
+5. **Lines Deleted** - Code cleanup metric
 
-**Row 2 - Rates**:
-5. **Cost Rate (USD/hour)** - Spending rate by model (Haiku vs Sonnet)
-6. **Token Rate (tokens/min)** - Usage rate by type (input/output/cache)
+**Row 2 - Token Analytics**:
+6. **Token Usage (Cumulative)** - Stacked area (cacheRead=green, input=blue, output=purple)
+7. **Token Rate** - Consumption rate (tokens/min)
 
-**Row 3 - Stats & Distribution**:
-7. **Lines Added** - Total lines of code added
-8. **Commits** - Total commits made
-9. **Sessions** - Session count
-10. **Token Distribution by Model** - Donut chart showing Haiku vs Sonnet usage
+**Row 3 - Workflow Activity**:
+8. **Code Activity** - Lines modified per 5min (bars: added=green, removed=red)
+9. **Commits Over Time** - Trend line with points
+
+**Row 4 - Session Stats**:
+10. **Active Time** - Coding duration (excludes idle)
+11. **Sessions** - Session count
+12. **Cost** - Total USD (secondary metric)
+13. **Model Usage** - Donut chart (Haiku vs Sonnet distribution)
 
 **Auto-refresh**: Dashboard updates every 10 seconds
 
