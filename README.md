@@ -317,6 +317,7 @@ Contributions welcome! Focus areas:
 
 ### User Documentation
 - **[README.md](README.md)** - This file, getting started
+- **[QUICK-START.md](docs/QUICK-START.md)** - Step-by-step quick start guide
 - **[MIGRATION.md](MIGRATION.md)** - v2.x → v3.0 migration guide
 - **[RELEASE-NOTES-v3.1.0.md](RELEASE-NOTES-v3.1.0.md)** - v3.1 features
 - **[CLAUDE.md](CLAUDE.md)** - Workflow reference for AI
@@ -324,10 +325,15 @@ Contributions welcome! Focus areas:
 ### Technical Documentation
 - **[ARCHITECTURE.md](ARCHITECTURE.md)** - How Navigator works (skills, agents, docs)
 - **[PERFORMANCE.md](PERFORMANCE.md)** - Metrics, benchmarks, ROI analysis
+- **[CONFIGURATION.md](docs/CONFIGURATION.md)** - Configuration options and PM integrations
+- **[DEPLOYMENT.md](docs/DEPLOYMENT.md)** - Team deployment and best practices
+
+### Monitoring & Metrics
+- **[GRAFANA-DASHBOARD.md](docs/GRAFANA-DASHBOARD.md)** - Grafana dashboard setup guide
+- **[.agent/grafana/README.md](.agent/grafana/README.md)** - Dashboard quick reference
 
 ### Project Documentation
 - **[.agent/DEVELOPMENT-README.md](.agent/DEVELOPMENT-README.md)** - Navigator's own navigator
-- **[.agent/grafana/README.md](.agent/grafana/README.md)** - Grafana dashboard setup
 
 ---
 
