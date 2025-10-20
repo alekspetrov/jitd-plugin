@@ -276,6 +276,19 @@ Next: Run /nav:compact to clear context
 
 **Impact**: Natural language only, 50% simpler UX, 97% total token reduction, future-proof architecture
 
+#### [TASK-13: OpenTelemetry Session Statistics](./tasks/archive/TASK-13-otel-session-statistics.md)
+**Status**: ✅ Completed (v3.1.0)
+**Completed**: 2025-10-20
+
+**What was built**:
+- OpenTelemetry integration for real-time session metrics
+- Replaced file-size estimation with official Claude Code metrics
+- Auto-enablement via post-install hook
+- Comprehensive OpenTelemetry setup SOP
+- Zero-config upgrade experience
+
+**Impact**: Real token usage validation, cache performance tracking, session cost monitoring, ROI measurement with hard data
+
 ---
 
 ### System Architecture (`system/`)
