@@ -343,7 +343,7 @@ Navigator configuration stored in `.agent/.nav-config.json`:
 
 ```json
 {
-  "version": "3.0.0",
+  "version": "3.1.0",
   "project_management": "none",
   "task_prefix": "TASK",
   "team_chat": "none",

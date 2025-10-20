@@ -513,7 +513,7 @@ gh release create v1.1.0 --title "Navigator v1.1.0" --notes "..."
 
 ## 🚀 Quick Natural Language Reference
 
-Navigator v3.0 uses natural language - no commands needed!
+Navigator v3.1 uses natural language - no commands needed!
 
 **Initialize Navigator**:
 ```
@@ -536,5 +536,5 @@ Navigator v3.0 uses natural language - no commands needed!
 
 **This documentation system keeps plugin development context-efficient while maintaining comprehensive knowledge.**
 
-**Last Updated**: 2025-10-19 (v3.0.0)
+**Last Updated**: 2025-10-20 (v3.1.0)
 **Powered By**: Navigator (Skills-Only Architecture)

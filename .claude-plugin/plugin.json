@@ -1,6 +1,6 @@
 {
   "name": "navigator",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "Navigator for Claude Code - Skills-only architecture with natural language interface. Self-improving capability generates project-specific tools. 97% token reduction through progressive disclosure.",
   "author": {
     "name": "Aleks Petrov",

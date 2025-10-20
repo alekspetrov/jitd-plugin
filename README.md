@@ -28,6 +28,28 @@
 
 ---
 
+## ✨ v3.1 What's New: OpenTelemetry Integration
+
+**Real-time session statistics** powered by Claude Code's official OpenTelemetry support.
+
+```
+📊 Navigator Session Statistics (Real-time via OTel)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📥 Input Tokens:  15,000 (12,000 from cache ✅)
+📤 Output Tokens: 5,000
+⚡ Cache Hit Rate: 80.0%
+💰 Session Cost:  $0.0234
+⏱️  Active Time:   5m 20s
+📦 Context:       180,000 tokens available (90%)
+```
+
+**Zero-config upgrade**: Auto-enabled during plugin update, works after terminal restart.
+
+📖 **[v3.1.0 Release Notes](RELEASE-NOTES-v3.1.0.md)**
+
+---
+
 ## 🎯 What is Navigator?
 
 Navigator is a **self-improving Claude Code plugin** that combines **Skills** (execution tools), **Agents** (research assistants), and **on-demand documentation** to maximize your context efficiency.
