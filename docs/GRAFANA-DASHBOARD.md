@@ -47,7 +47,7 @@ This starts:
 
 ## Dashboard Preview
 
-![Navigator Grafana Dashboard](./dashboard-screenshot.png)
+![Navigator Grafana Dashboard](./dashboard-screenshot.jpg)
 
 *Real-time productivity and token analytics for Navigator*
 
