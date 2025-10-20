@@ -325,7 +325,7 @@
     },
     {
       "datasource": "Prometheus",
-      "description": "Token rate",
+      "description": "Instantaneous token burn rate (ignores counter resets)",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -363,7 +363,7 @@
       },
       "targets": [
         {
-          "expr": "rate(claude_code_token_usage_total[1m]) * 60",
+          "expr": "irate(claude_code_token_usage_total[5m]) * 60",
           "legendFormat": "{{type}}",
           "refId": "A"
         }
