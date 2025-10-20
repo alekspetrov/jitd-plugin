@@ -1,0 +1,17 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    monitor: 'navigator-claude-code'
+
+scrape_configs:
+  - job_name: 'claude-code'
+    static_configs:
+      - targets: ['host.docker.internal:9464']
+        labels:
+          app: 'claude-code'
+          environment: 'local'
+
+    # Scrape interval for Claude Code metrics
+    scrape_interval: 15s
+    scrape_timeout: 10s
