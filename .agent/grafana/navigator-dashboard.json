@@ -560,7 +560,7 @@
       },
       "targets": [
         {
-          "expr": "claude_code_active_time_total",
+          "expr": "sum(claude_code_active_time_total)",
           "refId": "A"
         }
       ],
