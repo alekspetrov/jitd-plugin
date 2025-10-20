@@ -389,14 +389,20 @@ def display_navigator_stats(metrics: Dict):
         print(f"⚡ Cache Efficiency:    {cache_percentage:.1f}% of total tokens")
         print()
 
-    # Cost analysis
-    print(f"💰 Session Cost:  ${metrics['cost_usd']:.4f}")
-    print()
+    # Cost and efficiency analysis
+    active_seconds = metrics['active_time_seconds']
+    minutes = active_seconds // 60
+    seconds = active_seconds % 60
 
-    # Active time
-    minutes = metrics['active_time_seconds'] // 60
-    seconds = metrics['active_time_seconds'] % 60
-    print(f"⏱️  Active Time:   {minutes}m {seconds}s")
+    print(f"💰 Session Cost:        ${metrics['cost_usd']:.4f}")
+    print(f"⏱️  Active Time:         {minutes}m {seconds}s")
+
+    # Calculate efficiency metrics
+    if active_seconds > 0:
+        cost_per_min = (metrics['cost_usd'] / active_seconds) * 60
+        tokens_per_min = (total_tokens / active_seconds) * 60
+        print(f"📈 Cost Rate:           ${cost_per_min:.4f}/min")
+        print(f"⚡ Token Rate:          {int(tokens_per_min):,} tokens/min")
     print()
 
     # Context availability (only charged tokens count toward window)
@@ -410,7 +416,7 @@ def display_navigator_stats(metrics: Dict):
     print(f"   └─ Available:   {available:,} tokens ({percent_available}%)")
     print()
 
-    print(f"🤖 Model:         {metrics['model']}")
+    print(f"🤖 Model:               {metrics['model']}")
     print()
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     print()

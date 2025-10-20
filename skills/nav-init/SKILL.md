@@ -116,8 +116,28 @@ Copy from plugin's `templates/` directory to `.agent/`:
 ```
 
 **Grafana Setup**:
-- Copy all files from plugin's `.agent/grafana/` to project's `.agent/grafana/`
-- Includes: docker-compose.yml, prometheus.yml, dashboard JSON, README
+Copy all Grafana dashboard files to enable metrics visualization:
+
+```bash
+# Find plugin installation directory
+PLUGIN_DIR="${HOME}/.claude/plugins/marketplaces/jitd-marketplace"
+
+# Copy Grafana files if plugin has them
+if [ -d "${PLUGIN_DIR}/.agent/grafana" ]; then
+  cp -r "${PLUGIN_DIR}/.agent/grafana/"* .agent/grafana/
+  echo "✓ Grafana dashboard installed"
+else
+  echo "⚠️  Grafana files not found in plugin"
+fi
+```
+
+Files copied:
+- docker-compose.yml (Grafana + Prometheus stack)
+- prometheus.yml (scrape config for Claude Code metrics)
+- grafana-datasource.yml (Prometheus datasource config)
+- grafana-dashboards.yml (dashboard provider config)
+- navigator-dashboard.json (10-panel Navigator metrics dashboard)
+- README.md (setup instructions)
 
 ### 5. Update Project CLAUDE.md
 
