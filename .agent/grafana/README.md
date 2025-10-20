@@ -59,14 +59,14 @@ This starts:
 
 **Row 1 - Performance KPIs**:
 1. **Cache Hit Rate** - Navigator efficiency (green >80%)
-2. **Code Acceptance Rate** - Quality metric (green >85%)
+2. **Cache Savings ($)** - Money saved by prompt caching vs full input cost
 3. **Commits** - Total commits created
 4. **Lines Added** - Productivity metric
 5. **Lines Deleted** - Code cleanup metric
 
 **Row 2 - Token Analytics**:
 6. **Token Usage (Cumulative)** - Stacked area (cacheRead=green, input=blue, output=purple)
-7. **Token Rate** - Consumption rate (tokens/min)
+7. **Token Rate** - Instantaneous consumption rate (tokens/min, uses irate() to avoid counter reset spikes)
 
 **Row 3 - Workflow Activity**:
 8. **Code Activity** - Lines modified per 5min (bars: added=green, removed=red)
