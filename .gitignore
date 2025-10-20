@@ -47,3 +47,7 @@ temp/
 # .agent/tasks/
 # .agent/system/
 # .agent/sops/
+
+# Marketing/social media content
+docs/X-THREAD*.md
+docs/PITCH.md
