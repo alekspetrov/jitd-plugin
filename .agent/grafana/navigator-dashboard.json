@@ -101,11 +101,11 @@
       },
       "targets": [
         {
-          "expr": "(sum(claude_code_token_usage_total{type=\"cacheRead\"}) / (sum(claude_code_token_usage_total{type=\"input\"}) + sum(claude_code_token_usage_total{type=\"cacheCreation\"}))) * 100",
+          "expr": "(sum(increase(claude_code_token_usage_total{type=\"cacheRead\"}[5m])) / (sum(increase(claude_code_token_usage_total{type=\"input\"}[5m])) + sum(increase(claude_code_token_usage_total{type=\"cacheCreation\"}[5m])))) * 100",
           "refId": "A"
         }
       ],
-      "title": "Cache Hit Rate",
+      "title": "Cache Hit Rate (5min)",
       "type": "gauge"
     },
     {
