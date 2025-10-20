@@ -79,16 +79,16 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": 0
+                "color": "red",
+                "value": null
               },
               {
                 "color": "yellow",
-                "value": 0.5
+                "value": 5
               },
               {
-                "color": "red",
-                "value": 1
+                "color": "green",
+                "value": 10
               }
             ]
           },
@@ -114,7 +114,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "value_and_name"
+        "textMode": "value_and_name",
+        "text": {
+          "titleSize": 14,
+          "valueSize": 48
+        }
       },
       "targets": [
         {
@@ -163,7 +167,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "value_and_name"
+        "textMode": "value_and_name",
+        "text": {
+          "titleSize": 14,
+          "valueSize": 48
+        }
       },
       "targets": [
         {
@@ -212,7 +220,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "value_and_name"
+        "textMode": "value_and_name",
+        "text": {
+          "titleSize": 14,
+          "valueSize": 48
+        }
       },
       "targets": [
         {
@@ -261,7 +273,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "value_and_name"
+        "textMode": "value_and_name",
+        "text": {
+          "titleSize": 14,
+          "valueSize": 48
+        }
       },
       "targets": [
         {
@@ -536,7 +552,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "value_and_name"
+        "textMode": "value_and_name",
+        "text": {
+          "titleSize": 14,
+          "valueSize": 48
+        }
       },
       "targets": [
         {
@@ -585,7 +605,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "value_and_name"
+        "textMode": "value_and_name",
+        "text": {
+          "titleSize": 14,
+          "valueSize": 48
+        }
       },
       "targets": [
         {
@@ -642,7 +666,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "value_and_name"
+        "textMode": "value_and_name",
+        "text": {
+          "titleSize": 14,
+          "valueSize": 48
+        }
       },
       "targets": [
         {
@@ -710,7 +738,9 @@
       "id": 13,
       "options": {
         "legend": {
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "displayMode": "table",
           "placement": "bottom",
           "showLegend": true
