@@ -315,6 +315,19 @@ Next: Run /nav:compact to clear context
 
 **Impact**: Real token usage validation, cache performance tracking, session cost monitoring, ROI measurement with hard data
 
+#### [TASK-14: CLAUDE.md Updater Skill](./tasks/TASK-14-claude-md-updater.md)
+**Status**: ✅ Completed (v3.1.1)
+**Completed**: 2025-10-20
+
+**What was built**:
+- nav-update-claude skill for automated CLAUDE.md migration
+- version_detector.py to identify outdated configurations
+- claude_updater.py to extract customizations and generate updated files
+- Non-destructive migration (creates backup before changes)
+- Preserves project-specific customizations (tech stack, standards, forbidden actions)
+
+**Impact**: Users can upgrade to v3.1 natural language without losing customizations, solves "Claude doesn't understand Navigator" issues in migrated projects
+
 ---
 
 ### System Architecture (`system/`)

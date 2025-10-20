@@ -24,6 +24,7 @@
   "skills": [
     "./skills/nav-init",
     "./skills/nav-start",
+    "./skills/nav-update-claude",
     "./skills/nav-marker",
     "./skills/nav-markers",
     "./skills/nav-compact",
