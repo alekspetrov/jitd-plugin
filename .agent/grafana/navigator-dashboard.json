@@ -167,7 +167,7 @@
           "fields": "",
           "values": false
         },
-        "textMode": "value_and_name",
+        "textMode": "value",
         "text": {
           "titleSize": 14,
           "valueSize": 48
@@ -220,7 +220,7 @@
           "fields": "",
           "values": false
         },
-        "textMode": "value_and_name",
+        "textMode": "value",
         "text": {
           "titleSize": 14,
           "valueSize": 48
@@ -273,7 +273,7 @@
           "fields": "",
           "values": false
         },
-        "textMode": "value_and_name",
+        "textMode": "value",
         "text": {
           "titleSize": 14,
           "valueSize": 48
@@ -552,7 +552,7 @@
           "fields": "",
           "values": false
         },
-        "textMode": "value_and_name",
+        "textMode": "value",
         "text": {
           "titleSize": 14,
           "valueSize": 48
@@ -605,7 +605,7 @@
           "fields": "",
           "values": false
         },
-        "textMode": "value_and_name",
+        "textMode": "value",
         "text": {
           "titleSize": 14,
           "valueSize": 48
@@ -666,7 +666,7 @@
           "fields": "",
           "values": false
         },
-        "textMode": "value_and_name",
+        "textMode": "value",
         "text": {
           "titleSize": 14,
           "valueSize": 48
