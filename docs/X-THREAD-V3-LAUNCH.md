@@ -6,250 +6,214 @@
 
 ---
 
-## 📋 Quick Copy-Paste Version
+## Thread Structure
 
-```
-1/8
-
-I've been working on a Claude Code plugin for 6 months.
-
-Started as "JITD", now renamed to "Navigator".
-
-Just hit v3.0. Figured I'd explain how it actually works (with real numbers).
-
-🧵
+**Hook** (Tweet 1) → **Problem** (2-3) → **How it works** (4-7) → **Proof** (8-9) → **Examples** (10-12) → **Open Source** (13)
 
 ---
 
-2/8
-
-The problem I kept hitting: context limits.
-
-I'd load my project docs (README, architecture, API reference, examples).
-That's ~150k tokens gone before I even start working.
-
-Then after 30 minutes, Claude would hit the 200k limit and I'd have to restart.
-
-Lost context. Re-explain everything. Repeat.
-
----
-
-3/8
-
-The fix is simple: don't load everything upfront.
-
-Load a small "index" first (4k tokens).
-This index tells Claude what docs exist.
-Then fetch specific docs only when needed.
-
-Instead of 150k loaded upfront, I load ~12k total.
-Same docs. Just on-demand.
-
----
-
-4/8
-
-Real example from this morning:
-
-Me: "I need to implement authentication"
-Claude: [Reads the index, sees auth docs exist]
-Claude: [Loads auth-implementation.md - 5k tokens]
-Claude: [Implements the feature]
-
-Total tokens used: 9k (index + auth doc)
-Not 150k.
-
-That's it. No magic.
-
----
-
-5/8
-
-Claude Code caches documentation automatically.
-
-So after I load the index once (4k tokens), it's cached.
-Load a task doc (5k tokens), it's cached.
-Access them again = 0 new tokens.
-
-The "92% reduction" isn't a trick.
-It's just: load less upfront + reuse via caching.
-
----
-
-6/8
-
-From my session this morning:
-
-Messages: 18
-Tokens loaded: 54k (once)
-Tokens reused from cache: 529k
-Cache efficiency: 100%
-
-Without Navigator, that's 583k tokens = 3 session restarts.
-With Navigator: 0 restarts.
-
-These are real numbers from Claude Code's internals.
-
----
-
-7/8
-
-v3.0 is a complete rewrite:
-
-1. Renamed from "JITD" to "Navigator" (clearer name)
-2. Natural language interface (no slash commands)
-3. Skills auto-invoke when you describe tasks
-4. Self-improving (generates project-specific tools)
-
-Breaking change, but cleaner architecture.
-
----
-
-8/8
-
-It's open source (MIT). All code is public.
-
-Install: /plugin install navigator
-Docs: https://alekspetrov.com/tools/navigator
-GitHub: github.com/alekspetrov/navigator
-
-If you hit context limits daily, might be worth trying.
-
-Questions welcome 👇
-```
-
----
-
-## Thread Structure (8 Tweets - Clean & Simple)
-
-**Personal intro** (1) → **Problem I faced** (2) → **Simple solution** (3) → **How it works** (4) → **Why numbers are real** (5) → **Real data** (6) → **What changed in v3.0** (7) → **Links** (8)
-
----
-
-## The Thread (Detailed with Notes)
+## The Thread
 
 ### Tweet 1: Hook
-
 ```
-I've been working on a Claude Code plugin for 6 months.
+I just shipped Navigator v3.0 - a Claude Code plugin that solves context waste.
 
-Started as "JITD", now renamed to "Navigator".
-
-Just hit v3.0. Figured I'd explain how it actually works (with real numbers).
+Here's how it actually works (with real numbers, not marketing):
 
 🧵
 ```
 
 ---
 
-### Tweet 2: The Problem
-
+### Tweet 2: The Problem (Validated)
 ```
-The problem I kept hitting: context limits.
+When you work with Claude Code, you have a 200k token limit.
 
-I'd load my project docs (README, architecture, API reference, examples).
-That's ~150k tokens gone before I even start working.
+Most developers load all their docs upfront:
+- README: 20k tokens
+- Architecture docs: 40k
+- API reference: 50k
+- Examples: 40k
 
-Then after 30 minutes, Claude would hit the 200k limit and I'd have to restart.
-
-Lost context. Re-explain everything. Repeat.
-```
-
----
-
-### Tweet 3: The Solution (Simple Idea)
-
-```
-The fix is simple: don't load everything upfront.
-
-Load a small "index" first (4k tokens).
-This index tells Claude what docs exist.
-Then fetch specific docs only when needed.
-
-Instead of 150k loaded upfront, I load ~12k total.
-Same docs. Just on-demand.
+That's 150k tokens consumed before you even start coding.
 ```
 
 ---
 
-### Tweet 4: How It Works (Example)
-
+### Tweet 3: The Real Bottleneck
 ```
-Real example from this morning:
+With only 50k tokens left (25% of your context), you hit limits fast.
 
-Me: "I need to implement authentication"
-Claude: [Reads the index, sees auth docs exist]
+After 30 minutes of work:
+- Chat history: 40k
+- Available: 10k
+- Result: Session restart needed
+
+You lose context. Re-explain everything. Repeat 3-4 times per day.
+```
+
+---
+
+### Tweet 4: How Navigator Works (Part 1: Progressive Disclosure)
+```
+Navigator flips this approach.
+
+Instead of loading everything upfront, it loads a small "navigator" first - just 4k tokens.
+
+This navigator is like a table of contents. It tells Claude:
+"Here's what docs exist. Load them ONLY when needed."
+```
+
+---
+
+### Tweet 5: How Navigator Works (Part 2: On-Demand Loading)
+```
+Example workflow:
+
+You: "I need to implement authentication"
+Claude: [Reads navigator, sees auth docs exist]
 Claude: [Loads auth-implementation.md - 5k tokens]
-Claude: [Implements the feature]
+Claude: [Implements feature]
 
-Total tokens used: 9k (index + auth doc)
+Only 9k tokens used (navigator + auth doc).
 Not 150k.
-
-That's it. No magic.
 ```
 
 ---
 
-### Tweet 5: Why The Numbers Work
+### Tweet 6: How Navigator Works (Part 3: Skills Architecture)
+```
+v3.0 adds "skills" - pre-built tools that auto-invoke.
 
+13 skills loaded, but here's the trick:
+- Skill descriptions: 13 × ~50 bytes = 650 tokens (always loaded)
+- Skill instructions: 13 × ~1.8k = 23.5k tokens (loaded ONLY when skill invokes)
+
+Progressive disclosure: 650 tokens upfront, not 24k.
+```
+
+---
+
+### Tweet 7: The Math (Transparent)
+```
+Traditional approach:
+- All docs loaded: 150k tokens
+- Available for work: 50k (25%)
+- Session before restart: ~30 min
+
+Navigator approach:
+- Navigator: 4k
+- Skill descriptions: 0.65k
+- Loaded when needed: 5-10k per task
+- Total: ~15k used
+- Available: 185k (92%)
+- Session length: All day
+```
+
+---
+
+### Tweet 8: Real Session Data (My Actual Stats)
+```
+From this morning's session:
+
+Messages: 18
+Fresh tokens loaded: 54k (once)
+Tokens reused from cache: 529k (10× reuse)
+Cache efficiency: 100%
+
+Without caching, that would've been 583k tokens = 3 session restarts.
+With Navigator: 0 restarts.
+```
+
+---
+
+### Tweet 9: Why The Numbers Are Real
 ```
 Claude Code caches documentation automatically.
 
-So after I load the index once (4k tokens), it's cached.
-Load a task doc (5k tokens), it's cached.
-Access them again = 0 new tokens.
+Navigator optimizes for this:
+1. Load navigator once (4k) → cached
+2. Load task doc when needed (5k) → cached
+3. Reuse both forever (0 additional tokens)
 
-The "92% reduction" isn't a trick.
-It's just: load less upfront + reuse via caching.
+Each access after the first = free.
+
+The 92% reduction isn't magic. It's caching + lazy loading.
 ```
 
 ---
 
-### Tweet 6: The Actual Numbers
-
+### Tweet 10: Use Case 1 - Daily Development
 ```
-From my session this morning:
+Example: Building a login feature
 
-Messages: 18
-Tokens loaded: 54k (once)
-Tokens reused from cache: 529k
-Cache efficiency: 100%
+Traditional:
+- Load all docs (150k)
+- Read 10 component examples (50k)
+- Implement login
+- Total: 200k+ → restart needed
 
-Without Navigator, that's 583k tokens = 3 session restarts.
-With Navigator: 0 restarts.
-
-These are real numbers from Claude Code's internals.
-```
-
----
-
-### Tweet 7: What v3.0 Changes
-
-```
-v3.0 is a complete rewrite:
-
-1. Renamed from "JITD" to "Navigator" (clearer name)
-2. Natural language interface (no slash commands)
-3. Skills auto-invoke when you describe tasks
-4. Self-improving (generates project-specific tools)
-
-Breaking change, but cleaner architecture.
+Navigator:
+- Load navigator (4k cached)
+- Say "add login component" → frontend-component skill (1.8k)
+- Generates component + tests following YOUR patterns
+- Total: 6k
 ```
 
 ---
 
-### Tweet 8: Try It
-
+### Tweet 11: Use Case 2 - Codebase Research
 ```
-It's open source (MIT). All code is public.
+Example: "How does authentication work in this project?"
+
+Traditional:
+- Read auth.ts (5k)
+- Read middleware.ts (5k)
+- Read users.ts (5k)
+- Read config.ts (5k)
+- Total: 20k tokens
+
+Navigator:
+- Use Task agent (explores in separate context)
+- Returns summary (200 tokens)
+- No main context pollution
+- 99% reduction
+```
+
+---
+
+### Tweet 12: Use Case 3 - Context Switching
+```
+Example: Working on multiple features
+
+Traditional:
+- Feature A: Fill context (80k)
+- Switch to Feature B: Restart, re-explain
+- Lost all Feature A context
+
+Navigator:
+- Feature A: Create marker (compresses 80k → 2k)
+- Switch to Feature B: Clear context
+- Resume Feature A: Load marker (2k → restore full context)
+
+Never lose progress.
+```
+
+---
+
+### Tweet 13: Open Source & Try It
+```
+Navigator is MIT licensed. All code is public.
+
+You can see exactly how it works:
+- Skills architecture: github.com/alekspetrov/navigator/skills
+- Templates: /templates
+- Implementation: Full transparency
 
 Install: /plugin install navigator
-Docs: https://alekspetrov.com/tools/navigator
-GitHub: github.com/alekspetrov/navigator
+Docs: [future docs link]
 
-If you hit context limits daily, might be worth trying.
-
-Questions welcome 👇
+Questions? Ask me anything 👇
 ```
 
 ---
@@ -257,7 +221,6 @@ Questions welcome 👇
 ## Alternative Opening (More Personal)
 
 ### Tweet 1 (Alternative):
-
 ```
 I spent 6 months hitting Claude's context limits daily.
 
@@ -287,7 +250,6 @@ Here's how it actually works (with real numbers):
 ## Replies to Expected Questions
 
 ### Q: "How is this different from just not loading docs?"
-
 ```
 A: Most developers DO load docs, because Claude needs context to help.
 
@@ -301,7 +263,6 @@ Navigator gives you option 3: Load index, fetch on-demand.
 ```
 
 ### Q: "Can't I just do this manually?"
-
 ```
 A: Yes! Navigator automates what you could do manually.
 
@@ -315,7 +276,6 @@ Think of it as git vs manual file copying. Same outcome, 10× faster.
 ```
 
 ### Q: "Doesn't Claude Code already cache things?"
-
 ```
 A: Exactly! Navigator is designed to optimize FOR Claude's caching.
 
@@ -326,7 +286,6 @@ Same caching mechanism, structured to maximize its efficiency.
 ```
 
 ### Q: "Is 92% reduction realistic for all projects?"
-
 ```
 A: Depends on your project size.
 
@@ -339,7 +298,6 @@ Navigator shines on complex codebases.
 ```
 
 ### Q: "What's the catch?"
-
 ```
 A: Honest answer: You need to structure your docs.
 
@@ -359,26 +317,22 @@ Not magic. Just better organization + tooling.
 ## Metrics to Include (If Asked)
 
 **Setup Time:**
-
 - Install: 30 seconds
 - Initialize: 5 minutes
 - First doc structure: 1-2 hours
 - Total: ~2 hours
 
 **Token Savings (Real Projects):**
-
 - Small (10k docs): 3k loaded → 7k saved (70%)
 - Medium (50k docs): 8k loaded → 42k saved (84%)
 - Large (150k docs): 12k loaded → 138k saved (92%)
 
 **Session Length:**
-
 - Before Navigator: 30-45 min avg
 - After Navigator: All day (no restart limit)
 - Improvement: 10-20× longer sessions
 
 **Productivity:**
-
 - Commits per session: 1-2 → 10+
 - Context re-explanations: 3-4/day → 0
 - Time saved: ~2 hours/day
@@ -388,7 +342,6 @@ Not magic. Just better organization + tooling.
 ## Visual Assets (Optional)
 
 ### Diagram 1: Token Usage Comparison
-
 ```
 [████████████████████] Traditional: 150k docs
 [███                  ] Navigator: 12k docs
@@ -399,7 +352,6 @@ Navigator: 185k (92%)
 ```
 
 ### Diagram 2: Progressive Disclosure
-
 ```
 Skill descriptions (always loaded):
 [■] 650 tokens
@@ -411,7 +363,6 @@ Result: 650 tokens upfront, not 24k
 ```
 
 ### Diagram 3: Session Timeline
-
 ```
 Traditional:
 [Work 30min] → [Restart] → [Work 30min] → [Restart] → ...
@@ -437,13 +388,11 @@ Navigator:
 ## Timing Strategy
 
 **Best time to post** (for tech audience):
-
 - Tuesday-Thursday
 - 9-11 AM PST (when developers check Twitter)
 - Avoid Mondays (inbox catch-up) and Fridays (checked out)
 
 **Post thread in one go** (don't spread across hours)
-
 - Better for algorithm
 - Easier to read
 - Higher completion rate
@@ -453,10 +402,8 @@ Navigator:
 ## Engagement Strategy
 
 **After posting:**
-
 1. Pin the thread to profile
 2. Share in relevant communities:
-
    - r/ClaudeAI (Reddit)
    - Claude Code Discord
    - Dev.to
@@ -471,17 +418,14 @@ Navigator:
 ## A/B Test Versions
 
 ### Version A: Technical (Data-Driven)
-
 Focus: Numbers, caching mechanism, progressive disclosure
 Audience: Senior developers, engineering teams
 
 ### Version B: Problem-Solution (Pain-Driven)
-
 Focus: Session restarts, lost context, daily frustration
 Audience: Individual developers, beginners
 
 ### Version C: Demo-First (Show-Don't-Tell)
-
 Lead with GIF/video of Navigator in action
 Follow with explanation
 Audience: Visual learners, skeptics
@@ -493,14 +437,12 @@ Audience: Visual learners, skeptics
 ## Success Metrics
 
 **Good launch:**
-
 - 50+ likes on thread opener
 - 10+ retweets
 - 5+ meaningful replies
 - 3+ GitHub stars
 
 **Great launch:**
-
 - 200+ likes
 - 50+ retweets
 - 20+ replies
