@@ -200,7 +200,7 @@
       "pluginVersion": "12.1.1",
       "targets": [
         {
-          "expr": "sum(claude_code_commit_count_total)",
+          "expr": "max(claude_code_commit_count_total)",
           "refId": "A"
         }
       ],
@@ -717,7 +717,7 @@
       "pluginVersion": "12.1.1",
       "targets": [
         {
-          "expr": "claude_code_commit_count_total",
+          "expr": "max(claude_code_commit_count_total)",
           "legendFormat": "Commits",
           "refId": "A"
         }
