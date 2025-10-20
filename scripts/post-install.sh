@@ -80,6 +80,72 @@ if [ $FOUND_COUNT -eq 0 ]; then
     echo ""
 fi
 
+# Enable OpenTelemetry for Navigator v3.1+
+enable_otel() {
+    echo ""
+    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${BLUE}📊 Navigator v3.1 - OpenTelemetry Integration${NC}"
+    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo ""
+    echo "Navigator can show real-time session statistics:"
+    echo "  • Real token usage (input/output/cache)"
+    echo "  • Cache hit rates (CLAUDE.md performance)"
+    echo "  • Session costs (actual USD spent)"
+    echo "  • Active time tracking"
+    echo ""
+    echo "Enable OpenTelemetry? [Y/n]"
+    read -r response
+
+    if [[ ! "$response" =~ ^([yY][eE][sS]|[yY]|)$ ]]; then
+        echo -e "${YELLOW}⏭️  Skipped OpenTelemetry setup${NC}"
+        echo -e "${BLUE}💡 Enable later: See .agent/sops/integrations/opentelemetry-setup.md${NC}"
+        echo ""
+        return
+    fi
+
+    # Detect shell config file
+    SHELL_CONFIG=""
+    if [ -n "$ZSH_VERSION" ] || [ -f "$HOME/.zshrc" ]; then
+        SHELL_CONFIG="$HOME/.zshrc"
+    elif [ -n "$BASH_VERSION" ] || [ -f "$HOME/.bashrc" ]; then
+        SHELL_CONFIG="$HOME/.bashrc"
+    else
+        echo -e "${YELLOW}⚠️  Could not detect shell config file${NC}"
+        echo "Manually add to ~/.zshrc or ~/.bashrc:"
+        echo ""
+        echo "  export CLAUDE_CODE_ENABLE_TELEMETRY=1"
+        echo "  export OTEL_METRICS_EXPORTER=console"
+        echo "  export OTEL_METRIC_EXPORT_INTERVAL=10000"
+        echo ""
+        return
+    fi
+
+    # Check if already configured
+    if grep -q "CLAUDE_CODE_ENABLE_TELEMETRY" "$SHELL_CONFIG" 2>/dev/null; then
+        echo -e "${GREEN}✅ OpenTelemetry already configured in $(basename "$SHELL_CONFIG")${NC}"
+        echo ""
+        return
+    fi
+
+    # Add configuration
+    cat >> "$SHELL_CONFIG" << 'OTEL_EOF'
+
+# OpenTelemetry for Claude Code (Navigator v3.1)
+export CLAUDE_CODE_ENABLE_TELEMETRY=1
+export OTEL_METRICS_EXPORTER=console
+export OTEL_METRIC_EXPORT_INTERVAL=10000  # 10 seconds for development
+OTEL_EOF
+
+    echo -e "${GREEN}✅ Added OpenTelemetry configuration to $(basename "$SHELL_CONFIG")${NC}"
+    echo ""
+    echo -e "${YELLOW}⚠️  Restart your terminal or run:${NC}"
+    echo "   source $SHELL_CONFIG"
+    echo ""
+}
+
+# Run OTel setup
+enable_otel
+
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo -e "${GREEN}✅ Post-install complete${NC}"
 echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"

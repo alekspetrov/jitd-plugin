@@ -418,12 +418,48 @@ skills/nav-start/skill.md  (add OTel stats call)
 .agent/DEVELOPMENT-README.md  (add session statistics section)
 templates/CLAUDE.md  (add OTel optional section)
 README.md  (add v3.1 feature)
+scripts/post-install.sh  (auto-enable OTel on plugin install/update)
 ```
 
 ### Deleted Files
 ```
 skills/nav-start/scripts/session_stats.py  (replaced by otel_session_stats.py)
 ```
+
+### Auto-Enablement on Plugin Update
+
+**scripts/post-install.sh** now includes OTel setup:
+- Prompts user to enable OpenTelemetry after install/update
+- Auto-detects shell config (.zshrc or .bashrc)
+- Checks if already configured (doesn't duplicate)
+- Adds environment variables automatically
+- Provides manual instructions as fallback
+
+**User experience on upgrade to v3.1**:
+```bash
+/plugin update navigator
+
+# Post-install hook runs:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📊 Navigator v3.1 - OpenTelemetry Integration
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Navigator can show real-time session statistics:
+  • Real token usage (input/output/cache)
+  • Cache hit rates (CLAUDE.md performance)
+  • Session costs (actual USD spent)
+  • Active time tracking
+
+Enable OpenTelemetry? [Y/n]
+
+# User types Y:
+✅ Added OpenTelemetry configuration to .zshrc
+
+⚠️  Restart your terminal or run:
+   source ~/.zshrc
+```
+
+**Result**: Zero-config upgrade - telemetry works automatically after terminal restart
 
 ---
 

@@ -51,3 +51,4 @@ temp/
 # Marketing/social media content
 docs/X-THREAD*.md
 docs/PITCH.md
+__pycache__/
