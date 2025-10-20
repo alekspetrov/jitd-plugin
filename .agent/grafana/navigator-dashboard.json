@@ -118,7 +118,7 @@
       },
       "targets": [
         {
-          "expr": "(sum(claude_code_token_usage_total{type=\"cacheRead\"}) * 0.0000003) + (sum(claude_code_token_usage_total{type=\"cacheCreation\"}) * -0.0000037)",
+          "expr": "(sum(claude_code_token_usage_total{type=\"cacheRead\"}) * (0.003 - 0.00000003)) - (sum(claude_code_token_usage_total{type=\"cacheCreation\"}) * 0.00000375)",
           "refId": "A"
         }
       ],
