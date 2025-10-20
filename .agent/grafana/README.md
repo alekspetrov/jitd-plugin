@@ -10,68 +10,62 @@ This directory contains everything needed to run Grafana dashboards for Navigato
 
 ### Prerequisites
 
-- Docker and Docker Compose installed
-- Claude Code with Prometheus exporter enabled:
-  ```bash
-  export CLAUDE_CODE_ENABLE_TELEMETRY=1
-  export OTEL_METRICS_EXPORTER=prometheus
-  ```
-- Claude Code running (metrics available at `http://localhost:9464/metrics`)
+1. **Docker and Docker Compose** installed
+2. **Enable Claude Code Prometheus exporter**:
+   ```bash
+   # Add to ~/.zshrc or ~/.bashrc
+   export CLAUDE_CODE_ENABLE_TELEMETRY=1
+   export OTEL_METRICS_EXPORTER=prometheus
+
+   # Reload shell
+   source ~/.zshrc  # or source ~/.bashrc
+   ```
+3. **Start Claude Code** - metrics will be available at `http://localhost:9464/metrics`
 
 ### Start Monitoring Stack
 
 ```bash
-# From this directory:
-docker-compose up -d
+# From .agent/grafana directory:
+docker compose up -d
 ```
 
 This starts:
-- **Prometheus** on http://localhost:9090
-- **Grafana** on http://localhost:3000
+- **Prometheus** on http://localhost:9092
+- **Grafana** on http://localhost:3001
 
-### Access Grafana
+### Access Dashboard
 
-1. Open http://localhost:3000
+1. Open http://localhost:3001
 2. Login:
    - Username: `admin`
    - Password: `admin`
-3. Navigate to Dashboards → "Navigator - Claude Code Metrics"
+3. Navigate to **Dashboards** → **"Navigator - Claude Code Metrics"**
+
+**Dashboard auto-provisions** - no manual import needed!
 
 ---
 
 ## What You'll See
 
-### Dashboard Panels
+### Dashboard Panels (10 Total)
 
-**1. Token Usage Over Time**
-- Real-time token consumption trends
-- Breakdown by input/output/cache
-- Model-specific usage
+**Row 1 - Overview**:
+1. **Token Usage (Cumulative)** - All token types over time with legend table
+2. **Cache Hit Rate** - Gauge (0-100%, green >60%, validates CLAUDE.md caching)
+3. **Total Session Cost** - USD with color thresholds (green <$5, yellow $5-10, red >$10)
+4. **Active Time** - Duration formatted, excludes idle time
 
-**2. Cache Hit Rate**
-- Gauge showing cache efficiency
-- Green >60%, Yellow 40-60%, Red <40%
-- Validates CLAUDE.md caching
+**Row 2 - Rates**:
+5. **Cost Rate (USD/hour)** - Spending rate by model (Haiku vs Sonnet)
+6. **Token Rate (tokens/min)** - Usage rate by type (input/output/cache)
 
-**3. Total Session Cost**
-- Cumulative cost in USD
-- Real-time cost tracking
-- Helps with ROI measurement
+**Row 3 - Stats & Distribution**:
+7. **Lines Added** - Total lines of code added
+8. **Commits** - Total commits made
+9. **Sessions** - Session count
+10. **Token Distribution by Model** - Donut chart showing Haiku vs Sonnet usage
 
-**4. Active Time**
-- Time spent actively coding
-- Excludes idle time
-- Productivity metric
-
-**5. Cost Rate by Model**
-- Cost trends per model
-- Compare Haiku vs Sonnet usage
-- Optimize model selection
-
-**6. Token Efficiency**
-- Lines of code per token
-- Productivity indicator
-- Higher is better
+**Auto-refresh**: Dashboard updates every 10 seconds
 
 ---
 
@@ -80,17 +74,38 @@ This starts:
 ```
 .agent/grafana/
 ├── README.md                      # This file
-├── docker-compose.yml             # Container orchestration
-├── prometheus.yml                 # Prometheus config
-├── grafana-datasource.yml         # Grafana data source
-└── navigator-dashboard.json       # Pre-built dashboard
+├── docker-compose.yml             # Container orchestration (ports: 9092, 3001)
+├── prometheus.yml                 # Prometheus config (scrapes localhost:9464)
+├── grafana-datasource.yml         # Grafana data source (auto-configured)
+├── grafana-dashboards.yml         # Dashboard provisioning config
+└── navigator-dashboard.json       # Pre-built 10-panel dashboard
 ```
 
 ---
 
 ## Configuration
 
-### Change Grafana Password
+### Port Conflicts
+
+Default ports configured to avoid common conflicts:
+- Grafana: `3001` (not 3000 - often used by dev servers)
+- Prometheus: `9092` (not 9090 - often used by other Prometheus instances)
+
+**To change ports**, edit `docker-compose.yml`:
+
+```yaml
+# Grafana
+ports:
+  - "3002:3000"  # Change 3001 to 3002
+
+# Prometheus
+ports:
+  - "9093:9090"  # Change 9092 to 9093
+```
+
+Then update `GF_SERVER_ROOT_URL` to match new Grafana port.
+
+### Change Admin Password
 
 Edit `docker-compose.yml`:
 
@@ -143,13 +158,13 @@ command:
 
 ### Prometheus Can't Connect
 
-**Problem**: Target shows "DOWN" in Prometheus
+**Problem**: Target shows "DOWN" in Prometheus (check at http://localhost:9092/targets)
 
 **Solution**:
-- On **macOS/Windows Docker Desktop**: Use `host.docker.internal:9464`
-- On **Linux**: Use `172.17.0.1:9464` (Docker bridge IP)
+- **macOS/Windows Docker Desktop**: Already configured as `host.docker.internal:9464` ✓
+- **Linux**: Change to `172.17.0.1:9464` (Docker bridge IP)
 
-Edit `prometheus.yml` if needed:
+Edit `prometheus.yml` for Linux:
 
 ```yaml
 scrape_configs:
@@ -158,18 +173,16 @@ scrape_configs:
       - targets: ['172.17.0.1:9464']  # For Linux
 ```
 
+Then restart: `docker compose restart prometheus`
+
 ### Port Already in Use
 
-**Problem**: "Port 3000 is already allocated"
+**Problem**: "Port 3001 is already allocated" or "Port 9092 is already allocated"
 
 **Solutions**:
 1. Stop conflicting service
-2. Or change port in `docker-compose.yml`:
-   ```yaml
-   ports:
-     - "3001:3000"  # Changed from 3000:3000
-   ```
-   Access at http://localhost:3001
+2. Or change port in `docker-compose.yml` (see [Port Conflicts](#port-conflicts) above)
+3. Restart: `docker compose down && docker compose up -d`
 
 ---
 

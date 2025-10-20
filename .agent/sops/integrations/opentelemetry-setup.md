@@ -105,9 +105,9 @@ export OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317
 
 Requires OpenTelemetry Collector running locally or remotely.
 
-### Prometheus Exporter
+### Prometheus Exporter (Recommended for Grafana)
 
-**For Prometheus scraping**:
+**For Prometheus scraping and visual dashboards**:
 
 ```bash
 export CLAUDE_CODE_ENABLE_TELEMETRY=1
@@ -115,6 +115,8 @@ export OTEL_METRICS_EXPORTER=prometheus
 ```
 
 Metrics available at `http://localhost:9464/metrics` by default.
+
+**See**: [Grafana Dashboard Setup](#grafana-dashboard-quick-start) below for visual monitoring.
 
 ---
 
@@ -352,136 +354,71 @@ WHERE
   OTEL_RESOURCE_ATTRIBUTES LIKE '%navigator_enabled=true%'
 ```
 
-### Grafana Setup (Visual Dashboards)
+### Grafana Dashboard (Quick Start)
 
-**Quick Start with Docker Compose**:
+Navigator includes a pre-configured Grafana stack in `.agent/grafana/`.
 
-Create `docker-compose.yml`:
+**Prerequisites**:
+1. Enable Prometheus exporter:
+   ```bash
+   export CLAUDE_CODE_ENABLE_TELEMETRY=1
+   export OTEL_METRICS_EXPORTER=prometheus
+   source ~/.zshrc  # or ~/.bashrc
+   ```
 
-```yaml
-version: '3'
-services:
-  prometheus:
-    image: prom/prometheus:latest
-    ports:
-      - "9090:9090"
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
-      - prometheus-data:/prometheus
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
+2. Docker and Docker Compose installed
 
-  grafana:
-    image: grafana/grafana:latest
-    ports:
-      - "3000:3000"
-    volumes:
-      - grafana-data:/var/lib/grafana
-    environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-      - GF_USERS_ALLOW_SIGN_UP=false
-
-volumes:
-  prometheus-data:
-  grafana-data:
-```
-
-Create `prometheus.yml`:
-
-```yaml
-global:
-  scrape_interval: 15s
-
-scrape_configs:
-  - job_name: 'claude-code'
-    static_configs:
-      - targets: ['host.docker.internal:9464']
-```
-
-**Start Services**:
+**Start Dashboard Stack**:
 
 ```bash
-docker-compose up -d
+cd .agent/grafana
+docker compose up -d
 ```
 
-**Access Grafana**:
-- URL: http://localhost:3000
-- Username: admin
-- Password: admin
+**Access Dashboard**:
+- **Grafana**: http://localhost:3001 (admin/admin)
+- **Prometheus**: http://localhost:9092
+- **Dashboard**: Dashboards → "Navigator - Claude Code Metrics"
 
-**Add Prometheus Data Source**:
-1. Go to Configuration → Data Sources
-2. Add Prometheus
-3. URL: http://prometheus:9090
-4. Click "Save & Test"
+**What's Included**:
+- Prometheus scraping Claude Code metrics (port 9464)
+- Grafana with pre-provisioned Navigator dashboard
+- Auto-configured data source
+- 10-panel dashboard with all key metrics
 
-### Navigator Dashboard Panels
+**Ports** (configurable in `docker-compose.yml`):
+- Grafana: 3001 (avoid conflicts with dev servers on 3000)
+- Prometheus: 9092 (avoid conflicts with other Prometheus instances)
 
-**Panel 1: Token Usage Over Time**
-- Visualization: Time series
-- Query: `rate(claude_code_token_usage_total[5m])`
-- Legend: `{{type}} - {{model}}`
-- Shows input/output/cache trends
+**Complete setup guide**: See `.agent/grafana/README.md`
 
-**Panel 2: Cache Hit Rate**
-- Visualization: Gauge
-- Query:
-  ```promql
-  sum(rate(claude_code_token_usage_total{type="cacheRead"}[5m]))
-  /
-  sum(rate(claude_code_token_usage_total{type="input"}[5m])) * 100
-  ```
-- Unit: Percent (0-100)
-- Thresholds: Green >60%, Yellow 40-60%, Red <40%
+### Dashboard Panels Explained
 
-**Panel 3: Session Cost**
-- Visualization: Stat
-- Query: `sum(claude_code_cost_usage_total)`
-- Unit: USD
-- Shows total cost
+The pre-provisioned dashboard includes 10 panels:
 
-**Panel 4: Active Time**
-- Visualization: Time series
-- Query: `claude_code_active_time_total`
-- Unit: Seconds
-- Shows productivity time
+**Row 1 - Overview**:
+1. **Token Usage (Cumulative)** - All token types over time with legend
+2. **Cache Hit Rate** - Gauge (0-100%, green >60%)
+3. **Total Session Cost** - USD with color thresholds
+4. **Active Time** - Duration formatted, excludes idle time
 
-**Panel 5: Cost Rate (per hour)**
-- Visualization: Gauge
-- Query: `rate(claude_code_cost_usage_total[1h]) * 3600`
-- Unit: USD/hour
+**Row 2 - Rates**:
+5. **Cost Rate (USD/hour)** - Spending rate by model
+6. **Token Rate (tokens/min)** - Usage rate by type
 
-**Panel 6: Token Efficiency (LOC per token)**
-- Visualization: Stat
-- Query:
-  ```promql
-  sum(claude_code_lines_of_code_count_total{type="added"})
-  /
-  sum(claude_code_token_usage_total)
-  ```
-- Shows lines of code per token used
+**Row 3 - Stats & Distribution**:
+7. **Lines Added** - Total lines of code added
+8. **Commits** - Total commits made
+9. **Sessions** - Session count
+10. **Token Distribution by Model** - Donut chart (Haiku vs Sonnet)
 
-### Import Pre-built Dashboard
+**Key Queries**:
+- Cache hit rate: `(cacheRead / (input + cacheCreation)) * 100`
+- Token usage: `claude_code_token_usage_total` (cumulative counter)
+- Cost rate: `rate(claude_code_cost_usage_total[5m]) * 3600`
+- Token rate: `rate(claude_code_token_usage_total[1m]) * 60`
 
-Navigator provides a Grafana dashboard JSON:
-
-**Dashboard ID**: Navigator-Claude-Code-v1
-**Location**: `.agent/grafana/navigator-dashboard.json`
-
-**Import Steps**:
-1. Grafana → Dashboards → Import
-2. Upload dashboard JSON file
-3. Select Prometheus data source
-4. Click Import
-
-The dashboard includes:
-- Token usage trends
-- Cache performance
-- Cost tracking
-- Active time monitoring
-- Session comparisons
-- Model usage breakdown
+**Dashboard auto-refreshes every 10 seconds** to show real-time metrics.
 
 ---
 

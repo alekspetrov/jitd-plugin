@@ -26,23 +26,49 @@
 
 ---
 
-## 📊 Session Statistics (New in v3.1)
+## 📊 Session Statistics & Grafana Dashboard (New in v3.1)
 
-Navigator now uses **OpenTelemetry** for real-time session metrics.
+Navigator uses **OpenTelemetry** for real-time session metrics with visual dashboards.
 
-**Setup** (one-time, optional):
+### Quick Setup (2 minutes)
+
+**1. Enable metrics**:
 ```bash
+# Add to ~/.zshrc or ~/.bashrc
 export CLAUDE_CODE_ENABLE_TELEMETRY=1
-export OTEL_METRICS_EXPORTER=console
+export OTEL_METRICS_EXPORTER=prometheus
+
+# Reload shell
+source ~/.zshrc  # or source ~/.bashrc
 ```
 
-**What you get**:
+**2. Start Grafana dashboard** (optional):
+```bash
+cd .agent/grafana
+docker compose up -d
+```
+
+Access at **http://localhost:3001** (admin/admin)
+
+### What You Get
+
+**Console metrics** (terminal output):
 - ✅ Real token usage (not file-size estimates)
 - ✅ Cache hit rates (CLAUDE.md caching performance)
 - ✅ Session costs (actual USD spent)
 - ✅ Active time tracking
 
-**See**: [OpenTelemetry Setup Guide](./sops/integrations/opentelemetry-setup.md)
+**Grafana dashboard** (visual monitoring):
+- ✅ 10-panel dashboard with all metrics
+- ✅ Token usage trends (cumulative & rate)
+- ✅ Cache hit rate gauge (validates optimization)
+- ✅ Cost tracking (USD/hour, total cost)
+- ✅ Model distribution (Haiku vs Sonnet)
+- ✅ Auto-refresh every 10 seconds
+
+**See**:
+- [OpenTelemetry Setup Guide](./sops/integrations/opentelemetry-setup.md)
+- [Grafana Dashboard README](./grafana/README.md)
 
 ---
 
