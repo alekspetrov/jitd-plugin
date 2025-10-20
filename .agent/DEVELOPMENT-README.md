@@ -26,6 +26,26 @@
 
 ---
 
+## 📊 Session Statistics (New in v3.1)
+
+Navigator now uses **OpenTelemetry** for real-time session metrics.
+
+**Setup** (one-time, optional):
+```bash
+export CLAUDE_CODE_ENABLE_TELEMETRY=1
+export OTEL_METRICS_EXPORTER=console
+```
+
+**What you get**:
+- ✅ Real token usage (not file-size estimates)
+- ✅ Cache hit rates (CLAUDE.md caching performance)
+- ✅ Session costs (actual USD spent)
+- ✅ Active time tracking
+
+**See**: [OpenTelemetry Setup Guide](./sops/integrations/opentelemetry-setup.md)
+
+---
+
 ## 🤖 Task Completion Protocol (CRITICAL)
 
 ### Autonomous Completion Expected
@@ -327,7 +347,19 @@ Next: Run /nav:compact to clear context
 **Last Updated**: 2025-10-13
 
 #### Integrations
-*No SOPs yet - this project doesn't integrate with external services*
+
+##### [OpenTelemetry Setup](./sops/integrations/opentelemetry-setup.md)
+**When to use**: Enabling real-time session statistics, ROI measurement
+
+**Contains**:
+- Quick start setup (2 minutes)
+- Configuration options (console, OTLP, Prometheus)
+- Navigator-specific setup recommendations
+- ROI measurement strategies
+- Troubleshooting guide
+- Enterprise deployment patterns
+
+**Last Updated**: 2025-10-20
 
 #### Debugging
 *No SOPs yet - document issues as they're discovered*

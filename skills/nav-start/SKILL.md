@@ -114,38 +114,29 @@ gh issue list --assignee @me --limit 10 2>/dev/null
 **If PM tool is none**:
 Skip task checking.
 
-### Step 6: Calculate Real Token Usage
+### Step 6: Display Session Statistics (OpenTelemetry)
 
-Run the session statistics script:
-
-```bash
-python3 scripts/session_stats.py
-```
-
-This outputs:
-- Navigator file size → token count
-- CLAUDE.md file size → token count
-- Total documentation loaded
-- Available context for work
-
-**If script doesn't exist or fails**, fallback to file size calculation:
+Run the OpenTelemetry session statistics script:
 
 ```bash
-nav_bytes=$(wc -c < .agent/DEVELOPMENT-README.md 2>/dev/null || echo "0")
-nav_tokens=$((nav_bytes / 4))
-
-claude_bytes=$(wc -c < CLAUDE.md 2>/dev/null || echo "0")
-claude_tokens=$((claude_bytes / 4))
-
-total_tokens=$((nav_tokens + claude_tokens))
-available=$((200000 - 50000 - total_tokens))
-percent=$((available * 100 / 200000))
-
-echo "Navigator: $nav_bytes bytes = $nav_tokens tokens"
-echo "CLAUDE.md: $claude_bytes bytes = $claude_tokens tokens"
-echo "Total: $total_tokens tokens"
-echo "Available: $available tokens ($percent%)"
+python3 scripts/otel_session_stats.py
 ```
+
+This script:
+- **If OTel enabled**: Shows real-time metrics from Claude Code
+  - Real token usage (input/output/cache)
+  - Cache hit rate (CLAUDE.md caching performance)
+  - Session cost (actual USD spent)
+  - Active time (seconds of work)
+  - Context availability
+- **If OTel disabled**: Shows setup instructions
+- **If no metrics yet**: Shows "waiting for export" message
+
+**Benefits of OTel integration**:
+- Real data (not file-size estimates)
+- Cache performance validation
+- Cost tracking for ROI measurement
+- Official API (won't break on updates)
 
 ### Step 7: Display Session Summary
 
@@ -217,10 +208,39 @@ Available for work:      [available] tokens ([percent]%)
 No active tasks found. What would you like to work on?
 ```
 
+## Predefined Functions
+
+### scripts/otel_session_stats.py
+
+**Purpose**: Display real-time session statistics via OpenTelemetry
+
+**When to call**: After loading navigator, before presenting session summary
+
+**Requirements**:
+- CLAUDE_CODE_ENABLE_TELEMETRY=1 (optional - shows setup if disabled)
+- Metrics available from current session (shows waiting message if not)
+
+**Execution**:
+```bash
+python3 scripts/otel_session_stats.py
+```
+
+**Output**: Formatted statistics with:
+- Token usage breakdown (input/output/cache)
+- Cache hit rate percentage
+- Session cost in USD
+- Active time
+- Context availability
+
+**Error Handling**:
+- If OTel not enabled: Shows setup instructions
+- If no metrics yet: Shows "waiting for export" message
+- Never crashes - always displays helpful guidance
+
 ## Reference Files
 
 This skill uses:
-- **session_stats.py**: Calculate token usage from file sizes
+- **otel_session_stats.py**: Real-time session stats via OpenTelemetry
 - **.agent/DEVELOPMENT-README.md**: Navigator content
 - **.agent/.nav-config.json**: Configuration
 - **.agent/.context-markers/.active**: Active marker check

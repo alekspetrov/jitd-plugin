@@ -2,10 +2,10 @@
 
 > **Skills + Agents + Documentation** - The plugin that generates its own tools and optimizes your context.
 
-**Status**: ✅ v3.0.0 - Skills-Only Architecture Released (Breaking Change)
+**Status**: ✅ v3.1.0 - OpenTelemetry Integration (Real-Time Session Metrics)
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-3.0.0-blue.svg)](https://github.com/alekspetrov/navigator/releases)
+[![Version](https://img.shields.io/badge/version-3.1.0-blue.svg)](https://github.com/alekspetrov/navigator/releases)
 
 ---
 
@@ -45,7 +45,9 @@ v2.2: + Self-improving capability (generates own tools)
   ↓
 v2.3: + Project-specific skills (5 dev pattern skills)
   ↓
-v3.0: Natural language only (commands removed) ← YOU ARE HERE
+v3.0: Natural language only (commands removed)
+  ↓
+v3.1: + OpenTelemetry integration (real session metrics) ← YOU ARE HERE
 ```
 
 ### Three Core Capabilities
@@ -67,6 +69,12 @@ v3.0: Natural language only (commands removed) ← YOU ARE HERE
 - Navigator-first pattern (2k tokens vs 150k upfront)
 - Living docs that update with code
 - Context markers compress 130k → 3k
+
+**4. Session Metrics (New in v3.1)** 📊
+- Real-time token tracking via OpenTelemetry
+- Cache performance validation
+- Session cost monitoring
+- ROI measurement with real data
 
 ---
 
@@ -151,9 +159,9 @@ Skills auto-invoke when you mention trigger phrases. They use predefined functio
 - **Token cost**: 50 + 3k on invoke
 
 **3. nav-start**
-- **Triggers**: Loads on /nav:start
+- **Triggers**: "Start my session", "Load the navigator"
 - **Purpose**: Initialize session, load navigator, check PM tool
-- **Functions**: session_stats.py (real token metrics)
+- **Functions**: otel_session_stats.py (OpenTelemetry metrics)
 - **Token cost**: 50 + 2k on invoke
 
 **4. nav-marker**
