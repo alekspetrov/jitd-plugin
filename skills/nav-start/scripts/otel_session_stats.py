@@ -84,6 +84,36 @@ def parse_prometheus_metrics(prometheus_data: str) -> Optional[Dict]:
     Returns:
         Parsed metrics dictionary or None
     """
+    # First, find the most recent session_id
+    current_session_id = None
+    session_count_max = 0
+
+    for line in prometheus_data.split('\n'):
+        # Skip comments
+        if line.startswith('#'):
+            continue
+
+        if 'claude_code_session_count_total' in line:
+            parts = line.split()
+            if len(parts) >= 2:
+                try:
+                    count = float(parts[-1])
+                    if count >= session_count_max:
+                        session_count_max = count
+                        # Extract session_id from labels
+                        if 'session_id="' in line:
+                            session_start = line.find('session_id="') + 12
+                            session_end = line.find('"', session_start)
+                            if session_end > session_start:
+                                current_session_id = line[session_start:session_end]
+                except ValueError:
+                    # Skip lines that don't have numeric values
+                    continue
+
+    if not current_session_id:
+        # Fallback: use any session if we can't determine current
+        pass
+
     metrics = {
         "input_tokens": 0,
         "output_tokens": 0,
@@ -91,7 +121,8 @@ def parse_prometheus_metrics(prometheus_data: str) -> Optional[Dict]:
         "cache_creation_tokens": 0,
         "cost_usd": 0.0,
         "active_time_seconds": 0,
-        "model": "unknown"
+        "model": "unknown",
+        "session_id": current_session_id or "unknown"
     }
 
     try:
@@ -100,8 +131,13 @@ def parse_prometheus_metrics(prometheus_data: str) -> Optional[Dict]:
             if line.startswith('#') or not line.strip():
                 continue
 
+            # For now, aggregate all sessions
+            # TODO: Filter by current session_id for multi-session environments
+            # if current_session_id and f'session_id="{current_session_id}"' not in line:
+            #     continue
+
             # Parse token usage metrics
-            if 'claude_code_token_usage' in line:
+            if 'claude_code_token_usage' in line and not line.startswith('#'):
                 parts = line.split()
                 if len(parts) >= 2:
                     value = float(parts[-1])
@@ -250,6 +286,11 @@ def display_navigator_stats(metrics: Dict):
     """
     print("📊 Navigator Session Statistics (Real-time via OTel)")
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+    print()
+    if metrics.get("session_id"):
+        print(f"Session: {metrics['session_id'][:8]}...")
+    else:
+        print("⚠️  Showing cumulative stats across all recent sessions")
     print()
 
     # Token usage breakdown
