@@ -100,12 +100,11 @@ Load all docs → 150k tokens → No space left → Session restart
 ### Installation
 
 ```bash
-# Clone Navigator plugin
-cd ~/.claude/plugins
-git clone https://github.com/alekspetrov/navigator.git
+# Add Navigator from marketplace
+/plugin marketplace add alekspetrov/navigator
+/plugin install navigator
 
 # Restart Claude Code
-# Navigator loads automatically
 ```
 
 ### Initialize Your Project
@@ -356,7 +355,8 @@ MIT License - See [LICENSE](LICENSE) file
 
 ```bash
 # Install Navigator
-cd ~/.claude/plugins && git clone https://github.com/alekspetrov/navigator.git
+/plugin marketplace add alekspetrov/navigator
+/plugin install navigator
 
 # Restart Claude Code
 
