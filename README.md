@@ -2,10 +2,10 @@
 
 > **Skills + Agents + Documentation** - The plugin that generates its own tools and optimizes your context.
 
-**Status**: ✅ v3.3.0 - Visual Regression Integration (Automated Storybook + Chromatic Setup)
+**Status**: ✅ v3.3.1 - Navigator Upgrade Automation (One-Command Plugin Updates)
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-3.3.0-blue.svg)](https://github.com/alekspetrov/navigator/releases)
+[![Version](https://img.shields.io/badge/version-3.3.1-blue.svg)](https://github.com/alekspetrov/navigator/releases)
 
 ---
 
@@ -26,7 +26,29 @@
 
 ---
 
-## ✨ v3.3 What's New: Visual Regression Integration
+## ✨ v3.3.1 What's New: Navigator Upgrade Automation
+
+**One-command plugin updates** - Automated version detection, update execution, and post-update configuration.
+
+```
+"Update Navigator"
+
+→ Detects current version (e.g., v3.2.0)
+→ Checks latest version from GitHub (e.g., v3.3.1)
+→ Executes plugin update with retry logic
+→ Updates project CLAUDE.md automatically
+→ Shows new features available
+→ Ready in 2 minutes
+```
+
+**New Skill**: nav-upgrade
+**Natural Language**: "Update Navigator", "Upgrade Navigator plugin", "Get latest Navigator features"
+
+📖 **[Upgrade Guide](docs/UPGRADE-GUIDE-v3.3.0.md)**
+
+---
+
+## 📊 v3.3: Visual Regression Integration
 
 **Automated visual regression testing setup** - Reduce Storybook + Chromatic setup from 2-3 hours to 5 minutes (96% reduction).
 
@@ -180,7 +202,7 @@ This:
 
 ### Your First Skill
 
-Navigator includes 17 built-in skills that auto-invoke on natural language:
+Navigator includes 18 built-in skills that auto-invoke on natural language:
 
 ```
 "Review this design from Figma"
@@ -209,12 +231,13 @@ Navigator includes 17 built-in skills that auto-invoke on natural language:
 
 ## 🎨 Core Capabilities
 
-### Built-in Skills (17)
+### Built-in Skills (18)
 
-**Core Navigator Skills** (10):
+**Core Navigator Skills** (11):
 - **nav-init**: Initialize Navigator in new project
 - **nav-start**: Session initialization, navigator loading
 - **nav-update-claude**: Update CLAUDE.md to latest Navigator version
+- **nav-upgrade**: Automate Navigator plugin updates (NEW in v3.3.1)
 - **nav-marker**: Save conversation state (130k → 3k compression)
 - **nav-markers**: Manage and load context markers
 - **nav-compact**: Smart context clearing with preservation
