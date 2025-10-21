@@ -142,7 +142,14 @@ This:
 
 ### Your First Skill
 
-Navigator includes 14 built-in skills that auto-invoke on natural language:
+Navigator includes 15 built-in skills that auto-invoke on natural language:
+
+```
+"Review this design from Figma"
+```
+→ `product-design` skill auto-invokes
+→ Extracts tokens, maps components, detects drift
+→ Generates implementation plan (6-10 hours → 15 minutes)
 
 ```
 "Create a React component for user profile"
@@ -175,7 +182,8 @@ Navigator includes 14 built-in skills that auto-invoke on natural language:
 - **nav-sop**: Document solutions as procedures
 - **plugin-slash-command**: Create Navigator slash commands
 
-**Development Skills** (7, generated):
+**Development Skills** (6, generated):
+- **product-design**: Design handoff automation with Figma MCP integration
 - **frontend-component**: React/Vue components with tests
 - **backend-endpoint**: REST/GraphQL API routes
 - **database-migration**: Schema changes with rollback

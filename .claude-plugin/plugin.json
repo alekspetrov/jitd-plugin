@@ -32,6 +32,7 @@
     "./skills/nav-sop",
     "./skills/nav-skill-creator",
     "./skills/plugin-slash-command",
+    "./skills/product-design",
     "./skills/frontend-component",
     "./skills/backend-endpoint",
     "./skills/database-migration",

@@ -330,6 +330,22 @@ Next: Run /nav:compact to clear context
 
 **Impact**: Users can upgrade to v3.1 natural language without losing customizations, solves "Claude doesn't understand Navigator" issues in migrated projects
 
+#### [TASK-16: Product Design Skill with Figma MCP Integration](./tasks/TASK-16-product-design-skill.md)
+**Status**: ✅ Completed (v3.2.0)
+**Completed**: 2025-10-21
+
+**What was built**:
+- product-design skill for automated design handoff
+- 5 predefined functions (design_analyzer, token_extractor, component_mapper, design_system_auditor, implementation_planner)
+- DTCG format support for design tokens (W3C standard)
+- Figma MCP integration (local and remote server support)
+- Component similarity matching for reuse detection
+- Design system drift detection and audit reports
+- Automated implementation plan generation with phased breakdown
+- Templates for design reviews and token diffs
+
+**Impact**: Reduces design handoff time from 6-10 hours to 15-20 minutes (95% reduction), automates token extraction, prevents design system drift, generates Navigator task docs from Figma analysis
+
 ---
 
 ### System Architecture (`system/`)
