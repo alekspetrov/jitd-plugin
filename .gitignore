@@ -51,4 +51,5 @@ temp/
 # Marketing/social media content
 docs/X-THREAD*.md
 docs/PITCH.md
+ANNOUNCEMENT-*.md
 __pycache__/

@@ -93,7 +93,7 @@ Navigator is a **self-improving Claude Code plugin** that eliminates documentati
 
 **Result**: 97% context available for actual work (vs 0% without Navigator)
 
-📖 **[Architecture Deep-Dive](ARCHITECTURE.md)** | **[Performance Metrics](PERFORMANCE.md)**
+📖 **[Architecture Deep-Dive](ARCHITECTURE.md)** | **[Performance Metrics](PERFORMANCE.md)** | **[Visual Diagrams](ARCHITECTURE-DIAGRAMS.md)**
 
 ---
 
@@ -209,7 +209,7 @@ Navigator includes 15 built-in skills that auto-invoke on natural language:
 - **backend-test**: API test generation
 - **frontend-test**: Component test generation
 
-📖 **[Complete Skills Reference](ARCHITECTURE.md#skills-system)**
+📖 **[Complete Skills Reference](ARCHITECTURE.md#skills-system)** | **[Visual Workflow Diagrams](ARCHITECTURE-DIAGRAMS.md#skills-system-architecture)**
 
 ### Agents Integration
 
@@ -229,7 +229,7 @@ Agents explore your codebase in **separate context** - 99.8% token savings:
 - ❌ Reading specific known file (use Read tool)
 - ❌ Working with 1-2 files already loaded
 
-📖 **[Agents Architecture](ARCHITECTURE.md#agents-integration)**
+📖 **[Agents Architecture](ARCHITECTURE.md#agents-integration)** | **[Visual Flow Diagrams](ARCHITECTURE-DIAGRAMS.md#agents-system-architecture)**
 
 ### Documentation System
 
@@ -250,7 +250,7 @@ Total: ~12k tokens vs ~150k (92% reduction)
 - "Create an SOP for debugging [issue]" (after solutions)
 - "Update system architecture documentation" (after changes)
 
-📖 **[Documentation Strategy](ARCHITECTURE.md#documentation-strategy)**
+📖 **[Documentation Strategy](ARCHITECTURE.md#documentation-strategy)** | **[Visual Loading Patterns](ARCHITECTURE-DIAGRAMS.md#documentation-system-navigator-first-pattern)**
 
 ---
 
@@ -323,6 +323,33 @@ Generate project-specific skills:
 - Organization-level patterns
 
 📖 **[Full Roadmap](.agent/DEVELOPMENT-README.md)**
+
+---
+
+## 📐 Architecture Documentation
+
+### Visual Diagrams (ASCII Art)
+
+Comprehensive visual representations of Navigator's architecture:
+
+**[ARCHITECTURE-DIAGRAMS.md](ARCHITECTURE-DIAGRAMS.md)** - 9 detailed diagrams:
+
+1. **[Core Architecture](ARCHITECTURE-DIAGRAMS.md#1-navigator-core-architecture)** - Skills + Agents + Docs integration
+2. **[Skills System](ARCHITECTURE-DIAGRAMS.md#2-skills-system-architecture)** - Progressive disclosure, auto-invocation
+3. **[Agents System](ARCHITECTURE-DIAGRAMS.md#3-agents-system-architecture)** - Separate context, 99.8% token savings
+4. **[Documentation System](ARCHITECTURE-DIAGRAMS.md#4-documentation-system-navigator-first-pattern)** - Navigator-first pattern
+5. **[Product Design Workflow](ARCHITECTURE-DIAGRAMS.md#5-product-design-skill-workflow)** - 5-step design handoff automation
+6. **[Token Optimization](ARCHITECTURE-DIAGRAMS.md#6-token-optimization-flow)** - Without vs With Navigator
+7. **[Self-Improving System](ARCHITECTURE-DIAGRAMS.md#7-self-improving-system-nav-skill-creator)** - Skill generation workflow
+8. **[Complete Integration](ARCHITECTURE-DIAGRAMS.md#8-complete-system-integration)** - Full session lifecycle
+9. **[Progressive Disclosure](ARCHITECTURE-DIAGRAMS.md#9-progressive-disclosure-visual)** - Layer-by-layer loading
+
+Perfect for understanding Navigator's token efficiency strategy and workflow automation.
+
+### Technical Documentation
+
+**[ARCHITECTURE.md](ARCHITECTURE.md)** - Deep technical dive into Navigator's design
+**[PERFORMANCE.md](PERFORMANCE.md)** - Metrics, benchmarks, and optimization strategies
 
 ---
 
