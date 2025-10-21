@@ -2,10 +2,10 @@
 
 > **Skills + Agents + Documentation** - The plugin that generates its own tools and optimizes your context.
 
-**Status**: ✅ v3.1.0 - OpenTelemetry Integration (Real-Time Session Metrics)
+**Status**: ✅ v3.2.0 - Product Design Skill (Automated Figma Design Handoff)
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-3.1.0-blue.svg)](https://github.com/alekspetrov/navigator/releases)
+[![Version](https://img.shields.io/badge/version-3.2.0-blue.svg)](https://github.com/alekspetrov/navigator/releases)
 
 ---
 
@@ -26,7 +26,28 @@
 
 ---
 
-## ✨ v3.1 What's New: OpenTelemetry Integration
+## ✨ v3.2 What's New: Product Design Skill
+
+**Automated Figma design handoff** - Reduce design-to-code time from 6-10 hours to 15 minutes (95% reduction).
+
+```
+"Review this design from Figma"
+→ Extracts design tokens (DTCG format)
+→ Maps components to codebase
+→ Detects design system drift
+→ Generates implementation plan
+→ Ready to code in 15 minutes
+```
+
+**5 Predefined Functions**: design_analyzer, token_extractor, component_mapper, design_system_auditor, implementation_planner
+
+**Figma MCP Integration**: `claude mcp add --transport http figma-desktop http://127.0.0.1:3845/mcp`
+
+📖 **[v3.2.0 Release Notes](RELEASE-NOTES-v3.2.0.md)**
+
+---
+
+## 📊 v3.1: OpenTelemetry Integration
 
 **Real-time session statistics** powered by Claude Code's official OpenTelemetry support.
 
@@ -41,8 +62,6 @@
 ⏱️  Active Time:   5m 20s
 📦 Context:       180,000 tokens available (90%)
 ```
-
-**Zero-config upgrade**: Auto-enabled during plugin update, works after terminal restart.
 
 📖 **[v3.1.0 Release Notes](RELEASE-NOTES-v3.1.0.md)**
 
