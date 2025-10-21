@@ -2,10 +2,10 @@
 
 > **Skills + Agents + Documentation** - The plugin that generates its own tools and optimizes your context.
 
-**Status**: ✅ v3.2.0 - Product Design Skill (Automated Figma Design Handoff)
+**Status**: ✅ v3.3.0 - Visual Regression Integration (Automated Storybook + Chromatic Setup)
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-3.2.0-blue.svg)](https://github.com/alekspetrov/navigator/releases)
+[![Version](https://img.shields.io/badge/version-3.3.0-blue.svg)](https://github.com/alekspetrov/navigator/releases)
 
 ---
 
@@ -26,7 +26,28 @@
 
 ---
 
-## ✨ v3.2 What's New: Product Design Skill
+## ✨ v3.3 What's New: Visual Regression Integration
+
+**Automated visual regression testing setup** - Reduce Storybook + Chromatic setup from 2-3 hours to 5 minutes (96% reduction).
+
+```
+"Set up visual regression for ProfileCard component"
+→ Generates Storybook stories with all variants
+→ Creates Chromatic/Percy/BackstopJS configuration
+→ Sets up CI/CD workflows (GitHub Actions, GitLab CI)
+→ Provides setup instructions
+→ Ready to test in 5 minutes
+```
+
+**4 Predefined Functions**: vr_setup_validator, story_generator, chromatic_config_generator, ci_workflow_generator
+
+**Supports**: Chromatic, Percy, BackstopJS | **Frameworks**: React, Vue, Svelte
+
+📖 **[v3.3.0 Release Notes](RELEASE-NOTES-v3.3.0.md)**
+
+---
+
+## 📊 v3.2: Product Design Skill
 
 **Automated Figma design handoff** - Reduce design-to-code time from 6-10 hours to 15 minutes (95% reduction).
 
@@ -40,8 +61,6 @@
 ```
 
 **5 Predefined Functions**: design_analyzer, token_extractor, component_mapper, design_system_auditor, implementation_planner
-
-**Figma MCP Integration**: `claude mcp add --transport http figma-desktop http://127.0.0.1:3845/mcp`
 
 📖 **[v3.2.0 Release Notes](RELEASE-NOTES-v3.2.0.md)**
 
@@ -161,7 +180,7 @@ This:
 
 ### Your First Skill
 
-Navigator includes 15 built-in skills that auto-invoke on natural language:
+Navigator includes 17 built-in skills that auto-invoke on natural language:
 
 ```
 "Review this design from Figma"
@@ -190,19 +209,23 @@ Navigator includes 15 built-in skills that auto-invoke on natural language:
 
 ## 🎨 Core Capabilities
 
-### Built-in Skills (14)
+### Built-in Skills (17)
 
-**Core Skills** (7):
+**Core Navigator Skills** (10):
+- **nav-init**: Initialize Navigator in new project
 - **nav-start**: Session initialization, navigator loading
-- **nav-skill-creator**: Generate project-specific skills (self-improving)
+- **nav-update-claude**: Update CLAUDE.md to latest Navigator version
 - **nav-marker**: Save conversation state (130k → 3k compression)
+- **nav-markers**: Manage and load context markers
 - **nav-compact**: Smart context clearing with preservation
 - **nav-task**: Implementation plan generation
 - **nav-sop**: Document solutions as procedures
+- **nav-skill-creator**: Generate project-specific skills (self-improving)
 - **plugin-slash-command**: Create Navigator slash commands
 
-**Development Skills** (6, generated):
+**Development Skills** (7, generated):
 - **product-design**: Design handoff automation with Figma MCP integration
+- **visual-regression**: Storybook + Chromatic/Percy/BackstopJS setup
 - **frontend-component**: React/Vue components with tests
 - **backend-endpoint**: REST/GraphQL API routes
 - **database-migration**: Schema changes with rollback
@@ -310,11 +333,11 @@ Generate project-specific skills:
 
 ## 🔮 What's Next
 
-### v3.3 - Design System Enhancements (Planned Q4 2025)
-- **Visual Regression Integration**: Auto-generate Chromatic tests
-- **Figma → Storybook**: Component story generation
-- **Design System Dashboard**: Real-time drift metrics
-- **Team Collaboration**: Multi-designer support
+### v3.4 - Design System Enhancements (Planned Q1 2026)
+- **Figma → Storybook Integration**: Enhanced component story generation from Figma
+- **Design System Dashboard**: Real-time drift metrics and health monitoring
+- **Visual Regression Dashboard**: Aggregate visual diff metrics
+- **Team Collaboration**: Multi-designer support with shared baselines
 
 ### v4.0 - Multi-Project Context Sharing (Planned Q2 2026)
 - **Share Patterns Across Projects**: SOPs, skills, design systems

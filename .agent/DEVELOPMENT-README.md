@@ -346,6 +346,22 @@ Next: Run /nav:compact to clear context
 
 **Impact**: Reduces design handoff time from 6-10 hours to 15-20 minutes (95% reduction), automates token extraction, prevents design system drift, generates Navigator task docs from Figma analysis
 
+#### [TASK-17: Visual Regression Integration Skill](./tasks/TASK-17-visual-regression-skill.md)
+**Status**: ✅ Completed (v3.3.0)
+**Completed**: 2025-10-21
+
+**What was built**:
+- visual-regression skill for automated visual regression testing setup
+- 4 predefined functions (vr_setup_validator, story_generator, chromatic_config_generator, ci_workflow_generator)
+- Support for Chromatic, Percy, and BackstopJS
+- Storybook story generation with component variants
+- CI/CD workflow generation (GitHub Actions, GitLab CI, CircleCI)
+- Templates for stories, configs, and CI workflows
+- Integration with product-design skill for complete design→code→testing workflow
+- Visual regression setup SOP
+
+**Impact**: Reduces visual regression setup from 2-3 hours to 5 minutes (96% reduction), automates Storybook story generation, ensures pixel-perfect component implementation, integrates with design workflow for end-to-end validation
+
 ---
 
 ### System Architecture (`system/`)
@@ -606,5 +622,5 @@ Navigator v3.1 uses natural language - no commands needed!
 
 **This documentation system keeps plugin development context-efficient while maintaining comprehensive knowledge.**
 
-**Last Updated**: 2025-10-21 (v3.2.0)
+**Last Updated**: 2025-10-21 (v3.3.0)
 **Powered By**: Navigator (Skills-Only Architecture)

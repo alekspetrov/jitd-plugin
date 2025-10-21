@@ -1,0 +1,10 @@
+{
+  "projectId": "{{ project_id | default('<PROJECT_ID_PLACEHOLDER>') }}",
+  "buildScriptName": "build-storybook",
+  "exitZeroOnChanges": true,
+  "exitOnceUploaded": true,
+  "onlyChanged": true,
+  "externals": ["public/**"],
+  "skip": "{{ skip_pattern | default('dependabot/**') }}",
+  "ignoreLastBuildOnBranch": "{{ main_branch | default('main') }}"
+}

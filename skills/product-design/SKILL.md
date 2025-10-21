@@ -260,6 +260,11 @@ python3 functions/implementation_planner.py \
 [2] Review plan first (load task document)
 [3] Modify plan before starting
 
+**Recommended**: After implementation, set up visual regression testing:
+  "Set up visual regression for {{components}}"
+
+This ensures pixel-perfect implementation and prevents future drift (15 min setup).
+
 Reply with choice or "Start implementation"
 ```
 
@@ -271,6 +276,7 @@ Reply with choice or "Start implementation"
 2. Load design review: `Read .agent/design-system/reviews/{{date}}-{{feature}}.md`
 3. Begin Phase 1 (typically design tokens)
 4. Follow autonomous completion protocol when done
+5. After completion, suggest: "Set up visual regression for {{components}}" (optional but recommended)
 ```
 
 **If user chooses [2]**:

@@ -1,0 +1,54 @@
+# Add to .gitlab-ci.yml
+
+{% if vr_tool == 'chromatic' -%}
+chromatic:
+  stage: test
+  image: node:{{ node_version | default('20') }}
+  cache:
+    paths:
+      - node_modules/
+  script:
+    - {{ install_command | default('npm ci') }}
+    - npx chromatic --exit-zero-on-changes --only-changed
+  variables:
+    CHROMATIC_PROJECT_TOKEN: $CHROMATIC_PROJECT_TOKEN
+  only:
+    - main
+    - develop
+    - merge_requests
+{% elif vr_tool == 'percy' -%}
+percy:
+  stage: test
+  image: node:{{ node_version | default('20') }}
+  cache:
+    paths:
+      - node_modules/
+  script:
+    - {{ install_command | default('npm ci') }}
+    - npm run build-storybook
+    - npx percy storybook storybook-static
+  variables:
+    PERCY_TOKEN: $PERCY_TOKEN
+  only:
+    - main
+    - develop
+    - merge_requests
+{% elif vr_tool == 'backstopjs' -%}
+backstop:
+  stage: test
+  image: node:{{ node_version | default('20') }}
+  cache:
+    paths:
+      - node_modules/
+  script:
+    - {{ install_command | default('npm ci') }}
+    - npm run backstop:test
+  artifacts:
+    when: on_failure
+    paths:
+      - backstop_data/
+  only:
+    - main
+    - develop
+    - merge_requests
+{% endif -%}

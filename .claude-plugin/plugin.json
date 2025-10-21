@@ -1,6 +1,6 @@
 {
   "name": "navigator",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "description": "Navigator for Claude Code - Skills-only architecture with natural language interface. Self-improving capability generates project-specific tools. 97% token reduction through progressive disclosure.",
   "author": {
     "name": "Aleks Petrov",
@@ -33,6 +33,7 @@
     "./skills/nav-skill-creator",
     "./skills/plugin-slash-command",
     "./skills/product-design",
+    "./skills/visual-regression",
     "./skills/frontend-component",
     "./skills/backend-endpoint",
     "./skills/database-migration",

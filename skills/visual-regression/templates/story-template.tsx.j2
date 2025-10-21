@@ -1,0 +1,60 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import { {{ component_name }} } from './{{ component_name }}';
+
+const meta = {
+  title: '{{ story_title }}',
+  component: {{ component_name }},
+  parameters: {
+    layout: 'centered',
+  },
+  tags: ['autodocs'],
+  argTypes: {
+    {% for prop in props -%}
+    {% if prop.values -%}
+    {{ prop.name }}: { control: '{{ prop.control }}', options: {{ prop.values | tojson }} },
+    {% else -%}
+    {{ prop.name }}: { control: '{{ prop.control }}' },
+    {% endif -%}
+    {% endfor %}
+  },
+} satisfies Meta<typeof {{ component_name }}>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  args: {
+    {% for prop in props -%}
+    {% if prop.default is string -%}
+    {{ prop.name }}: '{{ prop.default }}',
+    {% elif prop.default is not none -%}
+    {{ prop.name }}: {{ prop.default | tojson }},
+    {% endif -%}
+    {% endfor %}
+  },
+};
+
+{% for variant in variants %}
+export const {{ variant.name }}: Story = {
+  args: {
+    ...Default.args,
+    {% if variant.value is string -%}
+    {{ variant.prop_name }}: '{{ variant.value }}',
+    {% else -%}
+    {{ variant.prop_name }}: {{ variant.value | tojson }},
+    {% endif -%}
+  },
+};
+{% endfor %}
+
+// Accessibility tests
+Default.parameters = {
+  a11y: {
+    config: {
+      rules: [
+        { id: 'color-contrast', enabled: true },
+        { id: 'label', enabled: true },
+      ],
+    },
+  },
+};

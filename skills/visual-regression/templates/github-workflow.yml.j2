@@ -1,0 +1,80 @@
+name: Visual Regression Tests
+
+on:
+  push:
+    branches: {{ branches | default(['main', 'develop']) | tojson }}
+  pull_request:
+    branches: ['main']
+
+jobs:
+  {% if vr_tool == 'chromatic' -%}
+  chromatic:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Required for Chromatic
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '{{ node_version | default('20') }}'
+          cache: '{{ package_manager | default('npm') }}'
+
+      - name: Install dependencies
+        run: {{ install_command | default('npm ci') }}
+
+      - name: Run Chromatic
+        uses: chromaui/action@latest
+        with:
+          projectToken: {% raw %}${{ secrets.CHROMATIC_PROJECT_TOKEN }}{% endraw %}
+          exitZeroOnChanges: true
+          onlyChanged: true
+          autoAcceptChanges: 'main'
+  {% elif vr_tool == 'percy' -%}
+  percy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '{{ node_version | default('20') }}'
+          cache: '{{ package_manager | default('npm') }}'
+
+      - name: Install dependencies
+        run: {{ install_command | default('npm ci') }}
+
+      - name: Build Storybook
+        run: npm run build-storybook
+
+      - name: Run Percy
+        run: npx percy storybook storybook-static
+        env:
+          PERCY_TOKEN: {% raw %}${{ secrets.PERCY_TOKEN }}{% endraw %}
+  {% elif vr_tool == 'backstopjs' -%}
+  backstop:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '{{ node_version | default('20') }}'
+          cache: '{{ package_manager | default('npm') }}'
+
+      - name: Install dependencies
+        run: {{ install_command | default('npm ci') }}
+
+      - name: Run BackstopJS
+        run: npm run backstop:test
+
+      - name: Upload test results
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: backstop-results
+          path: backstop_data/
+  {% endif -%}
