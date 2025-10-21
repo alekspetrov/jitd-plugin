@@ -310,17 +310,17 @@ Generate project-specific skills:
 
 ## 🔮 What's Next
 
-### v3.2 - Enhanced Session Analytics (Planned Q1 2025)
-- Session history tracking across days/weeks
-- Productivity trends and insights
-- Team-level aggregation
-- Grafana dashboard improvements
+### v3.3 - Design System Enhancements (Planned Q4 2025)
+- **Visual Regression Integration**: Auto-generate Chromatic tests
+- **Figma → Storybook**: Component story generation
+- **Design System Dashboard**: Real-time drift metrics
+- **Team Collaboration**: Multi-designer support
 
-### v4.0 - Multi-Project Context Sharing (Planned Q2 2025)
-- Share SOPs across projects
-- Cross-project skill library
-- Team knowledge base
-- Organization-level patterns
+### v4.0 - Multi-Project Context Sharing (Planned Q2 2026)
+- **Share Patterns Across Projects**: SOPs, skills, design systems
+- **Cross-Project Skill Library**: Reusable automation
+- **Team Knowledge Base**: Organization-level documentation
+- **AI Design Suggestions**: Component optimization recommendations
 
 📖 **[Full Roadmap](.agent/DEVELOPMENT-README.md)**
 
