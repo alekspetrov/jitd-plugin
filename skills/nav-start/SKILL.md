@@ -25,7 +25,29 @@ Invoke this skill when the user:
 
 ## Execution Steps
 
-### Step 1: Check Navigator Initialization
+### Step 1: Check Navigator Version
+
+Check if user is running latest Navigator version:
+
+```bash
+# Run version checker (optional - doesn't block session start)
+if [ -f "scripts/check-version.sh" ]; then
+  bash scripts/check-version.sh
+
+  # Note: Exit code 1 means update available, but don't block session
+  # Exit code 0 means up to date
+  # Exit code 2 means cannot check (network issue)
+fi
+```
+
+**Version check behavior**:
+- If update available: Show notification, continue session
+- If up to date: Show ✅, continue session
+- If cannot check: Skip silently, continue session
+
+**Never block session start** due to version check.
+
+### Step 2: Check Navigator Initialization
 
 Check if `.agent/DEVELOPMENT-README.md` exists:
 
@@ -40,7 +62,7 @@ fi
 
 If not found, inform user to run `/nav:init` first.
 
-### Step 2: Load Documentation Navigator
+### Step 3: Load Documentation Navigator
 
 Read the navigator file:
 
@@ -56,7 +78,7 @@ This is the lightweight index (~2k tokens) that tells you:
 - Current task focus
 - Project structure overview
 
-### Step 3: Check for Active Context Marker
+### Step 4: Check for Active Context Marker
 
 Check if there's an active marker from previous `/nav:compact`:
 
@@ -83,7 +105,7 @@ If user declines (n):
 - Delete `.active` file
 - Show: "Skipping marker load. You can load it later with /nav:markers"
 
-### Step 4: Load Navigator Configuration
+### Step 5: Load Navigator Configuration
 
 Read configuration:
 
@@ -98,7 +120,7 @@ Parse:
 - `task_prefix`: Task ID format (TASK, GH, LIN, etc.)
 - `team_chat`: Team notifications (slack, discord, none)
 
-### Step 5: Check PM Tool for Assigned Tasks
+### Step 6: Check PM Tool for Assigned Tasks
 
 **If PM tool is Linear**:
 ```bash
@@ -114,7 +136,7 @@ gh issue list --assignee @me --limit 10 2>/dev/null
 **If PM tool is none**:
 Skip task checking.
 
-### Step 6: Display Session Statistics (OpenTelemetry)
+### Step 7: Display Session Statistics (OpenTelemetry)
 
 Run the OpenTelemetry session statistics script:
 
@@ -140,7 +162,7 @@ This script:
 - Cost tracking for ROI measurement
 - Official API (won't break on updates)
 
-### Step 7: Display Session Summary
+### Step 8: Display Session Summary
 
 Show this formatted summary:
 
