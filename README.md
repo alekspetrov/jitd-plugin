@@ -2,10 +2,10 @@
 
 > **Skills + Agents + Documentation** - The plugin that generates its own tools and optimizes your context.
 
-**Status**: ✅ v3.3.1 - Navigator Upgrade Automation (One-Command Plugin Updates)
+**Status**: ✅ v3.4.0 - Direct Figma MCP Integration (Automated Design Handoff)
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-3.3.1-blue.svg)](https://github.com/alekspetrov/navigator/releases)
+[![Version](https://img.shields.io/badge/version-3.4.0-blue.svg)](https://github.com/alekspetrov/navigator/releases)
 
 ---
 
@@ -26,82 +26,37 @@
 
 ---
 
-## ✨ v3.3.1 What's New: Navigator Upgrade Automation
+## ✨ What's New in v3.4.0
 
-**One-command plugin updates** - Automated version detection, update execution, and post-update configuration.
+**Direct Figma MCP Integration** - Python connects directly to Figma Desktop, eliminating orchestration overhead.
 
 ```
-"Update Navigator"
+"Review this Figma design: [URL]"
 
-→ Detects current version (e.g., v3.2.0)
-→ Checks latest version from GitHub (e.g., v3.3.1)
-→ Executes plugin update with retry logic
-→ Updates project CLAUDE.md automatically
-→ Shows new features available
-→ Ready in 2 minutes
+→ Python connects to Figma MCP automatically
+→ Progressive refinement (smart token usage)
+→ 95% orchestration reduction (15-20 steps → 1)
+→ 92% token reduction (150k → 12k)
+→ 75% faster (15 min → 5 min)
+→ One-command setup: ./setup.sh
 ```
 
-**New Skill**: nav-upgrade
-**Natural Language**: "Update Navigator", "Upgrade Navigator plugin", "Get latest Navigator features"
+**Performance**: 95% orchestration reduction | **Setup**: 30 seconds | **Requires**: Figma Desktop with MCP
 
-📖 **[Upgrade Guide](docs/UPGRADE-GUIDE-v3.3.0.md)**
+📖 **[v3.4.0 Release Notes](RELEASE-NOTES-v3.4.0.md)** | **[Upgrade Guide](UPGRADE-v3.4.0.md)**
 
 ---
 
-## 📊 v3.3: Visual Regression Integration
+## 📋 Release History
 
-**Automated visual regression testing setup** - Reduce Storybook + Chromatic setup from 2-3 hours to 5 minutes (96% reduction).
+See **[All Releases](https://github.com/alekspetrov/navigator/releases)** for complete version history.
 
-```
-"Set up visual regression for ProfileCard component"
-→ Generates Storybook stories with all variants
-→ Creates Chromatic/Percy/BackstopJS configuration
-→ Sets up CI/CD workflows (GitHub Actions, GitLab CI)
-→ Provides setup instructions
-→ Ready to test in 5 minutes
-```
-
-**4 Predefined Functions**: vr_setup_validator, story_generator, chromatic_config_generator, ci_workflow_generator
-
-**Supports**: Chromatic, Percy, BackstopJS | **Frameworks**: React, Vue, Svelte
-
-📖 **[v3.3.0 Release Notes](RELEASE-NOTES-v3.3.0.md)**
-
----
-
-## 📊 v3.2: Product Design Skill
-
-**Automated Figma design handoff** - Reduce design-to-code time from 6-10 hours to 15 minutes (95% reduction).
-
-```
-"Review this design from Figma"
-→ Extracts design tokens (DTCG format)
-→ Maps components to codebase
-→ Detects design system drift
-→ Generates implementation plan
-→ Ready to code in 15 minutes
-```
-
-**5 Predefined Functions**: design_analyzer, token_extractor, component_mapper, design_system_auditor, implementation_planner
-
-📖 **[v3.2.0 Release Notes](RELEASE-NOTES-v3.2.0.md)**
-
----
-
-## 📊 v3.1: OpenTelemetry Integration
-
-**Real-time session statistics** powered by Claude Code's official OpenTelemetry support.
-
-```
-📊 Navigator Session Statistics (Real-time via OTel)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-📥 Input Tokens:  15,000 (12,000 from cache ✅)
-📤 Output Tokens: 5,000
-⚡ Cache Hit Rate: 80.0%
-💰 Session Cost:  $0.0234
-⏱️  Active Time:   5m 20s
-📦 Context:       180,000 tokens available (90%)
+**Recent releases**:
+- **v3.4.0** (2025-10-22) - Direct Figma MCP integration
+- **v3.3.1** (2025-10-21) - Navigator upgrade automation
+- **v3.3.0** (2025-10-20) - Visual regression integration
+- **v3.2.0** (2025-10-19) - Product design skill
+- **v3.1.0** (2025-10-18) - OpenTelemetry integration
 ```
 
 📖 **[v3.1.0 Release Notes](RELEASE-NOTES-v3.1.0.md)**
