@@ -407,6 +407,22 @@ Next: Run /nav:compact to clear context
 
 **Last Updated**: 2025-10-13
 
+##### [Navigator Plugin Release Workflow](./sops/development/navigator-plugin-release-workflow.md)
+**When to use**: Releasing new Navigator plugin version with features
+
+**Contains**:
+- Preparing release materials (release notes, upgrade guides)
+- Updating plugin metadata (.claude-plugin/plugin.json)
+- Updating skill versions (SKILL.md)
+- Commit and push workflow (feature, version, docs)
+- Git tagging and GitHub releases
+- Testing upgrade paths
+- Release checklist
+- Example: v3.4.0 release walkthrough
+
+**Created**: 2025-10-22
+**Last Updated**: 2025-10-22
+
 ##### [Plugin Release Workflow](./sops/development/plugin-release-workflow.md)
 **When to use**: Releasing new plugin version
 
