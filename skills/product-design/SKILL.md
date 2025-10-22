@@ -1,8 +1,8 @@
 ---
 name: product-design
-description: Automates design review, token extraction, component mapping, and implementation planning. Reduces design handoff from 6-10 hours to 15 minutes. Auto-invoke when user mentions design review, Figma mockup, or design handoff.
+description: Automates design review, token extraction, component mapping, and implementation planning. Reduces design handoff from 6-10 hours to 5 minutes via direct Figma MCP integration. Auto-invoke when user mentions design review, Figma mockup, or design handoff.
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash, Task, TodoWrite
-version: 1.0.0
+version: 1.1.0
 ---
 
 # Product Design Skill
@@ -34,14 +34,37 @@ Auto-invoke when user says:
 ## Prerequisites
 
 ### Required
-- `.agent/design-system/` directory structure (created on first run)
-- Project with components (React/Vue/Svelte)
+
+1. **Python Dependencies**
+   ```bash
+   cd skills/product-design
+   ./setup.sh  # Automated installation
+   # OR manually: pip install -r requirements.txt
+   ```
+
+2. **Figma Desktop** (for automated workflow)
+   - Download: https://www.figma.com/downloads/
+   - Enable MCP: Figma → Preferences → Enable local MCP Server
+   - Must be running during design reviews
+
+3. **Project Structure**
+   - `.agent/design-system/` directory (created on first run)
+   - Project with components (React/Vue/Svelte)
 
 ### Optional (Enhanced Features)
-- **Figma MCP**: Local (`http://127.0.0.1:3845/mcp`) or remote server
 - **Figma Enterprise**: Code Connect for automatic component mapping
 - **Tailwind CSS**: Design token integration via @theme
 - **Storybook**: Component documentation and visual regression
+
+### Installation
+
+**Quick start**:
+```bash
+cd skills/product-design
+./setup.sh
+```
+
+See `INSTALL.md` for detailed installation guide and troubleshooting.
 
 ## Workflow Protocol
 
@@ -49,30 +72,45 @@ Auto-invoke when user says:
 
 **Objective**: Extract design patterns from Figma or manual description
 
-#### With Figma MCP (Automated)
+#### With Figma MCP (Automated) ✨ SIMPLIFIED
 
-```markdown
-**Check MCP server availability**:
-- Look for Figma MCP tools: `#get_design_context`, `#get_variable_defs`, `#get_code_connect_map`
-- If available: Use MCP for automated extraction
-- If not: Fall back to manual workflow
+**New Architecture** (v1.1.0+): Python directly connects to Figma MCP - no manual orchestration!
 
-**MCP Extraction Strategy** (avoid token limits):
-1. Use `get_metadata` first (sparse XML, low tokens)
-2. Identify component node IDs from metadata
-3. Use `get_variable_defs` for all design tokens (one call)
-4. Use `get_code_connect_map` for component mappings (if Enterprise)
-5. Use `get_design_context` per component (NOT full screen)
+```python
+# Python functions now handle MCP connection automatically
+from figma_mcp_client import FigmaMCPClient
 
-**Token Limit Protection**:
-- NEVER select entire screens - component-by-component only
-- If `get_design_context` exceeds 100k tokens, use metadata-only
-- Set MAX_MCP_OUTPUT_TOKENS=100000 if not already set
+async with FigmaMCPClient() as client:
+    # Progressive refinement - fetch only what's needed
+    metadata = await client.get_metadata()
+    components = extract_components(metadata)
 
-**Store MCP responses**:
-- Save to temporary JSON files for function processing
-- Example: `/tmp/figma_metadata.json`, `/tmp/figma_variables.json`
+    # Fetch details only for complex components
+    for comp in components:
+        if comp['complexity'] == 'high':
+            comp['detail'] = await client.get_design_context(comp['id'])
+
+    # Get design tokens
+    variables = await client.get_variable_defs()
 ```
+
+**Workflow** (fully automated):
+1. User provides Figma URL
+2. Run `python3 functions/design_analyzer.py --figma-url <URL>`
+3. Python connects to Figma MCP (http://127.0.0.1:3845/mcp)
+4. Fetches metadata → analyzes → fetches details only if needed
+5. Returns complete analysis
+
+**Benefits**:
+- ✅ No manual MCP tool calls by Claude
+- ✅ Progressive refinement (smart token usage)
+- ✅ Automatic connection management
+- ✅ Built-in error handling
+
+**Requirements**:
+- Figma Desktop running
+- MCP enabled in preferences
+- Python dependencies installed (`./setup.sh`)
 
 #### Manual Workflow (No MCP)
 
