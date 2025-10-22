@@ -168,7 +168,48 @@ This preserves customizations while updating:
 
 ---
 
-### Step 5: Feature Discovery
+### Step 5: Post-Upgrade Setup Check
+
+**Check if new features require setup**:
+
+```bash
+# Check for skills with setup requirements
+if [ -f "$NAVIGATOR_PATH/skills/product-design/setup.sh" ]; then
+  # Check if venv exists
+  if [ ! -d "$NAVIGATOR_PATH/skills/product-design/venv" ]; then
+    echo "⚠️  product-design skill requires setup"
+    NEEDS_SETUP=true
+  fi
+fi
+```
+
+**If setup needed, show instructions**:
+
+```markdown
+⚠️  New Feature Requires Setup
+
+The product-design skill (v3.4.0+) requires Python dependencies:
+
+**One-time setup** (30 seconds):
+```bash
+cd ~/.claude/plugins/marketplaces/jitd-marketplace/skills/product-design
+./setup.sh
+```
+
+**What this installs**:
+- Python MCP SDK for direct Figma connection
+- 95% orchestration reduction
+- 92% token savings
+
+**After setup, use**:
+"Review this Figma design: [URL]"
+```
+
+**Record setup needed in TodoWrite** for tracking.
+
+---
+
+### Step 6: Feature Discovery
 
 **Show new features** available in updated version.
 

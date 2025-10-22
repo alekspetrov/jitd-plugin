@@ -68,6 +68,36 @@ See `INSTALL.md` for detailed installation guide and troubleshooting.
 
 ## Workflow Protocol
 
+### Step 0: Check Setup (Auto-Run)
+
+**Before starting, verify Python dependencies installed**:
+
+```bash
+# Get Navigator plugin path
+PLUGIN_PATH=$(dirname "$(dirname "$(dirname "$PWD")")")
+
+# Check if venv exists
+if [ ! -d "$PLUGIN_PATH/skills/product-design/venv" ]; then
+  echo "❌ product-design skill not set up"
+  echo ""
+  echo "Run setup (30 seconds):"
+  echo "  cd $PLUGIN_PATH/skills/product-design && ./setup.sh"
+  echo ""
+  echo "Or use manual workflow (no Python needed)"
+  exit 1
+fi
+```
+
+**If setup missing**:
+- Show setup instructions
+- Offer manual workflow as alternative
+- **Do not proceed** with automated Figma workflow
+
+**If setup complete**:
+- Continue to Step 1 (Design Analysis)
+
+---
+
 ### Step 1: Design Analysis
 
 **Objective**: Extract design patterns from Figma or manual description
