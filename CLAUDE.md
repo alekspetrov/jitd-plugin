@@ -1,12 +1,57 @@
-# Navigator Plugin - Claude Code Configuration
+# Navigator: Context-Efficient AI Development
 
-## Context
+## Why This Exists
 
-Navigator plugin for context-efficient AI development. Load documentation on-demand, not upfront.
+**The problem**: AI coding sessions hit context limits in 5-7 exchanges.
 
-**Core Principle**: Navigator-first pattern → 92% reduction in doc loading overhead (12k vs 150k tokens)
+**Why**: Loading all docs upfront wastes 70-90% of context window on irrelevant data.
 
-**v3.0+ Interface**: Natural language (recommended) + slash commands (legacy compatibility)
+**Navigator's solution**: Load what you need, when you need it. 150k → 12k tokens (92% reduction).
+
+**Proven**: OpenTelemetry-verified, not estimates. Session efficiency scores 94/100.
+
+---
+
+## How You'll Use It
+
+**Every session starts with**:
+```
+"Start my Navigator session"
+```
+
+This loads:
+- Navigator index (2k tokens) - what exists
+- Current task context (3k tokens) - what you're working on
+- Nothing else (yet)
+
+**As you work**:
+- Need system architecture? Loads on-demand (5k)
+- Need SOP? Loads when relevant (2k)
+- Need integration details? Loads if required
+
+**Result**: Context window stays efficient. Sessions last 20+ exchanges without restart.
+
+---
+
+## Understanding Context Efficiency
+
+**New to this approach?** Read the philosophy:
+- `.agent/philosophy/CONTEXT-EFFICIENCY.md` - Why Navigator exists
+- `.agent/philosophy/ANTI-PATTERNS.md` - Common mistakes (upfront loading, etc.)
+- `.agent/philosophy/PATTERNS.md` - What works and why
+
+**Quick start?** Continue to [Navigator Workflow](#navigator-workflow-critical---enforce-strictly)
+
+---
+
+## Core Principle
+
+**Context engineering beats bulk loading.**
+
+Not "load everything just in case."
+Not "better safe than sorry."
+
+Strategic loading saves 92% of context for actual work.
 
 ---
 
@@ -178,11 +223,15 @@ CORRECT: Task agent → Returns 3 relevant files = 8k tokens (92% savings)
 
 ### Navigator Violations (HIGHEST PRIORITY)
 - ❌ NEVER wait for explicit commit prompts (autonomous mode)
+  → See: `.agent/philosophy/PATTERNS.md` (Autonomous Completion pattern)
 - ❌ NEVER leave tickets open after completion
 - ❌ NEVER skip documentation after features
 - ❌ NEVER load all `.agent/` docs at once
+  → See: `.agent/philosophy/ANTI-PATTERNS.md` (Upfront Loading anti-pattern)
 - ❌ NEVER skip reading DEVELOPMENT-README.md
+  → See: `.agent/philosophy/PATTERNS.md` (Lazy Loading pattern)
 - ❌ NEVER manually Read multiple files when Task agent should be used
+  → See: `.agent/philosophy/PATTERNS.md` (Direct MCP pattern)
 
 ### General Violations
 - ❌ No Claude Code mentions in commits/code

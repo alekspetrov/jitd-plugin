@@ -1,12 +1,70 @@
-# Navigator Plugin - Development Documentation Navigator
+# Navigator: Context-Efficient AI Development
 
-**Project**: Claude Code plugin for Navigator
-**Tech Stack**: Markdown templates, JSON configuration, Bash slash commands, Python functions
-**Updated**: 2025-10-19
+## The Problem I Kept Hitting
+
+I was working on a feature in Claude Code. Loaded all my project docs at session start—seemed smart. "Better to have everything available," I thought.
+
+Five exchanges in, Claude started forgetting my recent changes. Six exchanges, it hallucinated a function that didn't exist. Seven exchanges, session died. Context window full.
+
+I checked: **150,000 tokens loaded**. Only used **8,000**.
+
+**I was wasting 94% of my context window on documentation I never needed.**
+
+## The Realization
+
+This wasn't a bug. This was my workflow.
+
+Every AI coding session, same pattern:
+- Load everything upfront ("just in case")
+- Context fills with irrelevant data
+- AI gets overwhelmed
+- Session crashes
+- Start over
+- Repeat
+
+**The default approach—load everything—was the problem.**
+
+## What I Built
+
+Navigator: A framework for loading only what you need, when you need it.
+
+**How it works**:
+1. Start with a 2k-token navigator (index of what exists)
+2. Navigate to what you need (task docs, system architecture)
+3. Load on-demand (3-5k tokens per document)
+4. Progressive refinement (fetch metadata, drill down if needed)
+
+**Result**: 150k → 12k tokens. **92% reduction.**
+
+Not estimates. Real data, verified with OpenTelemetry.
+
+## Why It Works
+
+**The principle**: Load what you need, when you need it.
+
+Not "load everything just in case."
+Not "better safe than sorry."
+
+Strategic loading beats bulk loading.
+
+---
+
+## Understanding Context Efficiency
+
+**New to this approach?** Read the philosophy:
+- [Context Efficiency Manifesto](./philosophy/CONTEXT-EFFICIENCY.md) - Why Navigator exists
+- [Anti-Patterns](./philosophy/ANTI-PATTERNS.md) - Common mistakes (upfront loading, etc.)
+- [Success Patterns](./philosophy/PATTERNS.md) - What works and why
+
+**Quick start?** Jump to [Development Workflow](#-development-workflow)
 
 ---
 
 ## 🚀 Quick Start for Development
+
+**Project**: Claude Code plugin for Navigator
+**Tech Stack**: Markdown templates, JSON configuration, Bash slash commands, Python functions
+**Updated**: 2025-10-23
 
 ### New to This Project?
 **Read in this order:**
