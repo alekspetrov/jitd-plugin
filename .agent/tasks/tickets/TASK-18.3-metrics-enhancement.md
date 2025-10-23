@@ -79,11 +79,11 @@ CONTEXT_USAGE_PERCENT=35
 
 ---
 
-### 2. New `/nav:stats` Command
+### 2. New `nav-stats` Skill
 
-**Location**: `commands/stats.md`
+**Location**: `skills/nav-stats/`
 
-**Purpose**: Display user-friendly efficiency report
+**Purpose**: Display user-friendly efficiency report (Navigator v3.0+ uses skills-only architecture)
 
 **Output Format**:
 ```
@@ -154,9 +154,13 @@ Read more: .agent/philosophy/ANTI-PATTERNS.md
 
 ---
 
-### 3. Efficiency Score Algorithm
+### 3. Predefined Functions
 
-**Formula** (100 points total):
+**Location**: `skills/nav-stats/functions/`
+
+#### `efficiency_scorer.py`
+
+Calculate Navigator efficiency score (0-100):
 
 ```python
 def calculate_efficiency_score(
@@ -192,6 +196,10 @@ def calculate_efficiency_score(
 
     return int(token_score + cache_score + context_score)
 ```
+
+#### `report_formatter.py`
+
+Format efficiency report output (visual, shareable format)
 
 **Score Interpretation**:
 - 90-100: Excellent (optimal Navigator usage)
