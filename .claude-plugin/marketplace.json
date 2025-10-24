@@ -1,17 +1,20 @@
 {
   "name": "navigator-marketplace",
-  "displayName": "Navigator - Skills-Only Architecture for Claude Code",
+  "displayName": "Navigator - Context-Efficient AI Development Framework",
   "owner": {
     "name": "Aleks Petrov",
     "email": "aleks@example.com"
   },
   "metadata": {
-    "description": "Navigator plugin - Natural language interface with Skills + Agents for 97% token reduction",
-    "version": "3.2.0",
+    "description": "Complete framework for context-efficient AI development - Philosophy, Metrics, Education, Skills, and Agents",
+    "version": "4.0.0",
     "breaking_changes": [
+      "v4.0.0: Major transformation - Tool to complete framework",
+      "Added comprehensive education layer (learning guides, interactive examples, decision frameworks)",
+      "Philosophical foundation documented (context efficiency manifesto, patterns, anti-patterns)",
+      "Real metrics validation (nav-stats skill with efficiency scoring)",
       "v3.0.0: Removed all slash commands (/nav:*)",
-      "Use natural language instead: 'Start my Navigator session'",
-      "Skills auto-invoke based on intent - no manual commands needed"
+      "Use natural language: 'Start my Navigator session'"
     ]
   },
   "plugins": [
