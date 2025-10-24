@@ -51,10 +51,34 @@ Strategic loading beats bulk loading.
 
 ## Understanding Context Efficiency
 
-**New to this approach?** Read the philosophy:
+### Philosophy & Principles
+
+**New to this approach?** Start with the philosophy:
 - [Context Efficiency Manifesto](./philosophy/CONTEXT-EFFICIENCY.md) - Why Navigator exists
 - [Anti-Patterns](./philosophy/ANTI-PATTERNS.md) - Common mistakes (upfront loading, etc.)
 - [Success Patterns](./philosophy/PATTERNS.md) - What works and why
+
+### Learning Guides (New in v4.0)
+
+**Master the principles** with comprehensive guides:
+- [Context Budgets](./learning/CONTEXT-BUDGETS.md) - How to think about token allocation
+- [Preprocessing vs LLM](./learning/PREPROCESSING-VS-LLM.md) - When to use which tool
+- [Progressive Refinement](./learning/PROGRESSIVE-REFINEMENT.md) - Metadata → details on-demand
+- [Token Optimization](./learning/TOKEN-OPTIMIZATION.md) - Complete strategy guide
+
+### Interactive Examples
+
+**Try it yourself** with hands-on exercises:
+- [TRY-THIS-LAZY-LOADING.md](./learning/examples/TRY-THIS-LAZY-LOADING.md) - Experience 90%+ token savings
+- [TRY-THIS-AGENT-SEARCH.md](./learning/examples/TRY-THIS-AGENT-SEARCH.md) - Agent-assisted exploration
+- [TRY-THIS-MARKERS.md](./learning/examples/TRY-THIS-MARKERS.md) - 97% context compression
+
+### Decision Frameworks
+
+**Quick reference** for common decisions:
+- [When to Compact](./learning/frameworks/WHEN-TO-COMPACT.md) - Context management flowchart
+- [Agent vs Manual Read](./learning/frameworks/AGENT-VS-MANUAL.md) - File reading decisions
+- [Preprocessing Decision Tree](./learning/frameworks/PREPROCESSING-DECISION-TREE.md) - Right tool selection
 
 **Quick start?** Jump to [Development Workflow](#-development-workflow)
 
