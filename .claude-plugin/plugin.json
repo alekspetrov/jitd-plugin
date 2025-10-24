@@ -1,7 +1,7 @@
 {
   "name": "navigator",
-  "version": "3.4.0",
-  "description": "Navigator for Claude Code - Skills-only architecture with natural language interface. Direct Figma MCP integration for automated design handoff. Self-improving capability generates project-specific tools. 97% token reduction through progressive disclosure.",
+  "version": "4.0.0",
+  "description": "Complete framework for context-efficient AI development - Philosophy, Metrics, Education, Skills, and Agents. Master context engineering principles through interactive learning. Achieve 92% token reduction with proven strategies.",
   "author": {
     "name": "Aleks Petrov",
     "email": "aleks@example.com",
