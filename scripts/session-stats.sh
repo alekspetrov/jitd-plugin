@@ -74,13 +74,15 @@ EOF
 
 
 # Enhanced metrics for Navigator v3.5.0+
-# Calculate baseline, loaded, savings in Python (has access to token vars)
-python3 - "$project_path" << 'ENHANCED_EOF'
+# Pass session metrics to Python for baseline comparison
+python3 - "$project_path" "$latest_session" << 'ENHANCED_EOF'
 import sys
 import os
 import glob
+import json
 
 project_path = sys.argv[1]
+session_file = sys.argv[2]
 
 # Check if Navigator initialized
 agent_dir = os.path.join(project_path, ".agent")
@@ -105,21 +107,47 @@ for md_file in glob.glob(os.path.join(agent_dir, "**/*.md"), recursive=True):
 
 baseline_tokens = baseline_bytes // 4
 
-# Estimate loaded tokens from cache creation
-# Rough estimate: cache_creation represents docs loaded in session
-# We'll use 10% of baseline as typical loaded amount if no cache data
-loaded_tokens = max(baseline_tokens // 10, 5000)  # Minimum 5k
+# Extract actual loaded tokens from session cache creation
+# CACHE_CREATION represents docs loaded fresh in this session
+total_input = 0
+total_output = 0
+total_cache_creation = 0
+total_cache_read = 0
+
+try:
+    with open(session_file, 'r') as f:
+        for line in f:
+            try:
+                data = json.loads(line.strip())
+                if 'message' in data and 'usage' in data['message']:
+                    usage = data['message']['usage']
+                    total_input += usage.get('input_tokens', 0)
+                    total_output += usage.get('output_tokens', 0)
+                    total_cache_creation += usage.get('cache_creation_input_tokens', 0)
+                    total_cache_read += usage.get('cache_read_input_tokens', 0)
+            except json.JSONDecodeError:
+                pass
+except FileNotFoundError:
+    pass
+
+# Loaded tokens = cache creation (docs loaded for first time this session)
+# This represents actual Navigator documentation loaded
+loaded_tokens = total_cache_creation if total_cache_creation > 0 else max(baseline_tokens // 10, 5000)
 
 # Calculate savings
 tokens_saved = baseline_tokens - loaded_tokens
 savings_percent = int((tokens_saved / baseline_tokens * 100)) if baseline_tokens > 0 else 0
 
-# Estimate context usage (200k window)
-# Very rough estimate without access to actual usage data
-# Assume moderate usage ~30% as default
-context_usage_percent = 30
+# Calculate actual context usage
+# Claude Code uses 200k context window
+# Context = fresh input + output tokens (cached tokens don't count - deduplicated)
+# Fresh input = total_input + total_cache_creation
+total_fresh_input = total_input + total_cache_creation
+total_conversation_tokens = total_fresh_input + total_output
+context_window_size = 200000
+context_usage_percent = min(100, int((total_conversation_tokens / context_window_size) * 100))
 
-# Estimate time saved (6 seconds per 1k tokens)
+# Estimate time saved (6 seconds per 1k tokens read time)
 time_saved_minutes = (tokens_saved * 6) // 60000
 
 print(f"BASELINE_TOKENS={baseline_tokens}")
