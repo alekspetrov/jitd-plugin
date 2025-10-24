@@ -114,7 +114,7 @@ Week 1-2: FOUNDATION
 Week 3-4: PROOF
 ┌─────────────────────────────────────────────────────┐
 │ Metrics Enhancement                                 │
-│ ├─ /nav:stats command                              │
+│ ├─ "Show me my session statistics" command                              │
 │ ├─ Efficiency scoring (0-100)                      │
 │ ├─ Baseline comparison                             │
 │ └─ Time savings estimation                         │
@@ -176,7 +176,7 @@ Install → Read docs → Use features → "It's faster"
 
 AFTER v3.5.0
 ═══════════════════════════════════════════════════════
-Read Manifesto → "Aha moment!" → Install → Run /nav:stats
+Read Manifesto → "Aha moment!" → Install → Run "Show me my session statistics"
        ▼
 See 92% savings → Screenshot → Share on social
        ▼
@@ -275,7 +275,7 @@ INVESTMENT (10 weeks)
 │ Phase           │ Time       │ Deliverable          │
 ├─────────────────┼────────────┼──────────────────────┤
 │ Philosophy      │ 15-20h     │ 3 foundation docs    │
-│ Metrics         │ 15-20h     │ /nav:stats command   │
+│ Metrics         │ 15-20h     │ "Show me my session statistics" command   │
 │ Education       │ 20-25h     │ Learning content     │
 │ Community       │ 15-20h     │ Pattern library      │
 │ Movement        │ 15-20h     │ Manifesto + launch   │

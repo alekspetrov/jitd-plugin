@@ -54,7 +54,7 @@ Session 8: Context limit, session dies
 
 **Check your stats**:
 ```bash
-/nav:stats
+"Show me my session statistics"
 
 Context usage: 75% (warning)
 Efficiency score: 45/100 (needs improvement)
@@ -516,7 +516,7 @@ With navigator:
 ├── Documentation index loaded (2k)
 ├── Current task context loaded (3k)
 ├── Guided navigation to relevant docs
-└── Efficiency tracked (/nav:stats)
+└── Efficiency tracked ("Show me my session statistics")
 ```
 
 ### How to Recognize
@@ -525,7 +525,7 @@ With navigator:
 - ⚠️ Asking "where is X documented?"
 - ⚠️ Manually searching for docs
 - ⚠️ No task context loaded
-- ⚠️ Can't run `/nav:stats`
+- ⚠️ Can't run `"Show me my session statistics"`
 - ⚠️ Working without structure
 
 ### What to Do Instead
@@ -552,7 +552,7 @@ This loads:
 **Then work efficiently**:
 - Navigate to relevant docs (guided)
 - Load on-demand (strategic)
-- Track efficiency (/nav:stats)
+- Track efficiency ("Show me my session statistics")
 
 ---
 
@@ -560,7 +560,7 @@ This loads:
 
 ### What It Is
 
-Not checking `/nav:stats` or ignoring low efficiency scores.
+Not checking `"Show me my session statistics"` or ignoring low efficiency scores.
 
 ```
 # Anti-pattern
@@ -588,7 +588,7 @@ Wonder why sessions feel sluggish
 ### How to Recognize
 
 **Warning signs**:
-- ⚠️ Never run `/nav:stats`
+- ⚠️ Never run `"Show me my session statistics"`
 - ⚠️ Don't know your efficiency score
 - ⚠️ Sessions feel inconsistent
 - ⚠️ Context fills quickly (but don't measure)
@@ -600,7 +600,7 @@ Wonder why sessions feel sluggish
 
 ```bash
 # After every few tasks
-/nav:stats
+"Show me my session statistics"
 
 Efficiency score: 94/100 ✓ Excellent
 Token savings: 92% ✓ Great
@@ -728,7 +728,7 @@ Progressive saves: 53%
 
 **Check your efficiency**:
 ```bash
-/nav:stats
+"Show me my session statistics"
 ```
 
 **Score <70?** Read this doc, identify your anti-patterns
@@ -754,4 +754,4 @@ Progressive saves: 53%
 
 **The difference: Recognize them, fix them, improve.**
 
-**Check your score: `/nav:stats`**
+**Check your score: `"Show me my session statistics"`**

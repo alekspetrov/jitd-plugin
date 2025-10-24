@@ -50,7 +50,7 @@ Layer 1: IMPLEMENTATION → Plugin features ✅
    - Rewrite docs with vulnerability narrative
 
 2. **Weeks 3-4**: Make Value Visible
-   - Build `/nav:stats` (efficiency reporting)
+   - Build `"Show me my session statistics"` (efficiency reporting)
    - Enhance metrics (baseline comparison, scoring)
    - Create 3 case studies with real proof
 
@@ -125,7 +125,7 @@ MANIFESTO.md                        (root-level)
 
 ```
 commands/
-├── stats.md           # /nav:stats (efficiency reporting)
+├── stats.md           # "Show me my session statistics" (efficiency reporting)
 └── patterns.md        # /nav:patterns (pattern library)
 
 scripts/
@@ -181,7 +181,7 @@ blog-posts/
 
 | Task | Status | Owner | Deliverable |
 |------|--------|-------|-------------|
-| **18.3** Metrics enhancement | 📋 Ready | Core | `/nav:stats` command |
+| **18.3** Metrics enhancement | 📋 Ready | Core | `"Show me my session statistics"` command |
 | **18.4** Case studies | 📋 Ready | Core | 3 real workflow examples |
 
 ### Phase 3: Education (Weeks 5-6)
@@ -219,7 +219,7 @@ blog-posts/
 - ✅ Beta tested (does it resonate?)
 
 ### Week 3
-- ✅ `/nav:stats` implemented
+- ✅ `"Show me my session statistics"` implemented
 - ✅ Efficiency scoring working
 
 ### Week 4
@@ -282,7 +282,7 @@ blog-posts/
 
 **Ask**:
 - Review philosophy docs (Week 2)
-- Test `/nav:stats` (Week 4)
+- Test `"Show me my session statistics"` (Week 4)
 - Try learning content (Week 6)
 - Provide honest feedback
 

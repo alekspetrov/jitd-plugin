@@ -16,7 +16,7 @@
 ### Implementation Tickets
 - ✅ **TASK-18.1-philosophy-documentation.md** - Week 1-2, Philosophy docs
 - ✅ **TASK-18.2-narrative-rewrite.md** - Week 1-2, Rewrite with vulnerability voice
-- ✅ **TASK-18.3-metrics-enhancement.md** - Week 3-4, /nav:stats & efficiency scoring
+- ✅ **TASK-18.3-metrics-enhancement.md** - Week 3-4, "Show me my session statistics" & efficiency scoring
 
 ---
 
@@ -49,7 +49,7 @@
 | Visual assets | Master roadmap ✅ | In TASK-18.4 | Documented |
 
 **Deliverables**:
-- `/nav:stats` command
+- `"Show me my session statistics"` command
 - `scripts/session-stats.sh` (enhanced)
 - `.agent/examples/FEATURE-IN-3-STEPS.md`
 - `.agent/examples/ZERO-CONTEXT-RESTART.md`
@@ -278,7 +278,7 @@ Based on master roadmap, still need detailed tickets for:
 
 ### Deliverables Consistency ✅
 - Philosophy docs (3 files) ✅
-- Metrics enhancement (/nav:stats) ✅
+- Metrics enhancement ("Show me my session statistics") ✅
 - Learning content (4 guides + 3 examples) ✅
 - Pattern library (/nav:patterns) ✅
 - Manifesto (MANIFESTO.md) ✅

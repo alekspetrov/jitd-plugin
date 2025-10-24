@@ -862,4 +862,4 @@ Savings: 83%
 
 **Apply them. Measure results. Share your efficiency score.**
 
-**Check your baseline: `/nav:stats`**
+**Check your baseline: `"Show me my session statistics"`**

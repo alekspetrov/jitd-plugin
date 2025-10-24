@@ -139,7 +139,7 @@ Layer 1: Implementation (Plugin features)
      - Time saved per session
      - Context efficiency score (0-100)
 
-2. **`/nav:stats` Command** (New)
+2. **`"Show me my session statistics"` Command** (New)
    ```
    Session Efficiency Report
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -167,7 +167,7 @@ Layer 1: Implementation (Plugin features)
    - `5-MIN-DESIGN-REVIEW.md` (v3.4.0 in action)
 
 **Success Metrics**:
-- `/nav:stats` implemented and tested
+- `"Show me my session statistics"` implemented and tested
 - 3 case studies documented with real metrics
 - Users can screenshot and share efficiency reports
 
@@ -327,7 +327,7 @@ Layer 1: Implementation (Plugin features)
 **Deliverable**: Docs use vulnerability-driven voice
 
 ### TASK-18.3: Metrics Enhancement (Week 3)
-**Files**: `scripts/session-stats.sh`, new `/nav:stats` command
+**Files**: `scripts/session-stats.sh`, new `"Show me my session statistics"` command
 **Owner**: Navigator Core
 **Dependencies**: None (extends TASK-06)
 **Deliverable**: Real-time efficiency reporting
@@ -512,7 +512,7 @@ v3.4.0 social posts prove:
 
 1. **Beta testing** with 10 users
    - Test philosophy docs (clarity)
-   - Test `/nav:stats` (usefulness)
+   - Test `"Show me my session statistics"` (usefulness)
    - Test learning content (effectiveness)
 
 2. **Content preparation**
@@ -587,7 +587,7 @@ v3.5.0 is complete when:
 - [ ] Manifesto published
 
 ### Features
-- [ ] `/nav:stats` command working (efficiency reports)
+- [ ] `"Show me my session statistics"` command working (efficiency reports)
 - [ ] `/nav:patterns` command working (pattern discovery)
 - [ ] Enhanced session-stats.sh (baseline comparison)
 - [ ] 3 case studies with real transcripts

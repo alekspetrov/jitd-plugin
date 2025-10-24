@@ -138,7 +138,7 @@ Layer 1: IMPLEMENTATION
 
 ### Week 3-4: Make Value Visible
 **Build**: Efficiency reporting & metrics
-**Output**: `/nav:stats` command with efficiency scores
+**Output**: `"Show me my session statistics"` command with efficiency scores
 **Value**: Users can quantify and share savings
 
 ### Week 5-6: Teach the Patterns
@@ -190,7 +190,7 @@ Layer 1: IMPLEMENTATION
 ### Features (New)
 ```
 commands/
-├── stats.md                 # /nav:stats (efficiency reporting)
+├── stats.md                 # "Show me my session statistics" (efficiency reporting)
 └── patterns.md              # /nav:patterns (pattern discovery)
 
 scripts/
@@ -227,7 +227,7 @@ social-media/v3.5.0/         # Launch campaign
 1. Read Manifesto ("Context Efficiency")
 2. Experience "aha moment" (recognize the problem)
 3. Install Navigator (eager to try)
-4. Run `/nav:stats` → see 92% savings
+4. Run `"Show me my session statistics"` → see 92% savings
 5. Screenshot efficiency report
 6. Share on social media (#ContextEfficiency)
 7. Read learning content

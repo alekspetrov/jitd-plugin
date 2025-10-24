@@ -277,7 +277,7 @@ scripts/
     └── time-estimate.sh       # Time savings estimation
 
 commands/
-└── stats.md                   # New /nav:stats command
+└── stats.md                   # New "Show me my session statistics" command
 ```
 
 ### Integration Points
@@ -287,12 +287,12 @@ commands/
    - "Session efficiency: 94/100 (excellent)"
 
 2. **Navigator index** (DEVELOPMENT-README.md)
-   - Add reference to `/nav:stats`
+   - Add reference to `"Show me my session statistics"`
    - Link to philosophy for score interpretation
 
 3. **CLAUDE.md** (optional)
    - Mention efficiency scoring
-   - Encourage periodic `/nav:stats` checks
+   - Encourage periodic `"Show me my session statistics"` checks
 
 ---
 
@@ -329,7 +329,7 @@ test_time_estimate() {
 # Test: Full stats command
 test_nav_stats_command() {
     # Given: Active session with known metrics
-    # When: /nav:stats
+    # When: "Show me my session statistics"
     # Then: Displays report with all sections
     # And: No errors
 }
@@ -337,7 +337,7 @@ test_nav_stats_command() {
 # Test: Score interpretation
 test_score_recommendations() {
     # Given: Low efficiency (60)
-    # When: /nav:stats
+    # When: "Show me my session statistics"
     # Then: Shows warning recommendations
 }
 ```
@@ -355,7 +355,7 @@ test_score_recommendations() {
 
 ### Functionality
 - [ ] `scripts/session-stats.sh` calculates all new metrics
-- [ ] `/nav:stats` command displays formatted report
+- [ ] `"Show me my session statistics"` command displays formatted report
 - [ ] Efficiency score algorithm implemented correctly
 - [ ] Time estimation reasonable (within 20% of manual calc)
 - [ ] Baseline calculation accurate
@@ -373,7 +373,7 @@ test_score_recommendations() {
 - [ ] Performance: <1s to generate report
 
 ### Documentation
-- [ ] `/nav:stats` usage documented
+- [ ] `"Show me my session statistics"` usage documented
 - [ ] Efficiency score explained
 - [ ] Philosophy docs linked for context
 
@@ -448,7 +448,7 @@ From this task, generate:
 3. **Score weighting**: 40/30/30 optimal?
    - **Answer**: Test with beta users, adjust if needed
 
-4. **Frequency**: Should `/nav:stats` auto-run?
+4. **Frequency**: Should `"Show me my session statistics"` auto-run?
    - **Answer**: No - on-demand only (user control)
 
 ---
@@ -464,7 +464,7 @@ No breaking changes required:
 
 ### For Existing Users
 
-- `/nav:stats` available immediately after upgrade
+- `"Show me my session statistics"` available immediately after upgrade
 - No configuration needed
 - Backwards compatible with v3.4.0 data
 

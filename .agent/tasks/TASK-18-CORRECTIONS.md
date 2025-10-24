@@ -99,7 +99,7 @@ How to budget your 200k context:
 
 #### Metrics Must Be User's Project ✅
 ```markdown
-/nav:stats output:
+"Show me my session statistics" output:
 
 Your Project Efficiency
 ━━━━━━━━━━━━━━━━━━━━━━━━━━

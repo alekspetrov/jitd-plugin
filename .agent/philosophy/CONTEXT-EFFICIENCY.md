@@ -410,7 +410,7 @@ From v3.4.0 (Figma integration) lesson:
 
 ## Measuring Context Efficiency
 
-Navigator tracks your efficiency. Run `/nav:stats`:
+Navigator tracks your efficiency. Run `"Show me my session statistics"`:
 
 ```
 ╔══════════════════════════════════════════════════════╗
