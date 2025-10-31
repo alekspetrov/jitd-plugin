@@ -6,9 +6,13 @@
     "email": "aleks@example.com"
   },
   "metadata": {
-    "description": "Complete framework for context-efficient AI development - Philosophy, Metrics, Education, Skills, and Agents",
-    "version": "4.0.0",
+    "description": "Complete framework for context-efficient AI development - Philosophy, Metrics, Education, Skills, and Multi-Claude Workflows",
+    "version": "4.3.0",
     "breaking_changes": [
+      "v4.3.0: Multi-Claude agentic workflow automation (experimental)",
+      "Added automated multi-Claude orchestration scripts for parallel execution",
+      "Task agents enabled in sub-Claude phases for 60-80% token savings",
+      "Failure reporting and recovery guidance for sub-Claude sessions",
       "v4.0.0: Major transformation - Tool to complete framework",
       "Added comprehensive education layer (learning guides, interactive examples, decision frameworks)",
       "Philosophical foundation documented (context efficiency manifesto, patterns, anti-patterns)",

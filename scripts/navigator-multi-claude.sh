@@ -515,7 +515,7 @@ EOF
 )
 
     pr_url=$(gh pr create \
-      --title "feat($task_id): $TASK_TITLE" \
+      --title "feat($task_id): ${TASK_TITLE:-Feature implementation}" \
       --body "$pr_body" \
       --base main \
       --head "$branch_name" 2>&1) || {
