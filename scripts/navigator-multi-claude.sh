@@ -142,6 +142,10 @@ main() {
   # Read task file
   log_phase "Phase 0: Task Loading"
   task_file=$(read_task "$task_id")
+
+  # Extract task title from task file
+  TASK_TITLE=$(grep -m1 "^# " "$task_file" | sed 's/^# //')
+
   update_task_status "$task_file" "🚧 In Progress"
 
   # Create feature branch
