@@ -100,17 +100,29 @@ This extracts:
 
 ### Step 4: Generate Updated CLAUDE.md
 
-Apply v3.1 template with extracted customizations:
+Apply latest template with extracted customizations:
 
 ```bash
+# Template fetching now automatic via get_template_path():
+# 1. Tries GitHub (version-matched)
+# 2. Falls back to bundled if offline
 python3 "$SKILL_BASE_DIR/functions/claude_updater.py" generate \
   --customizations /tmp/nav-customizations.json \
   --template "$SKILL_BASE_DIR/../../templates/CLAUDE.md" \
   --output CLAUDE.md
 ```
 
-This:
-1. Loads v3.1 template
+**Template Source Priority**:
+1. **GitHub** (version-matched): Fetches from `https://raw.githubusercontent.com/alekspetrov/navigator/v{version}/templates/CLAUDE.md`
+   - Matches installed plugin version (e.g., v4.3.0)
+   - Always up-to-date with release
+   - Works with pre-releases
+2. **Bundled** (fallback): Uses `templates/CLAUDE.md` from installed plugin
+   - Offline fallback
+   - Guaranteed availability
+
+**What this does**:
+1. Loads template (GitHub or bundled)
 2. Replaces placeholders with extracted data
 3. Preserves custom sections
 4. Updates Navigator workflow to natural language

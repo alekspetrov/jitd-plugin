@@ -9,6 +9,109 @@ import json
 import re
 from pathlib import Path
 from typing import Dict, List, Optional
+from urllib import request
+from urllib.error import URLError, HTTPError
+
+def get_plugin_version() -> Optional[str]:
+    """
+    Get installed Navigator plugin version from plugin.json.
+
+    Returns:
+        Version string (e.g., "4.3.0") or None if not found
+    """
+    possible_paths = [
+        Path.home() / '.claude' / 'plugins' / 'marketplaces' / 'navigator-marketplace' / '.claude-plugin' / 'plugin.json',
+        Path.home() / '.config' / 'claude' / 'plugins' / 'navigator' / '.claude-plugin' / 'plugin.json',
+        Path.home() / '.claude' / 'plugins' / 'navigator' / '.claude-plugin' / 'plugin.json',
+    ]
+
+    for path in possible_paths:
+        if path.exists():
+            try:
+                with open(path, 'r') as f:
+                    data = json.load(f)
+                    return data.get('version')
+            except (json.JSONDecodeError, FileNotFoundError, PermissionError):
+                continue
+
+    return None
+
+def fetch_template_from_github(version: Optional[str] = None) -> Optional[str]:
+    """
+    Fetch CLAUDE.md template from GitHub releases.
+
+    Priority:
+    1. Specified version (e.g., 'v4.3.0' or '4.3.0')
+    2. Detected plugin version
+    3. Returns None (caller should use bundled fallback)
+
+    Args:
+        version: Specific version to fetch (optional)
+
+    Returns:
+        Template content as string, or None if fetch fails
+    """
+    if not version:
+        version = get_plugin_version()
+
+    if not version:
+        return None
+
+    # Ensure version has 'v' prefix for GitHub URL
+    if not version.startswith('v'):
+        version = f'v{version}'
+
+    github_url = f"https://raw.githubusercontent.com/alekspetrov/navigator/{version}/templates/CLAUDE.md"
+
+    try:
+        req = request.Request(github_url)
+        req.add_header('User-Agent', 'Navigator-CLAUDE-Updater')
+
+        with request.urlopen(req, timeout=10) as response:
+            if response.status == 200:
+                content = response.read().decode('utf-8')
+                return content
+    except (URLError, HTTPError, TimeoutError) as e:
+        # Silent fail - caller will use bundled template
+        print(f"⚠️  Could not fetch template from GitHub ({version}): {e}", file=sys.stderr)
+        print(f"   Falling back to bundled template", file=sys.stderr)
+        return None
+
+    return None
+
+def get_template_path(bundled_template_dir: str, version: Optional[str] = None) -> tuple[str, bool]:
+    """
+    Get template path, preferring GitHub source over bundled.
+
+    Args:
+        bundled_template_dir: Path to bundled templates directory
+        version: Optional specific version to fetch
+
+    Returns:
+        Tuple of (template_path_or_content, is_from_github)
+    """
+    # Try GitHub first
+    github_template = fetch_template_from_github(version)
+
+    if github_template:
+        # Write to temporary file
+        import tempfile
+        temp_file = tempfile.NamedTemporaryFile(mode='w', suffix='.md', delete=False)
+        temp_file.write(github_template)
+        temp_file.close()
+
+        detected_version = version or get_plugin_version()
+        print(f"✓ Using template from GitHub ({detected_version})", file=sys.stderr)
+        return (temp_file.name, True)
+
+    # Fallback to bundled
+    bundled_path = Path(bundled_template_dir) / 'CLAUDE.md'
+    if bundled_path.exists():
+        bundled_version = get_plugin_version() or "unknown"
+        print(f"✓ Using bundled template (v{bundled_version})", file=sys.stderr)
+        return (str(bundled_path), False)
+
+    raise FileNotFoundError(f"No template found (GitHub failed, bundled not at {bundled_path})")
 
 def extract_section(content: str, header: str, next_headers: List[str]) -> Optional[str]:
     """Extract content between header and next section header"""
@@ -308,8 +411,30 @@ def main():
             with open(args['customizations'], 'r') as f:
                 customizations = json.load(f)
 
-            generate_updated_claude_md(customizations, args['template'], args['output'])
+            # Use get_template_path for GitHub fetch with bundled fallback
+            # If --template is a directory, treat it as bundled_template_dir
+            # Otherwise, use it directly as a file path
+            template_arg = args['template']
+
+            if Path(template_arg).is_dir():
+                # Directory provided - use get_template_path for smart fetching
+                template_path, is_github = get_template_path(template_arg)
+            elif Path(template_arg).is_file():
+                # File provided directly - use as-is (backward compatibility)
+                template_path = template_arg
+                is_github = False
+            else:
+                # Try parent directory for get_template_path
+                template_dir = str(Path(template_arg).parent)
+                template_path, is_github = get_template_path(template_dir)
+
+            generate_updated_claude_md(customizations, template_path, args['output'])
             print(f"✓ Generated {args['output']}", file=sys.stderr)
+
+            # Cleanup temp file if from GitHub
+            if is_github and Path(template_path).exists():
+                Path(template_path).unlink()
+
         except Exception as e:
             print(f"Error generating CLAUDE.md: {e}", file=sys.stderr)
             sys.exit(2)

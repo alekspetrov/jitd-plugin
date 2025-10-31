@@ -46,47 +46,159 @@ Auto-invoke when user says:
 
 **Execute**: `version_detector.py`
 
-**Check**:
+**Check both stable and pre-release versions**:
 ```bash
 # Current installed version
-/plugin list | grep navigator
+grep '"version"' .claude-plugin/plugin.json
 
-# Latest available version (from GitHub releases API)
-curl -s https://api.github.com/repos/alekspetrov/navigator/releases/latest
+# Get all releases (including pre-releases)
+curl -s https://api.github.com/repos/alekspetrov/navigator/releases
+
+# Parse:
+# - Latest stable (prerelease: false)
+# - Latest pre-release (prerelease: true)
+# - Compare with current version
 ```
 
-**Output**:
+**Output scenarios**:
+
+**Scenario 1: Stable update available**
 ```json
 {
-  "current_version": "3.2.0",
-  "latest_version": "3.3.0",
-  "update_available": true,
-  "changes": ["visual-regression skill", "17 total skills"],
-  "breaking_changes": false
+  "current_version": "4.0.0",
+  "latest_stable": "4.2.0",
+  "latest_prerelease": null,
+  "recommendation": "update_to_stable"
 }
 ```
 
-**If already on latest**:
+**Scenario 2: Pre-release available (user on stable)**
+```json
+{
+  "current_version": "4.0.0",
+  "latest_stable": "4.0.0",
+  "latest_prerelease": "4.3.0",
+  "recommendation": "offer_prerelease_option"
+}
 ```
-✅ You're already on the latest version (v3.3.0)
 
-New features available:
-- visual-regression skill: "Set up visual regression for [Component]"
-- 17 total skills (10 core + 7 development)
+**Present choice**:
+```
+✅ You're on the latest stable version (v4.0.0)
+
+⚡ Experimental version available: v4.3.0
+
+New in v4.3.0 (Experimental):
+• Multi-Claude agentic workflows
+• 30% success rate (use for simple features)
+• PM integration with ticket closing
+
+Options:
+[1] Stay on stable v4.0.0 (recommended)
+[2] Try experimental v4.3.0 (early adopter)
+
+Your choice [1-2]:
+```
+
+**Scenario 3: Already on latest (stable or pre-release)**
+```
+✅ You're on v4.3.0 (latest experimental)
+
+Latest stable: v4.0.0
+Status: You're ahead of stable (testing experimental features)
+
+New features in your version:
+- Multi-Claude workflows
+- Task agents in sub-Claude phases
 ```
 
 Skip to Step 5 (Feature Discovery).
 
+**Scenario 4: On pre-release, newer stable available**
+```
+⚠️  You're on v4.3.0 (experimental)
+Latest stable: v4.5.0
+
+Recommendation: Update to stable v4.5.0
+Experimental features from v4.3.0 are now stable.
+```
+
 ---
 
 ### Step 2: Plugin Update
+
+**Scenario-based update strategy**:
+
+#### Scenario 2: Pre-release Available (User on Stable)
+
+When pre-release detected, present choice using AskUserQuestion tool:
+
+```markdown
+✅ You're on latest stable version (v4.0.0)
+
+⚡ Experimental version available: v4.3.0
+
+New in v4.3.0 (Experimental):
+• Multi-Claude agentic workflows
+• 30% success rate (use for simple features)
+• PM integration with ticket closing
+
+**Question**: Which version would you like?
+
+**Options**:
+[1] **Stay on stable v4.0.0** (recommended)
+    - Production-ready
+    - No experimental features
+    - Most reliable
+
+[2] **Try experimental v4.3.0** (early adopter)
+    - Multi-Claude workflows
+    - Latest features
+    - 30% completion rate
+    - Help test new functionality
+
+Your choice?
+```
+
+**If user chooses [1] (Stay stable)**:
+```
+✓ Staying on v4.0.0 (latest stable)
+
+No action needed. Run nav-upgrade again when you're ready to try experimental features.
+```
+
+**If user chooses [2] (Try experimental)**:
+```bash
+# Uninstall current version
+/plugin uninstall navigator
+
+# Add marketplace (if not already added)
+/plugin marketplace add alekspetrov/navigator
+
+# Install specific pre-release version
+# Note: /plugin update only fetches stable, must install specific version
+git clone https://github.com/alekspetrov/navigator.git /tmp/navigator-v4.3.0
+cd /tmp/navigator-v4.3.0
+git checkout v4.3.0
+
+# Install from local checkout
+/plugin install /tmp/navigator-v4.3.0
+```
+
+**Then verify installation**:
+```bash
+/plugin list | grep navigator
+# Should show: navigator (v4.3.0)
+```
+
+#### Scenario 1: Stable Update Available
 
 **Execute**: `/plugin update navigator`
 
 **Monitor output**:
 ```
 Updating navigator...
-✅ Navigator updated to v3.3.0
+✅ Navigator updated to v4.2.0
 ```
 
 **If update fails**:
@@ -151,18 +263,38 @@ Prompt user to restart Claude Code.
 
 ---
 
-### Step 4: Update Project CLAUDE.md
+### Step 4: Update Project CLAUDE.md (Automatic)
 
-**Invoke**: `nav-update-claude` skill
+**After plugin update, automatically invoke**: `nav-update-claude` skill
 
 ```
-Updating your project's CLAUDE.md to v3.3.0...
+🔄 Syncing project CLAUDE.md with updated plugin...
+
+✓ Using template from GitHub (v4.3.0)
+✓ Extracted customizations
+✓ Generated updated CLAUDE.md
 ```
 
-This preserves customizations while updating:
-- Version references
-- New skill patterns
-- Updated workflow instructions
+**What happens automatically**:
+1. Detects new plugin version (e.g., v4.3.0)
+2. Fetches matching template from GitHub
+3. Preserves project customizations
+4. Updates CLAUDE.md in current project
+5. Shows diff for review
+
+**Template sync benefits**:
+- ✅ CLAUDE.md always matches installed plugin version
+- ✅ No template drift (v4.0 templates with v4.3 plugin)
+- ✅ Pre-release templates accessible
+- ✅ Offline fallback to bundled templates
+
+**User action required**:
+```
+Review changes and commit:
+
+git add CLAUDE.md
+git commit -m "chore: update CLAUDE.md to Navigator v4.3.0"
+```
 
 **See**: `nav-update-claude` skill for details.
 

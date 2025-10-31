@@ -409,9 +409,78 @@ gh run list --workflow=release.yml --limit 1
 https://github.com/alekspetrov/navigator/releases/tag/v{VERSION}
 ```
 
-### Step 10: Verify Release
+### Step 10: Test User Upgrade Flow
 
-**Do this**:
+**Critical**: Verify users can upgrade smoothly to new version.
+
+**Test stable upgrade** (if releasing stable):
+```bash
+# In test project with Navigator installed
+cd /tmp/test-project
+
+# Simulate user upgrading
+/plugin update navigator
+
+# Should fetch new stable version
+/plugin list | grep navigator  # Verify version updated
+
+# Verify CLAUDE.md sync
+# nav-upgrade should auto-invoke nav-update-claude
+# Template should match new plugin version
+```
+
+**Test pre-release upgrade** (if releasing pre-release):
+```bash
+cd /tmp/test-project
+
+# User runs nav-upgrade
+# Should see:
+✅ You're on latest stable version (v4.0.0)
+
+⚡ Experimental version available: v4.3.0
+
+New in v4.3.0 (Experimental):
+• [Feature list from release notes]
+
+Options:
+[1] Stay on stable v4.0.0 (recommended)
+[2] Try experimental v4.3.0 (early adopter)
+
+Your choice:
+```
+
+**If user chooses [2]**:
+```bash
+# Should execute:
+/plugin uninstall navigator
+git clone https://github.com/alekspetrov/navigator.git /tmp/navigator-v4.3.0
+cd /tmp/navigator-v4.3.0 && git checkout v4.3.0
+/plugin install /tmp/navigator-v4.3.0
+
+# Then verify
+/plugin list | grep navigator  # Should show v4.3.0
+```
+
+**Verify template sync**:
+```bash
+# nav-update-claude should fetch from GitHub
+# Check output:
+✓ Using template from GitHub (v4.3.0)  # Not "bundled"
+
+# Verify CLAUDE.md has v4.3.0 content
+grep "Navigator Version" CLAUDE.md
+# Should show: Navigator Version: 4.3.0 (or similar marker)
+```
+
+**Why this matters**:
+- Users on v4.0.0 expect `/plugin update` to work
+- Pre-releases require manual opt-in
+- Template drift causes confusion (v4.0 templates with v4.3 plugin)
+- This test caught the bug in actual usage
+
+---
+
+### Step 11: Verify Release
 ```bash
 # Check GitHub release page
 gh release view v{VERSION}
@@ -484,17 +553,32 @@ $ git tag -a v4.3.0 -m "Navigator v4.3.0: Multi-Claude..."
 $ git push origin main && git push origin v4.3.0
 ```
 
-**Step 9: Created GitHub release**
+**Step 9: Created GitHub release** (automated via GitHub Action)
 ```bash
-$ gh release create v4.3.0 \
-  --title "Navigator v4.3.0: Multi-Claude Agentic Workflows" \
-  --notes-file RELEASE-NOTES-v4.3.0.md \
-  --prerelease
+# GitHub Action triggered by tag push automatically created release
+# Check: gh run list --workflow=release.yml --limit 1
+# Result: ✓ Publish Release completed
 
 https://github.com/alekspetrov/navigator/releases/tag/v4.3.0
 ```
 
-**Step 10: Verified**
+**Step 10: Improved Upgrade Experience**
+```bash
+# Fixed template drift issue (v4.3.1)
+# Updated nav-update-claude to fetch from GitHub:
+# - Detects plugin version
+# - Fetches matching template from GitHub
+# - Falls back to bundled if offline
+# Result: Users always get version-matched templates
+
+# Updated nav-upgrade with pre-release choice:
+# - Detects stable + pre-release versions
+# - Presents interactive choice
+# - Auto-invokes nav-update-claude after update
+# Result: Professional pre-release opt-in flow
+```
+
+**Step 11: Verified**
 ```bash
 $ grep -r "\"version\"" .claude-plugin/
 .claude-plugin/marketplace.json:  "version": "4.3.0",
