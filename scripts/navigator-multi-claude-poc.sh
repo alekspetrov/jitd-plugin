@@ -32,25 +32,24 @@ log_phase() {
   echo ""
 }
 
-# Wait for marker file to appear
-wait_for_marker() {
-  local marker_name="$1"
-  local marker_path=".context-markers/${marker_name}.md"
-  local timeout=300  # 5 minutes
+# Wait for file to appear
+wait_for_file() {
+  local file_path="$1"
+  local timeout=120  # 2 minutes
   local elapsed=0
 
-  log_info "Waiting for marker: $marker_name"
+  log_info "Waiting for file: $file_path"
 
-  while [ ! -f "$marker_path" ]; do
+  while [ ! -f "$file_path" ]; do
     if [ $elapsed -ge $timeout ]; then
-      log_error "Timeout waiting for marker: $marker_name"
+      log_error "Timeout waiting for file: $file_path"
       return 1
     fi
     sleep 1
     ((elapsed++))
   done
 
-  log_success "Marker received: $marker_name"
+  log_success "File created: $file_path"
   return 0
 }
 
@@ -81,12 +80,17 @@ main() {
 
   log_phase "Phase 1: Planning (Orchestrator)"
 
-  # Step 1: Start session and create plan
+  # Generate unique task ID
+  local task_id="poc-$(date +%s)"
+  local plan_file=".agent/tasks/${task_id}-plan.md"
+
+  # Step 1: Create plan and save to file
   log_info "Orchestrator: Creating implementation plan..."
 
   orchestrator_output=$(claude -p \
-    "Start Navigator session. Create a brief implementation plan for: $feature_description" \
-    --output-format json 2>&1)
+    "Start Navigator session. Create a brief implementation plan for: $feature_description. Save the plan to ${plan_file} using the Write tool. Include: 1) Feature description 2) Implementation steps 3) Files to modify 4) Expected outcome." \
+    --output-format json \
+    --dangerously-skip-permissions 2>&1)
 
   if [ $? -ne 0 ]; then
     log_error "Orchestrator failed"
@@ -94,46 +98,28 @@ main() {
     exit 1
   fi
 
-  # Extract session ID
-  orchestrator_session=$(echo "$orchestrator_output" | jq -r '.session_id // empty')
+  log_success "Plan creation requested"
 
-  if [ -z "$orchestrator_session" ]; then
-    log_error "Failed to get orchestrator session ID"
+  # Wait for plan file
+  if ! wait_for_file "$plan_file"; then
+    log_error "Planning phase failed - no plan file created"
     exit 1
   fi
 
-  log_success "Plan created (session: ${orchestrator_session:0:8}...)"
-
-  # Step 2: Create marker in same session
-  log_info "Creating marker..."
-
-  marker_output=$(claude -p "Create marker 'poc-plan' with summary of the implementation plan" \
-    --resume "$orchestrator_session" \
-    --output-format json 2>&1)
-
-  if [ $? -ne 0 ]; then
-    log_error "Marker creation failed"
-    echo "$marker_output"
-    exit 1
-  fi
-
-  log_success "Marker creation requested"
-
-  # Wait for plan marker
-  if ! wait_for_marker "poc-plan"; then
-    log_error "Planning phase failed - no marker created"
-    log_info "Tip: Claude may need explicit marker skill invocation"
-    exit 1
-  fi
+  log_success "Plan saved to: $plan_file"
 
   log_phase "Phase 2: Implementation"
 
   # Launch implementation in headless mode
   log_info "Implementation: Building feature from plan..."
 
-  impl_output=$(claude -p "Load marker poc-plan. Implement the feature following the plan. Create marker 'poc-impl' when done." \
+  local impl_done_file=".agent/tasks/${task_id}-done"
+
+  impl_output=$(claude -p \
+    "Read the plan from ${plan_file}. Implement the feature following the plan. When done, create empty file ${impl_done_file} using: touch ${impl_done_file}" \
     --output-format json \
-    --allowedTools "Read,Write,Edit,Bash" 2>&1)
+    --allowedTools "Read,Write,Edit,Bash" \
+    --dangerously-skip-permissions 2>&1)
 
   if [ $? -ne 0 ]; then
     log_error "Implementation failed"
@@ -141,30 +127,107 @@ main() {
     exit 1
   fi
 
-  impl_session=$(echo "$impl_output" | jq -r '.session_id // empty')
+  log_success "Implementation requested"
 
-  if [ -n "$impl_session" ]; then
-    log_success "Implementation complete (session: ${impl_session:0:8}...)"
-  else
-    log_success "Implementation complete"
-  fi
-
-  # Wait for implementation marker
-  if ! wait_for_marker "poc-impl"; then
-    log_error "Implementation phase failed - no marker created"
+  # Wait for completion marker file
+  if ! wait_for_file "$impl_done_file"; then
+    log_error "Implementation phase failed - no completion marker"
     exit 1
   fi
 
+  log_success "Implementation complete"
+
+  log_phase "Phase 3 & 4: Parallel Testing + Documentation"
+
+  local test_done_file=".agent/tasks/${task_id}-tests-done"
+  local docs_done_file=".agent/tasks/${task_id}-docs-done"
+
+  # Launch testing Claude in background
+  log_info "Testing: Validating implementation and generating tests... (parallel)"
+
+  (
+    test_output=$(claude -p \
+      "Read the plan from ${plan_file}. Review the implementation and generate comprehensive tests. Run the tests to validate the implementation. When done, create empty file ${test_done_file} using: touch ${test_done_file}" \
+      --output-format json \
+      --allowedTools "Read,Write,Edit,Bash" \
+      --dangerously-skip-permissions 2>&1)
+
+    if [ $? -ne 0 ]; then
+      echo "TEST_FAILED" > ".agent/tasks/${task_id}-tests-failed"
+      log_error "Testing failed"
+    fi
+  ) &
+  local test_pid=$!
+
+  # Launch documentation Claude in parallel
+  log_info "Documentation: Generating comprehensive docs... (parallel)"
+
+  (
+    docs_output=$(claude -p \
+      "Read the plan from ${plan_file}. Review the implementation and generate comprehensive documentation (README sections, JSDoc improvements, usage examples). When done, create empty file ${docs_done_file} using the Bash tool: touch ${docs_done_file}" \
+      --output-format json \
+      --allowedTools "Read,Write,Edit,Bash" \
+      --dangerously-skip-permissions 2>&1)
+
+    if [ $? -ne 0 ]; then
+      echo "DOCS_FAILED" > ".agent/tasks/${task_id}-docs-failed"
+      log_error "Documentation failed"
+    fi
+  ) &
+  local docs_pid=$!
+
+  log_success "Parallel execution started (Testing + Documentation)"
+
+  # Wait for both processes to complete
+  log_info "Waiting for parallel phases to complete..."
+
+  # Wait for testing
+  if ! wait_for_file "$test_done_file"; then
+    log_error "Testing phase timeout - no completion marker"
+    kill $test_pid $docs_pid 2>/dev/null
+    exit 1
+  fi
+  log_success "Testing complete"
+
+  # Wait for documentation
+  if ! wait_for_file "$docs_done_file"; then
+    log_error "Documentation phase timeout - no completion marker"
+    kill $docs_pid 2>/dev/null
+    exit 1
+  fi
+  log_success "Documentation complete"
+
+  # Wait for background processes to fully exit
+  wait $test_pid $docs_pid 2>/dev/null
+
+  # Check quality gates
+  log_info "Checking quality gates..."
+
+  if [ -f ".agent/tasks/${task_id}-tests-failed" ]; then
+    log_error "Tests failed - quality gate not met"
+    cat ".agent/tasks/${task_id}-tests-failed"
+    exit 1
+  fi
+
+  if [ -f ".agent/tasks/${task_id}-docs-failed" ]; then
+    log_error "Documentation generation failed"
+    cat ".agent/tasks/${task_id}-docs-failed"
+    exit 1
+  fi
+
+  log_success "All quality gates passed ✓"
+
   log_phase "✅ POC Complete"
   log_success "Feature: $feature_description"
-  log_success "Phases: Planning ✓ Implementation ✓"
-  log_success "Markers: poc-plan.md, poc-impl.md"
+  log_success "Phases: Planning ✓ Implementation ✓ [Testing+Docs] ✓"
+  log_success "Plan: $plan_file"
 
   echo ""
   echo "Next steps:"
   echo "1. Review changes: git status"
-  echo "2. Check markers: ls -la .context-markers/"
-  echo "3. Verify implementation works"
+  echo "2. Check plan: cat $plan_file"
+  echo "3. Review tests: find . -name '*.test.*' -newer $plan_file"
+  echo "4. Review docs: git diff '*.md'"
   echo ""
 }
 
