@@ -436,6 +436,40 @@ EOF
     log_info "gh CLI not found - skipping PR creation"
   fi
 
+  log_phase "Phase 7: PM Integration"
+  update_task_status "$task_file" "🚧 In Progress (PM Integration)"
+
+  # Close ticket in PM system if available
+  if command -v gh &> /dev/null && [[ "$task_id" =~ ^TASK-[0-9]+ ]]; then
+    log_info "Closing ticket in PM system..."
+
+    # Extract issue number from task_id (TASK-21 -> 21)
+    issue_num="${task_id#TASK-}"
+
+    # Close issue and add comment
+    gh issue close "$issue_num" --comment "✅ Implementation complete via Multi-Claude workflow
+
+**Branch**: $branch_name
+**Plan**: $plan_file
+**Review**: $review_report_file
+
+All phases completed:
+- ✅ Planning
+- ✅ Implementation
+- ✅ Testing
+- ✅ Documentation
+- ✅ Review (APPROVED)
+- ✅ Integration
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)" 2>&1 || {
+      log_error "Failed to close ticket (may not exist or already closed)"
+    }
+
+    log_success "Ticket closed in PM system"
+  else
+    log_info "PM integration skipped (gh CLI not found or non-standard task ID)"
+  fi
+
   # Mark task complete
   update_task_status "$task_file" "✅ Complete"
 
