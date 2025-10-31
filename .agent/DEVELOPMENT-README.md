@@ -566,8 +566,23 @@ Next: Run /nav:compact to clear context
 
 **Last Updated**: 2025-10-13
 
+##### [Complete Release Workflow](./sops/development/complete-release-workflow.md)
+**When to use**: Releasing new Navigator version (comprehensive guide)
+
+**Contains**:
+- Step-by-step release process (10 steps)
+- Version file updates (marketplace.json, plugin.json, README.md)
+- Release notes creation
+- GitHub release automation (via GitHub Actions)
+- Pre-release vs stable release handling
+- Troubleshooting common issues
+- Real example: v4.3.0 release walkthrough
+
+**Created**: 2025-10-31
+**Last Updated**: 2025-10-31
+
 ##### [Navigator Plugin Release Workflow](./sops/development/navigator-plugin-release-workflow.md)
-**When to use**: Releasing new Navigator plugin version with features
+**When to use**: Legacy release guide (use Complete Release Workflow instead)
 
 **Contains**:
 - Preparing release materials (release notes, upgrade guides)
@@ -581,6 +596,7 @@ Next: Run /nav:compact to clear context
 
 **Created**: 2025-10-22
 **Last Updated**: 2025-10-22
+**Status**: Superseded by Complete Release Workflow
 
 ##### [Plugin Release Workflow](./sops/development/plugin-release-workflow.md)
 **When to use**: Releasing new plugin version
