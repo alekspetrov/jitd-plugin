@@ -3,7 +3,8 @@
 **92% token savings. Verified, not estimated.**
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-3.4.0-blue.svg)](https://github.com/alekspetrov/navigator/releases)
+[![Version](https://img.shields.io/badge/version-4.3.0-blue.svg)](https://github.com/alekspetrov/navigator/releases)
+[![Status](https://img.shields.io/badge/status-experimental-yellow.svg)](https://github.com/alekspetrov/navigator/releases/tag/v4.3.0)
 
 ---
 
@@ -236,9 +237,78 @@ This loads:
 
 ---
 
-## What's New in v3.4.0
+## What's New in v4.3.0 (Experimental)
 
-**Direct Figma MCP Integration** - Proves the preprocessing pattern
+**Multi-Claude Agentic Workflow Automation** - Parallel execution while maintaining 92% efficiency
+
+### The Multi-Claude Concept
+
+**Problem**: Single-Claude sequential execution
+- One phase at a time (plan → impl → test → docs → review)
+- Context fills up during long features
+- No parallelism
+
+**Solution**: Automated multi-Claude orchestration
+```bash
+./scripts/navigator-multi-claude.sh "Implement OAuth authentication"
+
+Behind the scenes:
+├── Orchestrator Claude: Creates plan (Phase 1)
+├── Implementation Claude: Builds feature (Phase 2)
+├── Testing Claude + Docs Claude: Parallel execution (Phase 3-4)
+└── Review Claude: Analyzes changes (Phase 5)
+
+Result: 12-21 minutes for complete feature
+```
+
+**Each Claude maintains 92% token efficiency** - Navigator principles applied to parallel architecture
+
+### Status: Experimental
+
+**Test results**: 30% full completion rate (3/10 workflows)
+- ✅ Works: Simple features (1-2 file changes)
+- ⚠️ Issues: Marker coordination timeouts, phase transitions
+- 📋 Recommendation: Use with manual fallback readiness
+
+**Try it**:
+```bash
+# Simple POC
+./scripts/navigator-multi-claude-poc.sh "Add email validation"
+
+# Full workflow
+./scripts/navigator-multi-claude.sh TASK-42-feature-name
+```
+
+[Full v4.3.0 release notes](RELEASE-NOTES-v4.3.0.md) | [Report issues](https://github.com/alekspetrov/navigator/issues)
+
+---
+
+## What's in v4.0.0
+
+**From Tool to Framework** - Philosophy, Metrics, Education
+
+### Philosophy Foundation
+- Context Efficiency Manifesto (`.agent/philosophy/CONTEXT-EFFICIENCY.md`)
+- Anti-Patterns documentation (what kills sessions)
+- Success Patterns (what works and why)
+
+### Real Metrics
+- `nav-stats` skill with efficiency scoring (0-100)
+- OpenTelemetry-verified token usage
+- Actual baseline calculations from your `.agent/` files
+
+### Education Layer
+- 4 comprehensive learning guides (69k tokens total)
+- 3 interactive hands-on examples
+- 3 decision frameworks for quick reference
+
+**Master the principles, not just the patterns.**
+
+---
+
+## What Was New in v3.4.0
+
+**Direct Figma MCP Integration** - Preprocessing pattern proven
 
 **Before v3.4.0**:
 ```
