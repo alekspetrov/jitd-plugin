@@ -1,0 +1,81 @@
+name: Publish Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract version from tag
+        id: version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Check if release notes exist
+        id: check_notes
+        run: |
+          if [ -f "RELEASE-NOTES-v${{ steps.version.outputs.version }}.md" ]; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Determine if pre-release
+        id: prerelease
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          if [[ "$VERSION" == *"alpha"* ]] || [[ "$VERSION" == *"beta"* ]] || [[ "$VERSION" == *"rc"* ]]; then
+            echo "is_prerelease=true" >> $GITHUB_OUTPUT
+          else
+            # Check marketplace.json description for "Experimental"
+            if grep -q "Experimental" .claude-plugin/marketplace.json; then
+              echo "is_prerelease=true" >> $GITHUB_OUTPUT
+            else
+              echo "is_prerelease=false" >> $GITHUB_OUTPUT
+            fi
+          fi
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          name: "Navigator ${{ steps.version.outputs.tag }}"
+          body_path: ${{ steps.check_notes.outputs.exists == 'true' && format('RELEASE-NOTES-v{0}.md', steps.version.outputs.version) || '' }}
+          body: ${{ steps.check_notes.outputs.exists == 'false' && format('Release {0}\n\nSee commit history for changes.', steps.version.outputs.tag) || '' }}
+          draft: false
+          prerelease: ${{ steps.prerelease.outputs.is_prerelease }}
+          files: |
+            RELEASE-NOTES-v${{ steps.version.outputs.version }}.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Verify marketplace compatibility
+        run: |
+          echo "✅ Release ${{ steps.version.outputs.tag }} published"
+          echo ""
+          echo "📦 Marketplace will auto-update from:"
+          echo "   https://github.com/alekspetrov/navigator/releases/tag/${{ steps.version.outputs.tag }}"
+          echo ""
+          echo "Users can update with:"
+          echo "   /plugin update navigator"
+          echo ""
+          if [ "${{ steps.prerelease.outputs.is_prerelease }}" == "true" ]; then
+            echo "⚠️  This is a PRE-RELEASE"
+            echo "   Latest stable API endpoint will not show this version"
+            echo "   Users need to explicitly opt-in to pre-releases"
+          fi
