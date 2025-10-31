@@ -35,7 +35,7 @@ log_phase() {
 # Wait for file to appear
 wait_for_file() {
   local file_path="$1"
-  local timeout=120  # 2 minutes
+  local timeout=300  # 5 minutes (increased for review phase)
   local elapsed=0
 
   log_info "Waiting for file: $file_path"
@@ -368,7 +368,7 @@ main() {
   git add .
 
   commit_message=$(cat <<EOF
-feat($task_id): $TASK_TITLE
+feat($task_id): ${TASK_TITLE:-Feature implementation}
 
 Automated implementation via Navigator Multi-Claude workflow.
 
