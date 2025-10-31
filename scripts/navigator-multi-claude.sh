@@ -150,7 +150,7 @@ main() {
 
   # Create feature branch
   branch_name=$(create_feature_branch "$task_id")
-  log_success "Branch: $branch_name"
+  log_success "Branch: $branch_name" >&2
 
   # Generate unique session ID
   local session_id="$(echo "$task_id" | tr '[:upper:]' '[:lower:]')-$(date +%s)"
@@ -440,14 +440,15 @@ EOF
   update_task_status "$task_file" "🚧 In Progress (PM Integration)"
 
   # Close ticket in PM system if available
-  if command -v gh &> /dev/null && [[ "$task_id" =~ ^TASK-[0-9]+ ]]; then
-    log_info "Closing ticket in PM system..."
-
+  if command -v gh &> /dev/null; then
     # Extract issue number from task_id (TASK-21 -> 21)
-    issue_num="${task_id#TASK-}"
+    # Only process if task_id matches TASK-<number> format
+    if [[ "$task_id" =~ ^TASK-([0-9]+)$ ]]; then
+      issue_num="${BASH_REMATCH[1]}"
+      log_info "Closing ticket in PM system..."
 
-    # Close issue and add comment
-    gh issue close "$issue_num" --comment "✅ Implementation complete via Multi-Claude workflow
+      # Close issue and add comment
+      gh issue close "$issue_num" --comment "✅ Implementation complete via Multi-Claude workflow
 
 **Branch**: $branch_name
 **Plan**: $plan_file
@@ -462,12 +463,15 @@ All phases completed:
 - ✅ Integration
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)" 2>&1 || {
-      log_error "Failed to close ticket (may not exist or already closed)"
-    }
+        log_error "Failed to close ticket (may not exist or already closed)"
+      }
 
-    log_success "Ticket closed in PM system"
+      log_success "Ticket closed in PM system"
+    else
+      log_info "PM integration skipped (non-standard task ID format)"
+    fi
   else
-    log_info "PM integration skipped (gh CLI not found or non-standard task ID)"
+    log_info "PM integration skipped (gh CLI not found)"
   fi
 
   # Mark task complete
