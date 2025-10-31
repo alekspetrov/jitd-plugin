@@ -184,7 +184,23 @@ main() {
   log_info "Orchestrator: Creating implementation plan..."
 
   orchestrator_output=$(claude -p \
-    "Start Navigator session. Read task from ${task_file}. Create implementation plan and save to ${plan_file}. Include: 1) Feature description 2) Implementation steps 3) Files to modify 4) Expected outcome.$(error_handling_instructions "$plan_file")" \
+    "You are the Planning Claude in a multi-Claude workflow.
+
+TASK: Read task from ${task_file}. Create implementation plan and save to ${plan_file}.
+
+EFFICIENCY TIPS:
+- Use Task agent (subagent_type=Explore) for codebase exploration instead of manual file reading
+- Task agents return summaries, saving 60-80% tokens
+- For unfamiliar codebases: Launch Explore agent with 'medium' thoroughness
+
+PLAN REQUIREMENTS:
+1) Feature description
+2) Implementation steps (detailed, actionable)
+3) Files to create/modify
+4) Expected outcome
+5) Test strategy
+
+$(error_handling_instructions "$plan_file")" \
     --output-format json \
     --dangerously-skip-permissions 2>&1)
 
@@ -214,9 +230,23 @@ main() {
   local impl_done_file=".agent/tasks/${session_id}-done"
 
   impl_output=$(claude -p \
-    "Read the plan from ${plan_file}. Implement the feature following the plan. When done, create empty file ${impl_done_file} using: touch ${impl_done_file}$(error_handling_instructions "$impl_done_file")" \
+    "You are the Implementation Claude in a multi-Claude workflow.
+
+TASK: Read the plan from ${plan_file}. Implement the feature following the plan.
+
+EFFICIENCY TIPS:
+- For multi-file searches: Use Task agent (subagent_type=Explore) instead of manual Grep/Glob
+- For understanding existing patterns: Launch Explore agent to analyze similar code
+- Task agents save 60-80% tokens on exploration tasks
+
+IMPLEMENTATION RULES:
+- Follow the plan exactly
+- Write clean, well-documented code
+- Use project conventions (check existing files for patterns)
+- When done, create completion marker: touch ${impl_done_file}
+
+$(error_handling_instructions "$impl_done_file")" \
     --output-format json \
-    --allowedTools "Read,Write,Edit,Bash" \
     --dangerously-skip-permissions 2>&1)
 
   if [ $? -ne 0 ]; then
@@ -249,9 +279,22 @@ main() {
   # Launch testing Claude in background
   (
     test_output=$(claude -p \
-      "Read the plan from ${plan_file}. Review implementation and generate comprehensive tests. Run tests to validate. When done, create empty file ${test_done_file} using: touch ${test_done_file}" \
+      "You are the Testing Claude in a multi-Claude workflow.
+
+TASK: Read the plan from ${plan_file}. Review implementation and generate comprehensive tests. Run tests to validate.
+
+EFFICIENCY TIPS:
+- Use Task agent (subagent_type=Explore) to find existing test patterns
+- Analyze similar test files to match project conventions
+
+TEST REQUIREMENTS:
+- Unit tests for all functions
+- Edge cases and error handling
+- Run tests and verify they pass
+- When done, create completion marker: touch ${test_done_file}
+
+$(error_handling_instructions "$test_done_file")" \
       --output-format json \
-      --allowedTools "Read,Write,Edit,Bash" \
       --dangerously-skip-permissions 2>&1)
 
     if [ $? -ne 0 ]; then
@@ -264,9 +307,22 @@ main() {
   # Launch documentation Claude in parallel
   (
     docs_output=$(claude -p \
-      "Read the plan from ${plan_file}. Review implementation and generate comprehensive documentation (README sections, JSDoc, usage examples). When done, create empty file ${docs_done_file} using the Bash tool: touch ${docs_done_file}" \
+      "You are the Documentation Claude in a multi-Claude workflow.
+
+TASK: Read the plan from ${plan_file}. Review implementation and generate comprehensive documentation.
+
+EFFICIENCY TIPS:
+- Use Task agent (subagent_type=Explore) to find existing documentation patterns
+- Match project documentation style
+
+DOCUMENTATION REQUIREMENTS:
+- README sections (installation, usage, examples)
+- JSDoc/TSDoc for all public APIs
+- Usage examples with code snippets
+- When done, create completion marker: touch ${docs_done_file}
+
+$(error_handling_instructions "$docs_done_file")" \
       --output-format json \
-      --allowedTools "Read,Write,Edit,Bash" \
       --dangerously-skip-permissions 2>&1)
 
     if [ $? -ne 0 ]; then
@@ -328,9 +384,26 @@ main() {
   log_info "Review: Analyzing all changes..."
 
   review_output=$(claude -p \
-    "Read the plan from ${plan_file}. Review all implementation changes using git diff. Analyze code quality, test coverage, documentation. Generate review report and save to ${review_report_file}. Include: 1) Quality score (1-10) 2) Strengths 3) Issues 4) Suggestions 5) Approval decision (APPROVED/NEEDS_WORK). When done, create empty file ${review_done_file} using the Bash tool: touch ${review_done_file}" \
+    "You are the Review Claude in a multi-Claude workflow.
+
+TASK: Read the plan from ${plan_file}. Review all implementation changes using git diff. Analyze code quality, test coverage, documentation. Generate review report and save to ${review_report_file}.
+
+EFFICIENCY TIPS:
+- Use Task agent (subagent_type=Explore) to analyze patterns across multiple files
+- For large changesets: Use Task agent to summarize changes before detailed review
+
+REVIEW REQUIREMENTS:
+Include in ${review_report_file}:
+1) Quality score (1-10)
+2) Strengths
+3) Issues found
+4) Suggestions for improvement
+5) Approval decision (APPROVED/NEEDS_WORK)
+
+When done, create completion marker: touch ${review_done_file}
+
+$(error_handling_instructions "$review_done_file")" \
     --output-format json \
-    --allowedTools "Read,Write,Bash,Grep,Glob" \
     --dangerously-skip-permissions 2>&1)
 
   if [ $? -ne 0 ]; then
