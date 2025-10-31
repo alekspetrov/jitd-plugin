@@ -107,8 +107,8 @@ main() {
   # Step 2: Create marker in same session
   log_info "Creating marker..."
 
-  marker_output=$(claude -p --resume "$orchestrator_session" \
-    "Create marker 'poc-plan' with summary of the implementation plan" \
+  marker_output=$(claude -p "Create marker 'poc-plan' with summary of the implementation plan" \
+    --resume "$orchestrator_session" \
     --output-format json 2>&1)
 
   if [ $? -ne 0 ]; then
@@ -131,8 +131,7 @@ main() {
   # Launch implementation in headless mode
   log_info "Implementation: Building feature from plan..."
 
-  impl_output=$(claude -p \
-    "Load marker poc-plan. Implement the feature following the plan. Create marker 'poc-impl' when done." \
+  impl_output=$(claude -p "Load marker poc-plan. Implement the feature following the plan. Create marker 'poc-impl' when done." \
     --output-format json \
     --allowedTools "Read,Write,Edit,Bash" 2>&1)
 
