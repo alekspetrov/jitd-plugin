@@ -217,17 +217,79 @@ main() {
 
   log_success "All quality gates passed ✓"
 
+  log_phase "Phase 5: Review"
+
+  local review_done_file=".agent/tasks/${task_id}-review-done"
+  local review_report_file=".agent/tasks/${task_id}-review-report.md"
+
+  log_info "Review: Analyzing all changes and providing quality assessment..."
+
+  review_output=$(claude -p \
+    "Read the plan from ${plan_file}. Review all implementation changes using git diff. Analyze code quality, test coverage, documentation completeness. Generate a review report and save it to ${review_report_file}. Include: 1) Quality score (1-10) 2) Strengths 3) Issues found 4) Suggestions 5) Approval decision (APPROVED/NEEDS_WORK). When done, create empty file ${review_done_file} using the Bash tool: touch ${review_done_file}" \
+    --output-format json \
+    --allowedTools "Read,Write,Bash,Grep,Glob" \
+    --dangerously-skip-permissions 2>&1)
+
+  if [ $? -ne 0 ]; then
+    log_error "Review failed"
+    echo "$review_output"
+    exit 1
+  fi
+
+  log_success "Review requested"
+
+  if ! wait_for_file "$review_done_file"; then
+    log_error "Review phase timeout - no completion marker"
+    exit 1
+  fi
+
+  log_success "Review complete"
+
+  # Check review approval
+  if [ -f "$review_report_file" ]; then
+    if grep -q "APPROVED" "$review_report_file"; then
+      log_success "Review status: APPROVED ✓"
+    else
+      log_error "Review status: NEEDS_WORK"
+      echo "Review report:"
+      cat "$review_report_file"
+      exit 1
+    fi
+  else
+    log_error "Review report not found"
+    exit 1
+  fi
+
+  log_phase "Phase 6: Integration"
+
+  log_info "Integration: Running final checks and cleanup..."
+
+  # Run final validation
+  log_info "Running git status check..."
+  git status --short
+
+  log_info "Verifying no uncommitted conflicts..."
+  if git diff --check; then
+    log_success "No whitespace errors"
+  else
+    log_error "Whitespace errors detected"
+    exit 1
+  fi
+
+  log_success "Integration checks passed ✓"
+
   log_phase "✅ POC Complete"
   log_success "Feature: $feature_description"
-  log_success "Phases: Planning ✓ Implementation ✓ [Testing+Docs] ✓"
+  log_success "Phases: Planning ✓ Implementation ✓ [Testing+Docs] ✓ Review ✓ Integration ✓"
   log_success "Plan: $plan_file"
+  log_success "Review: $review_report_file"
 
   echo ""
   echo "Next steps:"
   echo "1. Review changes: git status"
   echo "2. Check plan: cat $plan_file"
-  echo "3. Review tests: find . -name '*.test.*' -newer $plan_file"
-  echo "4. Review docs: git diff '*.md'"
+  echo "3. Check review: cat $review_report_file"
+  echo "4. Commit changes: git add . && git commit -m 'feat: $feature_description'"
   echo ""
 }
 
