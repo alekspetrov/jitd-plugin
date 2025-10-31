@@ -1,7 +1,7 @@
 {
   "name": "navigator",
-  "version": "4.3.0",
-  "description": "Complete framework for context-efficient AI development - Philosophy, Metrics, Education, Skills, Agents, and Multi-Claude Workflows. Master context engineering principles through interactive learning. Achieve 92% token reduction with proven strategies. Experimental: Automated multi-Claude orchestration for parallel execution.",
+  "version": "4.3.1",
+  "description": "Complete framework for context-efficient AI development - Philosophy, Metrics, Education, Skills, Agents, and Multi-Claude Workflows. Master context engineering principles through interactive learning. Achieve 92% token reduction with proven strategies. Professional upgrade flow with zero template drift. Experimental: Multi-Claude orchestration.",
   "author": {
     "name": "Aleks Petrov",
     "email": "aleks@example.com",

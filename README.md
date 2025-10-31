@@ -3,8 +3,8 @@
 **92% token savings. Verified, not estimated.**
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-4.3.0-blue.svg)](https://github.com/alekspetrov/navigator/releases)
-[![Status](https://img.shields.io/badge/status-experimental-yellow.svg)](https://github.com/alekspetrov/navigator/releases/tag/v4.3.0)
+[![Version](https://img.shields.io/badge/version-4.3.1-blue.svg)](https://github.com/alekspetrov/navigator/releases)
+[![Status](https://img.shields.io/badge/status-stable-green.svg)](https://github.com/alekspetrov/navigator/releases/tag/v4.3.1)
 
 ---
 
@@ -237,7 +237,50 @@ This loads:
 
 ---
 
-## What's New in v4.3.0 (Experimental)
+## What's New in v4.3.1 (Stable)
+
+**Professional Upgrade Flow** - Zero template drift, seamless pre-release discovery
+
+### Template Drift Eliminated
+
+**Problem**: CLAUDE.md templates didn't match installed plugin version
+```
+Plugin updated to v4.3.0 → CLAUDE.md got v4.0.0 templates (bundled)
+Result: Version mismatch, confusion
+```
+
+**Solution**: GitHub template fetching
+```bash
+nav-update-claude
+→ ✓ Using template from GitHub (4.3.1)
+→ CLAUDE.md always matches plugin version
+→ Works with pre-releases
+→ Offline fallback guaranteed
+```
+
+### Pre-Release Discovery
+
+**Old behavior**: Pre-releases invisible to `/plugin update`
+
+**New behavior**: Interactive choice
+```
+nav-upgrade
+
+✅ You're on latest stable (v4.0.0)
+⚡ Experimental available: v4.3.0
+
+Options:
+[1] Stay on stable (recommended)
+[2] Try experimental (early adopter)
+```
+
+**Result**: Professional opt-in, single command, auto-synced templates
+
+[Full v4.3.1 release notes](RELEASE-NOTES-v4.3.1.md)
+
+---
+
+## What's in v4.3.0 (Experimental)
 
 **Multi-Claude Agentic Workflow Automation** - Parallel execution while maintaining 92% efficiency
 

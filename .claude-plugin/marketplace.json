@@ -7,8 +7,12 @@
   },
   "metadata": {
     "description": "Complete framework for context-efficient AI development - Philosophy, Metrics, Education, Skills, and Multi-Claude Workflows",
-    "version": "4.3.0",
+    "version": "4.3.1",
     "breaking_changes": [
+      "v4.3.1: Fixed template drift and professional pre-release upgrade flow",
+      "nav-update-claude now fetches templates from GitHub (version-matched)",
+      "nav-upgrade presents interactive pre-release choice",
+      "Zero template drift - CLAUDE.md always matches plugin version",
       "v4.3.0: Multi-Claude agentic workflow automation (experimental)",
       "Added automated multi-Claude orchestration scripts for parallel execution",
       "Task agents enabled in sub-Claude phases for 60-80% token savings",
