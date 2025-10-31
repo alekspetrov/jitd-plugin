@@ -658,6 +658,217 @@ MIT License - See [LICENSE](LICENSE)
 
 ---
 
+## Multi-Claude Workflow (v4.3.0)
+
+**Automated end-to-end feature implementation using parallel Claude instances.**
+
+### What is it?
+
+Orchestrates multiple specialized Claude sessions to implement features from ticket → tests → PR → ticket closure, fully automated.
+
+```
+Orchestrator (Bash)
+├─ Planning Claude    → Creates implementation plan
+├─ Impl Claude        → Writes code
+├─ Testing Claude     → Generates & runs tests (parallel)
+├─ Docs Claude        → Creates documentation (parallel)
+├─ Review Claude      → Code quality analysis
+├─ Integration        → Commits, creates PR
+└─ PM Integration     → Closes ticket in PM system
+```
+
+### Installation
+
+```bash
+# 1. Clone Navigator scripts
+curl -o scripts/navigator-multi-claude.sh \
+  https://raw.githubusercontent.com/alekspetrov/navigator/main/scripts/navigator-multi-claude.sh
+
+chmod +x scripts/navigator-multi-claude.sh
+
+# 2. Verify installation
+./scripts/navigator-multi-claude.sh --help
+```
+
+### Prerequisites
+
+- Navigator plugin installed (`claude plugin install navigator`)
+- `claude` CLI available
+- Git repository
+- (Optional) `gh` CLI for PR creation
+- (Optional) GitHub Issues for PM integration
+
+### Usage
+
+**Basic workflow**:
+```bash
+# 1. Create task file
+cat > .agent/tasks/TASK-23-add-auth.md << 'EOF'
+# TASK-23: Add Authentication
+
+**Status**: 📋 Todo
+
+## Context
+Add JWT-based authentication to API endpoints.
+
+## Requirements
+- JWT token generation
+- Token validation middleware
+- Protect /api/* routes
+EOF
+
+# 2. Run multi-Claude workflow
+./scripts/navigator-multi-claude.sh TASK-23-add-auth
+
+# Workflow executes automatically:
+# ✅ Phase 1: Planning (creates implementation plan)
+# ✅ Phase 2: Implementation (writes code)
+# ✅ Phase 3-4: Testing + Documentation (parallel)
+# ✅ Phase 5: Review (code quality analysis)
+# ✅ Phase 6: Integration (commit + PR)
+# ✅ Phase 7: PM Integration (closes ticket)
+```
+
+### Features
+
+**Token Efficiency**:
+- Each sub-Claude can spawn Task agents for exploration
+- 60-80% token savings vs manual file reading
+- Multi-level agent hierarchy: Orchestrator → Sub-Claudes → Task Agents
+
+**Failure Reporting**:
+- Sub-Claudes create `.failed` markers with error details
+- Instant failure detection (no timeout waits)
+- Clear error messages for debugging
+
+**Parallel Execution**:
+- Testing and Documentation run simultaneously
+- 2x faster than sequential execution
+
+**PM Integration**:
+- Automatically closes GitHub Issues when complete
+- Creates PR with detailed summary
+- Updates task status throughout workflow
+
+### Architecture
+
+```
+┌─────────────────────────────────────┐
+│ Bash Orchestrator                   │
+│ - File-based state management       │
+│ - Phase coordination                │
+│ - Error handling                    │
+└─────────────────────────────────────┘
+              │
+      ┌───────┼───────┬───────┬───────┐
+      ▼       ▼       ▼       ▼       ▼
+   Planning  Impl  Testing  Docs  Review
+   Claude   Claude  Claude  Claude Claude
+      │       │       │       │       │
+      └───────┴───────┴───────┴───────┘
+              ▼
+      Can spawn Task agents
+      (Explore, Plan, etc.)
+```
+
+### Example Output
+
+```bash
+🎯 Navigator Multi-Claude Workflow
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Phase 1: Planning (Orchestrator)
+✅ Plan created: .agent/tasks/task-23-plan.md
+
+Phase 2: Implementation
+✅ Implementation complete
+
+Phase 3 & 4: Parallel Testing + Documentation
+✅ Testing complete (41s)
+✅ Documentation complete (53s)
+✅ All quality gates passed
+
+Phase 5: Review
+✅ Review complete: APPROVED (Quality: 9/10)
+
+Phase 6: Integration
+✅ Changes committed
+✅ PR created: https://github.com/user/repo/pull/42
+
+Phase 7: PM Integration
+✅ Ticket #23 closed
+
+✅ Multi-Claude Workflow Complete
+Total time: 7m 14s
+```
+
+### Advanced Configuration
+
+**Custom phase timeouts**:
+```bash
+# Edit wait_for_file() timeout in script
+local timeout=300  # 5 minutes default
+```
+
+**Enable/disable phases**:
+```bash
+# Comment out phases in main() function
+# Skip documentation phase example:
+# docs_output=$(claude -p ...) &  # ← Comment this out
+```
+
+**PM Integration**:
+- Works with GitHub Issues by default
+- Requires `gh` CLI authenticated
+- Task ID must match format: `TASK-<number>`
+
+### Troubleshooting
+
+**Timeout errors**:
+- Check `.agent/tasks/*-failed` files for error details
+- Increase timeout in `wait_for_file()` function
+- Sub-Claude logs available in workflow output
+
+**Missing task file**:
+```bash
+# Ensure task file exists
+ls .agent/tasks/TASK-23*.md
+
+# Task file must start with "# TASK-XX: Title"
+```
+
+**PM integration fails**:
+```bash
+# Verify gh CLI auth
+gh auth status
+
+# Check task ID format (must be TASK-<number>)
+./scripts/navigator-multi-claude.sh TASK-23-feature  # ✅ Good
+./scripts/navigator-multi-claude.sh add-feature      # ❌ Bad
+```
+
+### Performance Metrics
+
+Real-world example (TASK-22: Simple Console Logger):
+
+| Phase | Duration | Token Savings |
+|-------|----------|---------------|
+| Planning | 58s | 75% (using Explore agent) |
+| Implementation | 1m 44s | 65% (pattern analysis via agent) |
+| Testing | 41s | 70% (test pattern discovery) |
+| Documentation | 53s | 68% (doc style matching) |
+| Review | 2m 45s | 80% (multi-file analysis) |
+| **Total** | **7m 14s** | **~70% average** |
+
+### Version History
+
+- **v4.3.0**: Task agent delegation in all phases
+- **v4.2.0**: Failure reporting + PM integration (Phase 7)
+- **v4.1.0**: Parallel testing + documentation
+- **v4.0.0**: Initial multi-Claude POC
+
+---
+
 ## Quick Commands
 
 ```bash
