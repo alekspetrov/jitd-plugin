@@ -32,15 +32,37 @@ log_phase() {
   echo ""
 }
 
+# Generate error handling instructions for sub-Claude
+error_handling_instructions() {
+  local done_file="$1"
+  cat <<EOF
+
+CRITICAL: If you encounter ANY error or cannot complete this task:
+1. Create failure marker: ${done_file}.failed
+2. Write error details to the file (error message, what went wrong)
+3. Exit immediately
+
+Only create ${done_file} on success.
+EOF
+}
+
 # Wait for file to appear
 wait_for_file() {
   local file_path="$1"
   local timeout=300  # 5 minutes (increased for review phase)
   local elapsed=0
+  local failure_marker="${file_path}.failed"
 
   log_info "Waiting for file: $file_path"
 
   while [ ! -f "$file_path" ]; do
+    # Check for failure marker
+    if [ -f "$failure_marker" ]; then
+      log_error "Sub-Claude reported failure:"
+      cat "$failure_marker" >&2
+      return 1
+    fi
+
     if [ $elapsed -ge $timeout ]; then
       log_error "Timeout waiting for file: $file_path"
       return 1
@@ -162,7 +184,7 @@ main() {
   log_info "Orchestrator: Creating implementation plan..."
 
   orchestrator_output=$(claude -p \
-    "Start Navigator session. Read task from ${task_file}. Create implementation plan and save to ${plan_file}. Include: 1) Feature description 2) Implementation steps 3) Files to modify 4) Expected outcome." \
+    "Start Navigator session. Read task from ${task_file}. Create implementation plan and save to ${plan_file}. Include: 1) Feature description 2) Implementation steps 3) Files to modify 4) Expected outcome.$(error_handling_instructions "$plan_file")" \
     --output-format json \
     --dangerously-skip-permissions 2>&1)
 
@@ -192,7 +214,7 @@ main() {
   local impl_done_file=".agent/tasks/${session_id}-done"
 
   impl_output=$(claude -p \
-    "Read the plan from ${plan_file}. Implement the feature following the plan. When done, create empty file ${impl_done_file} using: touch ${impl_done_file}" \
+    "Read the plan from ${plan_file}. Implement the feature following the plan. When done, create empty file ${impl_done_file} using: touch ${impl_done_file}$(error_handling_instructions "$impl_done_file")" \
     --output-format json \
     --allowedTools "Read,Write,Edit,Bash" \
     --dangerously-skip-permissions 2>&1)
