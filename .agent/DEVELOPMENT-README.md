@@ -481,6 +481,46 @@ Next: Run /nav:compact to clear context
 
 **Impact**: Transforms Navigator from "tool with good docs" to "complete framework with philosophy, proof, and education." Users go from copying patterns to mastering principles. Typical learning: 30 min philosophy → 40 min practice → ongoing framework reference → 90%+ efficiency scores in 2-4 weeks.
 
+#### [TASK-19: Multi-Claude Agentic Workflow Automation](./tasks/TASK-19-multi-claude-agentic-workflow.md)
+**Status**: 🚧 In Progress (v4.1.0)
+**Created**: 2025-10-31
+**Target**: 2025-11-15
+
+**What we're building**:
+
+**Automated multi-Claude orchestration system** leveraging:
+- Claude Code's headless mode (`-p` flag) + streaming JSON I/O
+- Session management (`--resume`) for multi-turn conversations
+- Git worktrees for isolated parallel workspaces
+- Navigator's marker system for cross-instance communication
+- Role-specific CLAUDE.md templates (5k tokens vs 50k per instance)
+
+**10-Phase Implementation**:
+1. **Core Automation Scripts** - Bash orchestrator with marker detection
+2. **Role-Specific Templates** - Minimal context CLAUDE.md per worktree (orchestrator, impl, test, docs, review)
+3. **Skill Integration** - Natural language setup: "Setup multi-Claude workflow"
+4. **Enhanced Markers** - Rich context transfer (2k vs 15k handoffs)
+5. **Subagent Patterns** - 8x multiplier per terminal (40x total parallelism)
+6. **Status Monitoring** - Real-time dashboard showing all phases
+7. **Error Handling** - Recovery paths + automatic retry
+8. **CI/CD Integration** - GitHub Actions workflow for automated features
+9. **Documentation** - Complete SOP + walkthrough examples
+10. **Benchmarking** - Validate 3x speedup + 92% efficiency claims
+
+**Key Innovation**: Parallel execution with Navigator efficiency
+- 5 Claude instances (orchestrator, impl, test, docs, review)
+- Each maintains 92% token efficiency (role-specific minimal context)
+- Subagents per instance (8x research capacity each)
+- Total throughput: 32x single Claude baseline
+
+**Expected Impact**:
+- **Time**: 3x faster (parallel vs sequential phases)
+- **Tokens**: 35k across 5 sessions vs 70k single session crash
+- **Quality**: 95% success rate (fresh contexts prevent crashes)
+- **Throughput**: 40x parallel research/verification capacity
+
+**Technical Foundation**: Streaming JSON + session persistence enables full automation without manual coordination.
+
 ---
 
 ### System Architecture (`system/`)
