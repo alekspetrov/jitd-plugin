@@ -34,6 +34,50 @@ Build **automated multi-Claude workflow system** that:
 4. Leverages git worktrees for isolated workspaces
 5. Integrates deeply with Navigator's existing workflow
 
+### User Experience
+
+**Single command execution** (zero terminal management):
+
+```bash
+$ ./scripts/navigator-multi-claude.sh "Implement OAuth authentication"
+
+🎯 Navigator Multi-Claude Workflow Started
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[14:00:00] 📋 Orchestrator: Creating implementation plan...
+[14:01:23] ✅ Plan complete → .context-markers/task-plan.md
+
+[14:01:25] 🔨 Implementation: Starting feature development...
+[14:08:42] ✅ Implementation complete → 15 files changed
+
+[14:08:45] 🧪 Testing: Writing tests... (parallel)
+[14:08:45] 📚 Documentation: Generating docs... (parallel)
+[14:12:18] ✅ Tests complete → 12 tests passing
+[14:13:05] ✅ Docs complete → README + API docs
+
+[14:13:08] 👀 Review: Analyzing all changes...
+[14:15:22] ✅ Review complete → Approved with 2 suggestions
+
+[14:15:25] 🎯 Integration: Merging all changes...
+[14:16:01] ✅ Complete!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ Feature implemented successfully
+⏱️  Total time: 16 minutes
+💾 Token usage: 38k across 5 sessions
+📊 Success: All phases complete
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**Behind the scenes** (invisible to user):
+- 5 Claude processes spawn in background (headless `-p` mode)
+- Each runs in dedicated worktree with role-specific context
+- Bash orchestrator coordinates via markers
+- All output aggregated to single terminal
+- **No multiple terminals to manage** - fully automated
+
+**Optional advanced usage**: Users can monitor individual sessions in separate terminals, but NOT required for normal operation.
+
 ### Success Criteria
 
 **Functional**:
