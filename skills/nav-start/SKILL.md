@@ -226,6 +226,36 @@ Available for work:      [available] tokens ([percent]%)
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+[MULTI-CLAUDE WORKFLOWS CHECK - v4.3.0+]
+
+Check if multi-Claude workflows installed:
+```bash
+if ! command -v navigator-multi-claude.sh &> /dev/null; then
+  echo ""
+  echo "⚡ Multi-Claude Workflows Available (v4.3.0+)"
+  echo ""
+  echo "   Enable parallel AI execution for complex tasks."
+  echo "   Status: Not installed"
+  echo ""
+  echo "   Install: 'Install multi-Claude workflows'"
+  echo "   Learn more: See RELEASE-NOTES-v4.3.0.md"
+  echo ""
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+fi
+```
+
+Only show this prompt:
+- If plugin version >= 4.3.0
+- If scripts not installed
+- Once per session (set flag in memory)
+
+Do NOT show if:
+- Scripts already installed
+- Plugin version < 4.3.0
+- User explicitly dismissed before
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 [If tasks found from PM tool, list them here]
 
 [If no tasks found:]
