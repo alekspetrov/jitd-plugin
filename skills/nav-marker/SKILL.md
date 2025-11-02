@@ -138,9 +138,35 @@ Write(
 Filename format: `{YYYY-MM-DD-HHmm}_{name}.md`
 Example: `2025-10-16-1430_before-big-refactor.md`
 
+### Step 4.5: Verify Marker Creation
+
+After creating marker, verify it was written successfully:
+
+```bash
+# Verify file exists and is non-empty
+if [ -f ".agent/.context-markers/[filename]" ] && [ -s ".agent/.context-markers/[filename]" ]; then
+  # Calculate checksum for verification
+  checksum=$(md5 -q ".agent/.context-markers/[filename]" 2>/dev/null || md5sum ".agent/.context-markers/[filename]" | cut -d' ' -f1)
+
+  # Log to central marker log
+  echo "[$(date -u +"%Y-%m-%dT%H:%M:%SZ")] ✅ Marker created: [filename] (checksum: $checksum)" >> .agent/.marker-log
+
+  echo "✅ Marker verified successfully"
+else
+  echo "❌ Marker creation failed - file missing or empty"
+  exit 1
+fi
+```
+
+Marker verification ensures:
+- File exists on disk
+- File has content (non-empty)
+- Checksum logged for integrity verification
+- Creation event logged to central log
+
 ### Step 5: Confirm Creation
 
-Show success message:
+Show success message with verification details:
 
 ```
 ✅ Context marker created!
@@ -148,6 +174,8 @@ Show success message:
 Marker: [name]
 File: .agent/.context-markers/[filename]
 Size: [X] KB (~[Y] tokens)
+Checksum: [md5-hash]
+Verified: ✅
 
 This marker captures:
 - Last [N] messages of conversation
@@ -159,6 +187,8 @@ To restore later:
 - Start new session
 - Say "load marker [name]"
 - Or use /nav:markers to list all markers
+
+Logged to: .agent/.marker-log
 ```
 
 ## Scripts

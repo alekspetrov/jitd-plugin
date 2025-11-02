@@ -53,6 +53,36 @@ wait_for_file() {
   return 0
 }
 
+# Wait for marker with retry capability
+wait_for_marker_with_retry() {
+  local marker_file="$1"
+  local phase_name="$2"
+  local max_retries="${3:-1}"
+  local timeout="${4:-120}"
+
+  for attempt in $(seq 1 $((max_retries + 1))); do
+    if [ $attempt -gt 1 ]; then
+      log_info "⚠️  Retry attempt $attempt of $((max_retries + 1)) for phase: $phase_name"
+    fi
+
+    if wait_for_file "$marker_file" "$timeout"; then
+      if [ -s "$marker_file" ] || [ -f "$marker_file" ]; then
+        log_success "✅ Marker verified: $marker_file"
+        return 0
+      fi
+    fi
+
+    if [ $attempt -le $max_retries ]; then
+      log_info "⚠️  Timeout on attempt $attempt - retrying phase: $phase_name"
+    else
+      log_error "❌ Phase failed after $attempt attempts: $phase_name"
+      return 1
+    fi
+  done
+
+  return 1
+}
+
 # Main workflow
 main() {
   local feature_description="${1:-Add health check endpoint}"
@@ -100,8 +130,8 @@ main() {
 
   log_success "Plan creation requested"
 
-  # Wait for plan file
-  if ! wait_for_file "$plan_file"; then
+  # Wait for plan file with retry
+  if ! wait_for_marker_with_retry "$plan_file" "planning" 1 120; then
     log_error "Planning phase failed - no plan file created"
     exit 1
   fi
@@ -129,8 +159,8 @@ main() {
 
   log_success "Implementation requested"
 
-  # Wait for completion marker file
-  if ! wait_for_file "$impl_done_file"; then
+  # Wait for completion marker file with retry
+  if ! wait_for_marker_with_retry "$impl_done_file" "implementation" 1 120; then
     log_error "Implementation phase failed - no completion marker"
     exit 1
   fi
@@ -181,16 +211,16 @@ main() {
   # Wait for both processes to complete
   log_info "Waiting for parallel phases to complete..."
 
-  # Wait for testing
-  if ! wait_for_file "$test_done_file"; then
+  # Wait for testing with retry
+  if ! wait_for_marker_with_retry "$test_done_file" "testing" 1 120; then
     log_error "Testing phase timeout - no completion marker"
     kill $test_pid $docs_pid 2>/dev/null
     exit 1
   fi
   log_success "Testing complete"
 
-  # Wait for documentation
-  if ! wait_for_file "$docs_done_file"; then
+  # Wait for documentation with retry
+  if ! wait_for_marker_with_retry "$docs_done_file" "documentation" 1 120; then
     log_error "Documentation phase timeout - no completion marker"
     kill $docs_pid 2>/dev/null
     exit 1
@@ -238,7 +268,7 @@ main() {
 
   log_success "Review requested"
 
-  if ! wait_for_file "$review_done_file"; then
+  if ! wait_for_marker_with_retry "$review_done_file" "review" 1 120; then
     log_error "Review phase timeout - no completion marker"
     exit 1
   fi

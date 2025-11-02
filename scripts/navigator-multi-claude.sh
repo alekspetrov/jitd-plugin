@@ -75,6 +75,73 @@ wait_for_file() {
   return 0
 }
 
+# Wait for marker with retry capability
+wait_for_marker_with_retry() {
+  local marker_file="$1"
+  local phase_name="$2"
+  local max_retries="${3:-1}"
+  local timeout="${4:-180}"
+  local attempt=1
+
+  for attempt in $(seq 1 $((max_retries + 1))); do
+    if [ $attempt -gt 1 ]; then
+      log_info "⚠️  Retry attempt $attempt of $((max_retries + 1)) for phase: $phase_name"
+    fi
+
+    if wait_for_file "$marker_file" "$timeout"; then
+      # Verify marker is valid (non-empty or exists)
+      if [ -s "$marker_file" ] || [ -f "$marker_file" ]; then
+        log_success "✅ Marker verified: $marker_file"
+        return 0
+      else
+        log_error "❌ Marker exists but is invalid"
+      fi
+    fi
+
+    if [ $attempt -le $max_retries ]; then
+      log_info "⚠️  Timeout on attempt $attempt - retrying phase: $phase_name"
+      # Save state before retry
+      save_phase_state "$phase_name" "$attempt"
+    else
+      log_error "❌ Phase failed after $attempt attempts: $phase_name"
+      save_phase_state "$phase_name" "$attempt" "failed"
+      return 1
+    fi
+  done
+
+  return 1
+}
+
+# Save phase state for recovery
+save_phase_state() {
+  local phase_name="$1"
+  local attempt="$2"
+  local status="${3:-retry}"
+
+  if [ -z "$STATE_FILE" ]; then
+    return 0
+  fi
+
+  local timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+  # Update state file with phase progress
+  cat > "$STATE_FILE" <<EOF
+{
+  "session_id": "${session_id}",
+  "task": "${task_id}",
+  "phases_completed": [${PHASES_COMPLETED}],
+  "current_phase": "${phase_name}",
+  "phase_attempts": {
+    "${phase_name}": ${attempt}
+  },
+  "status": "${status}",
+  "last_update": "${timestamp}"
+}
+EOF
+
+  log_info "💾 State saved: ${STATE_FILE}"
+}
+
 # Read task file and extract metadata
 read_task() {
   local task_id="$1"
@@ -178,6 +245,15 @@ main() {
   local session_id="$(echo "$task_id" | tr '[:upper:]' '[:lower:]')-$(date +%s)"
   local plan_file=".agent/tasks/${session_id}-plan.md"
 
+  # Initialize state tracking
+  STATE_FILE=".agent/tasks/${session_id}-state.json"
+  PHASES_COMPLETED=""
+  export STATE_FILE PHASES_COMPLETED session_id task_id
+
+  # Create marker log if not exists
+  mkdir -p .agent
+  touch .agent/.marker-log
+
   log_phase "Phase 1: Planning (Orchestrator)"
   update_task_status "$task_file" "🚧 In Progress (Planning)"
 
@@ -200,6 +276,14 @@ PLAN REQUIREMENTS:
 4) Expected outcome
 5) Test strategy
 
+CRITICAL: You MUST create a completion marker when done.
+
+After saving the plan to ${plan_file}:
+1. Verify file was written successfully
+2. The plan file itself serves as the completion marker
+
+The orchestrator will wait for ${plan_file} to exist before proceeding.
+
 $(error_handling_instructions "$plan_file")" \
     --output-format json \
     --dangerously-skip-permissions 2>&1)
@@ -213,13 +297,17 @@ $(error_handling_instructions "$plan_file")" \
 
   log_success "Plan creation requested"
 
-  if ! wait_for_file "$plan_file"; then
+  if ! wait_for_marker_with_retry "$plan_file" "planning" 1 180; then
     log_error "Planning phase failed - no plan file created"
+    log_info "💾 Workflow state saved to: $STATE_FILE"
+    log_info "Resume with: ./scripts/resume-workflow.sh $session_id"
     update_task_status "$task_file" "❌ Failed (Planning)"
     exit 1
   fi
 
   log_success "Plan saved to: $plan_file"
+  PHASES_COMPLETED='"phase0"'
+  save_phase_state "phase1" 1 "complete"
   update_task_status "$task_file" "🚧 In Progress (Planning complete)"
 
   log_phase "Phase 2: Implementation"
@@ -243,7 +331,18 @@ IMPLEMENTATION RULES:
 - Follow the plan exactly
 - Write clean, well-documented code
 - Use project conventions (check existing files for patterns)
-- When done, create completion marker: touch ${impl_done_file}
+
+CRITICAL: You MUST create a completion marker when done.
+
+Steps:
+1. Implement all features from the plan
+2. Test your changes work correctly
+3. Create completion marker using Bash tool:
+
+   touch ${impl_done_file}
+
+Marker file: ${impl_done_file}
+This is REQUIRED for orchestrator to proceed to next phase.
 
 $(error_handling_instructions "$impl_done_file")" \
     --output-format json \
@@ -258,13 +357,17 @@ $(error_handling_instructions "$impl_done_file")" \
 
   log_success "Implementation requested"
 
-  if ! wait_for_file "$impl_done_file"; then
+  if ! wait_for_marker_with_retry "$impl_done_file" "implementation" 1 180; then
     log_error "Implementation phase failed - no completion marker"
+    log_info "💾 Workflow state saved to: $STATE_FILE"
+    log_info "Resume with: ./scripts/resume-workflow.sh $session_id"
     update_task_status "$task_file" "❌ Failed (Implementation)"
     exit 1
   fi
 
   log_success "Implementation complete"
+  PHASES_COMPLETED='"phase0", "phase1"'
+  save_phase_state "phase2" 1 "complete"
   update_task_status "$task_file" "🚧 In Progress (Implementation complete)"
 
   log_phase "Phase 3 & 4: Parallel Testing + Documentation"
@@ -291,7 +394,18 @@ TEST REQUIREMENTS:
 - Unit tests for all functions
 - Edge cases and error handling
 - Run tests and verify they pass
-- When done, create completion marker: touch ${test_done_file}
+
+CRITICAL: You MUST create a completion marker when done.
+
+Steps:
+1. Generate comprehensive tests
+2. Run tests and verify they pass
+3. Create completion marker using Bash tool:
+
+   touch ${test_done_file}
+
+Marker file: ${test_done_file}
+This is REQUIRED for orchestrator to proceed.
 
 $(error_handling_instructions "$test_done_file")" \
       --output-format json \
@@ -319,7 +433,18 @@ DOCUMENTATION REQUIREMENTS:
 - README sections (installation, usage, examples)
 - JSDoc/TSDoc for all public APIs
 - Usage examples with code snippets
-- When done, create completion marker: touch ${docs_done_file}
+
+CRITICAL: You MUST create a completion marker when done.
+
+Steps:
+1. Generate comprehensive documentation
+2. Verify documentation is complete
+3. Create completion marker using Bash tool:
+
+   touch ${docs_done_file}
+
+Marker file: ${docs_done_file}
+This is REQUIRED for orchestrator to proceed.
 
 $(error_handling_instructions "$docs_done_file")" \
       --output-format json \
@@ -336,18 +461,22 @@ $(error_handling_instructions "$docs_done_file")" \
   log_info "Waiting for parallel phases to complete..."
 
   # Wait for testing
-  if ! wait_for_file "$test_done_file"; then
+  if ! wait_for_marker_with_retry "$test_done_file" "testing" 1 180; then
     log_error "Testing phase timeout"
     kill $test_pid $docs_pid 2>/dev/null
+    log_info "💾 Workflow state saved to: $STATE_FILE"
+    log_info "Resume with: ./scripts/resume-workflow.sh $session_id"
     update_task_status "$task_file" "❌ Failed (Testing timeout)"
     exit 1
   fi
   log_success "Testing complete"
 
   # Wait for documentation
-  if ! wait_for_file "$docs_done_file"; then
+  if ! wait_for_marker_with_retry "$docs_done_file" "documentation" 1 180; then
     log_error "Documentation phase timeout"
     kill $docs_pid 2>/dev/null
+    log_info "💾 Workflow state saved to: $STATE_FILE"
+    log_info "Resume with: ./scripts/resume-workflow.sh $session_id"
     update_task_status "$task_file" "❌ Failed (Documentation timeout)"
     exit 1
   fi
@@ -373,6 +502,8 @@ $(error_handling_instructions "$docs_done_file")" \
   fi
 
   log_success "All quality gates passed ✓"
+  PHASES_COMPLETED='"phase0", "phase1", "phase2", "phase3"'
+  save_phase_state "phase4" 1 "complete"
   update_task_status "$task_file" "🚧 In Progress (Testing & docs complete)"
 
   log_phase "Phase 5: Review"
@@ -400,7 +531,17 @@ Include in ${review_report_file}:
 4) Suggestions for improvement
 5) Approval decision (APPROVED/NEEDS_WORK)
 
-When done, create completion marker: touch ${review_done_file}
+CRITICAL: You MUST create a completion marker when done.
+
+Steps:
+1. Review all changes thoroughly
+2. Save review report to ${review_report_file}
+3. Create completion marker using Bash tool:
+
+   touch ${review_done_file}
+
+Marker file: ${review_done_file}
+This is REQUIRED for orchestrator to proceed.
 
 $(error_handling_instructions "$review_done_file")" \
     --output-format json \
@@ -415,13 +556,17 @@ $(error_handling_instructions "$review_done_file")" \
 
   log_success "Review requested"
 
-  if ! wait_for_file "$review_done_file"; then
+  if ! wait_for_marker_with_retry "$review_done_file" "review" 1 180; then
     log_error "Review phase timeout"
+    log_info "💾 Workflow state saved to: $STATE_FILE"
+    log_info "Resume with: ./scripts/resume-workflow.sh $session_id"
     update_task_status "$task_file" "❌ Failed (Review timeout)"
     exit 1
   fi
 
   log_success "Review complete"
+  PHASES_COMPLETED='"phase0", "phase1", "phase2", "phase3", "phase4"'
+  save_phase_state "phase5" 1 "complete"
 
   # Check review approval
   if [ -f "$review_report_file" ]; then
