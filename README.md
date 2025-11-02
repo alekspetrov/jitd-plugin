@@ -3,8 +3,8 @@
 **92% token savings. Verified, not estimated.**
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-4.3.1-blue.svg)](https://github.com/alekspetrov/navigator/releases)
-[![Status](https://img.shields.io/badge/status-stable-green.svg)](https://github.com/alekspetrov/navigator/releases/tag/v4.3.1)
+[![Version](https://img.shields.io/badge/version-4.5.0-blue.svg)](https://github.com/alekspetrov/navigator/releases)
+[![Status](https://img.shields.io/badge/status-stable-green.svg)](https://github.com/alekspetrov/navigator/releases/tag/v4.5.0)
 
 ---
 
