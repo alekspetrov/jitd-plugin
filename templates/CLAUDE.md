@@ -9,7 +9,7 @@
 **Core Principle**: [Key architectural principle, e.g., "API-first design with type safety"]
 
 **Last Updated**: [Date]
-**Navigator Version**: 3.1.0
+**Navigator Version**: 4.5.0
 
 ---
 
@@ -140,7 +140,7 @@ Navigator config in `.agent/.nav-config.json`:
 
 ```json
 {
-  "version": "3.1.0",
+  "version": "4.5.0",
   "project_management": "none",
   "task_prefix": "TASK",
   "team_chat": "none",
