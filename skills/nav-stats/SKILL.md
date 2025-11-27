@@ -3,7 +3,6 @@ name: nav-stats
 description: Display session efficiency report showing token savings, cache performance, and optimization recommendations. Use when user asks "show my stats", "how efficient am I?", "show session metrics", or wants to see Navigator's impact.
 allowed-tools: Bash, Read
 version: 1.0.0
-auto-invoke: true
 ---
 
 # Navigator Session Statistics Skill

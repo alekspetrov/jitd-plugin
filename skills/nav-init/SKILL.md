@@ -3,7 +3,6 @@ name: nav-init
 description: Initialize Navigator documentation structure in a project. Auto-invokes when user says "Initialize Navigator", "Set up Navigator", "Create Navigator structure", or "Bootstrap Navigator".
 allowed-tools: Write, Bash, Read, Glob
 version: 1.0.0
-auto-invoke: true
 triggers:
   - "initialize navigator"
   - "init navigator"

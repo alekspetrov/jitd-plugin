@@ -3,7 +3,6 @@ name: frontend-test
 description: Generate frontend component tests (unit, snapshot, e2e). Auto-invoke when user says "test this component", "write component test", or "add component test".
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash
 version: 1.0.0
-auto-invoke: true
 ---
 
 # Frontend Test Generator

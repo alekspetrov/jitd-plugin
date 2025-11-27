@@ -3,7 +3,6 @@ name: backend-test
 description: Generate backend tests (unit, integration, mocks). Auto-invoke when user says "write test for", "add test", "test this", or "create test".
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash
 version: 1.0.0
-auto-invoke: true
 ---
 
 # Backend Test Generator

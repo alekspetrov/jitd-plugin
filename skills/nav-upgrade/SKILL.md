@@ -3,7 +3,6 @@ name: nav-upgrade
 description: Automates Navigator plugin updates. Detects current version, updates plugin, verifies installation, updates project CLAUDE.md, and validates new features. Auto-invoke when user mentions upgrading Navigator or getting new features.
 allowed-tools: Bash, Read, Write, Edit, TodoWrite
 version: 1.0.0
-auto-invoke: true
 ---
 
 # Navigator Upgrade Skill

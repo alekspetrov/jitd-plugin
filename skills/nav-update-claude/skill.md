@@ -3,7 +3,6 @@ name: nav-update-claude
 description: Update project CLAUDE.md to latest Navigator version, preserving customizations. Use when user says "update CLAUDE.md", "migrate to v3", or when detecting outdated Navigator configuration.
 allowed-tools: Read, Write, Edit, Bash
 version: 1.0.0
-auto-invoke: true
 ---
 
 # Navigator CLAUDE.md Updater Skill

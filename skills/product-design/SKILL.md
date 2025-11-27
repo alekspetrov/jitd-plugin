@@ -3,7 +3,6 @@ name: product-design
 description: Automates design review, token extraction, component mapping, and implementation planning. Reduces design handoff from 6-10 hours to 5 minutes via direct Figma MCP integration. Auto-invoke when user mentions design review, Figma mockup, or design handoff.
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash, Task, TodoWrite
 version: 1.1.0
-auto-invoke: true
 ---
 
 # Product Design Skill

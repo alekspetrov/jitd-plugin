@@ -3,7 +3,6 @@ name: nav-install-multi-claude
 description: Install Navigator multi-Claude workflow orchestration scripts. Auto-invokes when user says "install multi-Claude workflows", "set up multi-Claude", or "enable parallel execution".
 allowed-tools: Bash, Read, Write
 version: 1.0.0
-auto-invoke: true
 ---
 
 # Navigator Multi-Claude Workflow Installer

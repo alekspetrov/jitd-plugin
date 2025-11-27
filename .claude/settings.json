@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|Bash|Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 hooks/monitor-tokens.py",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}

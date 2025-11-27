@@ -3,7 +3,6 @@ name: backend-endpoint
 description: Create REST/GraphQL API endpoint with validation, error handling, and tests. Auto-invoke when user says "add endpoint", "create API", "new route", or "add route".
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash
 version: 1.0.0
-auto-invoke: true
 ---
 
 # Backend API Endpoint Generator
