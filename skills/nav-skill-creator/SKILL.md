@@ -3,6 +3,7 @@ name: nav-skill-creator
 description: Analyze codebase patterns and create custom skills for repetitive workflows. Use when project needs automation or pattern enforcement. Auto-invoke when user says "create a skill for...", "automate this workflow", or "we keep doing X manually".
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash, Task
 version: 1.0.0
+auto-invoke: true
 ---
 
 # Navigator Skill Creator
@@ -90,6 +91,7 @@ name: [project]-[pattern-type]
 description: [When to auto-invoke + what it does]
 allowed-tools: [Read, Write, Edit, Grep, Glob, Bash, Task]
 version: 1.0.0
+auto-invoke: true
 ```
 
 **Plan directory structure**:
@@ -125,6 +127,7 @@ name: [skill-name]
 description: [Auto-invocation triggers + purpose]
 allowed-tools: [List of tools]
 version: 1.0.0
+auto-invoke: true
 ---
 
 # [Skill Title]

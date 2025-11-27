@@ -3,6 +3,7 @@ name: nav-compact
 description: Clear conversation context while preserving knowledge via context marker. Use when user says "clear context", "start fresh", "done with this task", or when approaching token limits.
 allowed-tools: Read, Write, Bash
 version: 1.0.0
+auto-invoke: true
 ---
 
 # Navigator Compact Skill

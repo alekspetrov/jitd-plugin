@@ -3,6 +3,7 @@ name: frontend-component
 description: Create React/Vue component with TypeScript, tests, and styles. Auto-invoke when user says "create component", "add component", "new component", or "build component".
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash
 version: 1.0.0
+auto-invoke: true
 ---
 
 # Frontend Component Generator

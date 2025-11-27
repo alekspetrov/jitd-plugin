@@ -3,6 +3,7 @@ name: plugin-slash-command
 description: Generate new Navigator slash commands following project conventions. Use when user says "add slash command", "create command", "new /nav command", or "add /nav:[name] command".
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash
 version: 1.0.0
+auto-invoke: true
 ---
 
 # Navigator Slash Command Generator

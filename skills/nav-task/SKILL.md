@@ -3,6 +3,7 @@ name: nav-task
 description: Manage Navigator task documentation - create implementation plans, archive completed tasks, update task index. Use when user starts new feature, completes work, or says "document this feature".
 allowed-tools: Read, Write, Edit, Bash
 version: 1.0.0
+auto-invoke: true
 ---
 
 # Navigator Task Manager Skill

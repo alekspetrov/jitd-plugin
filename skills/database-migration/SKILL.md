@@ -3,6 +3,7 @@ name: database-migration
 description: Create database migration with schema changes and rollback. Auto-invoke when user says "create migration", "add table", "modify schema", or "change database".
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash
 version: 1.0.0
+auto-invoke: true
 ---
 
 # Database Migration Generator

@@ -3,6 +3,7 @@ name: nav-start
 description: Load Navigator documentation navigator when starting development session, resuming work, or beginning new feature. Use when user mentions starting work, beginning session, resuming after break, or checking project status.
 allowed-tools: Read, Bash
 version: 1.0.0
+auto-invoke: true
 ---
 
 # Navigator Navigator Skill

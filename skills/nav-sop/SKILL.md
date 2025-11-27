@@ -3,6 +3,7 @@ name: nav-sop
 description: Create Standard Operating Procedures after solving novel issues, establishing patterns, or documenting workflows. Use when user says "document this solution", "save this for next time", "create SOP".
 allowed-tools: Read, Write, Bash
 version: 1.0.0
+auto-invoke: true
 ---
 
 # Navigator SOP Creator Skill

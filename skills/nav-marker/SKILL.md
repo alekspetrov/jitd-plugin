@@ -3,6 +3,7 @@ name: nav-marker
 description: Create context save points to preserve conversation state before breaks, risky changes, or compaction. Use when user says "save my progress", "create checkpoint", "mark this point", or before clearing context.
 allowed-tools: Read, Write, Bash
 version: 1.0.0
+auto-invoke: true
 ---
 
 # Navigator Marker Skill

@@ -1,13 +1,20 @@
-# Visual Regression Testing Setup Skill
+---
+name: visual-regression
+description: Setup visual regression testing with Storybook stories, configuration, and CI/CD workflows. Supports Chromatic, Percy, BackstopJS. Auto-invoke when user says "set up visual regression", "add Chromatic tests", "add screenshot testing", or "set up Percy".
+allowed-tools: Read, Write, Bash, Glob
+version: 1.0.0
+auto-invoke: true
+triggers:
+  - "set up visual regression"
+  - "add chromatic tests"
+  - "create visual tests"
+  - "configure visual regression"
+  - "add screenshot testing"
+  - "set up percy"
+  - "add backstopjs"
+---
 
-**Auto-invokes when user says**:
-- "Set up visual regression"
-- "Add Chromatic tests"
-- "Create visual tests for [component]"
-- "Configure visual regression testing"
-- "Add screenshot testing"
-- "Set up Percy"
-- "Add BackstopJS"
+# Visual Regression Testing Setup Skill
 
 ---
 
