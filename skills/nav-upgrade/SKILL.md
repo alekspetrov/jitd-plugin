@@ -118,9 +118,9 @@ Skip to Step 5 (Feature Discovery).
 **Scenario 4: On pre-release, newer stable available**
 ```
 ⚠️  You're on v4.3.0 (experimental)
-Latest stable: v4.5.0
+Latest stable: v4.6.0
 
-Recommendation: Update to stable v4.5.0
+Recommendation: Update to stable v4.6.0
 Experimental features from v4.3.0 are now stable.
 ```
 

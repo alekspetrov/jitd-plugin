@@ -360,7 +360,7 @@ Navigator config in `.agent/.nav-config.json`:
 
 ```json
 {
-  "version": "4.5.0",
+  "version": "4.6.0",
   "project_management": "none",
   "task_prefix": "TASK",
   "team_chat": "none",
@@ -395,4 +395,4 @@ Navigator config in `.agent/.nav-config.json`:
 **For complete Navigator documentation**: See `.agent/DEVELOPMENT-README.md`
 
 **Last Updated**: 2025-01-20
-**Navigator Version**: 4.5.0
+**Navigator Version**: 4.6.0

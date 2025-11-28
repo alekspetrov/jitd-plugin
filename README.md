@@ -3,8 +3,8 @@
 **92% token savings. Verified, not estimated.**
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-4.5.0-blue.svg)](https://github.com/alekspetrov/navigator/releases)
-[![Status](https://img.shields.io/badge/status-stable-green.svg)](https://github.com/alekspetrov/navigator/releases/tag/v4.5.0)
+[![Version](https://img.shields.io/badge/version-4.6.0-blue.svg)](https://github.com/alekspetrov/navigator/releases)
+[![Status](https://img.shields.io/badge/status-stable-green.svg)](https://github.com/alekspetrov/navigator/releases/tag/v4.6.0)
 
 ---
 
@@ -237,46 +237,57 @@ This loads:
 
 ---
 
-## What's New in v4.3.1 (Stable)
+## What's New in v4.6.0 (Latest)
 
-**Professional Upgrade Flow** - Zero template drift, seamless pre-release discovery
+**Architecture Optimization** - Native agents, token monitoring, cleanup
 
-### Template Drift Eliminated
+### Native Claude Code Agents
 
-**Problem**: CLAUDE.md templates didn't match installed plugin version
+Two custom agents leveraging Claude Code's subagent system:
+
+**navigator-research** - Codebase exploration with 60-80% token savings
 ```
-Plugin updated to v4.3.0 → CLAUDE.md got v4.0.0 templates (bundled)
-Result: Version mismatch, confusion
-```
-
-**Solution**: GitHub template fetching
-```bash
-nav-update-claude
-→ ✓ Using template from GitHub (4.3.1)
-→ CLAUDE.md always matches plugin version
-→ Works with pre-releases
-→ Offline fallback guaranteed
+"Use the navigator-research agent to explore how authentication works"
+→ Samples representative files (not reading everything)
+→ Returns concise summary with file references
+→ Context isolation prevents pollution
 ```
 
-### Pre-Release Discovery
-
-**Old behavior**: Pre-releases invisible to `/plugin update`
-
-**New behavior**: Interactive choice
+**task-planner** - Implementation planning
 ```
-nav-upgrade
-
-✅ You're on latest stable (v4.0.0)
-⚡ Experimental available: v4.3.0
-
-Options:
-[1] Stay on stable (recommended)
-[2] Try experimental (early adopter)
+"Use the task-planner agent to create a plan for adding dark mode"
+→ Creates structured plans in .agent/tasks/ format
+→ Identifies dependencies and critical path
+→ Estimates effort realistically
 ```
 
-**Result**: Professional opt-in, single command, auto-synced templates
+### Token Budget Monitoring
 
-[Full v4.3.1 release notes](RELEASE-NOTES-v4.3.1.md)
+Automatic context usage monitoring that warns before you hit limits:
+
+```
+[After tool calls when approaching limits]
+
+==================================================
+  CONTEXT CRITICAL: 87% used
+  156,600 / 180,000 tokens
+
+  Run: 'Clear context and preserve markers'
+  Or:  /nav:compact
+==================================================
+```
+
+- Warns at 70% usage
+- Critical alert at 85%
+- Auto-installed on init/upgrade
+
+### Skills Cleanup
+
+- Removed unused `auto-invoke: true` field (not used by Claude Code)
+- Removed `nav-social-post` skill (misaligned with core purpose)
+- Skills: 20 → 19
+
+[Full v4.6.0 release notes](RELEASE-NOTES-v4.6.0.md)
 
 ---
 
@@ -377,9 +388,9 @@ Preprocesses → Returns clean data → 1 step, 12k tokens
 
 ---
 
-## Built-in Skills (18)
+## Built-in Skills (19)
 
-Navigator includes 18 skills that auto-invoke on natural language:
+Navigator includes 19 skills that auto-invoke on natural language:
 
 ### Navigation & Session Management
 ```
@@ -404,7 +415,7 @@ Navigator includes 18 skills that auto-invoke on natural language:
 
 **No commands to memorize** - Skills auto-invoke from natural language.
 
-📖 **[All 18 Skills](.agent/DEVELOPMENT-README.md#available-skills)**
+📖 **[All 19 Skills](.agent/DEVELOPMENT-README.md#available-skills)**
 
 ---
 

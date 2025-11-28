@@ -182,16 +182,16 @@ If config exists, check version:
 ```bash
 if [ -f ".agent/.nav-config.json" ]; then
   version=$(jq -r '.version' .agent/.nav-config.json)
-  if [ "$version" != "4.5.0" ]; then
+  if [ "$version" != "4.6.0" ]; then
     echo ""
     echo "💡 .nav-config.json is version $version"
-    echo "   Update to 4.5.0? [Y/n]"
+    echo "   Update to 4.6.0? [Y/n]"
     read -r response
 
     if [[ "$response" =~ ^([yY][eE][sS]|[yY]|)$ ]]; then
-      jq '.version = "4.5.0"' .agent/.nav-config.json > /tmp/nav-config.tmp
+      jq '.version = "4.6.0"' .agent/.nav-config.json > /tmp/nav-config.tmp
       mv /tmp/nav-config.tmp .agent/.nav-config.json
-      echo "   ✓ Updated config to v4.5.0"
+      echo "   ✓ Updated config to v4.6.0"
     fi
   fi
 fi

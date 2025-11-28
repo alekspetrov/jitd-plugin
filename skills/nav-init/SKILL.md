@@ -108,7 +108,7 @@ Copy from plugin's `templates/` directory to `.agent/`:
 **`.nav-config.json`**:
 ```json
 {
-  "version": "4.5.0",
+  "version": "4.6.0",
   "project_name": "${PROJECT_NAME}",
   "tech_stack": "${TECH_STACK}",
   "project_management": "none",
