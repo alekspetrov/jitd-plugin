@@ -49,10 +49,15 @@ Creates the Navigator documentation structure (`.agent/`) in a new project, copi
        ├── navigator-dashboard.json
        └── README.md
    ```
-3. **Copies templates**: DEVELOPMENT-README.md, config, Grafana setup
-4. **Auto-detects project info**: Name, tech stack (from package.json if available)
-5. **Updates CLAUDE.md**: Adds Navigator-specific instructions to project
-6. **Creates .gitignore entries**: Excludes temporary Navigator files
+3. **Creates `.claude/` directory with hooks**:
+   ```
+   .claude/
+   └── settings.json    # Token monitoring hook configuration
+   ```
+4. **Copies templates**: DEVELOPMENT-README.md, config, Grafana setup
+5. **Auto-detects project info**: Name, tech stack (from package.json if available)
+6. **Updates CLAUDE.md**: Adds Navigator-specific instructions to project
+7. **Creates .gitignore entries**: Excludes temporary Navigator files
 
 ## Execution Steps
 
@@ -148,7 +153,41 @@ If `CLAUDE.md` doesn't exist:
 - Copy `templates/CLAUDE.md` to project root
 - Customize with project info
 
-### 6. Create .gitignore Entries
+### 6. Setup Token Monitoring Hook
+
+Create `.claude/settings.json` for token budget monitoring:
+
+```bash
+mkdir -p .claude
+
+cat > .claude/settings.json << 'EOF'
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|Bash|Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_DIR}/hooks/monitor-tokens.py\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}
+EOF
+
+echo "✓ Token monitoring hook configured"
+```
+
+**What this does**:
+- Monitors context usage after each tool call
+- Warns at 70% usage, critical alert at 85%
+- Suggests `/nav:compact` when approaching limits
+
+### 7. Create .gitignore Entries
 
 Add to `.gitignore` if not present:
 ```
@@ -159,7 +198,7 @@ Add to `.gitignore` if not present:
 .agent/.nav-temp/
 ```
 
-### 7. Success Message
+### 8. Success Message
 
 ```
 ✅ Navigator Initialized Successfully!
@@ -171,12 +210,16 @@ Created structure:
   📁 .agent/sops/               Standard procedures
   📁 .agent/grafana/            Metrics dashboard
   📄 .agent/.nav-config.json    Configuration
+  📁 .claude/                   Claude Code hooks
+  📄 .claude/settings.json      Token monitoring config
   📄 CLAUDE.md                  Updated with Navigator workflow
 
 Next steps:
   1. Start session: "Start my Navigator session"
   2. Optional: Enable metrics - see .agent/sops/integrations/opentelemetry-setup.md
   3. Optional: Launch Grafana - cd .agent/grafana && docker compose up -d
+
+Token monitoring is active - you'll be warned when approaching context limits.
 
 Documentation: Read .agent/DEVELOPMENT-README.md
 ```

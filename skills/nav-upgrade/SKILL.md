@@ -21,12 +21,13 @@ Auto-invoke when user says:
 
 ## What This Does
 
-**5-Step Workflow**:
+**6-Step Workflow**:
 1. **Version Detection**: Check current Navigator version vs latest
 2. **Plugin Update**: Execute `/plugin update navigator`
 3. **Verification**: Confirm update succeeded
 4. **CLAUDE.md Update**: Update project configuration (via nav-update-claude)
-5. **Feature Discovery**: Show new features available
+5. **Hooks Setup**: Install/update token monitoring hooks in project
+6. **Feature Discovery**: Show new features available
 
 **Time Savings**: Manual update (10-15 min) → Automated (2 min)
 
@@ -300,7 +301,63 @@ git commit -m "chore: update CLAUDE.md to Navigator v4.3.0"
 
 ---
 
-### Step 5: Post-Upgrade Setup Check
+### Step 5: Setup Token Monitoring Hooks
+
+**Install or update project hooks** for token budget monitoring:
+
+```bash
+# Create .claude directory if not exists
+mkdir -p .claude
+
+# Check if settings.json exists
+if [ -f ".claude/settings.json" ]; then
+  # Backup existing settings
+  cp .claude/settings.json .claude/settings.json.backup
+  echo "✓ Backed up existing .claude/settings.json"
+fi
+
+# Write hook configuration
+cat > .claude/settings.json << 'EOF'
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|Bash|Task",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_DIR}/hooks/monitor-tokens.py\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}
+EOF
+
+echo "✓ Token monitoring hook installed"
+```
+
+**What this enables**:
+- Monitors context usage after each tool call
+- Warns at 70% usage, critical alert at 85%
+- Suggests `/nav:compact` when approaching limits
+- Prevents context crashes during long sessions
+
+**Output**:
+```
+✓ Token monitoring hook installed
+
+New in v4.6.0:
+  - Automatic context budget monitoring
+  - Warns before you hit context limits
+  - Suggests compact at optimal times
+```
+
+---
+
+### Step 6: Post-Upgrade Setup Check
 
 **Check if new features require setup**:
 
@@ -341,7 +398,7 @@ cd ~/.claude/plugins/marketplaces/jitd-marketplace/skills/product-design
 
 ---
 
-### Step 6: Feature Discovery
+### Step 7: Feature Discovery
 
 **Show new features** available in updated version.
 
